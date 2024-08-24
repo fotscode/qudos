@@ -1,17 +1,43 @@
 ---
+layout: '@layouts/math.astro'
 title: Algoritmo de Deutsch-Jozsa
 description: Un analisis profundo sobre el algoritmo de Deutsch-Jozsa, sus componentes y sus implicaciones en la computación cuantica.
 ---
 
-import QuantumCircuit from '../../../../components/QuantumCircuit.astro'
+import Math from '@components/Math.astro'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+import { Code } from '@astrojs/starlight/components'
+
+export const deutsch_cx_url = `https://algassert.com/quirk#circuit=%7B%22cols%22%3A%5B%5B1%2C%22X%22%5D%2C%5B%22H%22%2C%22H%22%5D%2C%5B%22%E2%80%A2%22%2C%22X%22%5D%2C%5B%22H%22%5D%2C%5B%22Measure%22%5D%5D%7D`
+export const deutsch_cx_qiskit = `
+regs = [QuantumRegister(2, "q"), ClassicalRegister(1, "c")]
+qc = QuantumCircuit(*regs)
+qc.h(0)
+qc.x(1)
+qc.h(1)
+qc.barrier()
+qc.cx(0, 1)
+qc.barrier()
+qc.h(0)
+qc.measure(0, 0)
+`
+
 
 El algoritmo de Deutsch-Jozsa es uno de los algoritmos mas conocidos en la rama cuantica, es uno de los primeros algoritmos que explota la superposicion y el entrelazamiento. Este mismo motivo a los algoritmos mas famosos como el de Shor o el de Grover, entre muchos mas.
 
-<QuantumCircuit
-  src={
-    'https://algassert.com/quirk#circuit={%22cols%22:[[%22H%22],[%22Z^%C2%BD%22],[%22H%22],[%22H%22],[%22Z^%C2%BD%22],[%22H%22]]}'
-  }
+<QuantumCircuit src={deutsch_cx_url} />
+
+### Algoritmo utilizando Qiskit
+
+<Code
+  code={deutsch_cx_qiskit}
+  lang='py'
+  title='Qiskit | Deutsch con Oraculo CNOT'
 />
+
+### Math
+
+<Math latex={'\\ket{+}=\\frac{1}{\\sqrt{2}}(\\ket{0}+\\ket{1})'} />
 
 ## Continuar leyendo
 
