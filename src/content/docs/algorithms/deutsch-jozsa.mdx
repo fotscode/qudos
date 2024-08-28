@@ -4,6 +4,8 @@ title: Algoritmo de Deutsch-Jozsa
 description: Un analisis profundo sobre el algoritmo de Deutsch-Jozsa, sus componentes y sus implicaciones en la computación cuantica.
 ---
 
+import { Image } from 'astro:assets'
+import { Aside } from '@astrojs/starlight/components'
 import Math from '@components/Math.astro'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
 import { Code } from '@astrojs/starlight/components'
@@ -22,8 +24,86 @@ qc.h(0)
 qc.measure(0, 0)
 `
 
-
 El algoritmo de Deutsch-Jozsa es uno de los algoritmos mas conocidos en la rama cuantica, es uno de los primeros algoritmos que explota la superposicion y el entrelazamiento. Este mismo motivo a los algoritmos mas famosos como el de Shor o el de Grover, entre muchos mas.
+
+## Objetivo
+
+Este algoritmo busca resolver el problema de busqueda de que una función \\(f\\) sea
+**constante** o **balanceada**. Una función es constante cuando \\(f\\) ante cualquier
+entrada retorna siempre la misma salida, es decir siempre retorna \\(0\\) o siempre retorna \\(1\\).
+Por otra parte la función es balanceada cuando retorna mitad de veces una salida y mitad de veces otra, es decir retorna \\(n/2\\) veces \\(0\\) y \\(1\\) respectivamente.
+
+El **algoritmo clásico**, implica recorrer al menos mitad de las salidas posibles. El **algoritmo cuantico** realiza esta operación en **una** sola pasada.
+
+## Version Reducida
+
+Para entender mejor el problema se plantea una version reducida del problema, donde la función posee una única entrada:
+
+
+```math
+f: \{0,1\} \rightarrow \{0,1\}
+```
+
+Una solución posible al problema definido puede ser la siguiente:
+
+<div style='display:flex; justify-content:center'>
+  <Image
+    src='/deutsch-jozsa-simple.png'
+    alt='Algoritmo Deutsch-Jozsa en un gráfico con separadores ante la aplicación de cada compuerta'
+    width='455'
+    height='220'
+  />
+</div>
+
+En este circuito cuantico se utilizan las compuertas Pauli X, [Hadamard](/gates/hadamard) y un oráculo \\(U_f\\) que es un oráculo de fase. Notar que el oráculo de fase se encuentra asociado a \\(f\\) que estamos analizando si es constante/balanceada.
+
+Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
+
+```math
+\begin{align}
+\psi_0=&\ket{00}\\
+\psi_1=&\ket{01}\\
+\psi_2=&\ket{+-}\\
+=&\frac{1}{\sqrt{2}}(\ket{0}\ket{-}+\ket{1}\ket{-})\\
+\psi_3=&U_f\frac{1}{\sqrt{2}}(\ket{0}\ket{-}+\ket{1}\ket{-})\\
+=&\frac{1}{\sqrt{2}}(U_f\ket{0}\ket{-}+U_f\ket{1}\ket{-})\\
+=&\frac{1}{\sqrt{2}}((-1)^{f(0)}\ket{0}\ket{-}+(-1)^{f(1)}\ket{1}\ket{-})\\
+=&\frac{1}{\sqrt{2}}((-1)^{f(0)}\ket{0}+(-1)^{f(1)}\ket{1})\\
+\end{align}
+```
+
+Notar que en $(8)$ se elimina el qubit \\(\ket{'-'}\\), esto se debe a que el segundo qubit, no se mide, ni se utiliza mas en el circuito, por lo que solo estorbaria y por ende se puede prescindir del mismo.
+
+Se analizan los casos posibles, primero en caso de que \\(f\\) sea constante, y luego en caso de que \\(f\\) sea balanceada.
+
+
+```math
+\begin{align}
+=&\begin{cases}
+\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})=\ket{+} & \text{si \(f(0)=f(1)=0\)}\\
+\frac{1}{\sqrt{2}}(-\ket{0}-\ket{1})=\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})=\ket{+} & \text{si \(f(0)=f(1)=1\)}
+\end{cases}\\
+=&\begin{cases}
+\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})=\ket{-} & \text{si \(f(0)=0, f(1)=1\)}\\
+\frac{1}{\sqrt{2}}(-\ket{0}+\ket{1})=\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})=\ket{-} & \text{si \(f(0)=1, f(1)=0\)}
+\end{cases}
+\end{align}
+```
+
+A su vez en $(9)$ y en $(10)$ se factoriza el $-1$ y como es una fase global se puede prescindir de la misma.
+
+Finalmente aplicar el ultimo paso del circuito es simple
+```math
+\begin{align}
+\psi_4=
+\begin{cases}
+H\ket{+}=\ket{0} & \text{si \(f(0)=f(1)\)}\\
+H\ket{-}=\ket{1} & \text{si \(f(0) \neq f(1)\)}
+\end{cases}
+\end{align}
+```
+
+La idea basica del algoritmo es poder reemplazar \(U_f\) con un circuito, si este circuito es una función constante (que siempre devuelva 0, es decir que \(U_f\) es lo mismo que no tener nada, o que devuelva 1 aplicando un not al 2do qubit.)
 
 <QuantumCircuit src={deutsch_cx_url} />
 
@@ -35,10 +115,13 @@ El algoritmo de Deutsch-Jozsa es uno de los algoritmos mas conocidos en la rama 
   title='Qiskit | Deutsch con Oraculo CNOT'
 />
 
-### Math
+<Aside>
+  Esta implementación del algoritmo es una de muchas, es decir, puede ser
+  reemplazada por algoritmos equivalentes con compuertas diferentes que llevan
+  al mismo destino
+</Aside>
 
-<Math latex={'\\ket{+}=\\frac{1}{\\sqrt{2}}(\\ket{0}+\\ket{1})'} />
+## Continuar aprendiendo
 
-## Continuar leyendo
-
-- Read [about how-to guides](https://diataxis.fr/how-to-guides/) in the Diátaxis framework
+- <a href='https://www.youtube.com/watch?v=eE7eumEZOSE' target='_blank'>Phase Oracle [Inglés]</a>
+- <a href='' target='_blank'></a>
