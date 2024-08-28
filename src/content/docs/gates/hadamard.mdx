@@ -1,0 +1,56 @@
+---
+layout: '@layouts/math.astro'
+title: 'Compuerta Hadamard'
+---
+
+import Math from '@components/Math.astro'
+import Circle from '@components/CircleNotation.astro'
+
+export const hadamard_matrix_latex = `
+H=\\frac{1}{\\sqrt{2}}
+\\begin{bmatrix}
+1&1\\\\
+1&-1
+\\end{bmatrix}
+`
+
+La compuerta Hadamard lleva su nombre en honor a <a href="https://es.wikipedia.org/wiki/Jacques_Hadamard" target="_blank">Jacques Hadamard</a>. Esta compuerta actua en un solo qubit.
+
+La compuerta en forma de matriz tiene la siguiente forma:
+
+<Math latex={hadamard_matrix_latex} />
+
+Dentro de las operaciones comunes, podemos notar las siguientes:
+
+export const common_operation_1 = `
+H\\ket{0}=\\ket{+}\\\\
+H\\ket{+}=\\ket{0}\\\\
+H\\ket{1}=\\ket{-}\\\\
+H\\ket{-}=\\ket{1}\\\\
+`
+
+<Math latex={common_operation_1} />
+
+Utilizando notación de circulos, se puede ver de la siguiente manera:
+
+<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
+    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{1}"}/>
+    $$\overset{H}{\rightarrow}$$ 
+    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
+</div>
+
+<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{0}"}/>
+    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
+    $$\overset{H}{\rightarrow}$$ 
+    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+    <Circle width={"100"} phase={"180"} prob={0.5} label={"\\ket{1}"}/>
+</div>
+
+## Continuar leyendo
+
+- <a target="_blank" href="https://es.wikipedia.org/wiki/Puerta_cu%C3%A1ntica">Puerta cuántica (Wikipedia) [Español]</a>
+
+- <a target="_blank" href="https://www.quantum-inspire.com/kbase/hadamard/">Hadamard gate (Quantum Inspire) [Inglés]</a>

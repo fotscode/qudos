@@ -8,12 +8,9 @@ export default defineConfig({
     integrations: [
         starlight({
             title: 'Quantum Katas',
-            defaultLocale: 'es',
-            //social: {
-            //  github: 'https://github.com/fotscode',
-            //},
+            defaultLocale: 'root',
             locales: {
-                es: {
+                root: {
                     label: 'Español',
                     lang: 'es',
                 },
@@ -23,6 +20,13 @@ export default defineConfig({
                 },
             },
             sidebar: [
+                {
+                    label: 'Compuertas',
+                    items: [{ label: 'Hadamard', slug: 'gates/hadamard' }],
+                    translations: {
+                        en: 'Gates',
+                    },
+                },
                 {
                     label: 'Algoritmos',
                     items: [
