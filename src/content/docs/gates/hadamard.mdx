@@ -49,6 +49,22 @@ Utilizando notación de circulos, se puede ver de la siguiente manera:
     <Circle width={"100"} phase={"180"} prob={0.5} label={"\\ket{1}"}/>
 </div>
 
+Generalizando la operacion matematicamente se puede llegar a lo siguiente:
+
+```math
+\begin{gather}
+H(\alpha\ket{0}+e^{i\varphi}\beta\ket{1})\\
+\alpha H\ket{0}+e^{i\varphi}\beta H\ket{1}\\
+\alpha H\ket{0}+e^{i\varphi}\beta H\ket{1}\\
+\alpha \ket{+}+e^{i\varphi}\beta \ket{-}\\
+\alpha\left(\frac{1}{\sqrt{2}}\ket{0}+\frac{1}{\sqrt{2}}\ket{1}\right)+e^{i\varphi}\beta\left(\frac{1}{\sqrt{2}}\ket{0}-\frac{1}{\sqrt{2}}\ket{1}\right)\\
+\frac{\alpha}{\sqrt{2}}\ket{0}+\frac{\alpha}{\sqrt{2}}\ket{1}+\frac{e^{i\varphi}\beta}{\sqrt{2}}\ket{0}-\frac{e^{i\varphi}\beta}{\sqrt{2}}\ket{1}\\
+\frac{\alpha+e^{i\varphi}\beta}{\sqrt{2}}\ket{0}+\frac{\alpha-e^{i\varphi}\beta}{\sqrt{2}}\ket{1}
+\end{gather}
+```
+
+Con esta gate toma sentido la fase, segun si este en \\(\ket{'+'}\\) o en \\(\ket{'-'}\\), al aplicarse, dará \\(\ket{0}\\) o \\(\ket{1}\\) respectivamente cuando previamente, antes de aplicarse la gate, existian \\(50\%\\) de posibilidades de que sea \\(0\\) o \\(1\\).
+
 ## Continuar leyendo
 
 - <a target="_blank" href="https://es.wikipedia.org/wiki/Puerta_cu%C3%A1ntica">Puerta cuántica (Wikipedia) [Español]</a>
