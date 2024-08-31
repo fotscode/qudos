@@ -38,11 +38,11 @@ export default defineConfig({
                     },
                 },
                 {
-                    label: 'Referencias',
-                    autogenerate: { directory: 'reference' },
+                    label: 'Pruebas matemáticas',
+                    items: [{ label: 'Hadamard', slug: 'proofs/hadamard' }],
                     translations: {
-                        en: 'References',
-                    },
+                        en: 'Math proofs',
+                    }
                 },
             ],
         }),

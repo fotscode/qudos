@@ -14,13 +14,13 @@ H=\\frac{1}{\\sqrt{2}}
 \\end{bmatrix}
 `
 
-La compuerta Hadamard lleva su nombre en honor a <a href="https://es.wikipedia.org/wiki/Jacques_Hadamard" target="_blank">Jacques Hadamard</a>. Esta compuerta actua en un solo qubit.
+La compuerta Hadamard lleva su nombre en honor a <a href="https://es.wikipedia.org/wiki/Jacques_Hadamard" target="_blank">Jacques Hadamard</a>. Esta compuerta actua en un solo qubit y permite crear superposiciones.
 
 La compuerta en forma de matriz tiene la siguiente forma:
 
 <Math latex={hadamard_matrix_latex} />
 
-Dentro de las operaciones comunes, podemos notar las siguientes:
+Dentro de las operaciones comunes, podemos notar las siguientes, estan se pueden observar en mayor detalle en las [pruebas desarrolladas](/proofs/hadamard#conversiones-de-estados-comunes):
 
 export const common_operation_1 = `
 H\\ket{0}=\\ket{+}\\\\
@@ -63,10 +63,12 @@ H(\alpha\ket{0}+e^{i\varphi}\beta\ket{1})\\
 \end{gather}
 ```
 
-Con esta gate toma sentido la fase, segun si este en \\(\ket{'+'}\\) o en \\(\ket{'-'}\\), al aplicarse, dará \\(\ket{0}\\) o \\(\ket{1}\\) respectivamente cuando previamente, antes de aplicarse la gate, existian \\(50\%\\) de posibilidades de que sea \\(0\\) o \\(1\\).
+Con esta gate toma sentido la fase, segun si este en \\(\ket{'+'}\\) o en \\(\ket{'-'}\\), al aplicarse, dará \\(\ket{0}\\) o \\(\ket{1}\\) respectivamente cuando previamente, antes de aplicarse la gate, existian \\(50\\%\\) de probabilidades de que sea \\(0\\) o \\(1\\).
 
-## Continuar leyendo
+## Más información
 
 - <a target="_blank" href="https://es.wikipedia.org/wiki/Puerta_cu%C3%A1ntica">Puerta cuántica (Wikipedia) [Español]</a>
 
 - <a target="_blank" href="https://www.quantum-inspire.com/kbase/hadamard/">Hadamard gate (Quantum Inspire) [Inglés]</a>
+
+- <a target="_blank" href="https://www.youtube.com/watch?v=G9d0QWM82sU">Quantum Computing Course: 1.6 The Hadamard Gate and the +, -, i and -i States (Quantum Soar) [Inglés]</a>
