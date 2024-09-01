@@ -10,9 +10,9 @@ import Math from '@components/Math.astro'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
 import { Code } from '@astrojs/starlight/components'
 
-export const deutsch_none_url= `https://algassert.com/quirk#circuit=%7B%22cols%22%3A%5B%5B1%2C%22X%22%5D%2C%5B%22H%22%2C%22H%22%5D%2C%5B%22H%22%5D%2C%5B%22Measure%22%5D%5D%7D`
+export const deutsch_none_url = `https://algassert.com/quirk#circuit=%7B%22cols%22%3A%5B%5B1%2C%22X%22%5D%2C%5B%22H%22%2C%22H%22%5D%2C%5B%22H%22%5D%2C%5B%22Measure%22%5D%5D%7D`
 export const deutsch_cx_url = `https://algassert.com/quirk#circuit=%7B%22cols%22%3A%5B%5B1%2C%22X%22%5D%2C%5B%22H%22%2C%22H%22%5D%2C%5B%22%E2%80%A2%22%2C%22X%22%5D%2C%5B%22H%22%5D%2C%5B%22Measure%22%5D%5D%7D`
-export const deutsch_init_code=`
+export const deutsch_init_code = `
 regs = [QuantumRegister(2, "q"), ClassicalRegister(1, "c")]
 qc = QuantumCircuit(*regs)
 qc.h(0)
@@ -20,15 +20,14 @@ qc.x(1)
 qc.h(1)
 qc.barrier()
 `
-export const deutsch_end_code=`
+export const deutsch_end_code = `
 qc.barrier()
 qc.h(0)
 qc.measure(0, 0)
 `
 
-export const deutsch_none_qiskit=`${deutsch_init_code}# no hace nada${deutsch_end_code}`
-export const deutsch_cx_qiskit =`${deutsch_init_code}qc.cx(0, 1)${deutsch_end_code}` 
-
+export const deutsch_none_qiskit = `${deutsch_init_code}# no hace nada${deutsch_end_code}`
+export const deutsch_cx_qiskit = `${deutsch_init_code}qc.cx(0, 1)${deutsch_end_code}`
 
 El algoritmo de Deutsch-Jozsa es uno de los algoritmos mas conocidos en la rama cuantica, es uno de los primeros algoritmos que explota la superposicion y el entrelazamiento. Este mismo motivo a los algoritmos mas famosos como el de Shor o el de Grover, entre muchos mas.
 
@@ -55,17 +54,18 @@ Una solución posible al problema definido puede ser la siguiente:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
-    src='/deutsch-jozsa-simple.png'
+    src={`${import.meta.env.BASE_URL}/deutsch-jozsa-simple.png`}
     alt='Algoritmo Deutsch-Jozsa en un gráfico con separadores ante la aplicación de cada compuerta'
     width='455'
     height='220'
   />
   <span style='width:504px; padding:10px 40px'>
-    **Figura (1):** Algoritmo Deutsch-Jozsa en un gráfico con separadores ante la aplicación de cada compuerta 
+    **Figura (1):** Algoritmo Deutsch-Jozsa en un gráfico con separadores ante
+    la aplicación de cada compuerta
   </span>
 </div>
 
-En este circuito cuantico se utilizan las compuertas Pauli X, [Hadamard](/gates/hadamard) y un oráculo \\(U_f\\) que es un oráculo de fase. Notar que el oráculo de fase se encuentra asociado a \\(f\\) que estamos analizando si es constante/balanceada.
+En este circuito cuantico se utilizan las compuertas Pauli X, <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> y un oráculo \\(U_f\\) que es un oráculo de fase. Notar que el oráculo de fase se encuentra asociado a \\(f\\) que estamos analizando si es constante/balanceada.
 
 Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
 
@@ -119,19 +119,19 @@ La idea básica del algoritmo es poder reemplazar $U_f$ con un circuito, si este
 
 #### Funciones Constantes
 
-
 Sea $f$ una función constante, un circuito posible que actue como función constante es no hacer nada.
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
-    src='/deutsch-fn-constante.png'
+    src={`${import.meta.env.BASE_URL}/deutsch-fn-constante.png`}
     alt='Circuito con dos qubits, siendo el primero la entrada de la función y el segundo su correspondiente salida. Denota una función constante donde f(x)=0'
     width='504'
     height='109'
   />
   <span style='width:504px; padding:10px 40px'>
-    **Figura (2):** Circuito con dos qubits, siendo el primero la entrada de la función y el
-    segundo su correspondiente salida. Denota una función constante donde f(x)=0
+    **Figura (2):** Circuito con dos qubits, siendo el primero la entrada de la
+    función y el segundo su correspondiente salida. Denota una función constante
+    donde f(x)=0
   </span>
 </div>
 
@@ -141,17 +141,20 @@ Por lo que si introducimos esta función/circuito dentro del algoritmo de Deutsc
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
-    src='/deutsch-aplicado-constante.png'
+    src={`${import.meta.env.BASE_URL}/deutsch-aplicado-constante.png`}
     alt='Algoritmo Deutsch-Jozsa en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función constante en vez del oráculo.'
     width='455'
     height='220'
   />
   <span style='width:504px; padding:10px 40px'>
-    **Figura (3):** Algoritmo Deutsch-Jozsa en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función constante en vez del oráculo.
+    **Figura (3):** Algoritmo Deutsch-Jozsa en un gráfico con separadores ante
+    la aplicación de cada compuerta, utilizando la función constante en vez del
+    oráculo.
   </span>
 </div>
 
 Desarrollando paso a paso el estado de los qubits segun los separadores provistos:
+
 ```math
 \begin{align}
 \psi_0=&\ket{00}\\
@@ -161,6 +164,7 @@ Desarrollando paso a paso el estado de los qubits segun los separadores provisto
 =&\ket{0}\\
 \end{align}
 ```
+
 En $(15)$ se elimina el $\ket{-}$ por la misma razon que fue explicada en $(8)$. Llegamos rapidamente a que, con este ejemplo de función constante, se deriva correctamente al resultado de $\ket{0}$
 
 El simulador de <a target="_blank" href="https://algassert.com/quirk">Quirk</a>, nos permite emular y observar en sus diferentes representaciones el circuito presentado previamente.
@@ -172,10 +176,9 @@ El codigo equivalente en **Qiskit** es el siguiente:
 <Code
   code={deutsch_none_qiskit}
   lang='py'
-  mark={[ "# no hace nada" ]}
+  mark={['# no hace nada']}
   title='Qiskit | Deutsch con función constante'
 />
-
 
 #### Funciones Balanceadas
 
@@ -183,14 +186,15 @@ Sea $f$ una funcion balanceada, un circuito posible que representa una función 
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
-    src='/deutsch-fn-balanceada.png'
+    src={`${import.meta.env.BASE_URL}/deutsch-fn-balanceada.png`}
     alt='Circuito con dos qubits, siendo el primero la entrada de la función y el segundo su correspondiente salida. Denota una función balanceada'
     width='504'
     height='109'
   />
   <span style='width:504px; padding:10px 40px'>
-    **Figura (4):** Circuito con dos qubits, siendo el primero la entrada de la función y el
-    segundo su correspondiente salida. Denota una función balanceada.
+    **Figura (4):** Circuito con dos qubits, siendo el primero la entrada de la
+    función y el segundo su correspondiente salida. Denota una función
+    balanceada.
   </span>
 </div>
 
@@ -200,7 +204,7 @@ Si introducimos esta función/circuito dentro del algoritmo de Deutsch-Jozsa la 
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
-    src='/deutsch-aplicado-balanceada.png'
+    src={`${import.meta.env.BASE_URL}/deutsch-aplicado-balanceada.png`}
     alt='Algoritmo Deutsch-Jozsa en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función balanceada en vez del oráculo.'
     width='455'
     height='220'
@@ -211,6 +215,7 @@ Si introducimos esta función/circuito dentro del algoritmo de Deutsch-Jozsa la 
 </div>
 
 Nuevamente desarrollando paso a paso los estados de los qubits en cada separador obtenemos:
+
 ```math
 \begin{align}
 \psi_0=&\ket{00}\\
@@ -231,7 +236,7 @@ Nuevamente desarrollando paso a paso los estados de los qubits en cada separador
 \end{align}
 ```
 
-Esto determina que se deriva al resultado correcto, es decir que la funcion con $CNOT$ deriva en el resultado $\ket{1}$ de una función balanceada. También se puede observar en el simulador como cambio el estado de *"Off"* a *"On"*.
+Esto determina que se deriva al resultado correcto, es decir que la funcion con $CNOT$ deriva en el resultado $\ket{1}$ de una función balanceada. También se puede observar en el simulador como cambio el estado de _"Off"_ a _"On"_.
 
 <QuantumCircuit src={deutsch_cx_url} />
 
@@ -240,7 +245,7 @@ El mismo ejemplo utilizando Qiskit es el siguiente:
 <Code
   code={deutsch_cx_qiskit}
   lang='py'
-  mark={[ "qc.cx(0, 1)" ]}
+  mark={['qc.cx(0, 1)']}
   title='Qiskit | Deutsch con CNOT'
 />
 
