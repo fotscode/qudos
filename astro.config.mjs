@@ -58,5 +58,6 @@ export default defineConfig({
             ],
         ],
     },
-    site: "https://fotscode.github.io"
+    site: "https://fotscode.github.io",
+    base: "/quantum-katas"
 })
