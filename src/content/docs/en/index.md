@@ -1,4 +1,5 @@
 ---
-title: "tes"
+title: "Empty page"
 ---
-asd
+
+This page is empty, only exists for testing purposes.
