@@ -8,7 +8,7 @@ const radius = size * Math.sqrt(prob)
       <g transform={`translate(${ width / 2}, ${width/2})`}>
         <circle cx="0" cy="0" r=`${size}` fill={'white'} stroke="black" stroke-width="2" />
         <circle cx="0" cy="0" r={`${radius}`} fill={'rgb(184,204,228)'} />
-        <line x1="0" y1="0" x2={radius * Math.cos(-phase * Math.PI / 180)} y2={size * Math.sin(-phase * Math.PI / 180)} stroke="rgb(4, 141, 212)" stroke-width="2" />
+        <line x1="0" y1="0" x2={radius * Math.cos(-phase * Math.PI / 180)} y2={radius * Math.sin(-phase * Math.PI / 180)} stroke="rgb(4, 141, 212)" stroke-width="2" />
         <line x1="0" y1="0" x2={size * Math.cos(-phase * Math.PI / 180)} y2={size * Math.sin(-phase * Math.PI / 180)} stroke="rgba(20,20,20,0.3)" stroke-width="1" />
       </g>
     </svg>
