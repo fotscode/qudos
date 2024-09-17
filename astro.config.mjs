@@ -22,7 +22,13 @@ export default defineConfig({
             sidebar: [
                 {
                     label: 'Compuertas',
-                    items: [{ label: 'Hadamard', slug: 'gates/hadamard' }],
+                    items: [
+                        {
+                            label: 'NOT',
+                            slug: 'gates/not',
+                        },
+                        { label: 'Hadamard', slug: 'gates/hadamard' },
+                    ],
                     translations: {
                         en: 'Gates',
                     },
@@ -39,10 +45,16 @@ export default defineConfig({
                 },
                 {
                     label: 'Pruebas matemáticas',
-                    items: [{ label: 'Hadamard', slug: 'proofs/hadamard' }],
+                    items: [
+                        {
+                            label: 'NOT',
+                            slug: 'proofs/not',
+                        },
+                        { label: 'Hadamard', slug: 'proofs/hadamard' },
+                    ],
                     translations: {
                         en: 'Math proofs',
-                    }
+                    },
                 },
             ],
         }),
@@ -58,6 +70,6 @@ export default defineConfig({
             ],
         ],
     },
-    site: "https://fotscode.github.io",
-    base: "/quantum-katas"
+    site: 'https://fotscode.github.io',
+    base: '/quantum-katas',
 })
