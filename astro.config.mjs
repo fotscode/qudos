@@ -35,6 +35,18 @@ export default defineConfig({
                             label: 'Pauli-Z',
                             slug: 'gates/pauli-z',
                         },
+                        {
+                            label: 'RotX',
+                            slug: 'gates/rotx',
+                        },
+                        {
+                            label: 'RotY',
+                            slug: 'gates/roty',
+                        },
+                        {
+                            label: 'RotZ',
+                            slug: 'gates/rotz',
+                        },
                         { label: 'Hadamard', slug: 'gates/hadamard' },
                     ],
                     translations: {
