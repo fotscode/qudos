@@ -24,8 +24,16 @@ export default defineConfig({
                     label: 'Compuertas',
                     items: [
                         {
-                            label: 'NOT',
-                            slug: 'gates/not',
+                            label: 'Pauli-X',
+                            slug: 'gates/pauli-x',
+                        },
+                        {
+                            label: 'Pauli-Y',
+                            slug: 'gates/pauli-y',
+                        },
+                        {
+                            label: 'Pauli-Z',
+                            slug: 'gates/pauli-z',
                         },
                         { label: 'Hadamard', slug: 'gates/hadamard' },
                     ],
@@ -47,8 +55,16 @@ export default defineConfig({
                     label: 'Pruebas matemáticas',
                     items: [
                         {
-                            label: 'NOT',
-                            slug: 'proofs/not',
+                            label: 'Pauli-X',
+                            slug: 'proofs/pauli-x',
+                        },
+                        {
+                            label: 'Pauli-Y',
+                            slug: 'proofs/pauli-y',
+                        },
+                        {
+                            label: 'Pauli-Z',
+                            slug: 'proofs/pauli-z',
                         },
                         { label: 'Hadamard', slug: 'proofs/hadamard' },
                     ],

@@ -1,0 +1,93 @@
+---
+layout: '@layouts/math.astro'
+title: 'Compuerta Pauli-Z'
+---
+
+import Circle from '@components/CircleNotation.astro'
+import { Code } from '@astrojs/starlight/components'
+
+La compuerta Pauli-Z nombrada por el fisico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a> (o simplemente $Z$), al aplicarse, aplica una rotación de $\pi$ radianes a traves del eje $z$ de la esfera de Bloch.
+
+En forma de matriz se ve de la siguiente manera:
+```math
+Z=\begin{bmatrix}
+1&0\\
+0&-1\\
+\end{bmatrix}
+```
+
+Las operaciones comunes son las siguientes, las pruebas de estas operaciones se pueden encontrar con mayor detalle en las <a href={`${import.meta.env.BASE_URL}/proofs/pauli-z#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>:
+```math
+Z\ket{0}=\ket{0}\\
+Z\ket{1}=\ket{1}\\
+Z\ket{+}=\ket{-}\\
+Z\ket{-}=\ket{+}
+```
+
+
+Utilizando notación de circulos, se puede ver de la siguiente manera:
+
+<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{0}"}/>
+    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
+    $$\overset{Z}{\rightarrow}$$ 
+    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{0}"}/>
+    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
+</div>
+
+
+<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
+    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{1}"}/>
+    $$\overset{Z}{\rightarrow}$$ 
+    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
+    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{1}"}/>
+</div>
+
+<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
+    $$\overset{Z}{\rightarrow}$$ 
+    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+    <Circle width={"100"} phase={"180"} prob={0.5} label={"\\ket{1}"}/>
+</div>
+
+<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+    <Circle width={"100"} phase={"180"} prob={0.5} label={"\\ket{1}"}/>
+    $$\overset{Z}{\rightarrow}$$ 
+    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
+</div>
+
+La version general de la aplicación de la compuerta es la siguiente:
+```math
+\begin{bmatrix}
+1&0\\
+0&-1\\
+\end{bmatrix}
+\begin{bmatrix}
+\alpha\\
+\beta
+\end{bmatrix}=
+\begin{bmatrix}
+\alpha\\
+-\beta
+\end{bmatrix}
+```
+
+En qiskit se aplica al circuito con la funcion `z` e indicando el qubit a aplicar la compuerta.
+
+
+<Code
+  code={"qc = QuantumCircuit(1)\nqc.z(0) # aplica la compuerta Z al qubit 0"}
+  lang='py'
+  title='Qiskit | Compuerta Pauli-Z'
+/>
+
+## Más información
+
+- <a target="_blank" href="https://es.wikipedia.org/wiki/Puerta_cu%C3%A1ntica">Puerta cuántica (Wikipedia) [Español]</a>
+- <a target="_blank" href="https://en.wikipedia.org/wiki/Pauli_matrices">Pauli Matrices (Wikipedia) [Inglés]</a>
+- <a target="_blank" href="https://docs.quantum.ibm.com/api/qiskit/qiskit.circuit.library.ZGate">ZGate (IBM) [Inglés]</a>
+
