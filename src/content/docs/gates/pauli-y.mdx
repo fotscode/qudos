@@ -80,7 +80,11 @@ En qiskit se aplica al circuito con la funcion `y` e indicando el qubit a aplica
 
 
 <Code
-  code={"qc = QuantumCircuit(1)\nqc.y(0) # aplica la compuerta Y al qubit 0"}
+  code={`
+from qiskit import QuantumCircuit
+qc = QuantumCircuit(1)
+qc.y(0) # aplica la compuerta Y al qubit 0
+`}
   lang='py'
   title='Qiskit | Compuerta Pauli-Y'
 />

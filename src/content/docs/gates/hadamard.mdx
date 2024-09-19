@@ -5,6 +5,7 @@ title: 'Compuerta Hadamard'
 
 import Math from '@components/Math.astro'
 import Circle from '@components/CircleNotation.astro'
+import { Code } from '@astrojs/starlight/components'
 
 export const hadamard_matrix_latex = `
 H=\\frac{1}{\\sqrt{2}}
@@ -52,6 +53,18 @@ Utilizando notación de circulos, se puede ver de la siguiente manera:
 Con esta gate toma sentido la fase, segun si este en \\(\ket{'+'}\\) o en \\(\ket{'-'}\\), al aplicarse, dará \\(\ket{0}\\) o \\(\ket{1}\\) respectivamente cuando previamente, antes de aplicarse la gate, existian \\(50\\%\\) de probabilidades de que sea \\(0\\) o \\(1\\).
 
 Una versión generalizada de la aplicacion de esta compuerta se puede observar en las <a href={`${import.meta.env.BASE_URL}/proofs/hadamard#generalizacion-de-la-operacion`}>pruebas elaboradas</a>.
+
+En qiskit se aplica al circuito con la funcion `h` e indicando el qubit a aplicar la compuerta.
+
+<Code
+  code={`
+from qiskit import QuantumCircuit
+qc = QuantumCircuit(1)
+qc.h(0) # aplica la compuerta Hadamard al qubit 0
+`}
+  lang='py'
+  title='Qiskit | Compuerta Hadamard'
+/>
 
 ## Más información
 
