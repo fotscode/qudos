@@ -48,6 +48,10 @@ export default defineConfig({
                             slug: 'gates/rotz',
                         },
                         { label: 'Hadamard', slug: 'gates/hadamard' },
+                        {
+                            label: 'CNOT',
+                            slug: 'gates/cnot',
+                        }
                     ],
                     translations: {
                         en: 'Gates',
@@ -79,6 +83,10 @@ export default defineConfig({
                             slug: 'proofs/pauli-z',
                         },
                         { label: 'Hadamard', slug: 'proofs/hadamard' },
+                        {
+                            label: 'CNOT',
+                            slug: 'proofs/cnot',
+                        }
                     ],
                     translations: {
                         en: 'Math proofs',

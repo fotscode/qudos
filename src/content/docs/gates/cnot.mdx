@@ -1,0 +1,44 @@
+---
+layout: '@layouts/math.astro'
+title: 'Compuerta CNOT'
+---
+
+La compuerta Controlled NOT o CNOT, combina la logica de una <a href={`${import.meta.env.BASE_URL}/gates/pauli-x`}>compuerta NOT cuantica</a>  con un condicional.
+
+Al igual que el resto de compuertas controladas, existe un qubit que actua de control y otro de objetivo, el de control determina si aplicar o no la compuerta al objetivo, en este caso aplicando un NOT si el valor del primer qubit es 1.
+
+En formato de tabla se puede observar de la siguiente manera:
+<div style="display:flex;justify-content:center">
+| Antes | Despues |
+|-------|---------|
+|Control: $\ket{0}$, Objetivo: $\ket{0}$ | Control: $\ket{0}$, Objetivo: $\ket{0}$ |
+|Control: $\ket{0}$, Objetivo: $\ket{1}$ | Control: $\ket{0}$, Objetivo: $\ket{1}$ |
+|Control: $\ket{1}$, Objetivo: $\ket{0}$ | Control: $\ket{1}$, Objetivo: $\ket{1}$ |
+|Control: $\ket{1}$, Objetivo: $\ket{1}$ | Control: $\ket{1}$, Objetivo: $\ket{0}$ |
+</div>
+
+Su representacion matricial es la siguiente:
+```math
+CNOT=\begin{bmatrix}
+1&0&0&0\\
+0&1&0&0\\
+0&0&0&1\\
+0&0&1&0\\
+\end{bmatrix}
+```
+
+Los casos mas interesantes ocurren cuando los valores son las bases $\ket{+}$ y $\ket{-}$, notar que en los casos donde el objetivo es $\ket{-}$ el valor del bit de control se invierte en vez de el valor del objetivo.
+<div style="display:flex;justify-content:center">
+| Antes | Despues |
+|-------|---------|
+|Control: $\ket{+}$, Objetivo: $\ket{+}$ | Control: $\ket{+}$, Objetivo: $\ket{+}$ |
+|Control: $\ket{+}$, Objetivo: $\ket{-}$ | Control: $\ket{-}$, Objetivo: $\ket{-}$ |
+|Control: $\ket{-}$, Objetivo: $\ket{+}$ | Control: $\ket{-}$, Objetivo: $\ket{+}$ |
+|Control: $\ket{-}$, Objetivo: $\ket{-}$ | Control: $\ket{+}$, Objetivo: $\ket{-}$ |
+</div>
+
+Pruebas desarrolladas de estos casos se pueden encontrar en las <a href={`${import.meta.env.BASE_URL}/proofs/cnot#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>.
+
+## Mas información
+
+- <a target="_blank" href="https://en.wikipedia.org/wiki/Controlled_NOT_gate">Controlled NOT gate (Wikipedia) [Inglés]</a>
