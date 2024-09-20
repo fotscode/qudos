@@ -22,7 +22,37 @@ export default defineConfig({
             sidebar: [
                 {
                     label: 'Compuertas',
-                    items: [{ label: 'Hadamard', slug: 'gates/hadamard' }],
+                    items: [
+                        {
+                            label: 'Pauli-X',
+                            slug: 'gates/pauli-x',
+                        },
+                        {
+                            label: 'Pauli-Y',
+                            slug: 'gates/pauli-y',
+                        },
+                        {
+                            label: 'Pauli-Z',
+                            slug: 'gates/pauli-z',
+                        },
+                        {
+                            label: 'RotX',
+                            slug: 'gates/rotx',
+                        },
+                        {
+                            label: 'RotY',
+                            slug: 'gates/roty',
+                        },
+                        {
+                            label: 'RotZ',
+                            slug: 'gates/rotz',
+                        },
+                        { label: 'Hadamard', slug: 'gates/hadamard' },
+                        {
+                            label: 'CNOT',
+                            slug: 'gates/cnot',
+                        }
+                    ],
                     translations: {
                         en: 'Gates',
                     },
@@ -39,10 +69,28 @@ export default defineConfig({
                 },
                 {
                     label: 'Pruebas matemáticas',
-                    items: [{ label: 'Hadamard', slug: 'proofs/hadamard' }],
+                    items: [
+                        {
+                            label: 'Pauli-X',
+                            slug: 'proofs/pauli-x',
+                        },
+                        {
+                            label: 'Pauli-Y',
+                            slug: 'proofs/pauli-y',
+                        },
+                        {
+                            label: 'Pauli-Z',
+                            slug: 'proofs/pauli-z',
+                        },
+                        { label: 'Hadamard', slug: 'proofs/hadamard' },
+                        {
+                            label: 'CNOT',
+                            slug: 'proofs/cnot',
+                        }
+                    ],
                     translations: {
                         en: 'Math proofs',
-                    }
+                    },
                 },
             ],
         }),
@@ -58,6 +106,6 @@ export default defineConfig({
             ],
         ],
     },
-    site: "https://fotscode.github.io",
-    base: "/quantum-katas"
+    site: 'https://fotscode.github.io',
+    base: '/quantum-katas',
 })

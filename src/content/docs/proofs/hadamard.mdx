@@ -218,3 +218,21 @@ H\ket{-}=&
 =&\ket{1}
 \end{align}
 ```
+
+## Generalizacion de la operacion
+
+Generalizando la operacion de hadamard aplicandoselo a un solo qubit se puede llegar a la siguiente formula:
+
+```math
+\begin{gather}
+H(\alpha\ket{0}+e^{i\varphi}\beta\ket{1})\\
+\alpha H\ket{0}+e^{i\varphi}\beta H\ket{1}\\
+\alpha H\ket{0}+e^{i\varphi}\beta H\ket{1}\\
+\alpha \ket{+}+e^{i\varphi}\beta \ket{-}\\
+\alpha\left(\frac{1}{\sqrt{2}}\ket{0}+\frac{1}{\sqrt{2}}\ket{1}\right)+e^{i\varphi}\beta\left(\frac{1}{\sqrt{2}}\ket{0}-\frac{1}{\sqrt{2}}\ket{1}\right)\\
+\frac{\alpha}{\sqrt{2}}\ket{0}+\frac{\alpha}{\sqrt{2}}\ket{1}+\frac{e^{i\varphi}\beta}{\sqrt{2}}\ket{0}-\frac{e^{i\varphi}\beta}{\sqrt{2}}\ket{1}\\
+\frac{\alpha+e^{i\varphi}\beta}{\sqrt{2}}\ket{0}+\frac{\alpha-e^{i\varphi}\beta}{\sqrt{2}}\ket{1}
+\end{gather}
+```
+
+donde $\alpha$ y $\beta$ son las amplitudes y $\phi$ la rotacion relativa del qubit.
