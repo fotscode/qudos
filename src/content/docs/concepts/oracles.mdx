@@ -1,0 +1,44 @@
+---
+layout: '@layouts/math.astro'
+title: Oráculos
+description: Definición de oraculos, su utilidad e importancia.
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+Los oráculos son operaciones abstractas,, que generalmente son definidas utilizando la notación de funciones binarias clásicas:
+
+```math
+f: \{0,1\}^n \rightarrow \{0,1\}^m
+```
+
+Los oráculos actuan como cajas negras abstraen su implementación que varian segun el contexto, notar que si no se pueden encontrar circuitos reales (con compuertas) para representar la funcionalidad el oráculo carece de uso práctico.
+
+Estos oráculos se utilizan por ejemplo en los algoritmos <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa`}>Deutsch-Jozsa</a> y Grover. En el primero se utiliza para abstraer la función a determinar si es constante o balanceada, y en el segundo caso se utiliza para abstraer el suscinto sobre el cual buscar.
+
+Estos se definen de forma general de la siguiente manera:
+
+```math
+O(\ket{x} \otimes \ket{y}) = \ket{x} \otimes \ket{y \oplus f(x)}
+```
+
+Donde \\(x\\) es la entrada e \\(y\\) un registro que se utilizará como salida. La razon de la creación de un nuevo registro para salida es para permitir que la operación sea reversible, es decir que dada la salida se pueda saber cual fue la entrada.
+
+Vale por construcción que \\(O=O^\dag\\), permitiendo que para obtener el valor de entrada solo se deba aplicar nuevamente la operación.
+
+<Aside>
+Demostración de \\(O=O^\dag\\):
+```math
+\begin{align}
+    O(\ket{x} \otimes \ket{y}) &= \ket{x} \otimes \ket{y \oplus f(x)} \quad \text{def. \(O\)}\\
+    O(\ket{x} \otimes \ket{y \oplus f(x)})&=\ket{x} \otimes \ket{y \oplus f(x) \oplus f(x)} \quad \text{def. \(O\)} \\
+    O(\ket{x} \otimes \ket{y \oplus f(x)})&=\ket{x} \otimes \ket{y} \quad \text{\(z \oplus z = 0\)} \\
+\end{align}
+```
+En (1) se aplica normalmente el oráculo, en (2) se vuelve a aplicar el oráculo al resultado de (1), finalmente en (3) obtenemos la misma entrada de (1) y por lo tanto \\(O=O^\dag\\).
+</Aside>
+
+## Mas información
+
+- https://www.reddit.com/r/QuantumComputing/comments/xkuktj/understanding_oracles/
+- https://learn.microsoft.com/en-us/azure/quantum/concepts-oracles

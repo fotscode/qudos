@@ -21,6 +21,18 @@ export default defineConfig({
             },
             sidebar: [
                 {
+                    label: 'Conceptos clave',
+                    items: [
+                        {
+                            label: 'Oráculos',
+                            slug: 'concepts/oracles',
+                        },
+                    ],
+                    translations: {
+                        en: 'Key concepts',
+                    },
+                },
+                {
                     label: 'Compuertas',
                     items: [
                         {
@@ -51,7 +63,7 @@ export default defineConfig({
                         {
                             label: 'CNOT',
                             slug: 'gates/cnot',
-                        }
+                        },
                     ],
                     translations: {
                         en: 'Gates',
@@ -86,7 +98,7 @@ export default defineConfig({
                         {
                             label: 'CNOT',
                             slug: 'proofs/cnot',
-                        }
+                        },
                     ],
                     translations: {
                         en: 'Math proofs',
