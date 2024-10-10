@@ -21,6 +21,13 @@ export default defineConfig({
             },
             sidebar: [
                 {
+                    label:'Hoja de ruta',
+                    translations: {
+                        en: 'Roadmap'
+                    },
+                    slug: 'roadmap'
+                },
+                {
                     label: 'Conceptos clave',
                     items: [
                         {

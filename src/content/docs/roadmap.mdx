@@ -1,0 +1,81 @@
+---
+layout: '@layouts/math.astro'
+title: 'Hoja de ruta'
+---
+
+import { Steps, Badge } from '@astrojs/starlight/components';
+import Dialog from '@components/Dialog.astro';
+import ResourceDivider from '@components/ResourceDivider.astro';
+
+
+<style>
+    {`
+    .flex-center{
+        display:flex;
+        justify-content:start;
+        align-items:center;
+        gap: 0.5rem;
+    }
+    .no-decoration{
+        text-decoration:none;
+    }
+    `}
+
+</style>
+
+
+
+
+<Steps>
+1.  ## Matemáticas
+
+    <div>
+    Antes de empezar a estudiar computación cuantica es importante tener conocimientos básicos de matemáticas relacionados a matrices y numeros complejos.
+
+    <Dialog id="dialog" title="Matemáticas" open="Aprender más">
+        <main slot="main">
+            <p>Las matemáticas son una parte fundamental de la computación cuántica, por lo que es importante tener conocimientos básicos de álgebra lineal y números complejos.</p>
+            <p>A lo largo del camino de aprendizaje de computación cuántica, se utilizarán conceptos como matrices, vectores y números complejos para describir el comportamiento de los qubits y los circuitos cuánticos, comprender la matemática permite un mayor entendimiento sobre el tema.</p>
+            <section>
+                <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+                <div class="flex-center">
+                    <Badge text="Video" style={{background:'var(--sl-color-accent)'}} /> <a href="https://www.youtube.com/watch?v=J7DzL2_Na80">Álgebra lineal</a>
+                </div>
+                <div class="flex-center">
+                    <a class="flex-center no-decoration" href="https://www.youtube.com/watch?v=J7DzL2_Na80"><Badge text="Video" style={{background:'var(--sl-color-accent)'}} /></a> <a href="https://www.youtube.com/watch?v=J7DzL2_Na80">Álgebra lineal</a>
+                </div>
+            </section>
+        </main>
+    </Dialog>
+
+    </div>
+
+2. ## Qubit
+
+    ### Representaciones
+
+    ### Fase relativa y global
+
+    ### Entrelazamiento
+
+3. ## Compuertas cuánticas
+
+4. ## Multiples Qubits
+    ### Compuertas de varios Qubits
+    CNOT, SWAP, Toffoli
+
+
+5. ## Circuitos cuánticos
+    ### Observacion de un circuito cuántico
+6. ## Conceptos importantes
+    ### Bell states
+    ### Phase kickback
+    ### Superdense coding
+    ### Teorema de no clonación
+    ### Oraculos cuanticos
+
+7. ## Algoritmos cuánticos
+    ### Algoritmo de Deutsch-Josza
+    ### Algoritmo de Grover
+    ### Algoritmo de Shor
+</Steps>
