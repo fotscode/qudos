@@ -1,0 +1,112 @@
+---
+const {id, title, open} = Astro.props;
+
+const overflowBody = (overflow: string) => {
+    return `document.body.style.overflow = '${overflow}';`
+}
+
+const base=`document.getElementById('${id}')`
+const close=`${base}.close();${overflowBody('auto')}`
+const show=`${base}.showModal();${overflowBody('hidden')};`
+const clickOutside=`${base}.addEventListener('click', function(event) {
+  var rect = ${base}.getBoundingClientRect();
+  var isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height &&
+    rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
+  if (!isInDialog) {
+    ${close}
+  }
+});`
+---
+<style>
+dialog {
+    margin: 10vh auto 10vh auto !important;
+    height: auto;
+    width: 70%;
+    max-width: 1000px;
+    border-radius: 8px;
+    border: 1px solid var(--sl-color-gray-3);
+}
+
+@media (max-width: 800px) {
+    dialog {
+        width: 80%;
+    }
+}
+
+@media (max-width: 600px) {
+    dialog {
+        width: 90%;
+    }
+}
+
+@media (max-width: 400px) {
+    dialog {
+        width: 100vw;
+        margin:0 !important;
+        border-radius: 0;
+        border:0;
+    }
+    .dialog{
+        min-height: 100%;
+    }
+}
+
+.dialog-close{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 10px 0 0;
+    border-radius: 8px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--sl-color-gray-1);
+}
+
+.dialog-close:hover{
+    background: var(--sl-color-gray-6);
+    color: var(--sl-color-white);
+}
+
+
+.dialog-content,.dialog-header {
+    padding: 0 20px;
+}
+
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.dialog-open { 
+    background: var(--sl-color-text-accent);
+    color: var(--sl-color-text-invert);
+    border-radius: 8px;
+    border: none;
+}
+
+.dialog-open:hover {
+    cursor: pointer;
+}
+</style>
+
+<button onclick={show+clickOutside} class="dialog-open">
+    {open}
+</button>
+<dialog id={id} class="dialog">
+    <button class="dialog-close" onclick={close}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x h-5 w-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+    </button>
+    <div class="dialog-header">
+        <h2 class="dialog-title">{title}</h2>
+    </div>
+    <div class="dialog-content">
+        <slot name="main" />
+    </div>
+</dialog>
