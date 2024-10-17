@@ -24,7 +24,13 @@ import ResourceDivider from '@components/ResourceDivider.astro';
 </style>
 
 
+La computación cuántica es un campo de estudio que puede resultar abrumador 
+para aquellos que recién comienzan a estudiarlo, ya que involucra conceptos
+matemáticos y físicos avanzados que no son comunes en la computación clásica.
 
+Esta hoja de ruta tiene como objetivo proporcionar una guía de estudio para
+aquellos que desean aprender computación cuántica, desde los conceptos básicos
+hasta los algoritmos cuánticos más avanzados.
 
 <Steps>
 1.  ## Matemáticas
@@ -52,30 +58,77 @@ import ResourceDivider from '@components/ResourceDivider.astro';
 
 2. ## Qubit
 
+    Los qubits son la unidad básica de información en computación cuántica, a diferencia de los bits clásicos que pueden tener un valor de 0 o 1, los qubits pueden estar en una superposición de ambos estados.
+
     ### Representaciones
+
+    Dentro de las representaciones de los qubits se encuentran la esfera de Bloch, la notación de Dirac (bra-ket), la notación de circulos, la notación de matrices, entre otras.
+
+    La gran variedad de representaciones tiene una gran desventaja, la confusion para los principiantes en la computacion cuantica, estas son equivalentes y su existencia se debe a que permiten observar los problemas de diferentes formas. En ciertas ocasiones para demostrar ciertos conceptos una representacion resulta mas clara que otra.
 
     ### Fase relativa y global
 
+    Esta propiedad de los qubits es una de las mas importantes del dominio, la fase relativa es la diferencia de fase entre dos estados cuanticos, la fase global es la fase que se aplica a ambos estados cuanticos.
+
     ### Entrelazamiento
+
+    El entrelazamiento cuántico es una propiedad de los sistemas cuánticos que permite que dos o más qubits estén correlacionados de tal manera que el estado de uno de ellos dependa del estado de los otros.
+
+    ### Superposición
+
+    La superposición cuántica es una propiedad de los sistemas cuánticos que permite que un qubit pueda estar en dos estados al mismo tiempo.
 
 3. ## Compuertas cuánticas
 
+    Las compuertas cuánticas son las operaciones que se realizan sobre los qubits, estas compuertas son las encargadas de realizar las operaciones necesarias para realizar los algoritmos cuanticos. Se asimilan a las compuertas logicas.
+
 4. ## Multiples Qubits
-    ### Compuertas de varios Qubits
-    CNOT, SWAP, Toffoli
+
+    Agregar mas qubits a un sistema cuantico permite guardar mas informacion, realizar operaciones mas complejas y realizar algoritmos cuanticos. Entran en efecto las compuertas de varios qubits, las observaciones de qubits singulares y el entrelazamiento.
 
 
 5. ## Circuitos cuánticos
-    ### Observacion de un circuito cuántico
+
+    Es otra forma de representar los sistemas cuanticos, los circuitos cuanticos son una representacion grafica de las operaciones que se realizan sobre los qubits, estos circuitos son una forma de visualizar los algoritmos cuanticos. Estos son muy utilizados ya que, de forma similar a los circuitos logicos, permiten abstraer las soluciones a un mayor nivel.
+
 6. ## Conceptos importantes
+    Durante el transcurso del aprendizaje de computación cuántica, se encontrarán conceptos importantes que son fundamentales para comprender el funcionamiento de los algoritmos cuánticos y los sistemas cuánticos.
+
     ### Bell states
-    ### Phase kickback
-    ### Superdense coding
+
+    Estos estados cuanticos representan los estados maximamente entrelazados entre dos qubits, estos estados son importantes para la codificacion superdensa.
+
+    ### Retroceso de fase
+
+    Este fenomeno cuantico es de suma importancia, ya que presenta una diferencia entre las compuertas logicas controladas clasicas y las cuanticas, este fenomeno permite afectar los qubits de control sin aplicar una compuerta a la misma.
+
+    ### Codificación superdensa
+
+    La codificación superdensa es un protocolo cuántico que permite transmitir un numero de bits clásicos de información utilizando un pequeño numero de qubits entrelazado.
+
     ### Teorema de no clonación
+
+    Este teorema establece que no es posible clonar un estado cuántico arbitrario, a diferencia de los bits clásicos que pueden ser copiados sin problemas.
+
     ### Oraculos cuanticos
 
+    Los oráculos cuánticos son utilizados en algoritmos cuanticos para abstraer la solucion de un problema, estos oraculos son una caja negra que realiza una operacion sobre los qubits y retorna uno o mas resultado.
+
 7. ## Algoritmos cuánticos
+
+    Luego de haber adquirido los conocimientos básicos de computación cuántica, es importante estudiar los algoritmos cuánticos más importantes que han sido desarrollados hasta la fecha.
+
     ### Algoritmo de Deutsch-Josza
+
+    El algoritmo de Deutsch-Josza es uno de los primeros algoritmos cuánticos desarrollados, este algoritmo permite determinar si una función es constante o balanceada en una sola consulta.
+
     ### Algoritmo de Grover
+
+    El algoritmo de Grover es uno de los algoritmos cuánticos más importantes, este algoritmo permite realizar una búsqueda no estructurada en una base de datos no ordenada de forma cuadrática.
+
     ### Algoritmo de Shor
+
+    El algoritmo de Shor es uno de los algoritmos cuánticos más importantes, este algoritmo permite factorizar números enteros en tiempo polinómico.
 </Steps>
+
+El orden de los pasos es arbitrario, pretende ser una guia de estudio para aquellos que desean aprender computación cuántica, a medida que se avanzan con ciertos pasos es normal retroceder a pasos anteriores para reforzar conceptos, comprendiendolos de otra manera con el nuevo conocimiento adquirido.
