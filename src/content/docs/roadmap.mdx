@@ -3,13 +3,12 @@ layout: '@layouts/math.astro'
 title: 'Hoja de ruta'
 ---
 
-import { Steps, Badge } from '@astrojs/starlight/components';
-import Dialog from '@components/Dialog.astro';
-import ResourceDivider from '@components/ResourceDivider.astro';
-
+import { Steps, Badge } from '@astrojs/starlight/components'
+import Dialog from '@components/Dialog.astro'
+import ResourceDivider from '@components/ResourceDivider.astro'
 
 <style>
-    {`
+  {`
     .flex-center{
         display:flex;
         justify-content:start;
@@ -20,11 +19,9 @@ import ResourceDivider from '@components/ResourceDivider.astro';
         text-decoration:none;
     }
     `}
-
 </style>
 
-
-La computación cuántica es un campo de estudio que puede resultar abrumador 
+La computación cuántica es un campo de estudio que puede resultar abrumador
 para aquellos que recién comienzan a estudiarlo, ya que involucra conceptos
 matemáticos y físicos avanzados que no son comunes en la computación clásica.
 
@@ -38,17 +35,27 @@ hasta los algoritmos cuánticos más avanzados.
     <div>
     Antes de empezar a estudiar computación cuantica es importante tener conocimientos básicos de matemáticas relacionados a matrices y numeros complejos.
 
-    <Dialog id="dialog" title="Matemáticas" open="Aprender más">
+    <Dialog id="math-dialog" title="Matemáticas" open="Aprender más">
         <main slot="main">
             <p>Las matemáticas son una parte fundamental de la computación cuántica, por lo que es importante tener conocimientos básicos de álgebra lineal y números complejos.</p>
             <p>A lo largo del camino de aprendizaje de computación cuántica, se utilizarán conceptos como matrices, vectores y números complejos para describir el comportamiento de los qubits y los circuitos cuánticos, comprender la matemática permite un mayor entendimiento sobre el tema.</p>
             <section>
                 <ResourceDivider text="Recursos gratuitos" icon="rocket" />
                 <div class="flex-center">
-                    <Badge text="Video" style={{background:'var(--sl-color-accent)'}} /> <a href="https://www.youtube.com/watch?v=J7DzL2_Na80">Álgebra lineal</a>
+                    <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                    <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=8J-H7gbDCos">Numeros complejos (Quantum Soar) [Inglés]</a>
                 </div>
                 <div class="flex-center">
-                    <a class="flex-center no-decoration" href="https://www.youtube.com/watch?v=J7DzL2_Na80"><Badge text="Video" style={{background:'var(--sl-color-accent)'}} /></a> <a href="https://www.youtube.com/watch?v=J7DzL2_Na80">Álgebra lineal</a>
+                    <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                    <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=F7vHr7blzJ4">Numeros complejos en el eje cartesiano (Quantum Soar) [Inglés]</a>
+                </div>
+                <div class="flex-center">
+                    <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                    <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=7mcpxPyg8zo">Introducción a matrices (Quantum Soar) [Inglés]</a>
+                </div>
+                <div class="flex-center">
+                    <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                    <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=yu0fMSyy3CY">Matrices como transformaciones (Quantum Soar) [Inglés]</a>
                 </div>
             </section>
         </main>
@@ -56,9 +63,29 @@ hasta los algoritmos cuánticos más avanzados.
 
     </div>
 
-2. ## Qubit
+2.  ## Qubit
 
     Los qubits son la unidad básica de información en computación cuántica, a diferencia de los bits clásicos que pueden tener un valor de 0 o 1, los qubits pueden estar en una superposición de ambos estados.
+
+    <Dialog id="qubit-dialog" title="Qubit" open="Aprender más">
+        <main slot="main">
+            <p>Comprender la unidad basica de la computación cuantica es esencial para entender el funcionamiento basico de una computadora cuantica, que combinan estos para realizar operaciones más complejas.</p>
+            <section>
+                <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+                <div class="flex-center">
+                    <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                    <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=urNWf4Ezisc">Qubit y Superposición (Quantum Soar) [Inglés]</a>
+                </div>
+            </section>
+            <section>
+                <ResourceDivider text="Recursos pagos" icon="open-book"/>
+                <div class="flex-center">
+                    <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content'}} />
+                    <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capitulo 2, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+                </div>
+            </section>
+        </main>
+    </Dialog>
 
     ### Representaciones
 
@@ -78,20 +105,20 @@ hasta los algoritmos cuánticos más avanzados.
 
     La superposición cuántica es una propiedad de los sistemas cuánticos que permite que un qubit pueda estar en dos estados al mismo tiempo.
 
-3. ## Compuertas cuánticas
+3.  ## Compuertas cuánticas
 
     Las compuertas cuánticas son las operaciones que se realizan sobre los qubits, estas compuertas son las encargadas de realizar las operaciones necesarias para realizar los algoritmos cuanticos. Se asimilan a las compuertas logicas.
 
-4. ## Multiples Qubits
+4.  ## Multiples Qubits
 
     Agregar mas qubits a un sistema cuantico permite guardar mas informacion, realizar operaciones mas complejas y realizar algoritmos cuanticos. Entran en efecto las compuertas de varios qubits, las observaciones de qubits singulares y el entrelazamiento.
 
-
-5. ## Circuitos cuánticos
+5.  ## Circuitos cuánticos
 
     Es otra forma de representar los sistemas cuanticos, los circuitos cuanticos son una representacion grafica de las operaciones que se realizan sobre los qubits, estos circuitos son una forma de visualizar los algoritmos cuanticos. Estos son muy utilizados ya que, de forma similar a los circuitos logicos, permiten abstraer las soluciones a un mayor nivel.
 
-6. ## Conceptos importantes
+6.  ## Conceptos importantes
+
     Durante el transcurso del aprendizaje de computación cuántica, se encontrarán conceptos importantes que son fundamentales para comprender el funcionamiento de los algoritmos cuánticos y los sistemas cuánticos.
 
     ### Bell states
@@ -114,21 +141,22 @@ hasta los algoritmos cuánticos más avanzados.
 
     Los oráculos cuánticos son utilizados en algoritmos cuanticos para abstraer la solucion de un problema, estos oraculos son una caja negra que realiza una operacion sobre los qubits y retorna uno o mas resultado.
 
-7. ## Algoritmos cuánticos
+7.  ## Algoritmos cuánticos
 
-    Luego de haber adquirido los conocimientos básicos de computación cuántica, es importante estudiar los algoritmos cuánticos más importantes que han sido desarrollados hasta la fecha.
+        Luego de haber adquirido los conocimientos básicos de computación cuántica, es importante estudiar los algoritmos cuánticos más importantes que han sido desarrollados hasta la fecha.
 
-    ### Algoritmo de Deutsch-Josza
+        ### Algoritmo de Deutsch-Josza
 
-    El algoritmo de Deutsch-Josza es uno de los primeros algoritmos cuánticos desarrollados, este algoritmo permite determinar si una función es constante o balanceada en una sola consulta.
+        El algoritmo de Deutsch-Josza es uno de los primeros algoritmos cuánticos desarrollados, este algoritmo permite determinar si una función es constante o balanceada en una sola consulta.
 
-    ### Algoritmo de Grover
+        ### Algoritmo de Grover
 
-    El algoritmo de Grover es uno de los algoritmos cuánticos más importantes, este algoritmo permite realizar una búsqueda no estructurada en una base de datos no ordenada de forma cuadrática.
+        El algoritmo de Grover es uno de los algoritmos cuánticos más importantes, este algoritmo permite realizar una búsqueda no estructurada en una base de datos no ordenada de forma cuadrática.
 
-    ### Algoritmo de Shor
+        ### Algoritmo de Shor
 
-    El algoritmo de Shor es uno de los algoritmos cuánticos más importantes, este algoritmo permite factorizar números enteros en tiempo polinómico.
+        El algoritmo de Shor es uno de los algoritmos cuánticos más importantes, este algoritmo permite factorizar números enteros en tiempo polinómico.
+
 </Steps>
 
 El orden de los pasos es arbitrario, pretende ser una guia de estudio para aquellos que desean aprender computación cuántica, a medida que se avanzan con ciertos pasos es normal retroceder a pasos anteriores para reforzar conceptos, comprendiendolos de otra manera con el nuevo conocimiento adquirido.
