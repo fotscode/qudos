@@ -176,13 +176,83 @@ hasta los algoritmos cuánticos más avanzados.
 
     El entrelazamiento cuántico es una propiedad de los sistemas cuánticos que permite que dos o más qubits estén correlacionados de tal manera que el estado de uno de ellos dependa del estado de los otros.
 
-    ### Superposición
+    <div>
+    <Dialog id="entanglement-dialog" title="Entrelazamiento de Qubits" open="Aprender más">
+    <main slot="main">
+        <p>Esta propiedad permite tomar decisiones con menor información, es decir que los qubits que estan entrelazados pueden representar una combinacion de estados simultaneos, aprovechando un paralelismo masivo.</p>
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=H3DC-hBuCSQ">Entrelazamiento cuántico (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capitulo 3, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
 
-    La superposición cuántica es una propiedad de los sistemas cuánticos que permite que un qubit pueda estar en dos estados al mismo tiempo.
+    </Dialog>
+    </div>
 
 3.  ## Compuertas cuánticas
 
     Las compuertas cuánticas son las operaciones que se realizan sobre los qubits, estas compuertas son las encargadas de realizar las operaciones necesarias para realizar los algoritmos cuanticos. Se asimilan a las compuertas logicas.
+
+    <div>
+    <Dialog id="gates-dialog" title="Compuertas cuánticas" open="Aprender más">
+    <main slot="main">
+        <p>Las compuertas cuanticas permiten aplicarles transformaciones lineales a los qubits, dentro de ellas se encuentra Pauli-X, Pauli-Y, Pauli-Z, Hadamard, CNOT, entre otras.</p>
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
+                <a href={`${import.meta.env.BASE_URL}/gates/pauli-x`}>Compuerta NOT cuantica o Pauli-X</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
+                <a href={`${import.meta.env.BASE_URL}/gates/pauli-y`}>Compuerta Pauli-Y</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
+                <a href={`${import.meta.env.BASE_URL}/gates/pauli-z`}>Compuerta Pauli-Z</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
+                <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Compuerta Hadamard</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
+                <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>Compuerta NOT controlada</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=01-3FzQwfCg">Compuertas basicas, Pauli-X, Pauli-Y, Pauli-Z (Quantum Soar) [Inglés]</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://youtu.be/G9d0QWM82sU?si=Gq7YR5iS1lEAZrl3">Compuerta Hadamard (Quantum Soar) [Inglés]</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=P0IuxwZxSTk">Compuertas de fase (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capitulo 1, 2 y 3, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+    </div>
 
 4.  ## Multiples Qubits
 
