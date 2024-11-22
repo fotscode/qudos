@@ -206,7 +206,7 @@ hasta los algoritmos cuánticos más avanzados.
     <div>
     <Dialog id="gates-dialog" title="Compuertas cuánticas" open="Aprender más">
     <main slot="main">
-        <p>Las compuertas cuanticas permiten aplicarles transformaciones lineales a los qubits, dentro de ellas se encuentra Pauli-X, Pauli-Y, Pauli-Z, Hadamard, CNOT, entre otras.</p>
+        <p>Las compuertas cuanticas permiten aplicarles transformaciones lineales a los qubits, dentro de ellas se encuentra Pauli-X, Pauli-Y, Pauli-Z, Hadamard, entre otras.</p>
         <section>
             <ResourceDivider text="Recursos gratuitos" icon="rocket" />
             <div class="flex-center">
@@ -224,10 +224,6 @@ hasta los algoritmos cuánticos más avanzados.
             <div class="flex-center">
                 <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
                 <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Compuerta Hadamard</a>
-            </div>
-            <div class="flex-center">
-                <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
-                <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>Compuerta NOT controlada</a>
             </div>
             <div class="flex-center">
                 <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
@@ -256,13 +252,90 @@ hasta los algoritmos cuánticos más avanzados.
 
 4.  ## Multiples Qubits
 
+
     Agregar mas qubits a un sistema cuantico permite guardar mas informacion, realizar operaciones mas complejas y realizar algoritmos cuanticos. Entran en efecto las compuertas de varios qubits, las observaciones de qubits singulares y el entrelazamiento.
 
-5.  ## Circuitos cuánticos
+    <Dialog id="multiple-qubits-dialog" title="Multiples Qubits" open="Aprender más">
+    <main slot="main">
 
-    Es otra forma de representar los sistemas cuanticos, los circuitos cuanticos son una representacion grafica de las operaciones que se realizan sobre los qubits, estos circuitos son una forma de visualizar los algoritmos cuanticos. Estos son muy utilizados ya que, de forma similar a los circuitos logicos, permiten abstraer las soluciones a un mayor nivel.
+    Representar multiples qubits introduce el producto tensorial y una diferente forma de medir las probabilidades de los mismos.
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=ZJKN8h6Vk2c">Representando multiples qubits (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capitulo 3, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
 
-6.  ## Conceptos importantes
+    </Dialog>
+
+    ### Compuertas de multiples qubits
+
+    Las compuertas cuanticas permiten aplicarles transformaciones lineales a los qubits, dentro de ellas se encuentra Pauli-X, Pauli-Y, Pauli-Z, Hadamard, entre otras.
+
+    <Dialog id="multiple-qubits-gates-dialog" title="Compuertas cuánticas con multiples qubits" open="Aprender más">
+    <main slot="main">
+
+    Las compuertas de múltiples qubits son operaciones que actúan sobre dos o más qubits simultáneamente. Las principales compuertas que operan sobre múltiples qubits son CNOT, SWAP, Toffoli, entre otras. 
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
+                <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>Compuerta NOT controlada</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=pFdO6gS9hBk">Compuertas de multiples qubits, CNOT, Toffoli y otras (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capitulo 3, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+
+    ### Circuitos cuánticos
+
+    <div>
+    <p>Es otra forma de representar los sistemas cuanticos, los circuitos cuanticos son una representacion grafica de las operaciones que se realizan sobre los qubits, estos circuitos son una forma de visualizar los algoritmos cuanticos. Estos son muy utilizados ya que, de forma similar a los circuitos logicos, permiten abstraer las soluciones a un mayor nivel.</p>
+
+    <Dialog id="circuit-dialog" title="Circuitos cuánticos" open="Aprender más">
+    <main slot="main">
+
+    Dependiendo de la bibliografia, los circuitos cuanticos son representados con una representacion de abajo hacia arriba (bottom-to-up), mientras que otros representan los circuitos de arriba hacia abajo (up-to-bottom). Por ejemplo, para el primer caso los qubits $\ket{01}$ se representarian el $\ket{0}$ en la linea de abajo, y el $\ket{1}$ en la linea de arriba, mientras que en la segunda representación se representarian de forma inversa.
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=ctGWeHw410s">Circuitos cuánticos, up-to-bottom (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capitulo 1, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+    </div>
+
+5.  ## Conceptos importantes
 
     Durante el transcurso del aprendizaje de computación cuántica, se encontrarán conceptos importantes que son fundamentales para comprender el funcionamiento de los algoritmos cuánticos y los sistemas cuánticos.
 
@@ -286,7 +359,7 @@ hasta los algoritmos cuánticos más avanzados.
 
     Los oráculos cuánticos son utilizados en algoritmos cuanticos para abstraer la solucion de un problema, estos oraculos son una caja negra que realiza una operacion sobre los qubits y retorna uno o mas resultado.
 
-7.  ## Algoritmos cuánticos
+6.  ## Algoritmos cuánticos
 
         Luego de haber adquirido los conocimientos básicos de computación cuántica, es importante estudiar los algoritmos cuánticos más importantes que han sido desarrollados hasta la fecha.
 
