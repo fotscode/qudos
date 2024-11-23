@@ -1,0 +1,573 @@
+---
+layout: '@layouts/math.astro'
+title: 'Hoja de ruta'
+---
+
+import { Steps, Badge } from '@astrojs/starlight/components'
+import Dialog from '@components/Dialog.astro'
+import ResourceDivider from '@components/ResourceDivider.astro'
+
+<style>
+  {`
+    .flex-center{
+        display:flex;
+        justify-content:start;
+        align-items:center;
+        gap: 0.5rem;
+    }
+    .no-decoration{
+        text-decoration:none;
+    }
+    `}
+</style>
+
+La computación cuántica es un campo de estudio que puede resultar abrumador
+para aquellos que recién comienzan a estudiarlo, ya que involucra conceptos
+matemáticos y físicos avanzados que no son comunes en la computación clásica.
+
+Esta hoja de ruta tiene como objetivo proporcionar una guía de estudio para
+aquellos que desean aprender computación cuántica, desde los conceptos básicos
+hasta los algoritmos cuánticos más avanzados.
+
+<Steps>
+1.  ## Matemáticas
+
+    <div>
+    Antes de empezar a estudiar computación cuántica es importante tener conocimientos básicos de matemáticas relacionados a matrices y números complejos.
+
+    <Dialog id="math-dialog" title="Matemáticas" open="Aprender más">
+        <main slot="main">
+            <p>La matemática es fundamental para adentrarse en la computación cuántica, ya que los qubits y circuitos cuánticos se describen mediante conceptos matemáticos como matrices, vectores y números complejos. Esta base matemática no solo facilita el aprendizaje sino que también permite una comprensión más profunda de los principios cuánticos.</p>
+            <section>
+                <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+                <div class="flex-center">
+                    <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                    <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=8J-H7gbDCos">Números complejos (Quantum Soar) [Inglés]</a>
+                </div>
+                <div class="flex-center">
+                    <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                    <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=F7vHr7blzJ4">Números complejos en el eje cartesiano (Quantum Soar) [Inglés]</a>
+                </div>
+                <div class="flex-center">
+                    <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                    <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=7mcpxPyg8zo">Introducción a matrices (Quantum Soar) [Inglés]</a>
+                </div>
+                <div class="flex-center">
+                    <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                    <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=yu0fMSyy3CY">Matrices como transformaciones (Quantum Soar) [Inglés]</a>
+                </div>
+            </section>
+        </main>
+    </Dialog>
+
+    </div>
+
+2.  ## Qubit
+
+    Los qubits son la unidad básica de información en computación cuántica, a diferencia de los bits clásicos que pueden tener un valor de 0 o 1, los qubits pueden estar en una superposición de ambos estados.
+
+    <Dialog id='qubit-dialog' title='Qubit' open='Aprender más'>
+      <main slot='main'>
+        <p>
+          Comprender la unidad básica de la computación cuántica es esencial
+          para entender el funcionamiento basico de una computadora cuántica,
+          que combinan estos para realizar operaciones más complejas.
+        </p>
+        <section>
+          <ResourceDivider text='Recursos gratuitos' icon='rocket' />
+          <div class='flex-center'>
+            <Badge
+              text='Video'
+              style={{
+                background: 'var(--sl-color-accent)',
+                minWidth: 'fit-content',
+              }}
+            />
+            <a
+              target='_blank'
+              class='flex-center no-decoration'
+              href='https://www.youtube.com/watch?v=urNWf4Ezisc'
+            >
+              Qubit y Superposición (Quantum Soar) [Inglés]
+            </a>
+          </div>
+        </section>
+        <section>
+          <ResourceDivider text='Recursos pagos' icon='open-book' />
+          <div class='flex-center'>
+            <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+            <a
+              target='_blank'
+              class='flex-center no-decoration'
+              href='https://isbnsearch.org/isbn/9781492039686'
+            >
+              Capítulo 2, Programming Quantum Computers: Essential Algorithms
+              and Code Samples (O'Reilly Media) [Inglés]
+            </a>
+          </div>
+        </section>
+      </main>
+    </Dialog>
+
+    ### Representaciones
+
+    Dentro de las representaciones de los qubits se encuentran la esfera de Bloch, la notación de Dirac (bra-ket), la notación de círculos, la notación de matrices, entre otras.
+
+    La gran variedad de representaciones tiene una gran desventaja, la confusión para los principiantes en la computación cuántica, estas son equivalentes y su existencia se debe a que permiten observar los problemas de diferentes formas. En ciertas ocasiones para demostrar ciertos conceptos una representación resulta más clara que otra.
+
+    <Dialog id="represetanciones-dialog" title="Representaciones de Qubits" open="Aprender más">
+    <main slot="main">
+        <p>A la hora de representar un qubit se encuentran varias representaciones de los Qubits, que varian segun la bibliografía empleada y el objetivo de la representación. Los más conocidos son la notación de Dirac, la notación de círculos, la notación matricial y la esfera de Bloch.</p>
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=RyPQL8lccx4">Notación de Dirac y de matrices (Quantum Soar) [Inglés]</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=4EGY4ajn1Iw">La esfera de Bloch (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Introducción a la notación de círculos. Capítulo 2, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+
+    ### Fase relativa y global
+
+    Esta propiedad de los qubits es una de las más importantes del dominio, la fase relativa es la diferencia de fase entre dos estados cuánticos, la fase global es la fase que se aplica a ambos estados cuánticos.
+
+    <Dialog id="phase-dialog" title="Fase relativa y global" open="Aprender más">
+    <main slot="main">
+        <p>La fase relativa es de suma importancia, mientras que la fase global es descartada ya que no aporta información útil en el procesamiento cuántico.</p>
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=uZD8BkMOSsM">Introducción a la fase global y relativa (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Rotación del círculo. Capítulo 2, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+
+    ### Entrelazamiento
+
+    El entrelazamiento cuántico es una propiedad de los sistemas cuánticos que permite que dos o más qubits estén correlacionados de tal manera que el estado de uno de ellos dependa del estado de los otros.
+
+    <div>
+    <Dialog id="entanglement-dialog" title="Entrelazamiento de Qubits" open="Aprender más">
+    <main slot="main">
+        <p>Esta propiedad permite tomar decisiones con menor información, es decir que los qubits que estan entrelazados pueden representar una combinación de estados simultaneos, aprovechando un paralelismo masivo.</p>
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=H3DC-hBuCSQ">Entrelazamiento cuántico (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capítulo 3, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+    </div>
+
+3.  ## Compuertas cuánticas
+
+    Las compuertas cuánticas son las operaciones que se realizan sobre los qubits, estas compuertas son las encargadas de realizar las operaciones necesarias para realizar los algoritmos cuánticos. Se asimilan a las compuertas lógicas.
+
+    <div>
+    <Dialog id="gates-dialog" title="Compuertas cuánticas" open="Aprender más">
+    <main slot="main">
+        <p>Las compuertas cuánticas permiten aplicarles transformaciones lineales a los qubits, dentro de ellas se encuentra Pauli-X, Pauli-Y, Pauli-Z, Hadamard, entre otras.</p>
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
+                <a href={`${import.meta.env.BASE_URL}/gates/pauli-x`}>Compuerta NOT cuántica o Pauli-X</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
+                <a href={`${import.meta.env.BASE_URL}/gates/pauli-y`}>Compuerta Pauli-Y</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
+                <a href={`${import.meta.env.BASE_URL}/gates/pauli-z`}>Compuerta Pauli-Z</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
+                <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Compuerta Hadamard</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=01-3FzQwfCg">Compuertas básicas, Pauli-X, Pauli-Y, Pauli-Z (Quantum Soar) [Inglés]</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://youtu.be/G9d0QWM82sU?si=Gq7YR5iS1lEAZrl3">Compuerta Hadamard (Quantum Soar) [Inglés]</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=P0IuxwZxSTk">Compuertas de fase (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capítulo 1, 2 y 3, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+    </div>
+
+4.  ## Multiples Qubits
+
+
+    Agregar más qubits a un sistema cuántico permite guardar más información  realizar operaciones más complejas y realizar algoritmos cuánticos. Entran en efecto las compuertas de varios qubits, las observaciones de qubits singulares y el entrelazamiento.
+
+    <Dialog id="multiple-qubits-dialog" title="Multiples Qubits" open="Aprender más">
+    <main slot="main">
+
+    Representar multiples qubits introduce el producto tensorial y una diferente forma de medir las probabilidades de los mismos.
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=ZJKN8h6Vk2c">Representando multiples qubits (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capítulo 3, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+
+    ### Compuertas de multiples qubits
+
+    Las compuertas de múltiples qubits son operaciones que actúan sobre dos o más qubits simultáneamente.
+    
+
+    <Dialog id="multiple-qubits-gates-dialog" title="Compuertas cuánticas con multiples qubits" open="Aprender más">
+    <main slot="main">
+
+    Las principales compuertas que operan sobre múltiples qubits son CNOT, SWAP, Toffoli, entre otras. 
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
+                <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>Compuerta NOT controlada</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=pFdO6gS9hBk">Compuertas de multiples qubits, CNOT, Toffoli y otras (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capítulo 3, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+
+    ### Circuitos cuánticos
+
+    <div>
+    <p>Es otra forma de representar los sistemas cuánticos, los circuitos cuánticos son una representación grafica de las operaciones que se realizan sobre los qubits, estos circuitos son una forma de visualizar los algoritmos cuánticos. Estos son muy utilizados ya que, de forma similar a los circuitos lógicos, permiten abstraer las soluciones a un mayor nivel.</p>
+
+    <Dialog id="circuit-dialog" title="Circuitos cuánticos" open="Aprender más">
+    <main slot="main">
+
+    Dependiendo de la bibliografía, los circuitos cuánticos son representados con una representación de abajo hacia arriba (bottom-to-up), mientras que otros representan los circuitos de arriba hacia abajo (up-to-bottom). Por ejemplo, para el primer caso los qubits $\ket{01}$ se representarian el $\ket{0}$ en la linea de abajo, y el $\ket{1}$ en la linea de arriba, mientras que en la segunda representación se representarian de forma inversa.
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=ctGWeHw410s">Circuitos cuánticos, up-to-bottom (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capítulo 1, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+    </div>
+
+5.  ## Conceptos importantes
+
+    Durante el transcurso del aprendizaje de computación cuántica, se encontrarán conceptos importantes que son fundamentales para comprender el funcionamiento de los algoritmos cuánticos y los sistemas cuánticos.
+
+    ### Estados de Bell
+
+    Estos estados cuánticos representan los estados maximamente entrelazados entre dos qubits, estos estados son importantes para la codificación superdensa.
+
+    <div>
+    <Dialog id="bell-states-dialog" title="Estados de Bell" open="Aprender más">
+    <main slot="main">
+
+    Relacionado estrechamente con el entrelazamiento, demuestran la utilidad del entrelazamiento maximal en su expresión más pequeña posible (combinaciones de 2 qubits), permitiendo construir algoritmos complejos a partir de estas unidades básicas.
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=H3DC-hBuCSQ">Entrelazamiento cuántico (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capítulo 3, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+    </div>
+
+    ### Retroceso de fase
+
+    Este fenomeno cuántico es de suma importancia, ya que presenta una diferencia entre las compuertas lógicas controladas clásicas y las cuánticas, este fenomeno permite afectar los qubits de control sin aplicar una compuerta a la misma.
+
+    <div>
+    <Dialog id="phase-kickback-dialog" title="Retroceso de fase" open="Aprender más">
+    <main slot="main">
+
+    Ampliamente utilizado en algoritmos para explotar el paralelismo, concepto esencial para entender el potencial de la computación cuántica y su diferencial sobre la computación clásica.
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=QI58lcgD9HI">Retroceso de fase (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capítulo 3, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+    </div>
+
+    ### Codificación superdensa
+
+    La codificación superdensa es un protocolo cuántico que permite transmitir un número de bits clásicos de información utilizando un pequeño número de qubits entrelazado.
+
+    <div>
+    <Dialog id="superdense-coding-dialog" title="Codificación superdensa" open="Aprender más">
+    <main slot="main">
+    Utilizando qubits entrelazados maximalmente (por ejemplo estados de Bell), se puede desarrollar un protocolo que permita comunicar mayor cantidad de bits de los que fueron usados.
+
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=dAXdJpgiMDQ">Codificación superdensa (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+    </div>
+
+    ### Teorema de no clonación
+
+    Este teorema establece que no es posible clonar un estado cuántico arbitrario, a diferencia de los bits clásicos que pueden ser copiados sin problemas.
+
+    <div>
+    <Dialog id="no-cloning-dialog" title="Codificación superdensa" open="Aprender más">
+    <main slot="main">
+        Este teorema tiene profundas implicaciones para la computación y la información cuántica. Si intentamos copiar un estado cuántico, inevitablemente perturbamos el estado original, lo que hace que la clonación perfecta sea imposible según las leyes fundamentales de la física.
+
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=N3PhGaAZyoE">Funciones cuánticas y teorema de no clonación (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capítulo 2, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+    </div>
+
+    ### Oraculos cuánticos
+
+    Los oráculos cuánticos son utilizados en algoritmos cuánticos para abstraer la solución de un problema, estos oraculos son una caja negra que realiza una operación sobre los qubits y retorna uno o más resultados.
+
+    <div>
+    <Dialog id="oracle-dialog" title="Oraculos cuánticos" open="Aprender más">
+    <main slot="main">
+        Los oraculos o funciones cuánticas es utilizado para abstraer funciones clásicas o variables sin revelar la implementación de la función o variable.
+
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
+                <a href={`${import.meta.env.BASE_URL}/concepts/oracles`}>Oráculos</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=N3PhGaAZyoE">Funciones cuánticas y teorema de no clonación (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capítulo 14, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+    </div>
+
+6.  ## Algoritmos cuánticos
+
+    Luego de haber adquirido los conocimientos básicos de computación cuántica, es importante estudiar algunos de los algoritmos cuánticos más importantes que han sido desarrollados hasta la fecha para poder formar una base de conocimiento.
+
+    ### Algoritmo de Deutsch-Jozsa
+
+    El algoritmo de Deutsch-Jozsa es uno de los primeros algoritmos cuánticos desarrollados, este algoritmo permite determinar si una función es constante o balanceada en una sola consulta.
+
+    <div>
+    <Dialog id="deutsch-jozsa-dialog" title="Algoritmo de Deutsch-Jozsa" open="Aprender más">
+    <main slot="main">
+        Este algoritmo es un buen punto de partida para comenzar a aprender algoritmos cuánticos, su simplicidad y la aplicación de diversos conceptos vistos previamente, junto a la notoria mejora sobre el algoritmo clasico, hace que este algoritmo sea un motivamente y sirve de ejercicio integrador para los recien adentrados en el dominio.
+
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Wiki" style={{background:'var(--sl-color-accent-high)', minWidth:'fit-content', color:'var(--sl-color-accent-low)'}} />
+                <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa`}>Deutsch-Jozsa</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=7MdEHsRZxvo">Algoritmo de Deutsch simplificado (Quantum Soar) [Inglés]</a>
+            </div>
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=pC2XRXInHnc">Algoritmo de Deutsch-Jozsa con n qubits (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capítulo 14, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+    </div>
+
+    ### Algoritmo de Grover
+
+    El algoritmo de Grover es uno de los algoritmos cuánticos más importantes, resolviendo algoritmos de búsqueda.
+    
+    <div>
+    <Dialog id="grover-dialog" title="Algoritmo de Grover" open="Aprender más">
+    <main slot="main">
+        Con un poco mayor de complejidad que el algoritmo de Deutsch-Jozsa, el algoritmo de Grover permite resolver problemas de búsqueda abstrayendose del contexto a través de la utilización de oraculos.
+
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Artículo" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://quantum.country/search">Como funciona el algoritmo de búsqueda cuántica (Quantum Country) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capítulo 10, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+    </div>
+
+    ### Algoritmo de Shor
+
+    El algoritmo de Shor es un algoritmo cuántico de gran relevancia, este algoritmo permite factorizar números enteros en tiempo polinómico.
+
+    
+    <div>
+    <Dialog id="shor-dialog" title="Algoritmo de Shor" open="Aprender más">
+    <main slot="main">
+        Es un algoritmo con una gran complejidad, no solo por los conceptos cuánticos aplicados si no por las propiedades matemáticas que pretende resolver, permite desencriptar mensajes en tiempos tractables.
+
+        <section>
+            <ResourceDivider text="Recursos gratuitos" icon="rocket" />
+            <div class="flex-center">
+                <Badge text="Video" style={{background:'var(--sl-color-accent)', minWidth:'fit-content'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://www.youtube.com/watch?v=5_56TXtFVK4">Algoritmo de Shor (Quantum Soar) [Inglés]</a>
+            </div>
+        </section>
+        <section>
+            <ResourceDivider text="Recursos pagos" icon="open-book"/>
+            <div class="flex-center">
+                <Badge text="Libro" style={{background:'var(--sl-color-accent-low)', minWidth:'fit-content', color:'var(--sl-color-accent-high)'}} />
+                <a target="_blank" class="flex-center no-decoration" href="https://isbnsearch.org/isbn/9781492039686">Capítulo 12, Programming Quantum Computers: Essential Algorithms and Code Samples (O'Reilly Media) [Inglés]</a>
+            </div>
+        </section>
+    </main>
+
+    </Dialog>
+    </div>
+
+
+</Steps>
+
+El orden de los pasos es arbitrario, pretende ser una guía de estudio para aquellos que desean aprender computación cuántica, a medida que se avanzan con ciertos pasos es normal retroceder a pasos anteriores para reforzar conceptos, comprendiendolos de otra manera con el nuevo conocimiento adquirido.

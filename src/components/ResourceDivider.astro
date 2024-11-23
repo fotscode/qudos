@@ -1,0 +1,37 @@
+---
+const { text,icon } = Astro.props;
+import { Badge, Icon } from '@astrojs/starlight/components';
+---
+
+<style>
+.separator {
+    position: relative;
+    width: 100%;
+    border-bottom: 1px solid var(--sl-color-gray-3);
+    margin: 30px 0;
+}
+
+.separator-content {
+    position:absolute;
+    background: var(--sl-color-bg);
+    border-color: var(--sl-color-text-accent);
+    color: var(--sl-color-text-accent);
+    display:flex;
+    border-radius: 8px;
+    border: 1px solid var(--sl-color-gray-3);
+    justify-content: center;
+    align-items: center;
+    top: -15px;
+    left: 10px;
+    gap: 10px;
+    padding: 0 10px;
+}
+</style>
+
+<div class="separator">
+    <div class="separator-content">
+        <Icon name={icon} color="var(--sl-color-text-accent)" />
+        <span>{text}</span>
+    </div>
+</div>
+
