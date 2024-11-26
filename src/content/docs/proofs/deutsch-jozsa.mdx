@@ -1,0 +1,65 @@
+---
+layout: '@layouts/math.astro'
+title: 'Pruebas Matemáticas de Deutsch-Jozsa'
+---
+
+import { Image } from 'astro:assets'
+
+## Desarrollo elaborado de la versión reducida
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/deutsch-jozsa-simple.png`}
+    alt='Algoritmo Deutsch-Jozsa en un circuito con separadores ante la aplicación de cada compuerta.'
+    width='455'
+    height='220'
+  />
+</div>
+
+De forma detallada el estado de los qubits según los separadores provistos en el gráfico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
+
+
+```math
+\begin{align}
+\psi_0=&\ket{00}\\
+\psi_1=&\ket{01}\\
+\psi_2=&\ket{+-}\\
+=&\frac{1}{\sqrt{2}}(\ket{0}\ket{-}+\ket{1}\ket{-})\\
+\psi_3=&U_f\frac{1}{\sqrt{2}}(\ket{0}\ket{-}+\ket{1}\ket{-})\\
+=&\frac{1}{\sqrt{2}}(U_f\ket{0}\ket{-}+U_f\ket{1}\ket{-})\\
+=&\frac{1}{\sqrt{2}}((-1)^{f(0)}\ket{0}\ket{-}+(-1)^{f(1)}\ket{1}\ket{-})\\
+=&\frac{1}{\sqrt{2}}((-1)^{f(0)}\ket{0}+(-1)^{f(1)}\ket{1})\\
+\end{align}
+```
+
+
+Notar que en $(7)$ se elimina el qubit \\(\ket{'-'}\\), esto se debe a que el segundo qubit, no se mide, ni se utiliza más en el circuito, por lo que solo estorbaría y por ende se puede prescindir del mismo.
+
+Se analizan los casos posibles, primero en caso de que \\(f\\) sea constante, y luego en caso de que \\(f\\) sea balanceada.
+
+```math
+\begin{align}
+=&\begin{cases}
+\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})=\ket{+} & \text{si \(f(0)=f(1)=0\)}\\
+\frac{1}{\sqrt{2}}(-\ket{0}-\ket{1})=\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})=\ket{+} & \text{si \(f(0)=f(1)=1\)}
+\end{cases}\\
+=&\begin{cases}
+\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})=\ket{-} & \text{si \(f(0)=0, f(1)=1\)}\\
+\frac{1}{\sqrt{2}}(-\ket{0}+\ket{1})=\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})=\ket{-} & \text{si \(f(0)=1, f(1)=0\)}
+\end{cases}
+\end{align}
+```
+
+A su vez en $(9)$ y en $(10)$ se factoriza el $-1$ y, como actúa de fase global, se puede prescindir de la misma.
+
+Finalmente aplicar el ultimo paso del circuito es simple
+
+```math
+\begin{align}
+\psi_4=
+\begin{cases}
+H\ket{+}=\ket{0} & \text{si \(f(0)=f(1)\)}\\
+H\ket{-}=\ket{1} & \text{si \(f(0) \neq f(1)\)}
+\end{cases}
+\end{align}
+```
