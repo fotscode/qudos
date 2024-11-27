@@ -227,6 +227,52 @@ Por otra parte si se desea implementar el algoritmo en **Qiskit** con este mismo
 
 La función descrita previamente era balanceada retornando el mismo valor que el input (función identidad). Otro ejemplo de función balanceada es aquella que siempre retorna el opuesto de la entrada como salida (función de opuesto), esta se puede implementar, por ejemplo, aplicando una compuerta Pauli-X a la salida luego de haber aplicado un CNOT.
 
+## Deutsch-Jozsa completo
+
+El problema que resuelve el algoritmo de Deutsch-Jozsa es la generalización del algoritmo previo para funciones con $n$ entradas:
+
+```math
+f: \{0,1\}^n \rightarrow \{0,1\}
+```
+
+### Solución
+
+El algoritmo de Deutsch-Jozsa se describe de forma genérica con el siguiente circuito:
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/deutsch-jozsa-completo.png`}
+    alt='Algoritmo Deutsch-Jozsa en un circuito con separadores ante la aplicación de cada compuerta.'
+    width='455'
+    height='182'
+  />
+  <span style='width:504px; padding:10px 40px'>
+    **Figura (6):** Algoritmo Deutsch-Jozsa en un circuito con separadores ante
+    la aplicación de cada compuerta.
+  </span>
+</div>
+
+Este mantiene una estructura similar al algoritmo de Deutsch planteado en la figura 1 pero con algunos cambios:
+
+- Se reemplaza el segundo qubit de $\ket{0}$ a $\ket{-}$, esto es equivalente a aplicar una compuerta Pauli-X y Hadamard pero se evitó para tener una mayor legibilidad.
+
+- Se generaliza el qubit de entrada a $n$ qubits que representan los valores de entrada, esto esta representado por el símbolo / $^n$ previo a $\psi_0$.
+
+- Se aplican las compuertas Hadamard a los $n$ qubits de entrada y el oráculo es aplicado a los $n$ qubits de entrada y al qubit que representa la salida de la función.
+
+Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
+```math
+\begin{align}
+\psi_0=&\ket{0}^{\otimes n}\ket{-}\\
+\psi_1=&H^{\otimes n}\ket{0}^{\otimes n}\ket{-}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
+\psi_2=&U_f\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
+\psi_3=&H^{\otimes n}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
+=&\sum_{z\in\{0,1\}^n}\left(\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x \cdot z}\right)\ket{z}
+\end{align}
+```
+
 ## Más información
 
 - <a href='https://www.youtube.com/watch?v=eE7eumEZOSE' target='_blank'>
