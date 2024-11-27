@@ -38,17 +38,17 @@ Este algoritmo resuelve el problema de búsqueda de que una función \\(f\\) sea
 entrada retorna siempre la misma salida, es decir siempre retorna \\(0\\) o siempre retorna \\(1\\).
 Por otra parte la función es balanceada cuando retorna mitad de veces una salida y mitad de veces otra, es decir retorna \\(n/2\\) veces \\(0\\) y \\(1\\) respectivamente.
 
-El **algoritmo clásico**, implica recorrer al menos mitad de las salidas posibles. El **algoritmo cuántico** realiza esta operación en **una** sola pasada.
+El **algoritmo clásico**, implica recorrer, en el peor de los casos, al menos mitad de las salidas posibles ($2^{n-1}+1$). El **algoritmo cuántico** realiza esta operación en **una** sola pasada.
 
-## Versión Reducida
+## Deutsch-Jozsa reducido
 
-Se plantea en un principio una versión reducida del problema, donde la función que se evalua posee una única entrada:
+Se plantea en un principio una versión reducida del problema, llamado el problema de Deutsch, donde la función que se evalúa posee una única entrada:
 
 ```math
 f: \{0,1\} \rightarrow \{0,1\}
 ```
 
-Esto permite simplificar el algoritmo en su unidad más básica, favoreciendo a que se comprenda el problema que resuelve el algoritmo. Posteriormente se explicará una versión completa del algoritmo para una función con $n$ entradas.
+Esto permite simplificar el algoritmo en su unidad más básica, favoreciendo a que se comprenda el problema que resuelve el algoritmo. Posteriormente se explicará la versión completa del algoritmo de Deutsch-Jozsa para una función con $n$ entradas.
 
 ### Solución
 
@@ -57,12 +57,12 @@ Una solución posible al problema reducido definido previamente puede ser el sig
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/deutsch-jozsa-simple.png`}
-    alt='Algoritmo Deutsch-Jozsa en un circuito con separadores ante la aplicación de cada compuerta.'
+    alt='Algoritmo Deutsch en un circuito con separadores ante la aplicación de cada compuerta.'
     width='455'
     height='220'
   />
   <span style='width:504px; padding:10px 40px'>
-    **Figura (1):** Algoritmo Deutsch-Jozsa en un circuito con separadores ante
+    **Figura (1):** Algoritmo Deutsch en un circuito con separadores ante
     la aplicación de cada compuerta.
   </span>
 </div>
@@ -117,17 +117,17 @@ Sea $f$ una función constante, un circuito posible que actue como función cons
 
 Notar que si $x=0$ (primer qubit en el circuito de la izquierda), el resultado de la función $f(x)$ (segundo qubit) es $0$, y de la misma manera si $x=1$ (circuito de la derecha) la salida de $f(x)$ sigue siendo $0$, es decir que $f(0)=f(1)=0$.
 
-Por lo que si introducimos esta función/circuito dentro del algoritmo de Deutsch-Jozsa la salida debe ser $\ket{0}$, gráficamente se observaría de la siguiente manera:
+Por lo que si introducimos esta función/circuito dentro del algoritmo de Deutsch la salida debe ser $\ket{0}$, gráficamente se observaría de la siguiente manera:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/deutsch-aplicado-constante.png`}
-    alt='Algoritmo Deutsch-Jozsa en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función constante en vez del oráculo.'
+    alt='Algoritmo Deutsch en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función constante en vez del oráculo.'
     width='455'
     height='220'
   />
   <span style='width:504px; padding:10px 40px'>
-    **Figura (3):** Algoritmo Deutsch-Jozsa en un gráfico con separadores ante
+    **Figura (3):** Algoritmo Deutsch en un gráfico con separadores ante
     la aplicación de cada compuerta, utilizando la función constante en vez del
     oráculo.
   </span>
@@ -160,7 +160,7 @@ Por otra parte si se desea implementar el algoritmo en **Qiskit** con este mismo
   title='Qiskit | Deutsch con función constante'
 />
 
-Otros ejemplos de funciones constantes pueden ser aquellos que niegan ante cualquier input, aplicando una compuerta <a href={`${import.meta.env.BASE_URL}/gates/pauli-x`}>Pauli-X</a>, una vez a su salida. Otra función posible es aquellos que aplican la compuerta dos veces a la salida, otra tres veces, etcétera.
+La función descrita previamente era constante y retornaba 0 ante cualquier input. Otro ejemplo de función constante es aquella que siempre retorna 1 como salida, esta se puede implementar por ejemplo aplicando una compuerta Pauli-X a la salida.
 
 #### Funciones Balanceadas
 
@@ -182,17 +182,17 @@ Sea $f$ una función balanceada, un circuito posible que representa una función
 
 Notar que si $x=0$ (primer qubit en el circuito de la izquierda), el resultado de la función $f(x)$ (segundo qubit) es $0$, y si $x=1$ (circuito de la derecha) la salida de $f(x)$ es $1$, es decir que $f(0)\neq f(1)$.
 
-Si introducimos esta función/circuito dentro del algoritmo de Deutsch-Jozsa la salida, a diferencia del previo, debe ser $\ket{1}$, gráficamente se observaria de la siguiente manera:
+Si introducimos esta función/circuito dentro del algoritmo de Deutsch la salida, a diferencia del previo, debe ser $\ket{1}$, gráficamente se observaria de la siguiente manera:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/deutsch-aplicado-balanceada.png`}
-    alt='Algoritmo Deutsch-Jozsa en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función balanceada en vez del oráculo.'
+    alt='Algoritmo Deutsch en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función balanceada en vez del oráculo.'
     width='455'
     height='220'
   />
   <span style='width:504px; padding:10px 40px'>
-    **Figura (5):** Algoritmo Deutsch-Jozsa en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función balanceada en vez del oráculo.
+    **Figura (5):** Algoritmo Deutsch en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función balanceada en vez del oráculo.
   </span>
 </div>
 
@@ -212,7 +212,7 @@ Nuevamente desarrollando paso a paso los estados de los qubits en cada separador
 
 Una derivación del paso $\psi_3$ se puede encontrar en las <a href={`${import.meta.env.BASE_URL}/proofs/cnot`}>pruebas matemáticas de CNOT</a>. De la misma manera se elimina el $\ket{-}$ ya que no se utiliza en la medición.
 
-Esto determina que, para este ejemplo de función balanceada, se deriva al resultado correcto, es decir que el circuito con $CNOT$ deriva en el resultado $\ket{1}$. También se puede observar en el simulador como cambió el estado de _"Off"_ a _"On"_.
+Esto determina que, para este ejemplo de función balanceada, se deriva al resultado correcto, es decir que el circuito con <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> deriva en el resultado $\ket{1}$. También se puede observar en el simulador como cambió el estado de _"Off"_ a _"On"_.
 
 <QuantumCircuit src={deutsch_cx_url} />
 
@@ -225,7 +225,7 @@ Por otra parte si se desea implementar el algoritmo en **Qiskit** con este mismo
   title='Qiskit | Deutsch con CNOT'
 />
 
-Otros ejemplos de funciones balanceadas pueden ser aquellos circuitos que aplican dos veces una compuerta <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a>. Otra función posible es aquellos que aplican la compuerta tres veces a la salida, otra cuatro veces, etcétera.
+La función descrita previamente era balanceada retornando el mismo valor que el input (función identidad). Otro ejemplo de función balanceada es aquella que siempre retorna el opuesto de la entrada como salida (función de opuesto), esta se puede implementar, por ejemplo, aplicando una compuerta Pauli-X a la salida luego de haber aplicado un CNOT.
 
 ## Más información
 
@@ -240,3 +240,5 @@ Otros ejemplos de funciones balanceadas pueden ser aquellos circuitos que aplica
     "Quantum Computing Course: 3.4 Deutsch-Jozsa Algorithm" (Quantum Soar)
     [Inglés]
   </a>
+- Páginas 32-36, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
+- Páginas 302-303, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
