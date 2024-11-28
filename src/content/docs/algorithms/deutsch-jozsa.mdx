@@ -269,12 +269,50 @@ Analizaremos paso a paso el estado de los qubits segun los separadores provistos
 \psi_2=&U_f\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
 =&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
 \psi_3=&H^{\otimes n}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
-=&\sum_{z\in\{0,1\}^n}\left(\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x \cdot z}\right)\ket{z}
+=&\sum_{z\in\{0,1\}^n} \left(\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot z}\right) \ket{z}\\
+\end{align}
+```
+Un desarrollo elaborado se puede observar dentro de las <a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#desarrollo-elaborado-de-la-versión-completa`}>pruebas matemáticas</a>. Finalmente si medimos la amplitud del estado donde $\ket{z}$ es $\ket{0}^{\otimes{n}}$:
+```math
+\begin{gather}
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot 00\ldots 0}\right|^2=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2\\
+\end{gather}
+```
+Estas amplitudes tienen diferentes resultados según si $f$ es constante o balanceada, por un lado si es ***constante***:
+```math
+\begin{align}
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} \pm 1 \right|^2&=|\pm(\frac{1}{2^n}2^n)|^2 \\
+&=|\pm 1|^2\\
+&=1\\
+\end{align}
+```
+Por otro lado si es ***balanceada***:
+```math
+\begin{align}
+\left|\frac{1}{2^n}\left(\overbrace{(-1)^0}^{k\text{ veces}}+\overbrace{(-1)^1}^{k\text{ veces}}\right)\right|^2&=\left|\frac{1}{2^n}(1k-1k)\right| & \text{siendo }k=2^{n-1}\\
+&=\left|\frac{1}{2^n}0\right|^2\\
+&=0
 \end{align}
 ```
 
+
+Ahora, a diferencia del algoritmo previo, se puede reemplazar $U_f$ con un circuito que represente una función constante o una función balanceada con $n$ entradas, en caso de ser del primer tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $1$, y en caso de ser del segundo tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $0$.
+
+
 ## Más información
 
+- Páginas 32-36, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
+- Páginas 302-303, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
+- <a href="https://eprint.iacr.org/2018/249.pdf" target="_blank">Analysis of Deutsch-Jozsa Quantum Algorithm (Zhengjun Cao, Lihua Liu) [Inglés]</a>
+- <a href="https://www.cl.cam.ac.uk/teaching/1920/QuantComp/Quantum_Computing_Lecture_7.pdf" target="_blank">Quantum Computing (CST Part II) Lecture 7: Deutsch-Jozsa algorithm (Cambridge) [Inglés]</a>
+- <a href='https://www.youtube.com/watch?v=pC2XRXInHnc' target='_blank'>
+    "Quantum Computing Course: 3.4 Deutsch-Jozsa Algorithm" (Quantum Soar)
+    [Inglés]
+  </a>
+- <a href='https://youtu.be/2wticzHE1vs?si=0kdqs3NTdlArLUPW&t=1328' target='_blank'>
+    "Quantum Query Algorithms | Understanding Quantum Information & Computation - Lesson 05" (Qiskit)
+    [Inglés]
+  </a>
 - <a href='https://www.youtube.com/watch?v=eE7eumEZOSE' target='_blank'>
     "Consulting the (phase) oracle" (Chris Ferrie) [Inglés]
   </a>
@@ -282,9 +320,5 @@ Analizaremos paso a paso el estado de los qubits segun los separadores provistos
     "Deutsch Jozsa Algorithm - Quantum Computer Programming w/ Qiskit p.3"
     (sentdex) [Inglés]
   </a>
-- <a href='https://www.youtube.com/watch?v=pC2XRXInHnc' target='_blank'>
-    "Quantum Computing Course: 3.4 Deutsch-Jozsa Algorithm" (Quantum Soar)
-    [Inglés]
-  </a>
-- Páginas 32-36, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
-- Páginas 302-303, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
+
+
