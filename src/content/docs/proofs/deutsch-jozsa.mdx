@@ -101,23 +101,22 @@ H^{\otimes 2}\ket{0}^{\otimes 2}=&\frac{\ket{0}+\ket{1}}{\sqrt{2}}\frac{\ket{0}+
 ```
 Notar que en este caso $\sum_{x \in \{0,1\}^2} \ket{x}$ denota la suma de todas las combinaciones de largo $2$, por lo que el caso general (cuando es $n$) es el siguiente:
 ```math
-H^{\otimes n}\ket{0}^{\otimes n}=\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^2}\ket{x}
+H^{\otimes n}\ket{0}^{\otimes n}=\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n}\ket{x}
 ```
 Finalmente $\psi_1$ toma el valor:
 ```math
-\psi_1=\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^2}\ket{x}\ket{-}
+\psi_1=\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n}\ket{x}\ket{-}
 ```
 Luego seguimos con $\psi_2$:
 ```math
 \begin{align}
 \psi_2=&U_f\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
 =&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} U_f\ket{x}\ket{-}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\ket{-}\\
 =&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
 \end{align}
 ```
-
-
-Por último detallaremos el estado $\psi_3$:
+En el último paso eliminamos $\ket{-}$ para simplificar los cálculos ya que no se utiliza en la medición y no interfiere con el resto del algoritmo. Por último detallaremos el estado $\psi_3$:
 ```math
 \begin{align}
 \psi_3=&H^{\otimes n}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
@@ -158,10 +157,10 @@ Finalmente reemplazando en $\psi_3$:
 \begin{align}
 \psi_3=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}H^{\otimes n}\ket{x}\\
 =&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\left[\frac{1}{\sqrt{2^n}}\sum_{z\in\{0,1\}^n} (-1)^{x\cdot z} \ket{z}\right]\\
-=&\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\left[\sum_{z\in\{0,1\}^n} (-1)^{x\cdot z} \ket{z}\right]\\
-=&\frac{1}{2^n}\sum_{x\in\{0,1\}^n} \sum_{z\in\{0,1\}^n} (-1)^{f(x)}(-1)^{x\cdot z} \ket{z}\\
-=&\frac{1}{2^n}\sum_{x\in\{0,1\}^n} \sum_{z\in\{0,1\}^n} (-1)^{f(x)+x\cdot z} \ket{z}\\
-=&\frac{1}{2^n}\sum_{z\in\{0,1\}^n} \left(\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot z}\right) \ket{z}\\
+=&\sum_{x\in\{0,1\}^n}\frac{1}{2^n} (-1)^{f(x)}\left[\sum_{z\in\{0,1\}^n} (-1)^{x\cdot z} \ket{z}\right]\\
+=&\sum_{x\in\{0,1\}^n}\frac{1}{2^n} \sum_{z\in\{0,1\}^n} (-1)^{f(x)}(-1)^{x\cdot z} \ket{z}\\
+=&\sum_{x\in\{0,1\}^n}\frac{1}{2^n} \sum_{z\in\{0,1\}^n} (-1)^{f(x)+x\cdot z} \ket{z}\\
+=&\sum_{z\in\{0,1\}^n} \left(\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot z}\right) \ket{z}\\
 \end{align}
 ```
 
