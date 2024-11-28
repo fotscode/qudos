@@ -4,6 +4,7 @@ title: 'Pruebas Matemáticas de Deutsch-Jozsa'
 ---
 
 import { Image } from 'astro:assets'
+import { Aside } from '@astrojs/starlight/components'
 
 ## Desarrollo elaborado de la versión reducida
 
@@ -63,3 +64,115 @@ H\ket{-}=\ket{1} & \text{si \(f(0) \neq f(1)\)}
 \end{cases}
 \end{align}
 ```
+
+## Desarrollo elaborado de la versión completa
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/deutsch-jozsa-completo.png`}
+    alt='Algoritmo Deutsch-Jozsa en un circuito con separadores ante la aplicación de cada compuerta.'
+    width='455'
+    height='182'
+  />
+  <span style='width:504px; padding:10px 40px'>
+    **Figura (6):** Algoritmo Deutsch-Jozsa en un circuito con separadores ante
+    la aplicación de cada compuerta.
+  </span>
+</div>
+
+Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
+```math
+\begin{align}
+\psi_0=&\ket{0}^{\otimes n}\ket{-}\\
+\psi_1=&H^{\otimes n}\ket{0}^{\otimes n}\ket{-}\\
+=&\underbrace{H\ket{0}H\ket{0}\ldots H\ket{0}}_{n\text{ veces}}\ket{-}\\
+=&\underbrace{\ket{++\ldots +}}_{n\text{ veces}}\ket{-}\\
+=&\underbrace{\frac{\ket{0}+\ket{1}}{\sqrt{2}}\frac{\ket{0}+\ket{1}}{\sqrt{2}}\ldots\frac{\ket{0}+\ket{1}}{\sqrt{2}}}_{n\text{ veces}}\ket{-}\\
+\end{align}
+```
+Para obtener una versión genérica de $\psi_1$ encontramos la secuencia utilizando ejemplos, por ejemplo el valor de $\psi_1$ en caso de que $n=2$:
+```math
+\begin{align}
+H^{\otimes 2}\ket{0}^{\otimes 2}=&\frac{\ket{0}+\ket{1}}{\sqrt{2}}\frac{\ket{0}+\ket{1}}{\sqrt{2}}\ket{-}\\
+=&\frac{1}{\sqrt{2^2}}(\ket{0}+\ket{1})\otimes(\ket{0}+\ket{1})\\
+=&\frac{1}{\sqrt{2^2}}(\ket{00}+\ket{01}+\ket{10}+\ket{11})\\
+=&\frac{1}{\sqrt{2^2}}\sum_{x \in \{0,1\}^2} \ket{x}
+\end{align}
+```
+Notar que en este caso $\sum_{x \in \{0,1\}^2} \ket{x}$ denota la suma de todas las combinaciones de largo $2$, por lo que el caso general (cuando es $n$) es el siguiente:
+```math
+H^{\otimes n}\ket{0}^{\otimes n}=\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^2}\ket{x}
+```
+Finalmente $\psi_1$ toma el valor:
+```math
+\psi_1=\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^2}\ket{x}\ket{-}
+```
+Luego seguimos con $\psi_2$:
+```math
+\begin{align}
+\psi_2=&U_f\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} U_f\ket{x}\ket{-}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
+\end{align}
+```
+
+
+Por último detallaremos el estado $\psi_3$:
+```math
+\begin{align}
+\psi_3=&H^{\otimes n}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}H^{\otimes n}\ket{x}\\
+\end{align}
+```
+
+Notar que $H^{\otimes n}\ket{x}$ es diferente a $H^{\otimes n}\ket{0}$ definido previamente, este se puede entender como:
+```math
+\begin{align}
+H^{\otimes n}\ket{x}&=H\ket{x_0x_1x_2 \ldots x_{n-1}}\\
+&=H\ket{x_0}H\ket{x_1} \ldots H\ket{x_{n-1}}\\
+H\ket{x_i}&=\frac{1}{\sqrt{2}}(\ket{0}+(-1)^{x_i}\ket{1})\quad\text{donde }x_i\in\{0,1\}
+\end{align}
+```
+Analogamente a $\psi_1$ para encontrar una versión genérica de $\psi_3$ encontramos la secuencia utilizando un ejemplo, por ejemplo si $n=2$:
+```math
+\begin{align}
+H^{\otimes 2}\ket{x}&=H\ket{x_0}H\ket{x_1}\\
+&=\frac{1}{\sqrt{2}}(\ket{0}+(-1)^{x_0}\ket{1})\frac{1}{\sqrt{2}}(\ket{0}+(-1)^{x_1}\ket{1})\\
+&=\frac{1}{\sqrt{2^2}}(\ket{0}+(-1)^{x_0}\ket{1})(\ket{0}+(-1)^{x_1}\ket{1})\\
+&=\frac{1}{\sqrt{2^2}}(\ket{00}+(-1)^{x_1}\ket{01}+(-1)^{x_0}\ket{10}+(-1)^{x_0}(-1)^{x_1}\ket{11})\\
+&=\frac{1}{\sqrt{2^2}}(\ket{00}+(-1)^{x_1}\ket{01}+(-1)^{x_0}\ket{10}+(-1)^{x_0+x_1}\ket{11})\\
+&=\frac{1}{\sqrt{2^2}}(\ket{00}+(-1)^{x\cdot01}\ket{01}+(-1)^{x\cdot 10}\ket{10}+(-1)^{x\cdot 11}\ket{11})\\
+&=\frac{1}{\sqrt{2^2}}\sum_{z\in\{0,1\}^2} (-1)^{x\cdot z} \ket{z}
+\end{align}
+```
+Notar que se convierte $x_1$ al producto escalar $x \cdot 01$, esto se hace para simplificar la ecuación y dado que la operacion $x\cdot 01$ equivale a lo siguiente:
+```math
+x \cdot 01 = x_0x_1 \cdot 01 = x_0(0) + x_1(1) = x_1
+```
+Generalizando la ecuación para $n$:
+```math
+H^{\otimes n}\ket{x}=\frac{1}{\sqrt{2^n}}\sum_{z\in\{0,1\}^n} (-1)^{x\cdot z} \ket{z}
+```
+Finalmente reemplazando en $\psi_3$:
+```math
+\begin{align}
+\psi_3=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}H^{\otimes n}\ket{x}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\left[\frac{1}{\sqrt{2^n}}\sum_{z\in\{0,1\}^n} (-1)^{x\cdot z} \ket{z}\right]\\
+=&\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\left[\sum_{z\in\{0,1\}^n} (-1)^{x\cdot z} \ket{z}\right]\\
+=&\frac{1}{2^n}\sum_{x\in\{0,1\}^n} \sum_{z\in\{0,1\}^n} (-1)^{f(x)}(-1)^{x\cdot z} \ket{z}\\
+=&\frac{1}{2^n}\sum_{x\in\{0,1\}^n} \sum_{z\in\{0,1\}^n} (-1)^{f(x)+x\cdot z} \ket{z}\\
+=&\frac{1}{2^n}\sum_{z\in\{0,1\}^n} \left(\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot z}\right) \ket{z}\\
+\end{align}
+```
+
+<Aside>
+    La identidad definida previamente $H^{\otimes n}\ket{0}^{\otimes n}$, se puede generalizar utilizando la identidad definida con $H^{\otimes n}\ket{x}$ donde $\ket{x}=\ket{0}^{\otimes n}$:
+    ```math
+    \begin{align}
+    H^{\otimes n}\ket{0}^{\otimes n}&=H^{\otimes n}\ket{00\ldots 0}\\
+    H^{\otimes n}\ket{00\ldots 0}&=\frac{1}{\sqrt{2^n}}\sum_{z\in\{0,1\}^n}(-1)^{00\ldots 0\cdot z} \ket{z}\\
+    &=\frac{1}{\sqrt{2^n}}\sum_{z\in\{0,1\}^n}(-1)^0 \ket{z}\\
+    &=\frac{1}{\sqrt{2^n}}\sum_{z\in\{0,1\}^n}\ket{z}
+    \end{align}
+    ```
+</Aside>
