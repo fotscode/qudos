@@ -106,6 +106,10 @@ export default defineConfig({
                             label: 'CNOT',
                             slug: 'proofs/cnot',
                         },
+                        {
+                            label: 'Deutsch-Jozsa',
+                            slug: 'proofs/deutsch-jozsa',
+                        },
                     ],
                     translations: {
                         en: 'Math proofs',

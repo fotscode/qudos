@@ -1,7 +1,7 @@
 ---
 layout: '@layouts/math.astro'
 title: Algoritmo de Deutsch-Jozsa
-description: Un analisis profundo sobre el algoritmo de Deutsch-Jozsa, sus componentes y sus implicaciones en la computación cuantica.
+description: Un analisis profundo sobre el algoritmo de Deutsch-Jozsa, sus componentes y sus implicaciones en la computación cuántica.
 ---
 
 import { Image } from 'astro:assets'
@@ -29,43 +29,45 @@ qc.measure(0, 0)
 export const deutsch_none_qiskit = `${deutsch_init_code}# no hace nada${deutsch_end_code}`
 export const deutsch_cx_qiskit = `${deutsch_init_code}qc.cx(0, 1)${deutsch_end_code}`
 
-El algoritmo de Deutsch-Jozsa es uno de los algoritmos mas conocidos en la rama cuantica, es uno de los primeros algoritmos que explota la superposicion y el entrelazamiento. Este mismo motivo a los algoritmos mas famosos como el de Shor o el de Grover, entre muchos mas.
+El algoritmo de Deutsch-Jozsa es uno de los algoritmos más conocidos en la rama cuántica, es uno de los primeros algoritmos cuánticos que es exponencialmente más rapido que su alternativa clásica. Este mismo, motivó a los algoritmos más famosos como el de Shor o el de Grover, entre muchos más.
 
 ## Objetivo
 
-Este algoritmo busca resolver el problema de busqueda de que una función \\(f\\) sea
+Este algoritmo resuelve el problema de búsqueda de que una función \\(f\\) sea
 **constante** o **balanceada**. Una función es constante cuando \\(f\\) ante cualquier
 entrada retorna siempre la misma salida, es decir siempre retorna \\(0\\) o siempre retorna \\(1\\).
 Por otra parte la función es balanceada cuando retorna mitad de veces una salida y mitad de veces otra, es decir retorna \\(n/2\\) veces \\(0\\) y \\(1\\) respectivamente.
 
-El **algoritmo clásico**, implica recorrer al menos mitad de las salidas posibles. El **algoritmo cuantico** realiza esta operación en **una** sola pasada.
+El **algoritmo clásico**, implica recorrer, en el peor de los casos, al menos mitad de las salidas posibles ($2^{n-1}+1$). El **algoritmo cuántico** realiza esta operación en **una** sola pasada.
 
-## Version Reducida
+## Deutsch-Jozsa reducido
 
-### Explicacion Matemática
-
-Para entender mejor el problema se plantea una version reducida del problema, donde la función posee una única entrada:
+Se plantea en un principio una versión reducida del problema, llamado el problema de Deutsch, donde la función que se evalúa posee una única entrada:
 
 ```math
 f: \{0,1\} \rightarrow \{0,1\}
 ```
 
-Una solución posible al problema definido puede ser la siguiente:
+Esto permite simplificar el algoritmo en su unidad más básica, favoreciendo a que se comprenda el problema que resuelve el algoritmo. Posteriormente se explicará la versión completa del algoritmo de Deutsch-Jozsa para una función con $n$ entradas.
+
+### Solución
+
+Una solución posible al problema reducido definido previamente puede ser el siguiente circuito:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/deutsch-jozsa-simple.png`}
-    alt='Algoritmo Deutsch-Jozsa en un gráfico con separadores ante la aplicación de cada compuerta'
+    alt='Algoritmo Deutsch en un circuito con separadores ante la aplicación de cada compuerta.'
     width='455'
     height='220'
   />
   <span style='width:504px; padding:10px 40px'>
-    **Figura (1):** Algoritmo Deutsch-Jozsa en un gráfico con separadores ante
-    la aplicación de cada compuerta
+    **Figura (1):** Algoritmo Deutsch en un circuito con separadores ante
+    la aplicación de cada compuerta.
   </span>
 </div>
 
-En este circuito cuantico se utilizan las compuertas Pauli X, <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> y un oráculo \\(U_f\\) que es un oráculo de fase. Notar que el oráculo de fase se encuentra asociado a \\(f\\) que estamos analizando si es constante/balanceada.
+En este circuito cuántico se utilizan las compuertas <a href={`${import.meta.env.BASE_URL}/gates/pauli-x`}>Pauli X</a>, <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> y un <a href={`${import.meta.env.BASE_URL}/concepts/oracles`}>oráculo</a> \\(U_f\\) que es un oráculo de fase. Notar que el oráculo de fase se encuentra asociado a \\(f\\), que es la función que estamos analizando si es constante/balanceada.
 
 Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
 
@@ -74,38 +76,8 @@ Analizaremos paso a paso el estado de los qubits segun los separadores provistos
 \psi_0=&\ket{00}\\
 \psi_1=&\ket{01}\\
 \psi_2=&\ket{+-}\\
-=&\frac{1}{\sqrt{2}}(\ket{0}\ket{-}+\ket{1}\ket{-})\\
-\psi_3=&U_f\frac{1}{\sqrt{2}}(\ket{0}\ket{-}+\ket{1}\ket{-})\\
-=&\frac{1}{\sqrt{2}}(U_f\ket{0}\ket{-}+U_f\ket{1}\ket{-})\\
-=&\frac{1}{\sqrt{2}}((-1)^{f(0)}\ket{0}\ket{-}+(-1)^{f(1)}\ket{1}\ket{-})\\
-=&\frac{1}{\sqrt{2}}((-1)^{f(0)}\ket{0}+(-1)^{f(1)}\ket{1})\\
-\end{align}
-```
-
-Notar que en $(8)$ se elimina el qubit \\(\ket{'-'}\\), esto se debe a que el segundo qubit, no se mide, ni se utiliza mas en el circuito, por lo que solo estorbaria y por ende se puede prescindir del mismo.
-
-Se analizan los casos posibles, primero en caso de que \\(f\\) sea constante, y luego en caso de que \\(f\\) sea balanceada.
-
-```math
-\begin{align}
-=&\begin{cases}
-\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})=\ket{+} & \text{si \(f(0)=f(1)=0\)}\\
-\frac{1}{\sqrt{2}}(-\ket{0}-\ket{1})=\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})=\ket{+} & \text{si \(f(0)=f(1)=1\)}
-\end{cases}\\
-=&\begin{cases}
-\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})=\ket{-} & \text{si \(f(0)=0, f(1)=1\)}\\
-\frac{1}{\sqrt{2}}(-\ket{0}+\ket{1})=\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})=\ket{-} & \text{si \(f(0)=1, f(1)=0\)}
-\end{cases}
-\end{align}
-```
-
-A su vez en $(9)$ y en $(10)$ se factoriza el $-1$ y como es una fase global se puede prescindir de la misma.
-
-Finalmente aplicar el ultimo paso del circuito es simple
-
-```math
-\begin{align}
-\psi_4=
+\psi_3=&\frac{1}{\sqrt{2}}((-1)^{f(0)}\ket{0}+(-1)^{f(1)}\ket{1})\\
+\psi_4=&
 \begin{cases}
 H\ket{+}=\ket{0} & \text{si \(f(0)=f(1)\)}\\
 H\ket{-}=\ket{1} & \text{si \(f(0) \neq f(1)\)}
@@ -113,9 +85,17 @@ H\ket{-}=\ket{1} & \text{si \(f(0) \neq f(1)\)}
 \end{align}
 ```
 
-La idea básica del algoritmo es poder reemplazar $U_f$ con un circuito, si este circuito es una función constante la salida del primer Qubit va a ser $\ket{0}$, por otra parte en caso de que el circuito represente una funcion balanceada retornará $\ket{1}$.
+Un desarrollo elaborado se puede observar dentro de las <a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#desarrollo-elaborado-de-la-versión-reducida`}>pruebas matemáticas</a>.
+
+La idea básica del algoritmo es poder reemplazar $U_f$ con un circuito, si este circuito representa una función constante, la salida del primer Qubit va a ser $\ket{0}$. Por otra parte, en caso de que el circuito represente una función balanceada, retornará $\ket{1}$.
 
 ### Ejemplos
+
+En estos ejemplos se definirán circuitos que representan tanto funciones constantes como balanceadas. Estos circuitos reemplazarán el oráculo definido previamente que abstraía la función a analizar.
+
+<Aside>
+    Estos ejemplos tienen como objetivo definir una función para demostrar que el algoritmo funciona para un caso, mientras que la versión genérica abarca todos los casos.
+</Aside>
 
 #### Funciones Constantes
 
@@ -124,36 +104,36 @@ Sea $f$ una función constante, un circuito posible que actue como función cons
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/deutsch-fn-constante.png`}
-    alt='Circuito con dos qubits, siendo el primero la entrada de la función y el segundo su correspondiente salida. Denota una función constante donde f(x)=0'
+    alt='Circuito con dos qubits, siendo el primero la entrada de la función y el segundo su correspondiente salida. Denota una función constante donde f(x)=0.'
     width='504'
     height='109'
   />
   <span style='width:504px; padding:10px 40px'>
     **Figura (2):** Circuito con dos qubits, siendo el primero la entrada de la
     función y el segundo su correspondiente salida. Denota una función constante
-    donde f(x)=0
+    donde $f(x)=0$.
   </span>
 </div>
 
-Notar que si $x=0$ (primer qubit en el circuito de la izquierda), el resultado de la funcion $f(x)$ (segundo qubit) es $0$, y de la misma manera si $x=1$ (circuito de la derecha) la salida de $f(x)$ sigue siendo $0$, es decir que $f(0)=f(1)=0$.
+Notar que si $x=0$ (primer qubit en el circuito de la izquierda), el resultado de la función $f(x)$ (segundo qubit) es $0$, y de la misma manera si $x=1$ (circuito de la derecha) la salida de $f(x)$ sigue siendo $0$, es decir que $f(0)=f(1)=0$.
 
-Por lo que si introducimos esta función/circuito dentro del algoritmo de Deutsch-Jozsa la salida debe ser $\ket{0}$, graficamente se observaria de la siguiente manera:
+Por lo que si introducimos esta función/circuito dentro del algoritmo de Deutsch la salida debe ser $\ket{0}$, gráficamente se observaría de la siguiente manera:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/deutsch-aplicado-constante.png`}
-    alt='Algoritmo Deutsch-Jozsa en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función constante en vez del oráculo.'
+    alt='Algoritmo Deutsch en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función constante en vez del oráculo.'
     width='455'
     height='220'
   />
   <span style='width:504px; padding:10px 40px'>
-    **Figura (3):** Algoritmo Deutsch-Jozsa en un gráfico con separadores ante
+    **Figura (3):** Algoritmo Deutsch en un gráfico con separadores ante
     la aplicación de cada compuerta, utilizando la función constante en vez del
     oráculo.
   </span>
 </div>
 
-Desarrollando paso a paso el estado de los qubits segun los separadores provistos:
+Desarrollando paso a paso el estado de los qubits según los separadores provistos:
 
 ```math
 \begin{align}
@@ -165,13 +145,13 @@ Desarrollando paso a paso el estado de los qubits segun los separadores provisto
 \end{align}
 ```
 
-En $(15)$ se elimina el $\ket{-}$ por la misma razon que fue explicada en $(8)$. Llegamos rapidamente a que, con este ejemplo de función constante, se deriva correctamente al resultado de $\ket{0}$
+Se elimina el $\ket{-}$ ya que no es utilizado en la medición. Con este resultado llegamos rapidamente a que, con este ejemplo de función constante, se deriva correctamente al resultado de $\ket{0}$.
 
 El simulador de <a target="_blank" href="https://algassert.com/quirk">Quirk</a>, nos permite emular y observar en sus diferentes representaciones el circuito presentado previamente.
 
 <QuantumCircuit src={deutsch_none_url} />
 
-El codigo equivalente en **Qiskit** es el siguiente:
+Por otra parte si se desea implementar el algoritmo en **Qiskit** con este mismo oráculo de ejemplo, un código equivalente es el siguiente:
 
 <Code
   code={deutsch_none_qiskit}
@@ -180,9 +160,11 @@ El codigo equivalente en **Qiskit** es el siguiente:
   title='Qiskit | Deutsch con función constante'
 />
 
+La función descrita previamente era constante y retornaba 0 ante cualquier input. Otro ejemplo de función constante es aquella que siempre retorna 1 como salida, esta se puede implementar por ejemplo aplicando una compuerta Pauli-X a la salida.
+
 #### Funciones Balanceadas
 
-Sea $f$ una funcion balanceada, un circuito posible que representa una función balanceada es utilizando una compuerta CNOT.
+Sea $f$ una función balanceada, un circuito posible que representa una función balanceada es utilizando una compuerta CNOT.
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -198,19 +180,19 @@ Sea $f$ una funcion balanceada, un circuito posible que representa una función 
   </span>
 </div>
 
-Notar que si $x=0$ (primer qubit en el circuito de la izquierda), el resultado de la funcion $f(x)$ (segundo qubit) es $0$, y si $x=1$ (circuito de la derecha) la salida de $f(x)$ es $1$, es decir que $f(0)\neq f(1)$.
+Notar que si $x=0$ (primer qubit en el circuito de la izquierda), el resultado de la función $f(x)$ (segundo qubit) es $0$, y si $x=1$ (circuito de la derecha) la salida de $f(x)$ es $1$, es decir que $f(0)\neq f(1)$.
 
-Si introducimos esta función/circuito dentro del algoritmo de Deutsch-Jozsa la salida, a diferencia del previo, debe ser $\ket{1}$, graficamente se observaria de la siguiente manera:
+Si introducimos esta función/circuito dentro del algoritmo de Deutsch la salida, a diferencia del previo, debe ser $\ket{1}$, gráficamente se observaria de la siguiente manera:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/deutsch-aplicado-balanceada.png`}
-    alt='Algoritmo Deutsch-Jozsa en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función balanceada en vez del oráculo.'
+    alt='Algoritmo Deutsch en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función balanceada en vez del oráculo.'
     width='455'
     height='220'
   />
   <span style='width:504px; padding:10px 40px'>
-    **Figura (5):** Algoritmo Deutsch-Jozsa en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función balanceada en vez del oráculo.
+    **Figura (5):** Algoritmo Deutsch en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función balanceada en vez del oráculo.
   </span>
 </div>
 
@@ -222,25 +204,19 @@ Nuevamente desarrollando paso a paso los estados de los qubits en cada separador
 \psi_1=&\ket{01}\\
 \psi_2=&\ket{+-}\\
 \psi_3=&CNOT\ket{+-}\\
-=&CNOT\frac{1}{2}\left((\ket{0}+\ket{1})\otimes(\ket{0}-\ket{1})\right)\\
-=&CNOT\frac{1}{2}\left(\ket{00}-\ket{01}+\ket{10}-\ket{11}\right)\\
-=&\frac{1}{2}\left(CNOT\ket{00}-CNOT\ket{01}+CNOT\ket{10}-CNOT\ket{11}\right)\\
-=&\frac{1}{2}\left(\ket{00}-\ket{01}+\ket{11}-\ket{10}\right)\\
-=&\frac{1}{2}\left(\ket{00}-\ket{01}-\ket{10}+\ket{11}\right)\\
-=&\frac{1}{2}\left((\ket{0}-\ket{1})\otimes(\ket{0}-\ket{1})\right)\\
-=&\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\\
-=&\ket{-}\otimes\ket{-}\\
-=&\ket{--}\\
+      =&\ket{--}\\
 \psi_4=&\ket{1-}\\
 =&\ket{1}
 \end{align}
 ```
 
-Esto determina que se deriva al resultado correcto, es decir que la funcion con $CNOT$ deriva en el resultado $\ket{1}$ de una función balanceada. También se puede observar en el simulador como cambio el estado de _"Off"_ a _"On"_.
+Una derivación del paso $\psi_3$ se puede encontrar en las <a href={`${import.meta.env.BASE_URL}/proofs/cnot`}>pruebas matemáticas de CNOT</a>. De la misma manera se elimina el $\ket{-}$ ya que no se utiliza en la medición.
+
+Esto determina que, para este ejemplo de función balanceada, se deriva al resultado correcto, es decir que el circuito con <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> deriva en el resultado $\ket{1}$. También se puede observar en el simulador como cambió el estado de _"Off"_ a _"On"_.
 
 <QuantumCircuit src={deutsch_cx_url} />
 
-El mismo ejemplo utilizando Qiskit es el siguiente:
+Por otra parte si se desea implementar el algoritmo en **Qiskit** con este mismo oráculo de ejemplo, un código equivalente es el siguiente:
 
 <Code
   code={deutsch_cx_qiskit}
@@ -249,14 +225,91 @@ El mismo ejemplo utilizando Qiskit es el siguiente:
   title='Qiskit | Deutsch con CNOT'
 />
 
-<Aside>
-  Esta implementación del algoritmo es una de muchas, es decir, puede ser
-  reemplazada por algoritmos equivalentes con compuertas diferentes que llevan
-  al mismo destino
-</Aside>
+La función descrita previamente era balanceada retornando el mismo valor que el input (función identidad). Otro ejemplo de función balanceada es aquella que siempre retorna el opuesto de la entrada como salida (función de opuesto), esta se puede implementar, por ejemplo, aplicando una compuerta Pauli-X a la salida luego de haber aplicado un CNOT.
+
+## Deutsch-Jozsa completo
+
+El problema que resuelve el algoritmo de Deutsch-Jozsa es la generalización del algoritmo previo para funciones con $n$ entradas:
+
+```math
+f: \{0,1\}^n \rightarrow \{0,1\}
+```
+
+### Solución
+
+El algoritmo de Deutsch-Jozsa se describe de forma genérica con el siguiente circuito:
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/deutsch-jozsa-completo.png`}
+    alt='Algoritmo Deutsch-Jozsa en un circuito con separadores ante la aplicación de cada compuerta.'
+    width='455'
+    height='182'
+  />
+  <span style='width:504px; padding:10px 40px'>
+    **Figura (6):** Algoritmo Deutsch-Jozsa en un circuito con separadores ante
+    la aplicación de cada compuerta.
+  </span>
+</div>
+
+Este mantiene una estructura similar al algoritmo de Deutsch planteado en la figura 1 pero con algunos cambios:
+
+- Se reemplaza el segundo qubit de $\ket{0}$ a $\ket{-}$, esto es equivalente a aplicar una compuerta Pauli-X y Hadamard pero se evitó para tener una mayor legibilidad.
+
+- Se generaliza el qubit de entrada a $n$ qubits que representan los valores de entrada, esto esta representado por el símbolo / $^n$ previo a $\psi_0$.
+
+- Se aplican las compuertas Hadamard a los $n$ qubits de entrada y el oráculo es aplicado a los $n$ qubits de entrada y al qubit que representa la salida de la función.
+
+Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=3\\):
+```math
+\begin{align}
+\psi_0=&\ket{0}^{\otimes n}\ket{-}\\
+\psi_1=&H^{\otimes n}\ket{0}^{\otimes n}\ket{-}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
+\psi_2=&U_f\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
+\psi_3=&H^{\otimes n}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
+=&\sum_{z\in\{0,1\}^n} \left(\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot z}\right) \ket{z}\\
+\end{align}
+```
+Un desarrollo elaborado de los pasos se puede observar dentro de las <a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#desarrollo-elaborado-de-la-versión-completa`}>pruebas matemáticas</a>. Finalmente si medimos la amplitud del estado $\psi_3$ donde $\ket{z}$ es $\ket{0}^{\otimes{n}}$ (<a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#mediciones`}>ver desarrollo</a>):
+```math
+\begin{gather}
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot 00\ldots 0}\right|^2=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2\\
+\end{gather}
+```
+Estas amplitudes convergen en diferentes resultados según si $f$ es constante o balanceada, por un lado si es ***constante*** (<a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#función-constante`}>ver prueba completa</a>):
+```math
+\begin{align}
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2=1
+\end{align}
+```
+Por otro lado si es ***balanceada*** (<a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#función-balanceada`}>ver prueba completa</a>):
+```math
+\begin{align}
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2=0
+\end{align}
+```
+
+
+
+Ahora, a diferencia del algoritmo previo, se puede reemplazar $U_f$ con un circuito que represente una función constante o una función balanceada con $n$ entradas, en caso de ser del primer tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $1$, y en caso de ser del segundo tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $0$.
+
 
 ## Más información
 
+- Páginas 32-36, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
+- Páginas 302-303, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
+- <a href="https://eprint.iacr.org/2018/249.pdf" target="_blank">Analysis of Deutsch-Jozsa Quantum Algorithm (Zhengjun Cao, Lihua Liu) [Inglés]</a>
+- <a href="https://www.cl.cam.ac.uk/teaching/1920/QuantComp/Quantum_Computing_Lecture_7.pdf" target="_blank">Quantum Computing (CST Part II) Lecture 7: Deutsch-Jozsa algorithm (Cambridge) [Inglés]</a>
+- <a href='https://www.youtube.com/watch?v=pC2XRXInHnc' target='_blank'>
+    "Quantum Computing Course: 3.4 Deutsch-Jozsa Algorithm" (Quantum Soar)
+    [Inglés]
+  </a>
+- <a href='https://youtu.be/2wticzHE1vs?si=0kdqs3NTdlArLUPW&t=1328' target='_blank'>
+    "Quantum Query Algorithms | Understanding Quantum Information & Computation - Lesson 05" (Qiskit)
+    [Inglés]
+  </a>
 - <a href='https://www.youtube.com/watch?v=eE7eumEZOSE' target='_blank'>
     "Consulting the (phase) oracle" (Chris Ferrie) [Inglés]
   </a>
@@ -264,7 +317,5 @@ El mismo ejemplo utilizando Qiskit es el siguiente:
     "Deutsch Jozsa Algorithm - Quantum Computer Programming w/ Qiskit p.3"
     (sentdex) [Inglés]
   </a>
-- <a href='https://www.youtube.com/watch?v=pC2XRXInHnc' target='_blank'>
-    "Quantum Computing Course: 3.4 Deutsch-Jozsa Algorithm" (Quantum Soar)
-    [Inglés]
-  </a>
+
+
