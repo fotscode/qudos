@@ -80,7 +80,8 @@ H\ket{-}=\ket{1} & \text{si \(f(0) \neq f(1)\)}
   </span>
 </div>
 
-Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
+### Paso 0 y 1
+
 ```math
 \begin{align}
 \psi_0=&\ket{0}^{\otimes n}\ket{-}\\
@@ -107,7 +108,7 @@ Finalmente $\psi_1$ toma el valor:
 ```math
 \psi_1=\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n}\ket{x}\ket{-}
 ```
-Luego seguimos con $\psi_2$:
+### Paso 2
 ```math
 \begin{align}
 \psi_2=&U_f\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
@@ -116,7 +117,9 @@ Luego seguimos con $\psi_2$:
 =&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
 \end{align}
 ```
-En el último paso eliminamos $\ket{-}$ para simplificar los cálculos ya que no se utiliza en la medición y no interfiere con el resto del algoritmo. Por último detallaremos el estado $\psi_3$:
+En el último paso eliminamos $\ket{-}$ para simplificar los cálculos ya que no se utiliza en la medición y no interfiere con el resto del algoritmo.
+### Paso 3
+
 ```math
 \begin{align}
 \psi_3=&H^{\otimes n}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
@@ -175,3 +178,45 @@ Finalmente reemplazando en $\psi_3$:
     \end{align}
     ```
 </Aside>
+
+### Mediciones
+Luego al medir la amplitud de $\psi_3$ donde $\ket{z}$ es $\ket{0}^{\otimes n}$:
+```math
+\begin{align}
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot 00\ldots 0}\right|^2&=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x_0x_1\ldots x_n\cdot 00\ldots 0}\right|^2\\
+&=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x_0(0)+x_1(0)\ldots x_n(0)}\right|^2\\
+&=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+0}\right|^2\\
+&=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2\\
+\end{align}
+```
+
+#### Función constante
+```math
+\begin{align}
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2&=
+\begin{cases}
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{0}\right|^2 & \text{si }f(x)=0\\
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{1}\right|^2 & \text{si }f(x)=1\\
+\end{cases}
+\\
+&=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} \pm 1 \right|^2\\
+&=|\pm\left(\frac{1}{2^n}2^n\right)|^2 \\
+&=|\pm\left(\frac{1}{1}\right)|^2 \\
+&=|\pm 1|^2\\
+&=1\\
+\end{align}
+```
+
+#### Función balanceada
+```math
+\begin{align}
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2&=\left|\frac{1}{2^n}\overbrace{\left((-1)^{f(x)}+(-1)^{f(x)}+\ldots+(-1)^{f(x)}\right)}^{2^n\text{ veces}}\right|^2\\
+&=\left|\frac{1}{2^n}\left(\overbrace{(-1)^0+\ldots+(-1)^0}^{k\text{ veces}}+\overbrace{(-1)^1+\ldots+(-1)^1}^{k\text{ veces}}\right)\right|^2\\
+&=\left|\frac{1}{2^n}\left((-1)^0k+(-1)^1k\right)\right| \\
+&=\left|\frac{1}{2^n}(k-k)\right| \\
+&=\left|\frac{1}{2^n}0\right|^2\\
+&=0
+\end{align}
+```
+Notar que $k=2^{n-1}$, esto representa que la mitad de las salidas ($total=2^n, k=2^n/2$) es $0$ y la otra mitad es $1$, esto es la definición de función balanceada.
+

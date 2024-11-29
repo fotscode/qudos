@@ -260,7 +260,7 @@ Este mantiene una estructura similar al algoritmo de Deutsch planteado en la fig
 
 - Se aplican las compuertas Hadamard a los $n$ qubits de entrada y el oráculo es aplicado a los $n$ qubits de entrada y al qubit que representa la salida de la función.
 
-Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
+Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=3\\):
 ```math
 \begin{align}
 \psi_0=&\ket{0}^{\otimes n}\ket{-}\\
@@ -272,28 +272,25 @@ Analizaremos paso a paso el estado de los qubits segun los separadores provistos
 =&\sum_{z\in\{0,1\}^n} \left(\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot z}\right) \ket{z}\\
 \end{align}
 ```
-Un desarrollo elaborado se puede observar dentro de las <a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#desarrollo-elaborado-de-la-versión-completa`}>pruebas matemáticas</a>. Finalmente si medimos la amplitud del estado donde $\ket{z}$ es $\ket{0}^{\otimes{n}}$:
+Un desarrollo elaborado de los pasos se puede observar dentro de las <a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#desarrollo-elaborado-de-la-versión-completa`}>pruebas matemáticas</a>. Finalmente si medimos la amplitud del estado $\psi_3$ donde $\ket{z}$ es $\ket{0}^{\otimes{n}}$ (<a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#mediciones`}>ver desarrollo</a>):
 ```math
 \begin{gather}
 \left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot 00\ldots 0}\right|^2=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2\\
 \end{gather}
 ```
-Estas amplitudes tienen diferentes resultados según si $f$ es constante o balanceada, por un lado si es ***constante***:
+Estas amplitudes convergen en diferentes resultados según si $f$ es constante o balanceada, por un lado si es ***constante*** (<a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#función-constante`}>ver prueba completa</a>):
 ```math
 \begin{align}
-\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} \pm 1 \right|^2&=|\pm(\frac{1}{2^n}2^n)|^2 \\
-&=|\pm 1|^2\\
-&=1\\
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2=1
 \end{align}
 ```
-Por otro lado si es ***balanceada***:
+Por otro lado si es ***balanceada*** (<a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#función-balanceada`}>ver prueba completa</a>):
 ```math
 \begin{align}
-\left|\frac{1}{2^n}\left(\overbrace{(-1)^0}^{k\text{ veces}}+\overbrace{(-1)^1}^{k\text{ veces}}\right)\right|^2&=\left|\frac{1}{2^n}(1k-1k)\right| & \text{siendo }k=2^{n-1}\\
-&=\left|\frac{1}{2^n}0\right|^2\\
-&=0
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2=0
 \end{align}
 ```
+
 
 
 Ahora, a diferencia del algoritmo previo, se puede reemplazar $U_f$ con un circuito que represente una función constante o una función balanceada con $n$ entradas, en caso de ser del primer tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $1$, y en caso de ser del segundo tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $0$.
