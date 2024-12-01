@@ -2,6 +2,12 @@
 layout: '@layouts/math.astro'
 title: Algoritmo de Deutsch-Jozsa
 description: Un analisis profundo sobre el algoritmo de Deutsch-Jozsa, sus componentes y sus implicaciones en la computación cuántica.
+head:
+    - tag: link
+      attrs: {
+        property: 'og-image',
+        href: /quantum-katas/deutsch-jozsa-simple.png
+      }
 ---
 
 import { Image } from 'astro:assets'
@@ -61,7 +67,7 @@ Una solución posible al problema reducido definido previamente puede ser el sig
     width='455'
     height='220'
   />
-  <span style='width:504px; padding:10px 40px'>
+  <span style='width:455px; padding:10px 40px'>
     **Figura (1):** Algoritmo Deutsch en un circuito con separadores ante
     la aplicación de cada compuerta.
   </span>
@@ -246,7 +252,7 @@ El algoritmo de Deutsch-Jozsa se describe de forma genérica con el siguiente ci
     width='455'
     height='182'
   />
-  <span style='width:504px; padding:10px 40px'>
+  <span style='width:455px; padding:10px 40px'>
     **Figura (6):** Algoritmo Deutsch-Jozsa en un circuito con separadores ante
     la aplicación de cada compuerta.
   </span>
@@ -290,8 +296,6 @@ Por otro lado si es ***balanceada*** (<a href={`${import.meta.env.BASE_URL}/proo
 \left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2=0
 \end{align}
 ```
-
-
 
 Ahora, a diferencia del algoritmo previo, se puede reemplazar $U_f$ con un circuito que represente una función constante o una función balanceada con $n$ entradas, en caso de ser del primer tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $1$, y en caso de ser del segundo tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $0$.
 
