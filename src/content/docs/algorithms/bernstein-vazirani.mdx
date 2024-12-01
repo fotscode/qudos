@@ -8,11 +8,16 @@ head:
       { property: 'og-image', href: /quantum-katas/deutsch-jozsa-simple.png }
 ---
 
-export const bv_example = `https://algassert.com/quirk#circuit=%7B%22cols%22%3A%5B%5B1%2C1%2C1%2C1%2C%22X%22%5D%2C%5B%22H%22%2C%22H%22%2C%22H%22%2C%22H%22%2C%22H%22%5D%2C%5B%22%E2%80%A2%22%2C1%2C1%2C1%2C%22X%22%5D%2C%5B1%2C1%2C%22%E2%80%A2%22%2C1%2C%22X%22%5D%2C%5B%22H%22%2C%22H%22%2C%22H%22%2C%22H%22%5D%2C%5B%22Measure%22%2C%22Measure%22%2C%22Measure%22%2C%22Measure%22%5D%5D%7D`
-
 import { Image } from 'astro:assets'
-import { Tabs, TabItem, Card, Code } from '@astrojs/starlight/components'
+import { Tabs, TabItem, Card, Code, Aside } from '@astrojs/starlight/components'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
+import Box from '@components/Box.astro'
+import { common_deutsch_lib } from '@code-snippets/deutsch-jozsa'
+import {
+  solution_bernstein_vazirani,
+  results_1010_bernstein_vazirani,
+  bv_example
+} from '@code-snippets/bernstein-vazirani'
 
 El algoritmo de Bernstein-Vazirani es un algoritmo basado en el de <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa`}>Deutsch-Jozsa</a> en el cual se resuelve un problema diferente llamado el problema de **_Bernstein-Vazirani_** ó **_Fourier sampling problem_** (el problema de muestreo de Fourier), el cual presenta una base de un problema más grande, presentado por los mismos autores, llamado **_recursive Fourier sampling problem_** (el problema de muestreo de Fourier recursivo).
 
@@ -88,11 +93,43 @@ Por lo que finalmente el estado final del algoritmo (luego de la medición) es $
 
 ### Ejemplos
 
-Sea $s=1010$ la cadena a codificar se modifica el oráculo con una función que codifica este valor oculto, utilizaremos compuertas <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> para codificar la cadena oculta. Este circuito se puede ver de la siguiente manera en el simulador de <a target="_blank" href="https://algassert.com/quirk">Quirk</a>:
+Sea $s=1010$ la cadena a codificar se modifica el oráculo con una función que codifica este valor oculto, utilizaremos compuertas <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> para codificar la cadena oculta.
 
-<QuantumCircuit src={bv_example} />
-
-Notar que el resultado de la medición representa con valores **"On"** aquellos valores que son $1$ y los que son **"Off"** los valores que son $0$, formando la cadena $1010$ si se lee de arriba hacia abajo.
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+      <QuantumCircuit src={bv_example} />
+      <Aside>
+        El resultado de la medición representa con valores **"On"** aquellos
+        valores que son $1$ y los que son **"Off"** los valores que son $0$,
+        formando la cadena $1010$ si se lee de arriba hacia abajo.
+      </Aside>
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+      <Tabs>
+        <TabItem label='Código'>
+          <Code code={solution_bernstein_vazirani} lang='py' />
+        </TabItem>
+        <TabItem label='Resultado'>
+          <Code
+            mark={[`{'0101': 1024}`]}
+            lang='text'
+            code={results_1010_bernstein_vazirani}
+          />
+          <Aside>
+            El órden de la evaluación (la última linea) es de abajo hacia
+            arriba, por lo que el último bit representa el de arriba.
+          </Aside>
+        </TabItem>
+        <TabItem label='Librería común'>
+          <Code lang='py' code={common_deutsch_lib} />
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+</Tabs>
 
 ## Más información
 
