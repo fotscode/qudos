@@ -3,37 +3,30 @@ layout: '@layouts/math.astro'
 title: Algoritmo de Deutsch-Jozsa
 description: Un analisis profundo sobre el algoritmo de Deutsch-Jozsa, sus componentes y sus implicaciones en la computación cuántica.
 head:
-    - tag: link
-      attrs: {
-        property: 'og-image',
-        href: /quantum-katas/deutsch-jozsa-simple.png
-      }
+  - tag: link
+    attrs:
+      { property: 'og-image', href: /quantum-katas/deutsch-jozsa-simple.png }
 ---
 
 import { Image } from 'astro:assets'
-import { Aside } from '@astrojs/starlight/components'
+import { Aside, Code, Tabs, TabItem } from '@astrojs/starlight/components'
 import Math from '@components/Math.astro'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
-import { Code } from '@astrojs/starlight/components'
+import Box from '@components/Box.astro'
 
-export const deutsch_none_url = `https://algassert.com/quirk#circuit=%7B%22cols%22%3A%5B%5B1%2C%22X%22%5D%2C%5B%22H%22%2C%22H%22%5D%2C%5B%22H%22%5D%2C%5B%22Measure%22%5D%5D%7D`
-export const deutsch_cx_url = `https://algassert.com/quirk#circuit=%7B%22cols%22%3A%5B%5B1%2C%22X%22%5D%2C%5B%22H%22%2C%22H%22%5D%2C%5B%22%E2%80%A2%22%2C%22X%22%5D%2C%5B%22H%22%5D%2C%5B%22Measure%22%5D%5D%7D`
-export const deutsch_init_code = `
-regs = [QuantumRegister(2, "q"), ClassicalRegister(1, "c")]
-qc = QuantumCircuit(*regs)
-qc.h(0)
-qc.x(1)
-qc.h(1)
-qc.barrier()
-`
-export const deutsch_end_code = `
-qc.barrier()
-qc.h(0)
-qc.measure(0, 0)
-`
-
-export const deutsch_none_qiskit = `${deutsch_init_code}# no hace nada${deutsch_end_code}`
-export const deutsch_cx_qiskit = `${deutsch_init_code}qc.cx(0, 1)${deutsch_end_code}`
+import {
+  deutsch_none_url,
+  deutsch_cx_url,
+  deutsch_init_code,
+  deutsch_end_code,
+  deutsch_none_qiskit,
+  deutsch_cx_qiskit,
+  deutsch_jozsa_constant_url,
+  deutsch_jozsa_balanced_url,
+  deutsch_jozsa_code,
+  deutsch_jozsa_result_constant,
+  deutsch_jozsa_result_balanced,
+} from '@code-snippets/deutsch-jozsa'
 
 El algoritmo de Deutsch-Jozsa es uno de los algoritmos más conocidos en la rama cuántica, es uno de los primeros algoritmos cuánticos que es exponencialmente más rapido que su alternativa clásica. Este mismo, motivó a los algoritmos más famosos como el de Shor o el de Grover, entre muchos más.
 
@@ -68,8 +61,8 @@ Una solución posible al problema reducido definido previamente puede ser el sig
     height='220'
   />
   <span style='width:455px; padding:10px 40px'>
-    **Figura (1):** Algoritmo Deutsch en un circuito con separadores ante
-    la aplicación de cada compuerta.
+    **Figura (1):** Algoritmo Deutsch en un circuito con separadores ante la
+    aplicación de cada compuerta.
   </span>
 </div>
 
@@ -100,7 +93,9 @@ La idea básica del algoritmo es poder reemplazar $U_f$ con un circuito, si este
 En estos ejemplos se definirán circuitos que representan tanto funciones constantes como balanceadas. Estos circuitos reemplazarán el oráculo definido previamente que abstraía la función a analizar.
 
 <Aside>
-    Estos ejemplos tienen como objetivo definir una función para demostrar que el algoritmo funciona para un caso, mientras que la versión genérica abarca todos los casos.
+  Estos ejemplos tienen como objetivo definir una función para demostrar que el
+  algoritmo funciona para un caso, mientras que la versión genérica abarca todos
+  los casos.
 </Aside>
 
 #### Funciones Constantes
@@ -133,8 +128,8 @@ Por lo que si introducimos esta función/circuito dentro del algoritmo de Deutsc
     height='220'
   />
   <span style='width:504px; padding:10px 40px'>
-    **Figura (3):** Algoritmo Deutsch en un gráfico con separadores ante
-    la aplicación de cada compuerta, utilizando la función constante en vez del
+    **Figura (3):** Algoritmo Deutsch en un gráfico con separadores ante la
+    aplicación de cada compuerta, utilizando la función constante en vez del
     oráculo.
   </span>
 </div>
@@ -153,18 +148,18 @@ Desarrollando paso a paso el estado de los qubits según los separadores provist
 
 Se elimina el $\ket{-}$ ya que no es utilizado en la medición. Con este resultado llegamos rapidamente a que, con este ejemplo de función constante, se deriva correctamente al resultado de $\ket{0}$.
 
-El simulador de <a target="_blank" href="https://algassert.com/quirk">Quirk</a>, nos permite emular y observar en sus diferentes representaciones el circuito presentado previamente.
-
-<QuantumCircuit src={deutsch_none_url} />
-
-Por otra parte si se desea implementar el algoritmo en **Qiskit** con este mismo oráculo de ejemplo, un código equivalente es el siguiente:
-
-<Code
-  code={deutsch_none_qiskit}
-  lang='py'
-  mark={['# no hace nada']}
-  title='Qiskit | Deutsch con función constante'
-/>
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+      <QuantumCircuit src={deutsch_none_url} />
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+      <Code code={deutsch_none_qiskit} lang='py' mark={['# no hace nada']} />
+    </Box>
+  </TabItem>
+</Tabs>
 
 La función descrita previamente era constante y retornaba 0 ante cualquier input. Otro ejemplo de función constante es aquella que siempre retorna 1 como salida, esta se puede implementar por ejemplo aplicando una compuerta Pauli-X a la salida.
 
@@ -198,7 +193,9 @@ Si introducimos esta función/circuito dentro del algoritmo de Deutsch la salida
     height='220'
   />
   <span style='width:504px; padding:10px 40px'>
-    **Figura (5):** Algoritmo Deutsch en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función balanceada en vez del oráculo.
+    **Figura (5):** Algoritmo Deutsch en un gráfico con separadores ante la
+    aplicación de cada compuerta, utilizando la función balanceada en vez del
+    oráculo.
   </span>
 </div>
 
@@ -218,18 +215,24 @@ Nuevamente desarrollando paso a paso los estados de los qubits en cada separador
 
 Una derivación del paso $\psi_3$ se puede encontrar en las <a href={`${import.meta.env.BASE_URL}/proofs/cnot`}>pruebas matemáticas de CNOT</a>. De la misma manera se elimina el $\ket{-}$ ya que no se utiliza en la medición.
 
-Esto determina que, para este ejemplo de función balanceada, se deriva al resultado correcto, es decir que el circuito con <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> deriva en el resultado $\ket{1}$. También se puede observar en el simulador como cambió el estado de _"Off"_ a _"On"_.
+Esto determina que, para este ejemplo de función balanceada, se deriva al resultado correcto, es decir que el circuito con <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> deriva en el resultado $\ket{1}$.
 
-<QuantumCircuit src={deutsch_cx_url} />
-
-Por otra parte si se desea implementar el algoritmo en **Qiskit** con este mismo oráculo de ejemplo, un código equivalente es el siguiente:
-
-<Code
-  code={deutsch_cx_qiskit}
-  lang='py'
-  mark={['qc.cx(0, 1)']}
-  title='Qiskit | Deutsch con CNOT'
-/>
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+      <QuantumCircuit src={deutsch_cx_url} />
+      <Aside>
+        A diferencia del ejemplo previo de función constante, en este, cambió el
+        estado de ***"Off"*** a ***"On"***.
+      </Aside>
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+      <Code code={deutsch_cx_qiskit} lang='py' mark={['qc.cx(0, 1)']} />
+    </Box>
+  </TabItem>
+</Tabs>
 
 La función descrita previamente era balanceada retornando el mismo valor que el input (función identidad). Otro ejemplo de función balanceada es aquella que siempre retorna el opuesto de la entrada como salida (función de opuesto), esta se puede implementar, por ejemplo, aplicando una compuerta Pauli-X a la salida luego de haber aplicado un CNOT.
 
@@ -267,6 +270,7 @@ Este mantiene una estructura similar al algoritmo de Deutsch planteado en la fig
 - Se aplican las compuertas Hadamard a los $n$ qubits de entrada y el oráculo es aplicado a los $n$ qubits de entrada y al qubit que representa la salida de la función.
 
 Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=3\\):
+
 ```math
 \begin{align}
 \psi_0=&\ket{0}^{\otimes n}\ket{-}\\
@@ -278,19 +282,25 @@ Analizaremos paso a paso el estado de los qubits segun los separadores provistos
 =&\sum_{z\in\{0,1\}^n} \left(\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot z}\right) \ket{z}\\
 \end{align}
 ```
+
 Un desarrollo elaborado de los pasos se puede observar dentro de las <a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#desarrollo-elaborado-de-la-versión-completa`}>pruebas matemáticas</a>. Finalmente si medimos la amplitud del estado $\psi_3$ donde $\ket{z}$ es $\ket{0}^{\otimes{n}}$ (<a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#mediciones`}>ver desarrollo</a>):
+
 ```math
 \begin{gather}
 \left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot 00\ldots 0}\right|^2=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2\\
 \end{gather}
 ```
-Estas amplitudes convergen en diferentes resultados según si $f$ es constante o balanceada, por un lado si es ***constante*** (<a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#función-constante`}>ver prueba completa</a>):
+
+Estas amplitudes convergen en diferentes resultados según si $f$ es constante o balanceada, por un lado si es **_constante_** (<a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#función-constante`}>ver prueba completa</a>):
+
 ```math
 \begin{align}
 \left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2=1
 \end{align}
 ```
-Por otro lado si es ***balanceada*** (<a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#función-balanceada`}>ver prueba completa</a>):
+
+Por otro lado si es **_balanceada_** (<a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#función-balanceada`}>ver prueba completa</a>):
+
 ```math
 \begin{align}
 \left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2=0
@@ -299,21 +309,67 @@ Por otro lado si es ***balanceada*** (<a href={`${import.meta.env.BASE_URL}/proo
 
 Ahora, a diferencia del algoritmo previo, se puede reemplazar $U_f$ con un circuito que represente una función constante o una función balanceada con $n$ entradas, en caso de ser del primer tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $1$, y en caso de ser del segundo tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $0$.
 
+### Ejemplos
 
+Sea $f$ una función con 3 entradas y una salida, se debe codificar este oráculo en el circuito de Deutsch-Jozsa.
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <Tabs>
+            <TabItem label='Función constante'>
+                <QuantumCircuit src={deutsch_jozsa_constant_url} />
+            </TabItem>
+            <TabItem label='Función balanceada'>
+                <QuantumCircuit src={deutsch_jozsa_balanced_url}/>
+            </TabItem>
+        </Tabs>
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+        <Tabs>
+            <TabItem label='Código'>
+                <Code lang="py" code={deutsch_jozsa_code}/>
+            </TabItem>
+            <TabItem label='Resultado constante'>
+                <Code lang="py" code={deutsch_jozsa_result_constant}/>
+            </TabItem>
+            <TabItem label='Resultado balanceada'>
+                <Code lang="py" code={deutsch_jozsa_result_balanced}/>
+            </TabItem>
+        </Tabs>
+    </Box>
+  </TabItem>
+
+</Tabs>
 ## Más información
 
 - Páginas 32-36, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
 - Páginas 302-303, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
-- <a href="https://eprint.iacr.org/2018/249.pdf" target="_blank">Analysis of Deutsch-Jozsa Quantum Algorithm (Zhengjun Cao, Lihua Liu) [Inglés]</a>
-- <a href="https://www.cl.cam.ac.uk/teaching/1920/QuantComp/Quantum_Computing_Lecture_7.pdf" target="_blank">Quantum Computing (CST Part II) Lecture 7: Deutsch-Jozsa algorithm (Cambridge) [Inglés]</a>
+- <a href='https://eprint.iacr.org/2018/249.pdf' target='_blank'>
+    Analysis of Deutsch-Jozsa Quantum Algorithm (Zhengjun Cao, Lihua Liu)
+    [Inglés]
+  </a>
+- <a
+    href='https://www.cl.cam.ac.uk/teaching/1920/QuantComp/Quantum_Computing_Lecture_7.pdf'
+    target='_blank'
+  >
+    Quantum Computing (CST Part II) Lecture 7: Deutsch-Jozsa algorithm
+    (Cambridge) [Inglés]
+  </a>
 - <a href='https://www.youtube.com/watch?v=pC2XRXInHnc' target='_blank'>
     "Quantum Computing Course: 3.4 Deutsch-Jozsa Algorithm" (Quantum Soar)
     [Inglés]
   </a>
-- <a href='https://youtu.be/2wticzHE1vs?si=0kdqs3NTdlArLUPW&t=1328' target='_blank'>
-    "Quantum Query Algorithms | Understanding Quantum Information & Computation - Lesson 05" (Qiskit)
-    [Inglés]
+- <a
+    href='https://youtu.be/2wticzHE1vs?si=0kdqs3NTdlArLUPW&t=1328'
+    target='_blank'
+  >
+    "Quantum Query Algorithms | Understanding Quantum Information & Computation
+    | Lesson 05" (Qiskit) [Inglés]
   </a>
+- <a href="https://learning.quantum.ibm.com/course/fundamentals-of-quantum-algorithms/quantum-query-algorithms#the-deutsch-jozsa-algorithm" target="_blank">The Deutsch-Jozsa algorithm (IBM) [Inglés]</a>
 - <a href='https://www.youtube.com/watch?v=eE7eumEZOSE' target='_blank'>
     "Consulting the (phase) oracle" (Chris Ferrie) [Inglés]
   </a>
@@ -321,5 +377,3 @@ Ahora, a diferencia del algoritmo previo, se puede reemplazar $U_f$ con un circu
     "Deutsch Jozsa Algorithm - Quantum Computer Programming w/ Qiskit p.3"
     (sentdex) [Inglés]
   </a>
-
-
