@@ -1,0 +1,115 @@
+---
+layout: '@layouts/math.astro'
+title: Algoritmo de Bernstein-Vazirani
+description: Un analisis profundo sobre el algoritmo de Bernstein-Vazirani y su similutud al algoritmo de Deutsch-Jozsa
+head:
+  - tag: link
+    attrs:
+      { property: 'og-image', href: /quantum-katas/deutsch-jozsa-simple.png }
+---
+
+export const bv_example = `https://algassert.com/quirk#circuit=%7B%22cols%22%3A%5B%5B1%2C1%2C1%2C1%2C%22X%22%5D%2C%5B%22H%22%2C%22H%22%2C%22H%22%2C%22H%22%2C%22H%22%5D%2C%5B%22%E2%80%A2%22%2C1%2C1%2C1%2C%22X%22%5D%2C%5B1%2C1%2C%22%E2%80%A2%22%2C1%2C%22X%22%5D%2C%5B%22H%22%2C%22H%22%2C%22H%22%2C%22H%22%5D%2C%5B%22Measure%22%2C%22Measure%22%2C%22Measure%22%2C%22Measure%22%5D%5D%7D`
+
+import { Image } from 'astro:assets'
+import { Tabs, TabItem, Card, Code } from '@astrojs/starlight/components'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+
+El algoritmo de Bernstein-Vazirani es un algoritmo basado en el de <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa`}>Deutsch-Jozsa</a> en el cual se resuelve un problema diferente llamado el problema de **_Bernstein-Vazirani_** ó **_Fourier sampling problem_** (el problema de muestreo de Fourier), el cual presenta una base de un problema más grande, presentado por los mismos autores, llamado **_recursive Fourier sampling problem_** (el problema de muestreo de Fourier recursivo).
+
+## El Problema de Bernstein-Vazirani
+
+La **entrada** del problema es una función que se define de forma similar al algoritmo de Deutsch-Jozsa:
+
+```math
+\begin{gather}
+f: \{0,1\}^n \rightarrow \{0,1\}
+\end{gather}
+```
+
+Difiere en que en este problema la función tiene como **precondición** que existe una cadena binaria $s=s_{n-1}\ldots s_0$ tal que $f(x)=s\cdot x$ para todo $x\in\{0,1\}^n$.
+
+Como **salida** se debe obtener la cadena $s$.
+
+### Solución
+
+Utiliza el circuito de Deutsch-Jozsa, varía en su procesamiento desde la etapa $\psi_3$ donde se mide el resultado.
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/deutsch-jozsa-completo.png`}
+    alt='Algoritmo Deutsch-Jozsa en un circuito con separadores ante la aplicación de cada compuerta.'
+    width='455'
+    height='182'
+  />
+  <span style='width:455px; padding:10px 40px'>
+    **Figura (1):** Circuito de Deutsch-Jozsa que resuelve el problema de
+    Bernstein-Vazirani con separadores ante la aplicación de cada compuerta.
+  </span>
+</div>
+
+Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=3\\):
+
+```math
+\begin{align}
+\psi_0=&\ket{0}^{\otimes n}\ket{-}\\
+\psi_1=&H^{\otimes n}\ket{0}^{\otimes n}\ket{-}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
+\psi_2=&U_f\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
+\psi_3=&H^{\otimes n}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
+=&\sum_{z\in\{0,1\}^n} \left(\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot z}\right) \ket{z}\\
+\end{align}
+```
+
+Un desarrollo elaborado de los pasos se puede observar dentro de las <a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#desarrollo-elaborado-de-la-versión-completa`}>pruebas matemáticas de Deutsch-Jozsa</a>. Hasta este punto no existen variaciones con el algoritmo previamente mencionado, ahora reemplazamos $f(x)$ con la precondición dada:
+
+```math
+\begin{align}
+\psi_3&=\sum_{z\in\{0,1\}^n} \left(\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot z}\right) \ket{z}\\
+&=\sum_{z\in\{0,1\}^n} \left(\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{s\cdot x+x\cdot z}\right) \ket{z}\\
+&=\sum_{z\in\{0,1\}^n} \left(\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{(s\oplus z)\cdot x}\right) \ket{z}\\
+\end{align}
+```
+
+Ahora si medimos la amplitud del estado $\psi_3$ en caso donde $\ket{z}$ es $\ket{s}$:
+
+```math
+\begin{align}
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{(s\oplus s)\cdot x}\right|^2&=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{(0) \cdot x}\right|^2\\
+&=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{0}\right|^2\\
+&=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} 1\right|^2\\
+&=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} 1\right|^2\\
+&=\left|\frac{1}{2^n}2^n\right|^2\\
+&=1\\
+\end{align}
+```
+
+Por lo que finalmente el estado final del algoritmo (luego de la medición) es $\ket{s}$, ya que el resto de estados tendrán amplitud 0.
+
+### Ejemplos
+
+Sea $s=1010$ la cadena a codificar se modifica el oráculo con una función que codifica este valor oculto, utilizaremos compuertas <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> para codificar la cadena oculta. Este circuito se puede ver de la siguiente manera en el simulador de <a target="_blank" href="https://algassert.com/quirk">Quirk</a>:
+
+<QuantumCircuit src={bv_example} />
+
+Notar que el resultado de la medición representa con valores **"On"** aquellos valores que son $1$ y los que son **"Off"** los valores que son $0$, formando la cadena $1010$ si se lee de arriba hacia abajo.
+
+## Más información
+
+- <a
+    href='https://learning.quantum.ibm.com/course/fundamentals-of-quantum-algorithms/quantum-query-algorithms#the-bernstein-vazirani-problem'
+    target='_blank'
+  >
+    The Bernstein-Vazirani problem (IBM) [Inglés]
+  </a>
+- <a href='https://www.youtube.com/watch?v=a-w1NiXd3ps' target='_blank'>
+    Quantum Computing Course: 3.5 Bernstein-Vazarani Algorithm (Quantum Soar)
+    [Inglés]
+  </a>
+- <a
+    href='https://youtu.be/2wticzHE1vs?si=-tIwBEvYKHjJKNDu&t=2850'
+    target='_blank'
+  >
+    Quantum Query Algorithms | Understanding Quantum Information & Computation -
+    Lesson 05 (Qiskit) [Inglés]
+  </a>

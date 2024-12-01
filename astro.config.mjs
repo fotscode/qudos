@@ -79,8 +79,8 @@ export default defineConfig({
                 {
                     label: 'Algoritmos',
                     items: [
-                        // Each item here is one entry in the navigation menu.
                         { label: 'Deutsch-Jozsa', slug: 'algorithms/deutsch-jozsa' },
+                        { label: 'Bernstein-Vazirani', slug: 'algorithms/bernstein-vazirani' },
                     ],
                     translations: {
                         en: 'Algorithms',
