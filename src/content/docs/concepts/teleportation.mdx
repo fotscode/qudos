@@ -1,0 +1,74 @@
+---
+layout: '@layouts/math.astro'
+title: Teleportación cuántica
+description: Descripción del proceso de transmisión de información cuántica mediante un canal clásico.
+---
+
+import { Image } from 'astro:assets'
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components'
+import Box from '@components/Box.astro'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+import {randomized_tp} from '@code-snippets/teleportation'
+
+Es un protocolo de comunicación donde un transmisor (Alice) envía un qubit a un receptor (Bob) utilizando un estado cuántico entrelazado compartido junto a dos bits de comunicación clásica.
+
+Se asume que tanto el transmisor como el receptor comparten un qubit entrelazado, es decir que: el transmisor tiene un qubit **A**, el receptor tiene un qubit **B**, y juntos el par **(A,B)** está en el estado $\ket{\psi^+}$. 
+
+Ademas el transmisor posee un qubit **Q** que es el que desea enviar al receptor, el estado de este qubit es desconocido tanto por el transmisor como el receptor. Esta transmisión implica una destrucción de información del qubit **Q** y del qubit **A**, ya que en ambos casos se miden sus estados, para luego reconstruirlo en el qubit **B** utilizando la información dada por las lecturas de **Q** y **A**.
+
+<Aside>La teleportación es de información cuántica y no de materia (como en las películas). A su vez, no es más rápida que la velocidad de la luz ya que se utilizan dos bits clásicos (estos se transmiten en menor velocidad que la luz) para reconstruir el qubit **Q**.</Aside>
+
+## Protocolo
+
+Se presenta una implementación general del protocolo de teleportación cuántica, este contiene compuertas <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a>, <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a>, <a href={`${import.meta.env.BASE_URL}/gates/pauli-z`}>Pauli-Z</a> y una compuerta genérica "**U**" que pretende encapsular el estado del qubit **Q** a transmitir. La compuerta **U$^{\dag}$** es la conjugada transpuesta de **U**, tal que **UU$^{\dag}=I$**.
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/teleportation_components.png`}
+    alt='Protocolo de teleportación cuántico, indicando los componentes funcionales del circuito.'
+    width='611'
+    height='185'
+  />
+  <span style='width:620px; padding:10px 40px'>
+    **Figura (1):** Protocolo de teleportación cuántico, indicando los componentes funcionales del circuito.
+  </span>
+</div>
+
+Dentro de los componentes, se enumeran $5$ pasos o étapas del protocolo, enumerados en un órden que pretende simular la comunicación entre dos agentes.
+
+El primer componente $c_1$ es la **creación de un par entrelazado**, como fue mencionado previamente, conformando el estado $\ket{\psi^+}$, que es uno de los estados de Bell.
+
+Luego el segundo componente $c_2$ es la **preparación del mensaje**. En esta etapa, utilizando la compuerta genérica **U**, se pretende encapsular compuertas e interacciones con otros qubits.
+
+Le sigue el tercer componente $c_3$ que es el **envío del mensaje**, que consta de 3 pasos:
+- Se entrelaza el qubit que se desea transmitir con la mitad del par entrelazado del transmisor (primer linea con segunda) utilizando la compuerta CNOT. Esto causa que el qubit a transmitir se entrelace de forma *indirecta* con el qubit del receptor (primer linea con tercer linea).
+- Aplicar una Hadamard para no perder información de magnitud y fase al aplicar las lecturas.
+- Finalmente, se realizan las lecturas obteniendo información clásica, los resultados van a ser interpretados por el siguiente componente.
+
+El cuarto componente $c_4$ finaliza la teleportación, **recibiendo el mensaje**. El recibir el mensaje implica realizar cambios al qubit recibido según las lecturas, dando cuatro combinaciones posibles:
+- En caso de que se lea un 0 en la primera linea y un 0 en la segunda linea no es necesario realizar ningún cambio al qubit recibido.
+- Si se lee un 0 en la primera en la primer linea y un 1 en la segunda, para que quede igual que el original es necesario invertir las amplitudes.
+- Por otro lado si lee un 1 en la primera en la primer linea y un 0 en la segunda, para que quede igual que el original es necesario invertir la fase.
+- Por último si se lee un 1 en la primera en la primer linea y un 1 en la segunda, para que quede igual es necesario invertir las amplitudes e invertir la fase.
+
+El último componente $c_5$ **verifica** el éxito de la teleportación, esto se hace aplicando las compuertas inversas a las recibidas y midiendo el resultado. Si luego de medir el resultado es 0 significa que son iguales, si no significa que son distintos.
+
+## Ejemplos
+
+Para obtener una mayor comprensión se desarrollara un ejemplo, reemplazando la compuerta genérica **U** con un ejemplo de compuerta que represente un estado cuántico a transmitir.
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <Tabs>
+            <TabItem label='Estado randomizado'>
+                <QuantumCircuit src={randomized_tp} />
+            </TabItem>
+        </Tabs>
+    </Box>
+  </TabItem>
+</Tabs>
+
+## Mas información
+
+- <a href="https://es.wikipedia.org/wiki/Alice_y_Bob" href="_blank">Alice y Bob (Wikipedia) [Español]</a>
