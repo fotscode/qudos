@@ -5,18 +5,30 @@ description: Descripción del proceso de transmisión de información cuántica 
 ---
 
 import { Image } from 'astro:assets'
-import { Aside, Tabs, TabItem } from '@astrojs/starlight/components'
+import { Aside, Tabs, TabItem, Code } from '@astrojs/starlight/components'
 import Box from '@components/Box.astro'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
-import {randomized_tp} from '@code-snippets/teleportation'
+import Circle from '@components/CircleNotation.astro'
+import ResourceDivider from '@components/ResourceDivider.astro'
+import {
+  randomized_tp,
+  hth_example_tp,
+  hth_example_result,
+  hth_example_code,
+} from '@code-snippets/teleportation'
 
 Es un protocolo de comunicación donde un transmisor (Alice) envía un qubit a un receptor (Bob) utilizando un estado cuántico entrelazado compartido junto a dos bits de comunicación clásica.
 
-Se asume que tanto el transmisor como el receptor comparten un qubit entrelazado, es decir que: el transmisor tiene un qubit **A**, el receptor tiene un qubit **B**, y juntos el par **(A,B)** está en el estado $\ket{\psi^+}$. 
+Se asume que tanto el transmisor como el receptor comparten un qubit entrelazado, es decir que: el transmisor tiene un qubit **A**, el receptor tiene un qubit **B**, y juntos el par **(A,B)** está en el estado $\ket{\psi^+}$.
 
 Ademas el transmisor posee un qubit **Q** que es el que desea enviar al receptor, el estado de este qubit es desconocido tanto por el transmisor como el receptor. Esta transmisión implica una destrucción de información del qubit **Q** y del qubit **A**, ya que en ambos casos se miden sus estados, para luego reconstruirlo en el qubit **B** utilizando la información dada por las lecturas de **Q** y **A**.
 
-<Aside>La teleportación es de información cuántica y no de materia (como en las películas). A su vez, no es más rápida que la velocidad de la luz ya que se utilizan dos bits clásicos (estos se transmiten en menor velocidad que la luz) para reconstruir el qubit **Q**.</Aside>
+<Aside>
+  La teleportación es de información cuántica y no de materia (como en las
+  películas). A su vez, no es más rápida que la velocidad de la luz ya que se
+  utilizan dos bits clásicos (estos se transmiten en menor velocidad que la luz)
+  para reconstruir el qubit **Q**.
+</Aside>
 
 ## Protocolo
 
@@ -29,8 +41,9 @@ Se presenta una implementación general del protocolo de teleportación cuántic
     width='611'
     height='185'
   />
-  <span style='width:620px; padding:10px 40px'>
-    **Figura (1):** Protocolo de teleportación cuántico, indicando los componentes funcionales del circuito.
+  <span style='max-width:620px; padding:10px 40px'>
+    **Figura (1):** Protocolo de teleportación cuántico, indicando los
+    componentes funcionales del circuito.
   </span>
 </div>
 
@@ -41,11 +54,13 @@ El primer componente $c_1$ es la **creación de un par entrelazado**, como fue m
 Luego el segundo componente $c_2$ es la **preparación del mensaje**. En esta etapa, utilizando la compuerta genérica **U**, se pretende encapsular compuertas e interacciones con otros qubits.
 
 Le sigue el tercer componente $c_3$ que es el **envío del mensaje**, que consta de 3 pasos:
-- Se entrelaza el qubit que se desea transmitir con la mitad del par entrelazado del transmisor (primer linea con segunda) utilizando la compuerta CNOT. Esto causa que el qubit a transmitir se entrelace de forma *indirecta* con el qubit del receptor (primer linea con tercer linea).
+
+- Se entrelaza el qubit que se desea transmitir con la mitad del par entrelazado del transmisor (primer linea con segunda) utilizando la compuerta CNOT. Esto causa que el qubit a transmitir se entrelace de forma _indirecta_ con el qubit del receptor (primer linea con tercer linea).
 - Aplicar una Hadamard para no perder información de magnitud y fase al aplicar las lecturas.
 - Finalmente, se realizan las lecturas obteniendo información clásica, los resultados van a ser interpretados por el siguiente componente.
 
 El cuarto componente $c_4$ finaliza la teleportación, **recibiendo el mensaje**. El recibir el mensaje implica realizar cambios al qubit recibido según las lecturas, dando cuatro combinaciones posibles:
+
 - En caso de que se lea un 0 en la primera linea y un 0 en la segunda linea no es necesario realizar ningún cambio al qubit recibido.
 - Si se lee un 0 en la primera en la primer linea y un 1 en la segunda, para que quede igual que el original es necesario invertir las amplitudes.
 - Por otro lado si lee un 1 en la primera en la primer linea y un 0 en la segunda, para que quede igual que el original es necesario invertir la fase.
@@ -55,20 +70,287 @@ El último componente $c_5$ **verifica** el éxito de la teleportación, esto se
 
 ## Ejemplos
 
-Para obtener una mayor comprensión se desarrollara un ejemplo, reemplazando la compuerta genérica **U** con un ejemplo de compuerta que represente un estado cuántico a transmitir.
+Para obtener una mayor comprensión se desarrollara un ejemplo, en este mismo se desarrollará un paso a paso de la aplicación del protocolo.
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/teleportation_steps.png`}
+    alt='Protocolo de teleportación cuántico, con cortes ante la aplicación de cada compuerta.'
+    width='611'
+    height='185'
+  />
+  <span style='max-width:620px; padding:10px 40px'>
+    **Figura (2):** Protocolo de teleportación cuántico, con cortes ante la
+    aplicación de cada compuerta.
+  </span>
+</div>
+
+Se reemplazará la compuerta genérica **U** con un ejemplo de compuerta que represente un estado cuántico a transmitir, la misma se puede observar en la siguiente imágen:
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/teleportation_example_hth.png`}
+    alt='Reemplazo de la compuerta genérica U con una compuerta con una Hadamard seguida de una compuerta T y finalizando con otra compuerta Hadamard.'
+    width='388'
+    height='73'
+  />
+  <span style='max-width:620px; padding:10px 40px'>
+    **Figura (3):** Reemplazo de la compuerta U por una compuerta con una
+    Hadamard seguida de una compuerta T y finalizando con otra compuerta
+    Hadamard.
+  </span>
+</div>
+
+Por otra parte, la compuerta aplicada sobre un qubit inicializado en $\ket{0}$ se puede representar de la siguiente manera:
+
+<div style="display: flex; justify-content:center; align-items:center; flex-direction:row; margin-bottom:30px">
+<Circle width={"80"} phase={"0"} prob={1} label={"\\ket{0}"}/>
+<Circle width={"80"} phase={"0"} prob={0} label={"\\ket{1}"}/>
+$$\overset{H}{\rightarrow}$$ 
+<Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+<Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
+</div>
+<div style="display: flex; justify-content:center; align-items:center; flex-direction:row; margin-bottom:30px">
+<Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+<Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
+$$\overset{T}{\rightarrow}$$ 
+<Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+<Circle width={"80"} phase={"45"} prob={0.5} label={"\\ket{1}"}/>
+</div>
+<div style="display: flex; justify-content:center; align-items:center; flex-direction:row; margin-bottom:30px">
+<Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+<Circle width={"80"} phase={"45"} prob={0.5} label={"\\ket{1}"}/>
+$$\overset{H}{\rightarrow}$$ 
+<Circle width={"80"} phase={"22.5"}  prob={0.853553} label={"\\ket{0}"}/>
+<Circle width={"80"} phase={"-67.5"} prob={0.146447} label={"\\ket{1}"}/>
+</div>
+
+Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el circuito, donde \\(\phi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=1\\) y finalizando con \\(i=10\\):
+
+<div style="margin-top:10px">
+    <ResourceDivider icon="pencil" text="\(\phi_0\)" />
+</div>
+<div style="display: flex; flex-direction:column; align-items:center; margin-bottom:60px">
+    El paso $0$ representa los valores con los cuales se inicializó el circuito:
+    <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
+    <Circle width={"80"} phase={"0"} prob={1} label={"\\ket{000}"}/>
+    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{001}"}/>
+    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{010}"}/>
+    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{011}"}/>
+    </div>
+    <div style="display: flex; justify-content:center; align-items:center; flex-direction:row; margin-bottom:30px">
+    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{100}"}/>
+    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{101}"}/>
+    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{110}"}/>
+    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{111}"}/>
+    </div>
+
+</div>
+
+<ResourceDivider icon='pencil' text='\(\phi_1\)' />
+<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+  Luego de aplicar una Hadamard al segundo qubit, se obtiene una superposición
+  entre $\ket{000}$ y $\ket{010}$.
+  <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+    <Circle width={'80'} phase={'0'} prob={0.5} label={'\\ket{000}'} />
+    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{001}'} />
+    <Circle width={'80'} phase={'0'} prob={0.5} label={'\\ket{010}'} />
+    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{011}'} />
+  </div>
+  <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{100}'} />
+    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{101}'} />
+    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{110}'} />
+    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{111}'} />
+  </div>
+</div>
+
+<ResourceDivider icon="pencil" text="\(\phi_2\)" />
+<div style="display: flex; flex-direction:column; align-items:center; margin-bottom:60px">
+    Con el paso $\phi_2$ se finaliza la componente $c_1$ creando un par entrelazado ($\psi^+=\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})$) entre el segundo y tercer qubit.
+    <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
+    <Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{000}"}/>
+    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{001}"}/>
+    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{010}"}/>
+    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{011}"}/>
+    </div>
+    <div style="display: flex; justify-content:center; align-items:center; flex-direction:row">
+    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{100}"}/>
+    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{101}"}/>
+    <Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{110}"}/>
+    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{111}"}/>
+    </div>
+</div>
+
+<ResourceDivider icon='pencil' text='\(\phi_3\)' />
+<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+  En el paso $\phi_3$ se aplica la compuerta U, definida previamente en la
+  figura 3, cumple la funcionalidad descrita en el componente $c_2$.
+  <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+    <Circle width={'80'} phase={22.5} prob={0.42677} label={'\\ket{000}'} />
+    <Circle width={'80'} phase={-67.5} prob={0.073223} label={'\\ket{001}'} />
+    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{010}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{011}'} />
+  </div>
+  <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{100}'} />
+    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{101}'} />
+    <Circle width={'80'} phase={22.5} prob={0.42677} label={'\\ket{110}'} />
+    <Circle width={'80'} phase={-67.5} prob={0.073223} label={'\\ket{111}'} />
+  </div>
+</div>
+
+<ResourceDivider icon='pencil' text='\(\phi_4\)' />
+<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+  En este paso se prepara el envío del mensaje (componente $c_3$), aplicando una
+  CNOT, teniendo como control el primer qubit y como objetivo el segundo qubit.
+  El resultado de esto es el entrelazamiento del primer qubit con el segundo
+  qubit y se crea, de forma indirecta, un entrelazamiento entre el primer qubit
+  y el tercero (ya que estos dos estaban previamente entrelazados).
+  <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+    <Circle width={'80'} phase={22.5} prob={0.42677} label={'\\ket{000}'} />
+    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{001}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
+    <Circle width={'80'} phase={-67.5} prob={0.073223} label={'\\ket{011}'} />
+  </div>
+  <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{100}'} />
+    <Circle width={'80'} phase={-67.5} prob={0.073223} label={'\\ket{101}'} />
+    <Circle width={'80'} phase={22.5} prob={0.42677} label={'\\ket{110}'} />
+    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{111}'} />
+  </div>
+</div>
+
+<ResourceDivider icon='pencil' text='\(\phi_5\)' />
+<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+  Seguido al anterior, se aplica una Hadamard al primer qubit, dejandolo
+  superpuesto para no perder información de magnitud y fase en el siguiente
+  paso.
+  <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+    <Circle width={'80'} phase={22.5} prob={0.21338} label={'\\ket{000}'} />
+    <Circle width={'80'} phase={22.5} prob={0.21338} label={'\\ket{001}'} />
+    <Circle width={'80'} phase={-67.5} prob={0.036612} label={'\\ket{010}'} />
+    <Circle width={'80'} phase={112.5} prob={0.036612} label={'\\ket{011}'} />
+  </div>
+  <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+    <Circle width={'80'} phase={-67.5} prob={0.036612} label={'\\ket{100}'} />
+    <Circle width={'80'} phase={112.5} prob={0.036612} label={'\\ket{101}'} />
+    <Circle width={'80'} phase={22.5} prob={0.21338} label={'\\ket{110}'} />
+    <Circle width={'80'} phase={22.5} prob={0.21338} label={'\\ket{111}'} />
+  </div>
+</div>
+
+<ResourceDivider icon='pencil' text='\(\phi_6\)' />
+<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+  Este paso es crucial ya que realiza el envío (finaliza el componente $c_3$) y define como interpretar el mensaje al receptor. Las lecturas causan una perdida de los primeros dos qubits, estas son necesarias ya que no se pueden copiar los estados cuánticos.
+
+Digamos que el primer qubit, al leerlo, colapsa en un $1$ (convirtiendose en un bit clásico), y supongamos que el segundo qubit al leerlo también colapsa en $1$, obteniendo el siguiente estado cuántico.
+
+{' '}
+<div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+  <Circle width={'80'} phase={0} prob={0} label={'\\ket{000}'} />
+  <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />
+  <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
+  <Circle width={'80'} phase={112.5} prob={0.146447} label={'\\ket{011}'} />
+</div>
+<div style='display: flex; justify-content:center; align-items:center; flex-direction:row;margin-bottom:30px'>
+  <Circle width={'80'} phase={0} prob={0} label={'\\ket{100}'} />
+  <Circle width={'80'} phase={0} prob={0} label={'\\ket{101}'} />
+  <Circle width={'80'} phase={0} prob={0} label={'\\ket{110}'} />
+  <Circle width={'80'} phase={22.5} prob={0.853553} label={'\\ket{111}'} />
+</div>
+
+  <Aside>
+  Es interesante denotar que las lecturas posibles $(00, 01, 10, 11)$ corresponden con las columnas de la notación de círculos, por ejemplo si se hubiese leido un $1$ en el primer qubit y un $0$ en el segundo se hubiese obtenido la tercer columna (finalizando con $10$).
+  </Aside>
+</div>
+
+<ResourceDivider icon='pencil' text='\(\phi_7\)' />
+<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+  Tanto $\phi_7$ como $\phi_8$ cumplen el rol de interpretar el mensaje recibido y realizarle las transformaciones necesarias para obtener el estado original, cumplen la función del componente $c_4$.
+
+Dadas las lecturas definidas previamente, como el segundo qubit colapsó en $1$ se aplica una Pauli-X al tercer qubit (CNOT), intercambiando las magnitudes.
+
+  <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{000}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
+    <Circle width={'80'} phase={22.5} prob={0.853553} label={'\\ket{011}'} />
+  </div>
+  <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{100}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{101}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{110}'} />
+    <Circle width={'80'} phase={112.5} prob={0.146447} label={'\\ket{111}'} />
+  </div>
+</div>
+
+<ResourceDivider icon='pencil' text='\(\phi_8\)' />
+<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+  De la misma manera que el paso anterior, como el primer qubit colapsó en $1$ se aplica una compuerta Pauli-Z al tercer qubit (CZ), rotando su fase relativa en $180^{\circ}$, finalizando el componente $c_4$.
+  <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{000}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
+    <Circle width={'80'} phase={22.5} prob={0.853553} label={'\\ket{011}'} />
+  </div>
+  <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{100}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{101}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{110}'} />
+    <Circle width={'80'} phase={-67.5} prob={0.146447} label={'\\ket{111}'} />
+  </div>
+</div>
+
+<ResourceDivider icon='pencil' text='\(\phi_9\)' />
+<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+  Finalmente este paso cumple la función de verificar el resultado (componente $c_5$), esto conlleva aplicar la compuerta inversa a **U**. En este caso implica realizar una Hadamard, seguida por una T$^{-1}$ y finalizada por otra Hadamard, es decir que supone realizar los pasos inversos que realiza **U**.
+
+Al aplicarlo obtenemos que el estado es $\ket{000}$, el estado inicial, por lo que verificamos que la teleportación fue exitosa.
+
+  <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+    <Circle width={'80'} phase={0} prob={1} label={'\\ket{000}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{011}'} />
+  </div>
+  <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{100}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{101}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{110}'} />
+    <Circle width={'80'} phase={0} prob={0} label={'\\ket{111}'} />
+  </div>
+</div>
 
 <Tabs>
   <TabItem label='Quirk'>
     <Box>
-        <Tabs>
-            <TabItem label='Estado randomizado'>
-                <QuantumCircuit src={randomized_tp} />
-            </TabItem>
-        </Tabs>
+      <Tabs>
+        <TabItem label='Ejemplo HTH'>
+          <QuantumCircuit src={hth_example_tp} />
+        </TabItem>
+        <TabItem label='Estado randomizado'>
+          <QuantumCircuit src={randomized_tp} />
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+      <Tabs>
+        <TabItem label='Código'>
+          <Code code={hth_example_code} lang='py' />
+        </TabItem>
+        <TabItem label='Resultado'>
+          <Code code={hth_example_result} lang='text' />
+        </TabItem>
+      </Tabs>
     </Box>
   </TabItem>
 </Tabs>
 
 ## Mas información
 
-- <a href="https://es.wikipedia.org/wiki/Alice_y_Bob" href="_blank">Alice y Bob (Wikipedia) [Español]</a>
+- <a href='https://es.wikipedia.org/wiki/Alice_y_Bob' href='_blank'>
+    Alice y Bob (Wikipedia) [Español]
+  </a>
