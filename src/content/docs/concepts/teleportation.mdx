@@ -17,7 +17,7 @@ import {
   hth_example_code,
 } from '@code-snippets/teleportation'
 
-Es un protocolo de comunicación donde un transmisor (Alice) envía un qubit a un receptor (Bob) utilizando un estado cuántico entrelazado compartido junto a dos bits de comunicación clásica.
+Es un protocolo de comunicación donde un transmisor (Alice) envía un qubit a un receptor (Bob), utilizando un estado cuántico entrelazado compartido junto a dos bits clásicos para realizar la comunicación.
 
 Se asume que tanto el transmisor como el receptor comparten un qubit entrelazado, es decir que: el transmisor tiene un qubit **A**, el receptor tiene un qubit **B**, y juntos el par **(A,B)** está en el estado $\ket{\psi^+}$.
 
@@ -61,16 +61,18 @@ Le sigue el tercer componente $c_3$ que es el **envío del mensaje**, que consta
 
 El cuarto componente $c_4$ finaliza la teleportación, **recibiendo el mensaje**. El recibir el mensaje implica realizar cambios al qubit recibido según las lecturas, dando cuatro combinaciones posibles:
 
-- En caso de que se lea un 0 en la primera linea y un 0 en la segunda linea no es necesario realizar ningún cambio al qubit recibido.
-- Si se lee un 0 en la primera en la primer linea y un 1 en la segunda, para que quede igual que el original es necesario invertir las amplitudes.
-- Por otro lado si lee un 1 en la primera en la primer linea y un 0 en la segunda, para que quede igual que el original es necesario invertir la fase.
-- Por último si se lee un 1 en la primera en la primer linea y un 1 en la segunda, para que quede igual es necesario invertir las amplitudes e invertir la fase.
+- En caso de que se lea un $0$ en la primera linea y un $0$ en la segunda linea no es necesario realizar ningún cambio al qubit recibido.
+- Si se lee un $0$ en la primera en la primer linea y un $1$ en la segunda, para que quede igual que el original es necesario invertir las amplitudes (aplicar una CNOT).
+- Por otro lado si lee un $1$ en la primera en la primer linea y un $0$ en la segunda, para que quede igual que el original es necesario aumentar la fase en $180^\circ$ (aplicar una CZ).
+- Por último si se lee un $1$ en la primera en la primer linea y un $1$ en la segunda, para que quede igual es necesario invertir las amplitudes e aumentar la fase en $180^\circ$.
 
-El último componente $c_5$ **verifica** el éxito de la teleportación, esto se hace aplicando las compuertas inversas a las recibidas y midiendo el resultado. Si luego de medir el resultado es 0 significa que son iguales, si no significa que son distintos.
+El último componente $c_5$ **verifica** el éxito de la teleportación, esto se hace aplicando las compuertas inversas a las recibidas en $c_2$ y midiendo el resultado. Si luego de medir resulta en $0$ significa que la teleportación fue exitosa, en caso contrario esta falló.
+
+Tanto los componentes $c_1$, $c_2$ y $c_5$ pueden considerarse como externos al protocolo, los componentes $c_1$ y $c_2$ se pueden tomar como precondiciones para que el protocolo funcione correctamente y $c_5$ como procesamiento opcional, en ciertas bibliografías estos se evitan y se dan por hecho.
 
 ## Ejemplos
 
-Para obtener una mayor comprensión se desarrollara un ejemplo, en este mismo se desarrollará un paso a paso de la aplicación del protocolo.
+Para obtener una mayor comprensión se desarrollará un ejemplo, en este mismo se elaborará un paso a paso de la aplicación del protocolo.
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -101,7 +103,7 @@ Se reemplazará la compuerta genérica **U** con un ejemplo de compuerta que rep
   </span>
 </div>
 
-Por otra parte, la compuerta aplicada sobre un qubit inicializado en $\ket{0}$ se puede representar de la siguiente manera:
+La compuerta aplicada sobre un qubit inicializado en $\ket{0}$ se puede representar de la siguiente manera:
 
 <div style="display: flex; justify-content:center; align-items:center; flex-direction:row; margin-bottom:30px">
 <Circle width={"80"} phase={"0"} prob={1} label={"\\ket{0}"}/>
@@ -125,12 +127,12 @@ $$\overset{H}{\rightarrow}$$
 <Circle width={"80"} phase={"-67.5"} prob={0.146447} label={"\\ket{1}"}/>
 </div>
 
-Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el circuito, donde \\(\phi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=1\\) y finalizando con \\(i=10\\):
+Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el circuito, donde \\(\phi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=1\\) y finalizando con \\(i=10\\).
 
 <div style="margin-top:10px">
     <ResourceDivider icon="pencil" text="\(\phi_0\)" />
 </div>
-<div style="display: flex; flex-direction:column; align-items:center; margin-bottom:60px">
+<div style="display: flex; flex-direction:column; align-items:center; margin-bottom:60px; text-align:left">
     El paso $0$ representa los valores con los cuales se inicializó el circuito:
     <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
     <Circle width={"80"} phase={"0"} prob={1} label={"\\ket{000}"}/>
@@ -247,6 +249,7 @@ Analizaremos paso a paso el estado de los qubits segun los separadores provistos
 Digamos que el primer qubit, al leerlo, colapsa en un $1$ (convirtiendose en un bit clásico), y supongamos que el segundo qubit al leerlo también colapsa en $1$, obteniendo el siguiente estado cuántico.
 
 {' '}
+
 <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
   <Circle width={'80'} phase={0} prob={0} label={'\\ket{000}'} />
   <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />
@@ -353,4 +356,26 @@ Al aplicarlo obtenemos que el estado es $\ket{000}$, el estado inicial, por lo q
 
 - <a href='https://es.wikipedia.org/wiki/Alice_y_Bob' href='_blank'>
     Alice y Bob (Wikipedia) [Español]
+  </a>
+- Capítulo 4, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
+- Páginas 26-28, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
+- <a
+    href='https://learning.quantum.ibm.com/course/basics-of-quantum-information/entanglement-in-action#teleportation'
+    target='_blank'
+  >
+    Entanglement in action - Teleportation (IBM) [Inglés]
+  </a>
+- <a
+    href='https://youtu.be/GSsElSQgMbU?si=Kjvz41JfEP8rf49F&t=447'
+    target='_blank'
+  >
+    Entanglement in Action | Understanding Quantum Information & Computation -
+    Lesson 04 (Qiskit) [Inglés]
+  </a>
+- <a
+    href='https://www.cl.cam.ac.uk/teaching/1920/QuantComp/Quantum_Computing_Lecture_6.pdf'
+    target='_blank'
+  >
+    Quantum Computing (CST Part II) | Lecture 6: Some Applications of Quantum
+    Information (Cambridge) [Inglés]
   </a>
