@@ -60,7 +60,7 @@ Una solución posible al problema reducido definido previamente puede ser el sig
     width='455'
     height='220'
   />
-  <span style='width:455px; padding:10px 40px'>
+  <span style='max-width:455px; padding:10px 40px'>
     **Figura (1):** Algoritmo Deutsch en un circuito con separadores ante la
     aplicación de cada compuerta.
   </span>
@@ -109,7 +109,7 @@ Sea $f$ una función constante, un circuito posible que actue como función cons
     width='504'
     height='109'
   />
-  <span style='width:504px; padding:10px 40px'>
+  <span style='max-width:504px; padding:10px 40px'>
     **Figura (2):** Circuito con dos qubits, siendo el primero la entrada de la
     función y el segundo su correspondiente salida. Denota una función constante
     donde $f(x)=0$.
@@ -127,7 +127,7 @@ Por lo que si introducimos esta función/circuito dentro del algoritmo de Deutsc
     width='455'
     height='220'
   />
-  <span style='width:504px; padding:10px 40px'>
+  <span style='max-width:504px; padding:10px 40px'>
     **Figura (3):** Algoritmo Deutsch en un gráfico con separadores ante la
     aplicación de cada compuerta, utilizando la función constante en vez del
     oráculo.
@@ -174,7 +174,7 @@ Sea $f$ una función balanceada, un circuito posible que representa una función
     width='504'
     height='109'
   />
-  <span style='width:504px; padding:10px 40px'>
+  <span style='max-width:504px; padding:10px 40px'>
     **Figura (4):** Circuito con dos qubits, siendo el primero la entrada de la
     función y el segundo su correspondiente salida. Denota una función
     balanceada.
@@ -192,7 +192,7 @@ Si introducimos esta función/circuito dentro del algoritmo de Deutsch la salida
     width='455'
     height='220'
   />
-  <span style='width:504px; padding:10px 40px'>
+  <span style='max-width:504px; padding:10px 40px'>
     **Figura (5):** Algoritmo Deutsch en un gráfico con separadores ante la
     aplicación de cada compuerta, utilizando la función balanceada en vez del
     oráculo.
@@ -255,7 +255,7 @@ El algoritmo de Deutsch-Jozsa se describe de forma genérica con el siguiente ci
     width='455'
     height='182'
   />
-  <span style='width:455px; padding:10px 40px'>
+  <span style='max-width:455px; padding:10px 40px'>
     **Figura (6):** Algoritmo Deutsch-Jozsa en un circuito con separadores ante
     la aplicación de cada compuerta.
   </span>
@@ -333,10 +333,10 @@ Sea $f$ una función con 3 entradas y una salida, se debe codificar este orácul
                 <Code lang="py" code={deutsch_jozsa_code}/>
             </TabItem>
             <TabItem label='Resultado constante'>
-                <Code lang="py" code={deutsch_jozsa_result_constant}/>
+                <Code lang="text" code={deutsch_jozsa_result_constant}/>
             </TabItem>
             <TabItem label='Resultado balanceada'>
-                <Code lang="py" code={deutsch_jozsa_result_balanced}/>
+                <Code lang="text" code={deutsch_jozsa_result_balanced}/>
             </TabItem>
         </Tabs>
     </Box>

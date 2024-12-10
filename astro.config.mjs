@@ -34,6 +34,10 @@ export default defineConfig({
                             label: 'Oráculos',
                             slug: 'concepts/oracles',
                         },
+                        {
+                            label:'Teleportación cuántica',
+                            slug:'concepts/teleportation'
+                        }
                     ],
                     translations: {
                         en: 'Key concepts',
@@ -116,6 +120,7 @@ export default defineConfig({
                     },
                 },
             ],
+            customCss: [ './src/styles/global.css' ]
         }),
     ],
     markdown: {

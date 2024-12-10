@@ -1,6 +1,8 @@
 ---
-const {prob, phase, width, label} = Astro.props
-const size=40
+let {prob, phase, width, label, size} = Astro.props
+if (size === undefined){
+    size=width/2.5
+}
 const radius = size * Math.sqrt(prob)
 ---
 <div style="margin:0">

@@ -11,10 +11,14 @@ import { Aside } from '@astrojs/starlight/components'
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/deutsch-jozsa-simple.png`}
-    alt='Algoritmo Deutsch-Jozsa en un circuito con separadores ante la aplicación de cada compuerta.'
+    alt='Algoritmo Deutsch en un circuito con separadores ante la aplicación de cada compuerta.'
     width='455'
     height='220'
   />
+  <span style='max-width:455px; padding:10px 40px'>
+    **Figura (1):** Algoritmo Deutsch en un circuito con separadores ante la
+    aplicación de cada compuerta.
+  </span>
 </div>
 
 De forma detallada el estado de los qubits según los separadores provistos en el gráfico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
@@ -74,8 +78,8 @@ H\ket{-}=\ket{1} & \text{si \(f(0) \neq f(1)\)}
     width='455'
     height='182'
   />
-  <span style='width:504px; padding:10px 40px'>
-    **Figura (6):** Algoritmo Deutsch-Jozsa en un circuito con separadores ante
+  <span style='max-width:504px; padding:10px 40px'>
+    **Figura (2):** Algoritmo Deutsch-Jozsa en un circuito con separadores ante
     la aplicación de cada compuerta.
   </span>
 </div>
