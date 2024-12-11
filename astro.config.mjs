@@ -81,6 +81,7 @@ export default defineConfig({
                     items: [
                         { label: 'Deutsch-Jozsa', slug: 'algorithms/deutsch-jozsa' },
                         { label: 'Bernstein-Vazirani', slug: 'algorithms/bernstein-vazirani' },
+                        { label: 'Grover', slug: 'algorithms/grover' },
                     ],
                     translations: {
                         en: 'Algorithms',
