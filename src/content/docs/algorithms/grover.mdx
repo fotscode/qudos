@@ -118,7 +118,7 @@ Puede verificarse si $x$ es una solución al problema preparando $\ket{x}\ket{0}
 
 Particularmente, en el algoritmo de búsqueda cuántico es útil aplicar el oráculo con su qubit inicializado en el estado $\frac{\ket{0} - \ket{1}}{\sqrt 2}$ 
 (abreviado como $\ket{-}$ por cuestiones de practicidad).
-Si $x$ no es una solución al problema, aplicar el oráculo $\ket{x}\ket{-}$ no cambiará su estado. Por otro lado, si $x$ es una solución, entonces $ket{0}$ y 
+Si $x$ no es una solución al problema, aplicar el oráculo $\ket{x}\ket{-}$ no cambiará su estado. Por otro lado, si $x$ es una solución, entonces $\ket{0}$ y 
 $\ket{1}$ serán intercambiados por acción del oráculo, dando el estado resultante $-\ket{x}\ket{-}$. En resumen, la acción del oráculo es:
 
 ```math
@@ -300,88 +300,6 @@ G\ket{A_1} = -2|A_1|/N \ket{A_1} -2\sqrt(|A_1||A_0|)/N \ket{A_0} + \ket{A_1}
 G\ket{A_1} = (1 - 2|A_1|/N) \ket{A_1} -2\sqrt(|A_1||A_0|)/N \ket{A_0}
 G\ket{A_1} = (|A_0|-|A_1|)/N \ket{A_1} -2\sqrt(|A_1||A_0|)/N \ket{A_0}
 G\ket{A_1} = -2\sqrt(|A_1||A_0|)/N \ket{A_0} + (|A_0|-|A_1|)/N \ket{A_1}
-*/}
-
-Se definirán a continuación dos conjuntos de cadenas.
-
-```math 
-A_0 = \{x \in \Sigma^n: f(x) = 0\}\\
-A_1 = \{x \in \Sigma^n: f(x) = 1\}
-```
-
-El conjunto $A_1$ contiene todas las soluciones del problema de búsqueda, mientras que $A_0$ contiene aquellas cadenas que no son soluciones.
-Ambos conjuntos satisfacen $A_0 \cap A_1 = \varnothing$ y $A_0 \cup A_1 = \Sigma^n$, lo cual significa que $A_0$ y $A_1$ constituyen una bipartición de $\Sigma^n$.
-
-Además, se definirán dos vectores unitarios que representan las superposiciones uniformes sobre los conjuntos previamente tratados.
-
-```math 
-\ket{A_0} = \frac{1}{\sqrt{|A_0|}} \sum_{x \in A_0} \ket{x}\\
-\ket{A_1} = \frac{1}{\sqrt{|A_1|}} \sum_{x \in A_1} \ket{x}
-```
-
-Notar que estos vectores se encuentran definidos únicamente cuando ninguno de los conjuntos es vacío.
-Haciendo uso nuevamente de $\ket{u}$ para referir al estado cuántico uniforme sobre las cadenas de $n$ bits:
-
-```math 
-\ket{u} = \frac{1}{\sqrt N} \sum_{x \in \Sigma^n} \ket{x}
-```
-
-Esto puede representarse también como:
-
-```math 
-\ket{u} = \sqrt{\frac{|A_0|}{N}} \ket{A_0} + \sqrt{\frac{|A_1|}{N}} \ket{A_1}
-```
-
-Recordar que también se cumple que $\ket{u} = H^{\otimes n}\ket{0^n}$, de manera que $\ket{u}$ representa el estado del registro $Q$ tras realizar el paso 
-1 de la iteración de Grover. Esto implica que justo antes de alcanzar el paso 2 de $G$, el estado de $Q$ se encuentra contenido en un espacio vectorial 
-de dos dimensiones abarcado por $\ket{A_0}$ y $\ket{A_1}$, y los coeficientes de ambos vectores son números reales. Cabe destacar que el estado de $Q$ siempre
-tendrá estas propiedades luego de cualquier cantidad de iteraciones de $G$ en su segundo paso.
-
-Otro punto importante a considerar es que el algoritmo de Grover no se preocupa sobre cuáles cadenas son soluciones, solamente debe ser capaz de distinguirlas 
-respecto de aquellas cadenas que no lo son.
-
-A continuación se mostrará el cómputo resultante de aplicar $G$ sobre $\ket{A_0}$ y $\ket{A_1}$.
-
-Acción de $G$ sobre $\ket{A_0}$:
-
-```math 
-\begin{align}
-G\ket{A_0}&=(2\ket{u}\bra{u} - I)O \ket{A_0}\\
-&=(2\ket{u}\bra{u} - I) \ket{A_0}\\
-&=2\ket{u}\bra{u}\ket{A_0} - I\ket{A_0}\\
-&=2\ket{u}\bra{u}\ket{A_0} - \ket{A_0}\\
-&=2\sqrt{\frac{|A_0|}{N}}\ket{u} - \ket{A_0}\\
-&=2\sqrt{\frac{|A_0|}{N}}\left(\sqrt{\frac{|A_0|}{N}} \ket{A_0} + \sqrt{\frac{|A_1|}{N}} \ket{A_1}\right) - \ket{A_0}\\
-&=\frac{2|A_0|}{N} \ket{A_0} + 2\frac{\sqrt{|A_1|\cdot|A_0|}}{N} \ket{A_1} - \ket{A_0}\\
-&=-\frac{1 - 2|A_0|}{N} \ket{A_0} + 2\frac{\sqrt{|A_1|\cdot|A_0|}}{N} \ket{A_1}\\
-&=-\frac{|A_1| - |A_0|}{N} \ket{A_0} + 2\frac{\sqrt{|A_1|\cdot|A_0|}}{N} \ket{A_1}\\
-&=\frac{|A_0| - |A_1|}{N} \ket{A_0} + 2\frac{\sqrt{|A_1|\cdot|A_0|}}{N} \ket{A_1}
-\end{align}
-```
-
-Acción de $G$ sobre $\ket{A_1}$:
-
-```math 
-\begin{align}
-G\ket{A_1}&=(2\ket{u}\bra{u} - I)O \ket{A_1}\\
-&=-(2\ket{u}\bra{u} - I) \ket{A_1}\\
-&=-(2\ket{u}\bra{u}\ket{A_1} - I\ket{A_1})\\
-&=-2\ket{u}\bra{u}\ket{A_1} + I\ket{A_1}\\
-&=-2\ket{u}\bra{u}\ket{A_1} + \ket{A_1}\\
-&=-2\sqrt{\frac{|A_1|}{N}}\ket{u} + \ket{A_1}\\
-&=-2\sqrt{\frac{|A_1|}{N}}\left(\sqrt{\frac{|A_0|}{N}} \ket{A_0} + \sqrt{\frac{|A_1|}{N}} \ket{A_1}\right) + \ket{A_1}\\
-&=-2\frac{|A_1|}{N} \ket{A_1}\left(-2\frac{\sqrt{|A_0| \cdot |A_1|}}{N} \ket{A_0}\right) + \ket{A_1}\\
-&=\frac{1-2|A_1|}{N} \ket{A_1} \left(-2\frac{\sqrt{|A_0| \cdot |A_1|}}{N} \ket{A_0}\right)\\
-&=\frac{|A_0| - |A_1|}{N} \ket{A_1} \left(-2\frac{\sqrt{|A_0| \cdot |A_1|}}{N} \ket{A_0}\right)\\
-&=-2\frac{\sqrt{|A_0| \cdot |A_1|}}{N} \ket{A_0} + \frac{|A_0| - |A_1|}{N} \ket{A_1}
-\end{align}
-```
-
-{/*
-
-### Análisis 
-
-
 
 We can say that the state of Q just prior to step 2 is contained in the two-dimensional space spanned by ∣A0⟩ and ∣A1⟩.
 
@@ -497,7 +415,7 @@ because rotating by the angle theta two times is equivalent to rotating by the a
 
 In summary, the state of the register QQ at the start of step 2 is
 
-\ket{u} = \sqrt(|A_0|/N) \ket{A_0} + \sqrt(|A_1|/N) \ket{A_1} = cos(theta) \ket{A_0} + sin(theta) \ket{A_0}
+\ket{u} = \sqrt(|A_0|/N) \ket{A_0} + \sqrt(|A_1|/N) \ket{A_1} = cos(theta) \ket{A_0} + sin(theta) \ket{A_1}
 
 and the effect of applying G to this state is to rotate it by an angle 2θ within the space spanned by ∣A0⟩ and ∣A1⟩.
 
@@ -519,9 +437,235 @@ An oracle operation O reflects the state about the state \ket{A_0}, then the ope
 In the figure \ket{A_0} and \ket{A_1} are lengthened slightly to reduce clutter (all states should be unit vectors). After repeated
 Grover iterations, the state vector gets close to \ket{A_1}, at which point an observation in the computational basis
 outputs a solution to the search problem with high probability. 
+*/}
 
-#### Número de iteraciones 
+Se definirán a continuación dos conjuntos de cadenas.
 
+```math 
+A_0 = \{x \in \Sigma^n: f(x) = 0\}\\
+A_1 = \{x \in \Sigma^n: f(x) = 1\}
+```
+
+El conjunto $A_1$ contiene todas las soluciones del problema de búsqueda, mientras que $A_0$ contiene aquellas cadenas que no son soluciones.
+Ambos conjuntos satisfacen $A_0 \cap A_1 = \varnothing$ y $A_0 \cup A_1 = \Sigma^n$, lo cual significa que $A_0$ y $A_1$ constituyen una bipartición de $\Sigma^n$.
+
+Además, se definirán dos vectores unitarios que representan las superposiciones uniformes sobre los conjuntos previamente tratados.
+
+```math 
+\ket{A_0} = \frac{1}{\sqrt{|A_0|}} \sum_{x \in A_0} \ket{x}\\
+\ket{A_1} = \frac{1}{\sqrt{|A_1|}} \sum_{x \in A_1} \ket{x}
+```
+
+Notar que estos vectores se encuentran definidos únicamente cuando ninguno de los conjuntos es vacío.
+Haciendo uso nuevamente de $\ket{u}$ para referir al estado cuántico uniforme sobre las cadenas de $n$ bits:
+
+```math 
+\ket{u} = \frac{1}{\sqrt N} \sum_{x \in \Sigma^n} \ket{x}
+```
+
+Esto puede representarse también como:
+
+```math 
+\ket{u} = \sqrt{\frac{|A_0|}{N}} \ket{A_0} + \sqrt{\frac{|A_1|}{N}} \ket{A_1}
+```
+
+Recordar que también se cumple que $\ket{u} = H^{\otimes n}\ket{0^n}$, de manera que $\ket{u}$ representa el estado del registro $Q$ tras realizar el paso 
+1 de la iteración de Grover. Esto implica que justo antes de alcanzar el paso 2 de $G$, el estado de $Q$ se encuentra contenido en un espacio vectorial 
+de dos dimensiones abarcado por $\ket{A_0}$ y $\ket{A_1}$, y los coeficientes de ambos vectores son números reales. Cabe destacar que el estado de $Q$ siempre
+tendrá estas propiedades luego de cualquier cantidad de iteraciones de $G$ en su segundo paso.
+
+Otro punto importante a considerar es que el algoritmo de Grover no se preocupa sobre cuáles cadenas son soluciones, solamente debe ser capaz de distinguirlas 
+respecto de aquellas cadenas que no lo son.
+
+A continuación se mostrará el cómputo resultante de aplicar $G$ sobre $\ket{A_0}$ y $\ket{A_1}$.
+
+Acción de $G$ sobre $\ket{A_0}$:
+
+```math 
+\begin{align}
+G\ket{A_0}&=(2\ket{u}\bra{u} - I)O \ket{A_0}\\
+&=(2\ket{u}\bra{u} - I) \ket{A_0}\\
+&=2\ket{u}\bra{u}\ket{A_0} - I\ket{A_0}\\
+&=2\ket{u}\bra{u}\ket{A_0} - \ket{A_0}\\
+&=2\sqrt{\frac{|A_0|}{N}}\ket{u} - \ket{A_0}\\
+&=2\sqrt{\frac{|A_0|}{N}}\left(\sqrt{\frac{|A_0|}{N}} \ket{A_0} + \sqrt{\frac{|A_1|}{N}} \ket{A_1}\right) - \ket{A_0}\\
+&=\frac{2|A_0|}{N} \ket{A_0} + 2\frac{\sqrt{|A_1|\cdot|A_0|}}{N} \ket{A_1} - \ket{A_0}\\
+&=-\frac{1 - 2|A_0|}{N} \ket{A_0} + 2\frac{\sqrt{|A_1|\cdot|A_0|}}{N} \ket{A_1}\\
+&=-\frac{|A_1| - |A_0|}{N} \ket{A_0} + 2\frac{\sqrt{|A_1|\cdot|A_0|}}{N} \ket{A_1}\\
+&=\frac{|A_0| - |A_1|}{N} \ket{A_0} + 2\frac{\sqrt{|A_1|\cdot|A_0|}}{N} \ket{A_1}
+\end{align}
+```
+
+Acción de $G$ sobre $\ket{A_1}$:
+
+```math 
+\begin{align}
+G\ket{A_1}&=(2\ket{u}\bra{u} - I)O \ket{A_1}\\
+&=-(2\ket{u}\bra{u} - I) \ket{A_1}\\
+&=-(2\ket{u}\bra{u}\ket{A_1} - I\ket{A_1})\\
+&=-2\ket{u}\bra{u}\ket{A_1} + I\ket{A_1}\\
+&=-2\ket{u}\bra{u}\ket{A_1} + \ket{A_1}\\
+&=-2\sqrt{\frac{|A_1|}{N}}\ket{u} + \ket{A_1}\\
+&=-2\sqrt{\frac{|A_1|}{N}}\left(\sqrt{\frac{|A_0|}{N}} \ket{A_0} + \sqrt{\frac{|A_1|}{N}} \ket{A_1}\right) + \ket{A_1}\\
+&=-2\frac{|A_1|}{N} \ket{A_1}\left(-2\frac{\sqrt{|A_0| \cdot |A_1|}}{N} \ket{A_0}\right) + \ket{A_1}\\
+&=\frac{1-2|A_1|}{N} \ket{A_1} \left(-2\frac{\sqrt{|A_0| \cdot |A_1|}}{N} \ket{A_0}\right)\\
+&=\frac{|A_0| - |A_1|}{N} \ket{A_1} \left(-2\frac{\sqrt{|A_0| \cdot |A_1|}}{N} \ket{A_0}\right)\\
+&=-2\frac{\sqrt{|A_0| \cdot |A_1|}}{N} \ket{A_0} + \frac{|A_0| - |A_1|}{N} \ket{A_1}
+\end{align}
+```
+
+Por conveniencia, se expresará la acción de $G$ en un espacio de dos dimensiones como una matriz.
+
+```math 
+M = 
+\begin{pmatrix}
+\frac{|A_0| - |A_1}{N}&-2\frac{\sqrt{|A_0||A_1|}}{N}\\
+2\frac{\sqrt{|A_0||A_1|}}{N}&\frac{|A_0| - |A_1|}{N}\\
+\end{pmatrix}
+```
+
+donde la primera y segunda filas/columnas corresponden a $\ket{A_0}$ y $\ket{A_1}$ respectivamente. Dicha matriz $M$ se obtiene al multiplicar 
+por sí misma una matriz más simple.
+
+```math
+M = 
+\begin{pmatrix}
+\sqrt{\frac{|A_0|}{N}}&-\sqrt{\frac{|A_1|}{N}}\\
+\sqrt{\frac{|A_1|}{N}}&\sqrt{\frac{|A_0|}{N}}\\
+\end{pmatrix}^2
+```
+
+Demostración paso a paso:
+
+```math 
+\begin{align}
+  \begin{pmatrix}
+    \sqrt{\frac{|A_0|}{N}}&-\sqrt{\frac{|A_1|}{N}}\\
+    \sqrt{\frac{|A_1|}{N}}&\sqrt{\frac{|A_0|}{N}}\\
+  \end{pmatrix}^2&=\\
+
+  \begin{pmatrix}
+    \sqrt{\frac{|A_0|}{N}}&-\sqrt{\frac{|A_1|}{N}}\\
+    \sqrt{\frac{|A_1|}{N}}&\sqrt{\frac{|A_0|}{N}}\\
+  \end{pmatrix}
+  \begin{pmatrix}
+    \sqrt{\frac{|A_0|}{N}}&-\sqrt{\frac{|A_1|}{N}}\\
+    \sqrt{\frac{|A_1|}{N}}&\sqrt{\frac{|A_0|}{N}}\\
+  \end{pmatrix}&=\\
+
+  \begin{pmatrix}
+    \sqrt{\frac{|A_0|}{N}}\sqrt{\frac{|A_0|}{N}} + \left(-\sqrt{\frac{|A_1|}{N}}\right)\sqrt{\frac{|A_1|}{N}} & 
+    \sqrt{\frac{|A_0|}{N}}\left(-\sqrt{\frac{|A_1|}{N}}\right) + \left(-\sqrt{\frac{|A_1|}{N}}\right)\sqrt{\frac{|A_0|}{N}}\\
+    \sqrt{\frac{|A_1|}{N}}\sqrt{\frac{|A_0|}{N}} + \sqrt{\frac{|A_0|}{N}}\sqrt{\frac{|A_1|}{N}} & 
+    \sqrt{\frac{|A_1|}{N}}\left(-\sqrt{\frac{|A_1|}{N}}\right) + \sqrt{\frac{|A_0|}{N}}\sqrt{\frac{|A_0|}{N}}\\
+  \end{pmatrix}&=\\
+
+
+  \begin{pmatrix}
+    \frac{|A_0|}{N} + \left(-\frac{|A_1|}{N}\right)&-\frac{\sqrt{|A_0||A_1|}}{N}+\left(-\frac{\sqrt{|A_0||A_1|}}{N}\right)\\
+    \frac{\sqrt{|A_0||A_1|}}{N} + \frac{\sqrt{|A_0||A_1|}}{N}&\frac{|A_0|}{N} - \frac{|A_1|}{N}\\ 
+  \end{pmatrix}&=\\
+
+  \begin{pmatrix}
+    \frac{|A_0|-|A_1|}{N}&-2\frac{\sqrt{|A_0||A_1|}}{N}\\
+    2\frac{\sqrt{|A_0||A_1|}}{N}&\frac{|A_0|-|A_1|}{N}\\
+  \end{pmatrix}&=\\
+
+  =&M
+\end{align}
+```
+
+Además, la matriz 
+
+```math
+\begin{pmatrix}
+\sqrt{\frac{|A_0|}{N}}&-\sqrt{\frac{|A_1|}{N}}\\
+\sqrt{\frac{|A_1|}{N}}&\sqrt{\frac{|A_0|}{N}}\\
+\end{pmatrix}
+```
+
+es de rotación, la cual puede expresarse como 
+
+```math
+\begin{pmatrix}
+cos(\theta)&-sin(\theta)\\
+\sin(\theta)&cos(\theta)\\
+\end{pmatrix}
+```
+
+para $\theta = sin^{-1}(\sqrt{\frac{|A_1|}{N}})$. Utilizando esta nueva expresión para $M$:
+
+```math
+\begin{align}
+  M =& 
+  \begin{pmatrix}
+    cos(\theta)&-sin(\theta)\\
+    sin(\theta)&cos(\theta)\\
+  \end{pmatrix}^2\\
+
+  =& 
+  \begin{pmatrix}
+    cos^2(\theta)-sin^2(\theta)&-cos(\theta)sin(\theta) - cos(\theta)sin(\theta)\\
+    cos(\theta)sin(\theta) + cos(\theta)sin(\theta)&cos^2(\theta) - sin^2(\theta)\\
+  \end{pmatrix}^2\\
+
+  =& 
+  \begin{pmatrix}
+    cos^2(\theta)-sin^2(\theta)&-2cos(\theta)sin(\theta)\\ 
+    2cos(\theta)sin(\theta)&cos^2(\theta) - sin^2(\theta)\\
+  \end{pmatrix}^2
+\end{align}
+```
+
+Otra igualdad que se puede alcanzar sin hacer cálculos es
+
+```math
+M = 
+\begin{pmatrix}
+  cos(\theta)&-sin(\theta)\\
+  sin(\theta)&cos(\theta)
+\end{pmatrix}^2 = 
+\begin{pmatrix}
+  cos(2\theta)&-sin(2\theta)\\
+  sin(2\theta)&cos(2\theta)
+\end{pmatrix} 
+```
+
+ya que rotar por el ángulo $\theta$ dos veces es equivalente a rotar por el ángulo $2\theta$.
+
+Retomando, el estado del registro $Q$ al comienzo del paso 2 es 
+
+```math 
+\ket{u} = \sqrt{\frac{|A_0|}{N}} \ket{A_0} + \sqrt{\frac{|A_1|}{N}} \ket{A_1} = cos(\theta) \ket{A_0} + sin(\theta) \ket{A_1}
+```
+
+y el efecto de aplicar $G$ sobre dicho estado consiste en aplicar una rotación por el ángulo $2\theta$ dentro del espacio abarcado por $\ket{A_0}$ y $\ket{A_1}$.
+
+Por ejemplo: 
+
+```math 
+G^1\ket{u} = cos(3\theta) \ket{A_0} + sin(3\theta) \ket{A_1}\\
+G^2\ket{u} = cos(5\theta) \ket{A_0} + sin(5\theta) \ket{A_1}\\
+G^3\ket{u} = cos(7\theta) \ket{A_0} + sin(7\theta) \ket{A_1}
+```
+
+Regla general:
+
+```math 
+G^k\ket{u} = cos((2k+1)\theta) \ket{A_0} + sin((2k+1)\theta) \ket{A_1}
+```
+
+La idea es que la iteración de Grover rote el vector de estado hacia $\ket{A_1}$. Cuando esto ocurre, una medición del estado produce con alta probabilidad 
+una de las salidas superpuestas en $\ket{A_1}$, es decir, una solución al problema.
+
+Inicialmente el vector de estado se encuentra en un estado ortogonal respecto de $\ket{A_1}$. Partiendo de ese punto, la operación del oráculo $O$ refleja 
+el estado a partir de $\ket{A_0}$, y luego la operación $2\ket{u}\bra{u} - I$ lo refleja en torno a $\ket{u}$. Dado que dos reflexiones producen una rotación,
+el vector de estado se acerca hacia $\ket{A_1}$, y luego de reiteradas rotaciones es posible obtener una solución con alta probabilidad
+mediante una observación en la base computacional.
+
+#### Número de iteraciones
+
+{/*
 The goal is to find an element x∈A1, and this goal will be accomplished if we can obtain the state ∣A1⟩ — for if we measure this state, 
 we're guaranteed to get a measurement outcome x∈A1 (under the asumption that x \in A_1 is non empty).
 
@@ -559,9 +703,63 @@ Recalling that the value of the angle θθ is given by the formula
 theta = sin^(-1)(\sqrt(|A_1|/N))
 
 we also see that our estimate t≈π/(4θ)−1/2 depends on the number of strings in A_1. This presents a challenge if we don't know how many solutions we have
+*/}
 
-##### Unique search 
+En este apartado se desarrollará sobre la cantidad de iteraciones necesarias para encontrar una solución utilizando el algoritmo de Grover. 
 
+El objetivo consiste en encontrar un elemento $x \in A_1$, y esto se cumplirá cuando se obtenga el estado $\ket{A_1}$, el cual nos garantizará que 
+se obtendrá un valor $x \in A_1$ como resultado de la medición.
+
+Dado que el estado $Q$ luego de $t$ iteraciones en el paso 2 es 
+
+```math 
+G^t\ket{u} = cos((2t+1)\theta) \ket{A_0} + sin((2t+1)\theta) \ket{A_1}
+````
+
+debe elegirse $t$ tal que  
+
+```math 
+\bra{A_1}G^t\ket{u} = sin((2t+1)\theta)
+````
+
+sea tan cerca de 1 como sea posible (en valor absoluto), para maximizar la probabilidad de obtener $x \in A_1$ en la medición. También es deseable que 
+$t$ sea lo más pequeño posible, ya que $t$ aplicaciones de la operación $G$ requieren $t$ consultas a la función $f$, cuya ejecución se busca minimizar 
+tanto como sea posible. Dado que se busca que $sin((2t+1)\theta)$ sea cercano a 1 en valor absoluto, una forma de lograrlo consiste en elegir $t$ tal que 
+
+```math 
+(2t+1)\theta \approx \frac{\pi}{2}
+````
+
+Debido al comportamiento de la función seno. 
+
+**Insertar imagen de función seno**
+
+Despejando $t$ de la ecuación anterior se obtiene:
+
+```math 
+\begin{align}
+  (2t+1)\theta &\approx \frac{\pi}{2}\\
+  2t+1 &\approx \frac{\pi}{2\theta}\\
+  2t &\approx \frac{\pi}{2\theta} - 1\\
+  t &\approx \left(\frac{\pi}{2\theta} - 1\right)/2\\
+  t &\approx \frac{\pi}{4\theta} - \frac{1}{2}
+\end{align}
+```
+
+Como $t$ debe ser un valor entero mayor que 0, puede redondearse para abajo:
+
+```math
+t = \left\lfloor\frac{\pi}{4\theta}\right\rfloor
+```
+
+Ahora debe reemplazarse el valor $\theta$. Recordando que el valor de dicho ángulo está dado por la fórmula $\theta = sin^{-1}\left(\sqrt{\frac{|A_1|}{N}}\right)$, 
+puede verse fácilmente que la estimación de $t$ desarrollada previamente depende del número de cadenas presentes en $A_1$. Esto puede presentar un 
+desafío si no se sabe cuántas soluciones tiene el problema.
+
+
+#### Solución única
+
+{/*
 let's focus on the situation in which there's a single string x such that f(x)=1.
 
 theta = sin^(-1)(\sqrt(1/N)) 
@@ -592,14 +790,46 @@ It can be proved in general that
 p(N,1) >= 1 - 1/N
 
 for all N, so the probability of success goes to 1 in the limit as N becomes large, as the values produced by the code cell suggest.
+*/}
 
-#### Multiple solutions
+Se harán los cálculos necesarios para el caso en el que solamente hay una cadena $x$ tal que $f(x) = 1$.
 
+```math
+t = sin^{-1}\left(\sqrt{\frac{|A_1|}{N}}\right) = sin^{-1}\left(\sqrt{\frac{1}{N}}\right)
+```
+
+Cuyo valor puede aproximarse a $\sqrt{\frac{1}{N}}$ cuando $N$ es un valor grande. 
+
+Sustituyendo el valor $\theta = \sqrt{\frac{1}{N}}$ en la expresión $t = \left\lfloor\frac{\pi}{4\theta}\right\rfloor$ se obtiene 
+
+```math
+t = \left\lfloor\frac{\pi}{4\theta}\right\rfloor = \left\lfloor\frac{\pi}{4N^{-1/2}}\right\rfloor = \left\lfloor\frac{\pi}{4}\sqrt{N}\right\rfloor
+```
+
+En base al resultado obtenido en $t$, puede verse que el algoritmo de Grover requiere a lo sumo $O(\sqrt{N})$ consultas para encontrar la solución.
+La probabilidad de que la medición final resulte en la solución puede expresarse como 
+
+```math
+p(N,1)=sin^2((2t+1)θ))
+```
+
+Y puede probarse que en general se cumple 
+
+```math
+p(N,1) >= 1 - \frac{1}{N}
+```
+
+para todo $N$, por lo que la probabilidad de éxito tiende a 1 a medida que $N$ crece.
+
+
+#### Múltiples soluciones
+
+{/*
 As the number of elements in A_1 varies, so too does the angle θ, which can have a significant significant effect on the algorithm's probability of success
 
 Having s solutions, we'll have to use 
 
-θ=sin^−1(\sqrt(s/N))
+θ=sin^{−1}(\sqrt(s/N))
 
 p(N,s) denotes the probability that Grover's algorithm run for tt iterations reveals a solution when there are s solutions in total out of N possibilities.
 
@@ -622,9 +852,46 @@ t <= pi/4theta <= pi/4 \sqrt(N/s)
 This translates to a savings in the number of queries as s grows. In particular, the number of queries required is
 
 O(\sqrt(N/s))
+*/}
 
-#### Unknown number of solutions
+Se harán los cálculos necesarios para el caso en el que hayan distintas cadenas $x_i$ tal que $f(x_i) = 1$.
 
+A medida que la cantidad de elementos en $A_1$ varía, también lo hace el ángulo $\theta$, lo cual puede repercutir en gran medida en la probabilidad de éxito 
+del algoritmo. Teniendo $s$ soluciones, habrá que usar el siguiente ángulo:
+
+```math
+\theta=sin^{−1}\left(\sqrt{\frac{s}{N}}\right)
+```
+
+y $p(N,s)$ denota la probabilidad del algoritmo para que en $t$ iteraciones encuentre una de las $s$ soluciones dentro de $N$ posibilidades. Puede probarse que 
+
+```math
+p(N,s)\geq 1−\frac{s}{N}
+```
+
+y también que 
+
+```math
+p(N,s)\geq \frac{s}{N}
+```
+
+Para todo valor $\alpha \in \{0,1\}$ se cumple que $sin^{-1}(\alpha)\geq\alpha$, por lo que puede afirmarse la siguiente inecuación:
+
+```math
+\theta = sin^{-1}\left(\sqrt{\frac{s}{N}}\right) \geq \sqrt{\frac{s}{N}}
+```
+
+lo cual implica que 
+
+```math
+t \leq \frac{\pi}{4\theta} \leq \frac{\pi}{4} \sqrt{\frac{N}{s}}
+```
+
+Lo cual reduce la cantidad de consultas requeridas a la función $f$ a medida que $s$ aumenta. El número de consultas requeridas es de $O(\sqrt{\frac{N}{s}})$.
+
+#### Número desconocido de soluciones 
+
+{/*
 If the number of solutions s=∣A1∣ is unknown, then a different approach is required, for in this situation we have no knowledge of s to inform our choice of t. 
 There are different approaches.
 
@@ -642,9 +909,25 @@ to waste queries when there isn't a solution. The process takes advantage of the
 
 Some care is required, however, to balance the rate of growth of T with the probability of success for each iteration. 
 Taking T←⌈5/4T⌉ works, as an analysis reveals. Doubling T does not — this turns out to be too fast of an increase.
+*/}
 
-#### The trivial cases
+Si el número de soluciones $s = |A_1|$ se desconoce debe implementarse una estrategia para encontrar soluciones con alta probabilidad. Existen diferentes alternativas
+que serán mencionadas a continuación. 
 
+La primera opción consiste en elegir un valor aleatorio de $t$ ubicado entre 1 y $\left\lfloor\frac{\pi}{4}\sqrt{N}\right\rfloor$. De esta manera es posible encontrar 
+una solución (asumiendo que al menos una existe) con una probabilidad mayor al 40\%. Si bien esta probabilidad es baja, repitiendo este procedimiento y verificando el 
+resultado puede alcanzarse una solución con una probabilidad muy cercana a 1. 
+
+Por otro lado, existe un método que encuentra una solución cuando al menos una existe realizando $O(\sqrt{\frac{N}{s}})$ consultas, incluso cuando el número de 
+soluciones de $s$ no es conocido. Cabe destacar que se requieren $O(\sqrt{N})$ consultas para determinar que no hay soluciones cuando $s=0$. La idea consiste en 
+elegir $t$ de manera uniforme y aleatoria dentro del conjunto $\{1,...,T\}$ iterativamente, incrementando el valor de $T$. Una estrategia válida es comenzar 
+con $T=1$ e incrementar dicho valor exponencialmente, siempre terminando este proceso tan pronto como una solución sea encontrada y dejando de incrementar $T$ para 
+no desperdiciar consultas cuando ya se sabe que no existe una solución. Este procedimiento tiene la ventaja de que require menos consultas cuando hay más soluciones.
+No obstante, debe tenerse cuidado a la hora de elegir la tasa de crecimiento de $T$: está comprobado que utilizar $T \leftarrow \left\lceil \frac{5}{4}T \right\rceil$ 
+funciona correctamente, pero duplicar $T$ en cada iteración es demasiado agresivo y genera incrementos demasiado rápidos. 
+
+#### Casos triviales
+{/*
 Throughout the analysis we've just gone through, we've assumed that the number of solutions is non-zero. Indeed, by referring to the vectors
 ∣A0⟩=1/sqrt(∣A0∣)∑x∈A0∣x⟩
 ∣A1⟩=1/sqrt(∣A1∣)∑x∈A1∣x⟩
@@ -666,6 +949,29 @@ G∣u⟩=(2∣u⟩⟨u∣−I)Zf∣u⟩=±(2∣u⟩⟨u∣−I)∣u⟩=±∣u⟩
 
 So, irrespective of the number of iterations t we perform in these cases, the measurements will always reveal a uniform random string x∈Σn.
 */}
+
+Hasta este punto se ha asumido que el número de soluciones es distinto de cero. Además, se ha dejado en claro que tanto $A_0$ como $A_0$ eran conjuntos no vacíos. 
+En este apartado se explicará qué ocurre cuando alguno de ambos conjuntos se encuentra vacío. 
+
+Si todas las cadenas $x \in \Sigma^n$ son una solución, entonces cualquier medición reflejará una solución; y cuando no haya soluciones, ninguna medición obtendra 
+una solución. El hecho de que $A_0$ o $A_1$ sean vacíos implica que $f$ es una función constante: $A_1$ es vacío cuando $f(x) = 0$ para todo $x \in \Sigma^n$ y 
+$A_0$ es vacío cuando $f(x) = 1$ para todo $x \in \Sigma^n$. 
+
+Lo anterior implica que 
+
+```math 
+O\ket{u} = \pm\ket{u}
+```
+
+y por lo tanto 
+
+```math 
+G\ket{u}=(2\ket{u}\bra{u}-I)O\ket{u}=\pm(2\ket{u}\bra{u}-I)\ket{u}=\pm\ket{u}
+```
+
+En conclusión, sin importar la cantidad de iteraciones $t$ que se realicen en estos casos, las mediciones siempre reflejarán una cadena 
+uniforme aleatoria $x\in\Sigma^n$.
+
 
 ## Más información
 
