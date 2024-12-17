@@ -9,10 +9,16 @@ head:
 ---
 
 import { Image } from 'astro:assets'
-import { Aside, Code, Tabs, TabItem } from '@astrojs/starlight/components'
+import { Aside, Card, Code, Tabs, TabItem } from '@astrojs/starlight/components'
 import Math from '@components/Math.astro'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
 import Box from '@components/Box.astro'
+import {
+  solution_grover,
+  results_11_grover,
+  grover_example
+} from '@code-snippets/grover'
+
 
 {/*
 Moreover, the quantum search algorithm is general in the sense that it can be applied far beyond the route-finding example just described 
@@ -972,6 +978,42 @@ G\ket{u}=(2\ket{u}\bra{u}-I)O\ket{u}=\pm(2\ket{u}\bra{u}-I)\ket{u}=\pm\ket{u}
 En conclusión, sin importar la cantidad de iteraciones $t$ que se realicen en estos casos, las mediciones siempre reflejarán una cadena 
 uniforme aleatoria $x\in\Sigma^n$.
 
+### Ejemplos
+
+Sea $s=11$ la solución única al problema se modifica el oráculo con una función que toma valor 1 únicamente con dicha cadena. Utilizaremos una compuerta <a href={`${import.meta.env.BASE_URL}/gates/cz`}>CZ</a> para que el oráculo detecte la solución única.
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+      <QuantumCircuit src={grover_example} />
+      <Aside>
+        El resultado de la medición representa con valores **"On"** aquellos
+        valores que son $1$ y los que son **"Off"** los valores que son $0$,
+        formando la cadena $111$ si se lee de arriba hacia abajo.
+      </Aside>
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+      <Tabs>
+        <TabItem label='Código'>
+          <Code code={solution_grover} lang='py' />
+        </TabItem>
+        <TabItem label='Resultado'>
+          <Code
+            mark={[`{'11': 1024}`]}
+            lang='text'
+            code={results_11_grover}
+          />
+          <Aside>
+            El órden de la evaluación (la última linea) es de abajo hacia
+            arriba, por lo que el último bit representa el de arriba.
+          </Aside>
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+</Tabs>
 
 ## Más información
 
