@@ -3,9 +3,12 @@ layout: '@layouts/math.astro'
 title: Algoritmo de Bernstein-Vazirani
 description: Un analisis profundo sobre el algoritmo de Bernstein-Vazirani y su similutud al algoritmo de Deutsch-Jozsa
 head:
-  - tag: link
+  - tag: meta
     attrs:
-      { property: 'og-image', href: /quantum-katas/deutsch-jozsa-simple.png }
+      { property: 'og:image', content: /quantum-katas/deutsch-jozsa-simple.png }
+  - tag: meta
+    attrs:
+      { property: 'og:image:alt', content: Circuito del algoritmo de Deutsch }
 ---
 
 import { Image } from 'astro:assets'
