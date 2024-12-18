@@ -111,6 +111,10 @@ export default defineConfig({
                             label: 'Deutsch-Jozsa',
                             slug: 'proofs/deutsch-jozsa',
                         },
+                        {
+                            label: 'Grover',
+                            slug: 'proofs/grover',
+                        },
                     ],
                     translations: {
                         en: 'Math proofs',

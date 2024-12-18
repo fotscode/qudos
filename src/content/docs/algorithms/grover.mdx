@@ -26,7 +26,7 @@ to speed up many (though not all) classical algorithms that use search heuristic
 */}
 
 El algoritmo de Grover es el algoritmo de búsqueda cuántico por excelencia, ya que permite encontrar elementos dentro de un conjunto de elementos que 
-no posee estructura alguna. Al ser general, puede aplicarse para diferentes tipos de problema y acelerar los algoritmos clásicos 
+no posee estructura alguna. Es muy importante porque puede aplicarse para diferentes tipos de problema y acelerar los algoritmos clásicos 
 que usan heurísticas de búsqueda. 
 
 ## Metodología 
@@ -129,37 +129,6 @@ $\ket{1}$ serán intercambiados por acción del oráculo, dando el estado result
 
 ```math
 \ket{x}\ket{-} \rightarrow -1^{f(x)}\ket{x}\ket{-}
-```
-
-A continuación se encuentra la demostración del resultado anterior.
-
-Caso 1: $f(x) = 0$.
-```math
-\begin{align}
-\ket{x}\ket{- \oplus f(x)}=\\
-\ket{x}\ket{- \oplus 0}=\\
-\ket{x}\ket{-}=\\
-1\ket{x}\ket{-}=\\
--1^0\ket{x}\ket{-}=\\
--1^{f(x)}\ket{x}\ket{-}\\
-\end{align}
-```
-
-Caso 2: $f(x) = 1$.
-```math
-\begin{align}
-\ket{x}\ket{- \oplus f(x)}=\\
-\ket{x}\ket{- \oplus 1}=\\
-\ket{x}\left(\frac{\ket{0} - \ket{1}}{\sqrt 2} \oplus \ket{1}\right)=\\
-\ket{x}\left(\frac{\ket{0} \oplus \ket{1} - \ket{1} \oplus \ket{1}}{\sqrt 2}\right)=\\
-\ket{x}\left(\frac{\ket{1} - \ket{0}}{\sqrt 2}\right)=\\
--\ket{x}\left(\frac{-\ket{1} + \ket{0}}{\sqrt 2}\right)=\\
--\ket{x}\left(\frac{\ket{0} - \ket{1}}{\sqrt 2}\right)=\\
--\ket{x}\ket{-}=\\
--1\ket{x}\ket{-}=\\
--1^1\ket{x}\ket{-}=\\
--1^{f(x)}\ket{x}\ket{-}\\
-\end{align}
 ```
 
 Notar que el estado del qubit del oráculo no cambia, sino que se mantiene en $\ket{-}$ durante toda la ejecución del algoritmo, y por lo tanto puede ser 
@@ -483,41 +452,16 @@ tendrá estas propiedades luego de cualquier cantidad de iteraciones de $G$ en s
 Otro punto importante a considerar es que el algoritmo de Grover no se preocupa sobre cuáles cadenas son soluciones, solamente debe ser capaz de distinguirlas 
 respecto de aquellas cadenas que no lo son.
 
-A continuación se mostrará el cómputo resultante de aplicar $G$ sobre $\ket{A_0}$ y $\ket{A_1}$.
+Al aplicar $G$ sobre $\ket{A_0}$ se obtiene:
 
-Acción de $G$ sobre $\ket{A_0}$:
-
-```math 
-\begin{align}
-G\ket{A_0}&=(2\ket{u}\bra{u} - I)O \ket{A_0}\\
-&=(2\ket{u}\bra{u} - I) \ket{A_0}\\
-&=2\ket{u}\bra{u}\ket{A_0} - I\ket{A_0}\\
-&=2\ket{u}\bra{u}\ket{A_0} - \ket{A_0}\\
-&=2\sqrt{\frac{|A_0|}{N}}\ket{u} - \ket{A_0}\\
-&=2\sqrt{\frac{|A_0|}{N}}\left(\sqrt{\frac{|A_0|}{N}} \ket{A_0} + \sqrt{\frac{|A_1|}{N}} \ket{A_1}\right) - \ket{A_0}\\
-&=\frac{2|A_0|}{N} \ket{A_0} + 2\frac{\sqrt{|A_1|\cdot|A_0|}}{N} \ket{A_1} - \ket{A_0}\\
-&=-\frac{1 - 2|A_0|}{N} \ket{A_0} + 2\frac{\sqrt{|A_1|\cdot|A_0|}}{N} \ket{A_1}\\
-&=-\frac{|A_1| - |A_0|}{N} \ket{A_0} + 2\frac{\sqrt{|A_1|\cdot|A_0|}}{N} \ket{A_1}\\
-&=\frac{|A_0| - |A_1|}{N} \ket{A_0} + 2\frac{\sqrt{|A_1|\cdot|A_0|}}{N} \ket{A_1}
-\end{align}
+```math
+\frac{|A_0| - |A_1|}{N} \ket{A_0} + 2\frac{\sqrt{|A_1|\cdot|A_0|}}{N} \ket{A_1}
 ```
 
-Acción de $G$ sobre $\ket{A_1}$:
+Mientras que aplicar $G$ sobre $\ket{A_1}$ produce:
 
-```math 
-\begin{align}
-G\ket{A_1}&=(2\ket{u}\bra{u} - I)O \ket{A_1}\\
-&=-(2\ket{u}\bra{u} - I) \ket{A_1}\\
-&=-(2\ket{u}\bra{u}\ket{A_1} - I\ket{A_1})\\
-&=-2\ket{u}\bra{u}\ket{A_1} + I\ket{A_1}\\
-&=-2\ket{u}\bra{u}\ket{A_1} + \ket{A_1}\\
-&=-2\sqrt{\frac{|A_1|}{N}}\ket{u} + \ket{A_1}\\
-&=-2\sqrt{\frac{|A_1|}{N}}\left(\sqrt{\frac{|A_0|}{N}} \ket{A_0} + \sqrt{\frac{|A_1|}{N}} \ket{A_1}\right) + \ket{A_1}\\
-&=-2\frac{|A_1|}{N} \ket{A_1}\left(-2\frac{\sqrt{|A_0| \cdot |A_1|}}{N} \ket{A_0}\right) + \ket{A_1}\\
-&=\frac{1-2|A_1|}{N} \ket{A_1} \left(-2\frac{\sqrt{|A_0| \cdot |A_1|}}{N} \ket{A_0}\right)\\
-&=\frac{|A_0| - |A_1|}{N} \ket{A_1} \left(-2\frac{\sqrt{|A_0| \cdot |A_1|}}{N} \ket{A_0}\right)\\
-&=-2\frac{\sqrt{|A_0| \cdot |A_1|}}{N} \ket{A_0} + \frac{|A_0| - |A_1|}{N} \ket{A_1}
-\end{align}
+```math
+-2\frac{\sqrt{|A_0| \cdot |A_1|}}{N} \ket{A_0} + \frac{|A_0| - |A_1|}{N} \ket{A_1}
 ```
 
 Por conveniencia, se expresará la acción de $G$ en un espacio de dos dimensiones como una matriz.
@@ -541,46 +485,6 @@ M =
 \end{pmatrix}^2
 ```
 
-Demostración paso a paso:
-
-```math 
-\begin{align}
-  \begin{pmatrix}
-    \sqrt{\frac{|A_0|}{N}}&-\sqrt{\frac{|A_1|}{N}}\\
-    \sqrt{\frac{|A_1|}{N}}&\sqrt{\frac{|A_0|}{N}}\\
-  \end{pmatrix}^2&=\\
-
-  \begin{pmatrix}
-    \sqrt{\frac{|A_0|}{N}}&-\sqrt{\frac{|A_1|}{N}}\\
-    \sqrt{\frac{|A_1|}{N}}&\sqrt{\frac{|A_0|}{N}}\\
-  \end{pmatrix}
-  \begin{pmatrix}
-    \sqrt{\frac{|A_0|}{N}}&-\sqrt{\frac{|A_1|}{N}}\\
-    \sqrt{\frac{|A_1|}{N}}&\sqrt{\frac{|A_0|}{N}}\\
-  \end{pmatrix}&=\\
-
-  \begin{pmatrix}
-    \sqrt{\frac{|A_0|}{N}}\sqrt{\frac{|A_0|}{N}} + \left(-\sqrt{\frac{|A_1|}{N}}\right)\sqrt{\frac{|A_1|}{N}} & 
-    \sqrt{\frac{|A_0|}{N}}\left(-\sqrt{\frac{|A_1|}{N}}\right) + \left(-\sqrt{\frac{|A_1|}{N}}\right)\sqrt{\frac{|A_0|}{N}}\\
-    \sqrt{\frac{|A_1|}{N}}\sqrt{\frac{|A_0|}{N}} + \sqrt{\frac{|A_0|}{N}}\sqrt{\frac{|A_1|}{N}} & 
-    \sqrt{\frac{|A_1|}{N}}\left(-\sqrt{\frac{|A_1|}{N}}\right) + \sqrt{\frac{|A_0|}{N}}\sqrt{\frac{|A_0|}{N}}\\
-  \end{pmatrix}&=\\
-
-
-  \begin{pmatrix}
-    \frac{|A_0|}{N} + \left(-\frac{|A_1|}{N}\right)&-\frac{\sqrt{|A_0||A_1|}}{N}+\left(-\frac{\sqrt{|A_0||A_1|}}{N}\right)\\
-    \frac{\sqrt{|A_0||A_1|}}{N} + \frac{\sqrt{|A_0||A_1|}}{N}&\frac{|A_0|}{N} - \frac{|A_1|}{N}\\ 
-  \end{pmatrix}&=\\
-
-  \begin{pmatrix}
-    \frac{|A_0|-|A_1|}{N}&-2\frac{\sqrt{|A_0||A_1|}}{N}\\
-    2\frac{\sqrt{|A_0||A_1|}}{N}&\frac{|A_0|-|A_1|}{N}\\
-  \end{pmatrix}&=\\
-
-  =&M
-\end{align}
-```
-
 Además, la matriz 
 
 ```math
@@ -595,7 +499,7 @@ es de rotación, la cual puede expresarse como
 ```math
 \begin{pmatrix}
 cos(\theta)&-sin(\theta)\\
-\sin(\theta)&cos(\theta)\\
+sin(\theta)&cos(\theta)\\
 \end{pmatrix}
 ```
 
@@ -740,19 +644,11 @@ Debido al comportamiento de la función seno.
 
 **Insertar imagen de función seno**
 
-Despejando $t$ de la ecuación anterior se obtiene:
+Nota: existen infinitos valores $t$ tal que $sin(t) \approx |1|$. Además, la oscilación de dicha función permite estimar la probabilidad de éxito a la hora 
+de encontrar una solución, en base a la cantidad de iteraciones elegida. En este contexto, se buscará alcanzar el valor positivo $t$ cercano a $|1|$ más pequeño, 
+con el objetivo de realizar la menor cantidad de iteraciones posible con una gran probabilidad de éxito.
 
-```math 
-\begin{align}
-  (2t+1)\theta &\approx \frac{\pi}{2}\\
-  2t+1 &\approx \frac{\pi}{2\theta}\\
-  2t &\approx \frac{\pi}{2\theta} - 1\\
-  t &\approx \left(\frac{\pi}{2\theta} - 1\right)/2\\
-  t &\approx \frac{\pi}{4\theta} - \frac{1}{2}
-\end{align}
-```
-
-Como $t$ debe ser un valor entero mayor que 0, puede redondearse para abajo:
+Despejando $t$ y redondeando a un valor entero mayor que 0, de la ecuación anterior se obtiene:
 
 ```math
 t = \left\lfloor\frac{\pi}{4\theta}\right\rfloor
