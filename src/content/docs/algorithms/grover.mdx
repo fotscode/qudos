@@ -37,7 +37,7 @@ This allows us to present a very general description of the search procedure, an
 */}
 
 Se empleará el algoritmo de búsqueda en términos de un oráculo, lo que permitirá presentar una descripción general del proceso de búsqueda, y 
-un punto de vista geométrico para visualizar su acción y ver cómo trabaja.
+un punto de vista geométrico para ver cómo funciona.
 
 ### El oráculo 
 
@@ -108,11 +108,11 @@ of the solution.
 */}
 
 Suponga que se desea buscar sobre un espacio de búsqueda de $N$ elementos. En lugar de buscar dichos elementos directamente, se pondrá el foco sobre su índice,
-el cual puede enumerarse desde $0$ hasta $N - 1$. Se asumirá $N = 2^n$, de manera que el índice pueda ser almacenado en n bits, y el problema tendrá exactamente 
+el cual puede enumerarse desde $0$ hasta $N - 1$. Se asumirá $N = 2^n$, de manera que el índice pueda ser almacenado en $n$ bits, y el problema tendrá exactamente 
 $M$ soluciones, con $1 \leq M \leq N$. Una instancia del problema de búsqueda puede ser representada por una función $f$, que toma un entero $x$ como entrada dentro 
 del rango que va desde $0$ a $N - 1$. Por definición, $f(x) = 1$ si $x$ es una solución del problema, y $f(x) = 0$ en caso contrario.
 
-Además, se supondrá que se dispone de un oráculo cuántico con la habilidad para reconocer soluciones al problema de búsqueda. Esto reconocimiento será reflejado 
+Además, se asumirá que se dispone de un oráculo cuántico con la habilidad para reconocer soluciones al problema de búsqueda. Este reconocimiento será reflejado 
 mediante un qubit destinado al oráculo. Precisamente, el oráculo es un operador unitario $O$, definido por su acción en la base computacional:
 
 ```math
@@ -123,22 +123,22 @@ donde $\ket{x}$ es el registro índice, $\oplus$ denota suma módulo 2, y el qub
 Puede verificarse si $x$ es una solución al problema preparando $\ket{x}\ket{0}$ para luego aplicar el oráculo y verificar si el qubit del mismo cambió su valor a $\ket{1}$.
 
 Particularmente, en el algoritmo de búsqueda cuántico es útil aplicar el oráculo con su qubit inicializado en el estado $\frac{\ket{0} - \ket{1}}{\sqrt 2}$ 
-(abreviado como $\ket{-}$ por cuestiones de practicidad).
-Si $x$ no es una solución al problema, aplicar el oráculo $\ket{x}\ket{-}$ no cambiará su estado. Por otro lado, si $x$ es una solución, entonces $\ket{0}$ y 
-$\ket{1}$ serán intercambiados por acción del oráculo, dando el estado resultante $-\ket{x}\ket{-}$. En resumen, la acción del oráculo es:
+(también conocido como $\ket{-}$).
+Si $x$ no es una solución al problema, aplicar el oráculo sobre $\ket{x}\ket{-}$ no cambiará el estado. En cambio, si $x$ es en efecto una solución, entonces $\ket{0}$ y 
+$\ket{1}$ serán intercambiados por acción del oráculo, produciendo el estado resultante $-\ket{x}\ket{-}$. En resumen, la acción del oráculo es:
 
 ```math
 \ket{x}\ket{-} \rightarrow -1^{f(x)}\ket{x}\ket{-}
 ```
 
 Notar que el estado del qubit del oráculo no cambia, sino que se mantiene en $\ket{-}$ durante toda la ejecución del algoritmo, y por lo tanto puede ser 
-omitido más adelante para tener una mayor simplicidad. Con esta convención, la acción del oráculo puede escribirse como:
+omitido más adelante para lograr una mayor simplicidad. Con esta convención, la acción del oráculo puede escribirse como:
 
 ```math
 \ket{x} \rightarrow -1^{f(x)}\ket{x}
 ```
 
-Dado el funcionamiento del oráculo, puede decirse que el mismo marca las soluciones del problema de búsqueda, modificando la fase de las soluciones.
+Dado el funcionamiento previamente mencionado, es posible afirmar que el oráculo se encarga de marcar las soluciones del problema de búsqueda, modificando su fase.
 
 ### Procedimiento 
 {/*
@@ -173,19 +173,19 @@ Given that H⊗n gives a uniform superposition u:
 Thus the Grover iteration G may be written G = (2\ket{u}\bra{u} - I)O 
 */}
 
-El algoritmo comienza en el estado $\ket{0}^{\otimes n}$. A continuación, la transformación de Hadamard para alcanzar un estado de superposición igualitaria
+El algoritmo comienza en el estado $\ket{0}^{\otimes n}$. Luego, se aplica la transformación de Hadamard para alcanzar un estado de superposición uniforme
 $\frac{1}{\sqrt N} \sum_{0}^{N - 1}\ket{x}$. Llegados a este punto, el algoritmo de búsqueda consiste en la aplicación reiterada de una subrutina 
-cuántica, conocida como iteración de Grover, representada mediante la letra $G$, que consta de los siguientes pasos:
+cuántica, conocida como iteración de Grover, que es representada mediante la letra $G$ y consta de los siguientes pasos:
 
 1. Aplicar el oráculo O 
 2. Aplicar la transformación de Hadamard $H^{\otimes n}$
-3. Realizar un cambio de fase condicional, con todos los estados excepto $\ket{0}$ recibiendo un cambio de fase de $-1$,
+3. Realizar un cambio de fase condicional, con todos los estados a excepción de $\ket{0}$ recibiendo un cambio de fase con valor $-1$,
 
 ```math
 \ket{x} \rightarrow -(-1)^{\delta_{x0}} \ket{x}
 ```
 
-Nota: el operador unitario correspondiente al cambio de fase en la iteración de Grover es $2\ket{0}\bra{0} - I$.
+*Nota: el operador unitario correspondiente al cambio de fase en la iteración de Grover es $2\ket{0}\bra{0} - I$.*
 
 4. Aplicar la transformación de Hadamard $H^{\otimes n}$
 
@@ -195,16 +195,19 @@ El efecto combinado de los pasos 2, 3 y 4 se encuentra desarrollado a continuaci
 \begin{align}
 H^{\otimes n}(2\ket{0}\bra{0} - I)H^{\otimes n}&=\\
 2(H^{\otimes n}\ket{0}\bra{0}H^{\otimes n}) - I&=\\
-2\ket{u}\bra{u} - I&=
+2\ket{u}\bra{u} - I
 \end{align}
 ```
 
-Dado que aplicar $H^{\otimes n}$ da como resultado una superposición uniforme $u$.
+Debido a que aplicar $H^{\otimes n}$ da como resultado una superposición uniforme $u$.
 Por lo tanto, la iteración de Grover $G$ puede ser escrita como 
 
 ```math
 G = (2\ket{u}\bra{u} - I)O
 ```
+
+Se han descrito los pasos fundamentales que constituyen al algoritmo de Grover. Se presentará posteriormente un análisis que evaluará el comportamiento 
+de dicho procedimiento, su eficiencia y su precisión.
 
 ### Análisis 
 
@@ -414,7 +417,7 @@ Grover iterations, the state vector gets close to \ket{A_1}, at which point an o
 outputs a solution to the search problem with high probability. 
 */}
 
-Se definirán a continuación dos conjuntos de cadenas.
+Para evaluar el algoritmo se definirán a continuación dos conjuntos de cadenas.
 
 ```math 
 A_0 = \{x \in \Sigma^n: f(x) = 0\}\\
@@ -444,7 +447,7 @@ Esto puede representarse también como:
 \ket{u} = \sqrt{\frac{|A_0|}{N}} \ket{A_0} + \sqrt{\frac{|A_1|}{N}} \ket{A_1}
 ```
 
-Recordar que también se cumple que $\ket{u} = H^{\otimes n}\ket{0^n}$, de manera que $\ket{u}$ representa el estado del registro $Q$ tras realizar el paso 
+Recordar que también se cumple $\ket{u} = H^{\otimes n}\ket{0^n}$, de manera que $\ket{u}$ representa el estado del registro $Q$ tras realizar el paso 
 1 de la iteración de Grover. Esto implica que justo antes de alcanzar el paso 2 de $G$, el estado de $Q$ se encuentra contenido en un espacio vectorial 
 de dos dimensiones abarcado por $\ket{A_0}$ y $\ket{A_1}$, y los coeficientes de ambos vectores son números reales. Cabe destacar que el estado de $Q$ siempre
 tendrá estas propiedades luego de cualquier cantidad de iteraciones de $G$ en su segundo paso.
@@ -469,12 +472,12 @@ Por conveniencia, se expresará la acción de $G$ en un espacio de dos dimension
 ```math 
 M = 
 \begin{pmatrix}
-\frac{|A_0| - |A_1}{N}&-2\frac{\sqrt{|A_0||A_1|}}{N}\\
+\frac{|A_0| - |A_1|}{N}&-2\frac{\sqrt{|A_0||A_1|}}{N}\\
 2\frac{\sqrt{|A_0||A_1|}}{N}&\frac{|A_0| - |A_1|}{N}\\
 \end{pmatrix}
 ```
 
-donde la primera y segunda filas/columnas corresponden a $\ket{A_0}$ y $\ket{A_1}$ respectivamente. Dicha matriz $M$ se obtiene al multiplicar 
+donde la primera y segunda fila/columna corresponden a $\ket{A_0}$ y $\ket{A_1}$ respectivamente. Dicha matriz $M$ se obtiene al multiplicar 
 por sí misma una matriz más simple.
 
 ```math
@@ -503,7 +506,7 @@ sin(\theta)&cos(\theta)\\
 \end{pmatrix}
 ```
 
-para $\theta = sin^{-1}(\sqrt{\frac{|A_1|}{N}})$. Utilizando esta nueva expresión para $M$:
+para $\theta = sin^{-1}\left(\sqrt{\frac{|A_1|}{N}}\right)$. Utilizando esta nueva expresión para $M$:
 
 ```math
 \begin{align}
@@ -565,13 +568,15 @@ Regla general:
 G^k\ket{u} = cos((2k+1)\theta) \ket{A_0} + sin((2k+1)\theta) \ket{A_1}
 ```
 
-La idea es que la iteración de Grover rote el vector de estado hacia $\ket{A_1}$. Cuando esto ocurre, una medición del estado produce con alta probabilidad 
+La idea es que la iteración de Grover rote el estado vectorial hacia $\ket{A_1}$. Cuando esto ocurre, una medición del estado produce con alta probabilidad 
 una de las salidas superpuestas en $\ket{A_1}$, es decir, una solución al problema.
 
-Inicialmente el vector de estado se encuentra en un estado ortogonal respecto de $\ket{A_1}$. Partiendo de ese punto, la operación del oráculo $O$ refleja 
-el estado a partir de $\ket{A_0}$, y luego la operación $2\ket{u}\bra{u} - I$ lo refleja en torno a $\ket{u}$. Dado que dos reflexiones producen una rotación,
+Inicialmente el estado vectorial es ortogonal respecto de $\ket{A_1}$. Partiendo de este punto, la operación del oráculo $O$ refleja 
+el estado en torno a $\ket{A_0}$, y luego la operación $2\ket{u}\bra{u} - I$ lo refleja en torno a $\ket{u}$. Dado que dos reflexiones producen una rotación,
 el vector de estado se acerca hacia $\ket{A_1}$, y luego de reiteradas rotaciones es posible obtener una solución con alta probabilidad
 mediante una observación en la base computacional.
+
+**Gráfico de rotaciones**
 
 #### Número de iteraciones
 
@@ -615,7 +620,7 @@ theta = sin^(-1)(\sqrt(|A_1|/N))
 we also see that our estimate t≈π/(4θ)−1/2 depends on the number of strings in A_1. This presents a challenge if we don't know how many solutions we have
 */}
 
-En este apartado se desarrollará sobre la cantidad de iteraciones necesarias para encontrar una solución utilizando el algoritmo de Grover. 
+En este apartado se evaluará la cantidad de iteraciones necesarias para hallar una solución utilizando el algoritmo de Grover. 
 
 El objetivo consiste en encontrar un elemento $x \in A_1$, y esto se cumplirá cuando se obtenga el estado $\ket{A_1}$, el cual nos garantizará que 
 se obtendrá un valor $x \in A_1$ como resultado de la medición.
@@ -634,7 +639,7 @@ debe elegirse $t$ tal que
 
 sea tan cerca de 1 como sea posible (en valor absoluto), para maximizar la probabilidad de obtener $x \in A_1$ en la medición. También es deseable que 
 $t$ sea lo más pequeño posible, ya que $t$ aplicaciones de la operación $G$ requieren $t$ consultas a la función $f$, cuya ejecución se busca minimizar 
-tanto como sea posible. Dado que se busca que $sin((2t+1)\theta)$ sea cercano a 1 en valor absoluto, una forma de lograrlo consiste en elegir $t$ tal que 
+tanto como sea posible. Una forma de lograr que $sin((2t+1)\theta)$ sea cercano a 1 en valor absoluto consiste en elegir $t$ tal que 
 
 ```math 
 (2t+1)\theta \approx \frac{\pi}{2}
@@ -645,8 +650,8 @@ Debido al comportamiento de la función seno.
 **Insertar imagen de función seno**
 
 Nota: existen infinitos valores $t$ tal que $sin(t) \approx |1|$. Además, la oscilación de dicha función permite estimar la probabilidad de éxito a la hora 
-de encontrar una solución, en base a la cantidad de iteraciones elegida. En este contexto, se buscará alcanzar el valor positivo $t$ cercano a $|1|$ más pequeño, 
-con el objetivo de realizar la menor cantidad de iteraciones posible con una gran probabilidad de éxito.
+de encontrar una solución, basándose en la cantidad de iteraciones elegida. En este contexto, se buscará alcanzar el valor positivo $t$ cercano a $|1|$ más pequeño, 
+con el objetivo de realizar la menor cantidad de iteraciones posible y disminuir al mínimo la probabilidad de error durante la ejecución del algoritmo.
 
 Despejando $t$ y redondeando a un valor entero mayor que 0, de la ecuación anterior se obtiene:
 
@@ -659,7 +664,7 @@ puede verse fácilmente que la estimación de $t$ desarrollada previamente depen
 desafío si no se sabe cuántas soluciones tiene el problema.
 
 
-#### Solución única
+##### Solución única
 
 {/*
 let's focus on the situation in which there's a single string x such that f(x)=1.
@@ -708,14 +713,14 @@ Sustituyendo el valor $\theta = \sqrt{\frac{1}{N}}$ en la expresión $t = \left\
 t = \left\lfloor\frac{\pi}{4\theta}\right\rfloor = \left\lfloor\frac{\pi}{4N^{-1/2}}\right\rfloor = \left\lfloor\frac{\pi}{4}\sqrt{N}\right\rfloor
 ```
 
-En base al resultado obtenido en $t$, puede verse que el algoritmo de Grover requiere a lo sumo $O(\sqrt{N})$ consultas para encontrar la solución.
+En base al resultado obtenido en $t$, notar que el algoritmo de Grover requiere a lo sumo $O(\sqrt{N})$ consultas para encontrar la solución.
 La probabilidad de que la medición final resulte en la solución puede expresarse como 
 
 ```math
 p(N,1)=sin^2((2t+1)θ))
 ```
 
-Y puede probarse que en general se cumple 
+Y en general se cumple 
 
 ```math
 p(N,1) >= 1 - \frac{1}{N}
@@ -723,8 +728,10 @@ p(N,1) >= 1 - \frac{1}{N}
 
 para todo $N$, por lo que la probabilidad de éxito tiende a 1 a medida que $N$ crece.
 
+**Mostrar esta prueba**
 
-#### Múltiples soluciones
+
+##### Múltiples soluciones
 
 {/*
 As the number of elements in A_1 varies, so too does the angle θ, which can have a significant significant effect on the algorithm's probability of success
@@ -777,6 +784,8 @@ y también que
 p(N,s)\geq \frac{s}{N}
 ```
 
+**Hacer la prueba**
+
 Para todo valor $\alpha \in \{0,1\}$ se cumple que $sin^{-1}(\alpha)\geq\alpha$, por lo que puede afirmarse la siguiente inecuación:
 
 ```math
@@ -789,9 +798,9 @@ lo cual implica que
 t \leq \frac{\pi}{4\theta} \leq \frac{\pi}{4} \sqrt{\frac{N}{s}}
 ```
 
-Lo cual reduce la cantidad de consultas requeridas a la función $f$ a medida que $s$ aumenta. El número de consultas requeridas es de $O(\sqrt{\frac{N}{s}})$.
+Por lo tanto, se reduce la cantidad de consultas requeridas a la función $f$ a medida que $s$ aumenta. El número de consultas requeridas es de $O\left(\sqrt{\frac{N}{s}}\right)$.
 
-#### Número desconocido de soluciones 
+##### Número desconocido de soluciones 
 
 {/*
 If the number of solutions s=∣A1∣ is unknown, then a different approach is required, for in this situation we have no knowledge of s to inform our choice of t. 
@@ -820,15 +829,15 @@ La primera opción consiste en elegir un valor aleatorio de $t$ ubicado entre 1 
 una solución (asumiendo que al menos una existe) con una probabilidad mayor al 40\%. Si bien esta probabilidad es baja, repitiendo este procedimiento y verificando el 
 resultado puede alcanzarse una solución con una probabilidad muy cercana a 1. 
 
-Por otro lado, existe un método que encuentra una solución cuando al menos una existe realizando $O(\sqrt{\frac{N}{s}})$ consultas, incluso cuando el número de 
-soluciones de $s$ no es conocido. Cabe destacar que se requieren $O(\sqrt{N})$ consultas para determinar que no hay soluciones cuando $s=0$. La idea consiste en 
+Por otro lado, existe un método que encuentra una solución cuando al menos una existe realizando $O\left(\sqrt{\frac{N}{s}}\right)$ consultas, incluso cuando el número de 
+soluciones de $s$ no es conocido. Cabe destacar que se requieren $O\left(\sqrt{N}\right)$ consultas para determinar que no hay soluciones cuando $s=0$. La idea consiste en 
 elegir $t$ de manera uniforme y aleatoria dentro del conjunto $\{1,...,T\}$ iterativamente, incrementando el valor de $T$. Una estrategia válida es comenzar 
 con $T=1$ e incrementar dicho valor exponencialmente, siempre terminando este proceso tan pronto como una solución sea encontrada y dejando de incrementar $T$ para 
-no desperdiciar consultas cuando ya se sabe que no existe una solución. Este procedimiento tiene la ventaja de que require menos consultas cuando hay más soluciones.
+no desperdiciar consultas cuando ya se sabe que no existe una solución. Este procedimiento tiene la ventaja de que requiere menos consultas cuando hay más soluciones.
 No obstante, debe tenerse cuidado a la hora de elegir la tasa de crecimiento de $T$: está comprobado que utilizar $T \leftarrow \left\lceil \frac{5}{4}T \right\rceil$ 
 funciona correctamente, pero duplicar $T$ en cada iteración es demasiado agresivo y genera incrementos demasiado rápidos. 
 
-#### Casos triviales
+##### Casos triviales
 {/*
 Throughout the analysis we've just gone through, we've assumed that the number of solutions is non-zero. Indeed, by referring to the vectors
 ∣A0⟩=1/sqrt(∣A0∣)∑x∈A0∣x⟩
@@ -852,10 +861,10 @@ G∣u⟩=(2∣u⟩⟨u∣−I)Zf∣u⟩=±(2∣u⟩⟨u∣−I)∣u⟩=±∣u⟩
 So, irrespective of the number of iterations t we perform in these cases, the measurements will always reveal a uniform random string x∈Σn.
 */}
 
-Hasta este punto se ha asumido que el número de soluciones es distinto de cero. Además, se ha dejado en claro que tanto $A_0$ como $A_0$ eran conjuntos no vacíos. 
+Hasta este punto se ha asumido que el número de soluciones es distinto de cero. Además, se ha dejado en claro que tanto $A_0$ como $A_1$ eran conjuntos no vacíos. 
 En este apartado se explicará qué ocurre cuando alguno de ambos conjuntos se encuentra vacío. 
 
-Si todas las cadenas $x \in \Sigma^n$ son una solución, entonces cualquier medición reflejará una solución; y cuando no haya soluciones, ninguna medición obtendra 
+Si todas las cadenas $x \in \Sigma^n$ son una solución, entonces cualquier medición reflejará una solución; y cuando no haya soluciones, ninguna medición obtendrá 
 una solución. El hecho de que $A_0$ o $A_1$ sean vacíos implica que $f$ es una función constante: $A_1$ es vacío cuando $f(x) = 0$ para todo $x \in \Sigma^n$ y 
 $A_0$ es vacío cuando $f(x) = 1$ para todo $x \in \Sigma^n$. 
 
