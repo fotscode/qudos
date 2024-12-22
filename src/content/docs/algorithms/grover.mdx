@@ -26,7 +26,7 @@ to speed up many (though not all) classical algorithms that use search heuristic
 */}
 
 El algoritmo de Grover es el algoritmo de búsqueda cuántico por excelencia, ya que permite encontrar elementos dentro de un conjunto de elementos que 
-no posee estructura alguna. Es muy importante porque puede aplicarse para diferentes tipos de problema y acelerar los algoritmos clásicos 
+no posee estructura alguna. Es muy importante porque puede aplicarse sobre diferentes clases de problemas y acelerar los algoritmos clásicos 
 que usan heurísticas de búsqueda. 
 
 ## Metodología 
@@ -173,6 +173,10 @@ Given that H⊗n gives a uniform superposition u:
 Thus the Grover iteration G may be written G = (2\ket{u}\bra{u} - I)O 
 */}
 
+En este apartado se desarrollará acerca del procedimiento realizado por el algoritmo de Grover. Para facilitar la comprensión, se denominará ``$Q$'' al registro 
+asociado a los $n$ qubits que codifican la información de la base de búsqueda, excluyendo así a los qubits adicionales que serán utilizados para la ejecución 
+del oráculo.
+
 El algoritmo comienza en el estado $\ket{0}^{\otimes n}$. Luego, se aplica la transformación de Hadamard para alcanzar un estado de superposición uniforme
 $\frac{1}{\sqrt N} \sum_{0}^{N - 1}\ket{x}$. Llegados a este punto, el algoritmo de búsqueda consiste en la aplicación reiterada de una subrutina 
 cuántica, conocida como iteración de Grover, que es representada mediante la letra $G$ y consta de los siguientes pasos:
@@ -205,6 +209,31 @@ Por lo tanto, la iteración de Grover $G$ puede ser escrita como
 ```math
 G = (2\ket{u}\bra{u} - I)O
 ```
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/grover/grover-algorithm.png`}
+    alt='Algoritmo de Grover en un circuito cuántico utilizando la iteración de Grover G.'
+    width='500'
+    height='500'
+  />
+  <span style='width:455px; padding:10px 40px'>
+    **Figura (1):** Algoritmo de Grover en un circuito cuántico utilizando la iteración de Grover G.
+  </span>
+</div>
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/grover/grover-iteration.png`}
+    alt='Iteración de Grover G en un circuito cuántico.'
+    width='500'
+    height='500'
+  />
+  <span style='width:455px; padding:10px 40px'>
+    **Figura (2):** Iteración de Grover G en un circuito cuántico.
+  </span>
+</div>
+
 
 Se han descrito los pasos fundamentales que constituyen al algoritmo de Grover. Se presentará posteriormente un análisis que evaluará el comportamiento 
 de dicho procedimiento, su eficiencia y su precisión.
@@ -447,10 +476,10 @@ Esto puede representarse también como:
 \ket{u} = \sqrt{\frac{|A_0|}{N}} \ket{A_0} + \sqrt{\frac{|A_1|}{N}} \ket{A_1}
 ```
 
-Recordar que también se cumple $\ket{u} = H^{\otimes n}\ket{0^n}$, de manera que $\ket{u}$ representa el estado del registro $Q$ tras realizar el paso 
-1 de la iteración de Grover. Esto implica que justo antes de alcanzar el paso 2 de $G$, el estado de $Q$ se encuentra contenido en un espacio vectorial 
-de dos dimensiones abarcado por $\ket{A_0}$ y $\ket{A_1}$, y los coeficientes de ambos vectores son números reales. Cabe destacar que el estado de $Q$ siempre
-tendrá estas propiedades luego de cualquier cantidad de iteraciones de $G$ en su segundo paso.
+Recordar que también se cumple $\ket{u} = H^{\otimes n}\ket{0^n}$, de manera que $\ket{u}$ representa el estado del registro $Q$ tras realizar el paso inicial 
+del algoritmo de Grover. Esto implica que justo antes de alcanzar el paso 1 de $G$ (es decir, la iteración de Grover), el estado de $Q$ se encuentra contenido 
+en un espacio vectorial de dos dimensiones abarcado por $\ket{A_0}$ y $\ket{A_1}$, y los coeficientes de ambos vectores son números reales. 
+Cabe destacar que el estado de $Q$ siempre tendrá estas propiedades luego de cualquier cantidad de iteraciones de $G$ en su segundo paso.
 
 Otro punto importante a considerar es que el algoritmo de Grover no se preocupa sobre cuáles cadenas son soluciones, solamente debe ser capaz de distinguirlas 
 respecto de aquellas cadenas que no lo son.
@@ -546,7 +575,7 @@ M =
 
 ya que rotar por el ángulo $\theta$ dos veces es equivalente a rotar por el ángulo $2\theta$.
 
-Retomando, el estado del registro $Q$ al comienzo del paso 2 es 
+Retomando, el estado del registro $Q$ al comienzo del paso de la iteración de Grover es 
 
 ```math 
 \ket{u} = \sqrt{\frac{|A_0|}{N}} \ket{A_0} + \sqrt{\frac{|A_1|}{N}} \ket{A_1} = cos(\theta) \ket{A_0} + sin(\theta) \ket{A_1}
@@ -576,7 +605,41 @@ el estado en torno a $\ket{A_0}$, y luego la operación $2\ket{u}\bra{u} - I$ lo
 el vector de estado se acerca hacia $\ket{A_1}$, y luego de reiteradas rotaciones es posible obtener una solución con alta probabilidad
 mediante una observación en la base computacional.
 
-**Gráfico de rotaciones**
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/grover/reflection1.jpg`}
+    alt='Reflexión realizada al aplicar el oráculo O respecto del estado ortogonal $\ket{A_0}$.'
+    width='700'
+    height='700'
+  />
+  <span style='width:455px; padding:10px 40px'>
+    **Figura (3):** Reflexión realizada al aplicar el oráculo O respecto del estado ortogonal $\ket{A_0}$.
+  </span>
+</div>
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/grover/reflection2.jpg`}
+    alt='Reflexión realizada al aplicar el cambio de fase condicional respecto del estado $\ket{u}$.'
+    width='700'
+    height='700'
+  />
+  <span style='width:455px; padding:10px 40px'>
+    **Figura (4):** Reflexión realizada al aplicar el cambio de fase condicional respecto del estado $\ket{u}$.
+  </span>
+</div>
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/grover/rotation.jpg`}
+    alt='Rotación obtenida como producto de haber realizado ambas reflexiones, provocando un acercamiento hacia $\ket{A_1}$.'
+    width='700'
+    height='700'
+  />
+  <span style='width:455px; padding:10px 40px'>
+    **Figura (5):** Rotación obtenido como producto de haber realizado ambas reflexiones, provocando un acercamiento hacia $\ket{A_1}$.
+  </span>
+</div>
 
 #### Número de iteraciones
 
@@ -625,7 +688,7 @@ En este apartado se evaluará la cantidad de iteraciones necesarias para hallar 
 El objetivo consiste en encontrar un elemento $x \in A_1$, y esto se cumplirá cuando se obtenga el estado $\ket{A_1}$, el cual nos garantizará que 
 se obtendrá un valor $x \in A_1$ como resultado de la medición.
 
-Dado que el estado $Q$ luego de $t$ iteraciones en el paso 2 es 
+Dado que el estado $Q$ luego de $t$ iteraciones de $G$ es 
 
 ```math 
 G^t\ket{u} = cos((2t+1)\theta) \ket{A_0} + sin((2t+1)\theta) \ket{A_1}
@@ -647,7 +710,17 @@ tanto como sea posible. Una forma de lograr que $sin((2t+1)\theta)$ sea cercano 
 
 Debido al comportamiento de la función seno. 
 
-**Insertar imagen de función seno**
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/grover/sin_function.png`}
+    alt='Comportamiento de la función seno. Probabilidad de leer una solución contra el número de iteraciones.'
+    width='700'
+    height='700'
+  />
+  <span style='width:455px; padding:10px 40px'>
+    **Figura (6):** Comportamiento de la función seno. Probabilidad de leer una solución contra el número de iteraciones.
+  </span>
+</div>
 
 Nota: existen infinitos valores $t$ tal que $sin(t) \approx |1|$. Además, la oscilación de dicha función permite estimar la probabilidad de éxito a la hora 
 de encontrar una solución, basándose en la cantidad de iteraciones elegida. En este contexto, se buscará alcanzar el valor positivo $t$ cercano a $|1|$ más pequeño, 
