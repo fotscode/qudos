@@ -85,6 +85,7 @@ export default defineConfig({
                     items: [
                         { label: 'Deutsch-Jozsa', slug: 'algorithms/deutsch-jozsa' },
                         { label: 'Bernstein-Vazirani', slug: 'algorithms/bernstein-vazirani' },
+                        { label: 'Grover', slug: 'algorithms/grover' },
                     ],
                     translations: {
                         en: 'Algorithms',
@@ -113,6 +114,10 @@ export default defineConfig({
                         {
                             label: 'Deutsch-Jozsa',
                             slug: 'proofs/deutsch-jozsa',
+                        },
+                        {
+                            label: 'Grover',
+                            slug: 'proofs/grover',
                         },
                     ],
                     translations: {
