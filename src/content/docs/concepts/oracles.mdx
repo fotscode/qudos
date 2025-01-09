@@ -6,7 +6,7 @@ description: Definición de oraculos, su utilidad e importancia.
 
 import { Aside } from '@astrojs/starlight/components'
 
-Los oráculos son operaciones abstractas,, que generalmente son definidas utilizando la notación de funciones binarias clásicas:
+Los oráculos son operaciones abstractas que generalmente son definidas utilizando la notación de funciones binarias clásicas:
 
 ```math
 f: \{0,1\}^n \rightarrow \{0,1\}^m
@@ -14,31 +14,102 @@ f: \{0,1\}^n \rightarrow \{0,1\}^m
 
 Los oráculos actuan como cajas negras abstraen su implementación que varian segun el contexto, notar que si no se pueden encontrar circuitos reales (con compuertas) para representar la funcionalidad el oráculo carece de uso práctico.
 
-Estos oráculos se utilizan por ejemplo en los algoritmos <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa`}>Deutsch-Jozsa</a> y Grover. En el primero se utiliza para abstraer la función a determinar si es constante o balanceada, y en el segundo caso se utiliza para abstraer el suscinto sobre el cual buscar.
+Estos oráculos se utilizan por ejemplo en los algoritmos <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa`}>Deutsch-Jozsa</a> y <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>Grover</a>. En el primero se utiliza para abstraer la función a determinar si es constante o balanceada, y en el segundo caso se utiliza para abstraer el suscinto sobre el cual buscar.
 
 Estos se definen de forma general de la siguiente manera:
 
 ```math
-O(\ket{x} \otimes \ket{y}) = \ket{x} \otimes \ket{y \oplus f(x)}
+U_f(\ket{x} \otimes \ket{y}) = \ket{x} \otimes \ket{y \oplus f(x)}
 ```
 
 Donde \\(x\\) es la entrada e \\(y\\) un registro que se utilizará como salida. La razon de la creación de un nuevo registro para salida es para permitir que la operación sea reversible, es decir que dada la salida se pueda saber cual fue la entrada.
 
-Vale por construcción que \\(O=O^\dag\\), permitiendo que para obtener el valor de entrada solo se deba aplicar nuevamente la operación.
+Vale por construcción que \\(U_f=U_f^\dag\\), permitiendo que para obtener el valor de entrada solo se deba aplicar nuevamente la operación.
 
 <Aside>
-Demostración de \\(O=O^\dag\\):
+Demostración de \\(U_f=U_f^\dag\\):
 ```math
 \begin{align}
-    O(\ket{x} \otimes \ket{y}) &= \ket{x} \otimes \ket{y \oplus f(x)} \quad \text{def. \(O\)}\\
-    O(\ket{x} \otimes \ket{y \oplus f(x)})&=\ket{x} \otimes \ket{y \oplus f(x) \oplus f(x)} \quad \text{def. \(O\)} \\
-    O(\ket{x} \otimes \ket{y \oplus f(x)})&=\ket{x} \otimes \ket{y} \quad \text{\(z \oplus z = 0\)} \\
+    U_f(\ket{x} \otimes \ket{y}) &= \ket{x} \otimes \ket{y \oplus f(x)} \quad \text{def. \(U_f\)}\\
+    U_f(\ket{x} \otimes \ket{y \oplus f(x)})&=\ket{x} \otimes \ket{y \oplus f(x) \oplus f(x)} \quad \text{def. \(U_f\)} \\
+    U_f(\ket{x} \otimes \ket{y \oplus f(x)})&=\ket{x} \otimes \ket{y} \quad \text{\(z \oplus z = 0\)} \\
 \end{align}
 ```
-En (1) se aplica normalmente el oráculo, en (2) se vuelve a aplicar el oráculo al resultado de (1), finalmente en (3) obtenemos la misma entrada de (1) y por lo tanto \\(O=O^\dag\\).
+En (1) se aplica normalmente el oráculo, en (2) se vuelve a aplicar el oráculo al resultado de (1), finalmente en (3) obtenemos la misma entrada de (1) y por lo tanto \\(U_f=U_f^\dag\\).
 </Aside>
+
+## Uso de oráculos
+
+Los oráculos son utilizados para verificar el resultado de una entrada, o para poder distinguir (aplicando una fase) a aquellos valores que pertenecen a la solución del problema.
+Dada la definicion previamente de un oráculo:
+
+```math
+U_f(\ket{x} \otimes \ket{y}) = \ket{x} \otimes \ket{y \oplus f(x)}
+```
+
+Se puede **verificar** que la entrada $x$ sea una solución de $f$ reemplazando $y$ con "$0$" de la siguiente manera:
+
+```math
+\begin{align}
+U_f(\ket{x} \otimes \ket{0}) =& \ket{x} \otimes \ket{0 \oplus f(x)}\\
+=&\ket{x} \otimes \ket{f(x)}
+\end{align}
+```
+
+Al leer el segundo qubit se puede verificar si $x$ es solución o no de $f$.
+
+De forma análoga si se reemplaza $y$ con "$1$" se obtiene el complemento de $f(x)$ en el segundo qubit:
+
+```math
+\begin{align}
+U_f(\ket{x} \otimes \ket{1}) =& \ket{x} \otimes \ket{1 \oplus f(x)}\\
+=&\ket{x} \otimes \ket{\overline{f(x)}}
+\end{align}
+```
+
+### Oráculo de Fase
+
+Por otra parte se suele utilizar el valor "$-$" en lugar de $y$ para **distinguir** aquellos valores que pertenecen a la solución del problema, con la precondición de que $m=1$, es decir que haya un solo bit de solución:
+
+```math
+\begin{align}
+U_f(\ket{x} \otimes \ket{-}) =& U_f\left(\ket{x} \otimes \frac{\ket{0}-\ket{1}}{\sqrt{2}}\right)\\
+=& U_f\left(\frac{\ket{x}\ket{0}-\ket{x}\ket{1}}{\sqrt{2}}\right)\\
+=& \frac{1}{\sqrt{2}}U_f\left(\ket{x}\ket{0}-\ket{x}\ket{1}\right)\\
+=& \frac{1}{\sqrt{2}}\left(U_f\ket{x}\ket{0}-U_f\ket{x}\ket{1}\right)\\
+=& \frac{1}{\sqrt{2}}\left(\ket{x}\ket{f(x)}-\ket{x}\ket{\overline{f(x)}}\right)\\
+=&\begin{cases}
+\frac{1}{\sqrt{2}}\left(\ket{x}\ket{0}-\ket{x}\ket{1}\right) && \text{si }f(x)=0\\
+=\ket{x}\frac{\ket{0}-\ket{1}}{\sqrt{2}}=\ket{x}\ket{-}\\
+\frac{1}{\sqrt{2}}\left(\ket{x}\ket{1}-\ket{x}\ket{0}\right) && \text{si }f(x)=1\\
+=-\ket{x}\frac{1}{\sqrt{2}}\left(-\ket{1}+\ket{0}\right)=-\ket{x}\ket{-}\\
+\end{cases}\\
+=&(-1)^{f(x)}\ket{x}\ket{-}\\
+\end{align}
+```
+
+Este oráculo es conocido como oráculo de fase, el último qubit no cambia nunca por lo que ciertas bibliografías simplifican enunciandolo de la siguiente manera:
+
+```math
+P_f\ket{x}=(-1)^{f(x)}\ket{x}
+```
+
+En ciertas ocasiones se utiliza combinado con el operador de difusión (e.g **_Operador de Grover_**), ya que si pertenece al problema (cuando $f(x)=1$) invertira su fase y amplificará su amplitud en consecuencia.
+
+Por otra parte, en el algoritmo de **_Deutsch-Jozsa_** se utiliza para identificar si la función es balanceada o consistente.
 
 ## Mas información
 
-- https://www.reddit.com/r/QuantumComputing/comments/xkuktj/understanding_oracles/
-- https://learn.microsoft.com/en-us/azure/quantum/concepts-oracles
+- Páginas 248-249, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
+- <a href='https://www.youtube.com/watch?v=eE7eumEZOSE' target='_blank'>
+    "Consulting the (phase) oracle" (Chris Ferrie) [Inglés]
+  </a>
+- <a href='https://www.youtube.com/watch?v=N3PhGaAZyoE' target='_blank'>
+    "Quantum Computing Course: 3.2.B Quantum Functions" (Quantum Soar) [Inglés]
+  </a>
+- <a
+    href='https://learn.microsoft.com/en-us/azure/quantum/concepts-oracles'
+    target='_blank'
+  >
+    Understanding quantum oracles (Microsoft) [Inglés]
+  </a>
