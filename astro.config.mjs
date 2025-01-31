@@ -40,6 +40,10 @@ export default defineConfig({
                         },
                         {   label: 'Amplificación de amplitudes', 
                             slug: 'concepts/amplitude-amplification' 
+                        },
+                        {
+                            label:'Uncomputation',
+                            slug:'concepts/uncomputation'
                         }
                     ],
                     translations: {
