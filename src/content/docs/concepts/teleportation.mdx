@@ -127,205 +127,208 @@ $$\overset{H}{\rightarrow}$$
 <Circle width={"80"} phase={"-67.5"} prob={0.146447} label={"\\ket{1}"}/>
 </div>
 
-Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el circuito, donde \\(\phi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=1\\) y finalizando con \\(i=10\\).
-
-<div style="margin-top:10px">
-    <ResourceDivider icon="pencil" text="\(\phi_0\)" />
-</div>
-<div style="display: flex; flex-direction:column; align-items:center; margin-bottom:60px; text-align:left">
-    El paso $0$ representa los valores con los cuales se inicializó el circuito:
-    <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
-    <Circle width={"80"} phase={"0"} prob={1} label={"\\ket{000}"}/>
-    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{001}"}/>
-    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{010}"}/>
-    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{011}"}/>
-    </div>
-    <div style="display: flex; justify-content:center; align-items:center; flex-direction:row; margin-bottom:30px">
-    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{100}"}/>
-    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{101}"}/>
-    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{110}"}/>
-    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{111}"}/>
-    </div>
-
-</div>
-
-<ResourceDivider icon='pencil' text='\(\phi_1\)' />
-<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-  Luego de aplicar una Hadamard al segundo qubit, se obtiene una superposición
-  entre $\ket{000}$ y $\ket{010}$.
-  <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-    <Circle width={'80'} phase={'0'} prob={0.5} label={'\\ket{000}'} />
-    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{001}'} />
-    <Circle width={'80'} phase={'0'} prob={0.5} label={'\\ket{010}'} />
-    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{011}'} />
-  </div>
-  <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{100}'} />
-    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{101}'} />
-    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{110}'} />
-    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{111}'} />
-  </div>
-</div>
-
-<ResourceDivider icon="pencil" text="\(\phi_2\)" />
-<div style="display: flex; flex-direction:column; align-items:center; margin-bottom:60px">
-    Con el paso $\phi_2$ se finaliza la componente $c_1$ creando un par entrelazado ($\psi^+=\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})$) entre el segundo y tercer qubit.
-    <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
-    <Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{000}"}/>
-    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{001}"}/>
-    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{010}"}/>
-    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{011}"}/>
-    </div>
-    <div style="display: flex; justify-content:center; align-items:center; flex-direction:row">
-    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{100}"}/>
-    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{101}"}/>
-    <Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{110}"}/>
-    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{111}"}/>
-    </div>
-</div>
-
-<ResourceDivider icon='pencil' text='\(\phi_3\)' />
-<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-  En el paso $\phi_3$ se aplica la compuerta U, definida previamente en la
-  figura 3, cumple la funcionalidad descrita en el componente $c_2$.
-  <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-    <Circle width={'80'} phase={22.5} prob={0.42677} label={'\\ket{000}'} />
-    <Circle width={'80'} phase={-67.5} prob={0.073223} label={'\\ket{001}'} />
-    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{010}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{011}'} />
-  </div>
-  <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{100}'} />
-    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{101}'} />
-    <Circle width={'80'} phase={22.5} prob={0.42677} label={'\\ket{110}'} />
-    <Circle width={'80'} phase={-67.5} prob={0.073223} label={'\\ket{111}'} />
-  </div>
-</div>
-
-<ResourceDivider icon='pencil' text='\(\phi_4\)' />
-<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-  En este paso se prepara el envío del mensaje (componente $c_3$), aplicando una
-  CNOT, teniendo como control el primer qubit y como objetivo el segundo qubit.
-  El resultado de esto es el entrelazamiento del primer qubit con el segundo
-  qubit y se crea, de forma indirecta, un entrelazamiento entre el primer qubit
-  y el tercero (ya que estos dos estaban previamente entrelazados).
-  <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-    <Circle width={'80'} phase={22.5} prob={0.42677} label={'\\ket{000}'} />
-    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{001}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
-    <Circle width={'80'} phase={-67.5} prob={0.073223} label={'\\ket{011}'} />
-  </div>
-  <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{100}'} />
-    <Circle width={'80'} phase={-67.5} prob={0.073223} label={'\\ket{101}'} />
-    <Circle width={'80'} phase={22.5} prob={0.42677} label={'\\ket{110}'} />
-    <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{111}'} />
-  </div>
-</div>
-
-<ResourceDivider icon='pencil' text='\(\phi_5\)' />
-<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-  Seguido al anterior, se aplica una Hadamard al primer qubit, dejandolo
-  superpuesto para no perder información de magnitud y fase en el siguiente
-  paso.
-  <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-    <Circle width={'80'} phase={22.5} prob={0.21338} label={'\\ket{000}'} />
-    <Circle width={'80'} phase={22.5} prob={0.21338} label={'\\ket{001}'} />
-    <Circle width={'80'} phase={-67.5} prob={0.036612} label={'\\ket{010}'} />
-    <Circle width={'80'} phase={112.5} prob={0.036612} label={'\\ket{011}'} />
-  </div>
-  <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-    <Circle width={'80'} phase={-67.5} prob={0.036612} label={'\\ket{100}'} />
-    <Circle width={'80'} phase={112.5} prob={0.036612} label={'\\ket{101}'} />
-    <Circle width={'80'} phase={22.5} prob={0.21338} label={'\\ket{110}'} />
-    <Circle width={'80'} phase={22.5} prob={0.21338} label={'\\ket{111}'} />
-  </div>
-</div>
-
-<ResourceDivider icon='pencil' text='\(\phi_6\)' />
-<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-  Este paso es crucial ya que realiza el envío (finaliza el componente $c_3$) y define como interpretar el mensaje al receptor. Las lecturas causan una perdida de los primeros dos qubits, estas son necesarias ya que no se pueden copiar los estados cuánticos.
-
-Digamos que el primer qubit, al leerlo, colapsa en un $1$ (convirtiendose en un bit clásico), y supongamos que el segundo qubit al leerlo también colapsa en $1$, obteniendo el siguiente estado cuántico.
-
-{' '}
-
-<div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-  <Circle width={'80'} phase={0} prob={0} label={'\\ket{000}'} />
-  <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />
-  <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
-  <Circle width={'80'} phase={112.5} prob={0.146447} label={'\\ket{011}'} />
-</div>
-<div style='display: flex; justify-content:center; align-items:center; flex-direction:row;margin-bottom:30px'>
-  <Circle width={'80'} phase={0} prob={0} label={'\\ket{100}'} />
-  <Circle width={'80'} phase={0} prob={0} label={'\\ket{101}'} />
-  <Circle width={'80'} phase={0} prob={0} label={'\\ket{110}'} />
-  <Circle width={'80'} phase={22.5} prob={0.853553} label={'\\ket{111}'} />
-</div>
-
-  <Aside>
-  Es interesante denotar que las lecturas posibles $(00, 01, 10, 11)$ corresponden con las columnas de la notación de círculos, por ejemplo si se hubiese leido un $1$ en el primer qubit y un $0$ en el segundo se hubiese obtenido la tercer columna (finalizando con $10$).
-  </Aside>
-</div>
-
-<ResourceDivider icon='pencil' text='\(\phi_7\)' />
-<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-  Tanto $\phi_7$ como $\phi_8$ cumplen el rol de interpretar el mensaje recibido y realizarle las transformaciones necesarias para obtener el estado original, cumplen la función del componente $c_4$.
-
-Dadas las lecturas definidas previamente, como el segundo qubit colapsó en $1$ se aplica una Pauli-X al tercer qubit (CNOT), intercambiando las magnitudes.
-
-  <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{000}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
-    <Circle width={'80'} phase={22.5} prob={0.853553} label={'\\ket{011}'} />
-  </div>
-  <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{100}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{101}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{110}'} />
-    <Circle width={'80'} phase={112.5} prob={0.146447} label={'\\ket{111}'} />
-  </div>
-</div>
-
-<ResourceDivider icon='pencil' text='\(\phi_8\)' />
-<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-  De la misma manera que el paso anterior, como el primer qubit colapsó en $1$ se aplica una compuerta Pauli-Z al tercer qubit (CZ), rotando su fase relativa en $180^{\circ}$, finalizando el componente $c_4$.
-  <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{000}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
-    <Circle width={'80'} phase={22.5} prob={0.853553} label={'\\ket{011}'} />
-  </div>
-  <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{100}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{101}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{110}'} />
-    <Circle width={'80'} phase={-67.5} prob={0.146447} label={'\\ket{111}'} />
-  </div>
-</div>
-
-<ResourceDivider icon='pencil' text='\(\phi_9\)' />
-<div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-  Finalmente este paso cumple la función de verificar el resultado (componente $c_5$), esto conlleva aplicar la compuerta inversa a **U**. En este caso implica realizar una Hadamard, seguida por una T$^{-1}$ y finalizada por otra Hadamard, es decir que supone realizar los pasos inversos que realiza **U**.
-
-Al aplicarlo obtenemos que el estado es $\ket{000}$, el estado inicial, por lo que verificamos que la teleportación fue exitosa.
-
-  <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-    <Circle width={'80'} phase={0} prob={1} label={'\\ket{000}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{011}'} />
-  </div>
-  <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{100}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{101}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{110}'} />
-    <Circle width={'80'} phase={0} prob={0} label={'\\ket{111}'} />
-  </div>
-</div>
-
 <Tabs>
+  <TabItem label="Círculos">
+        <Box>
+            Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el circuito, donde \\(\phi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=1\\) y finalizando con \\(i=10\\).
+            <div style="margin-top:10px">
+                <ResourceDivider icon="pencil" text="\(\phi_0\)" />
+            </div>
+            <div style="display: flex; flex-direction:column; align-items:center; margin-bottom:60px; text-align:left">
+                El paso $0$ representa los valores con los cuales se inicializó el circuito:
+                <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
+                <Circle width={"80"} phase={"0"} prob={1} label={"\\ket{000}"}/>
+                <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{001}"}/>
+                <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{010}"}/>
+                <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{011}"}/>
+                </div>
+                <div style="display: flex; justify-content:center; align-items:center; flex-direction:row; margin-bottom:30px">
+                <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{100}"}/>
+                <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{101}"}/>
+                <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{110}"}/>
+                <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{111}"}/>
+                </div>
+            
+            </div>
+            
+            <ResourceDivider icon='pencil' text='\(\phi_1\)' />
+            <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+              Luego de aplicar una Hadamard al segundo qubit, se obtiene una superposición
+              entre $\ket{000}$ y $\ket{010}$.
+              <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+                <Circle width={'80'} phase={'0'} prob={0.5} label={'\\ket{000}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{001}'} />
+                <Circle width={'80'} phase={'0'} prob={0.5} label={'\\ket{010}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{011}'} />
+              </div>
+              <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{100}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{101}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{110}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{111}'} />
+              </div>
+            </div>
+            
+            <ResourceDivider icon="pencil" text="\(\phi_2\)" />
+            <div style="display: flex; flex-direction:column; align-items:center; margin-bottom:60px">
+                Con el paso $\phi_2$ se finaliza la componente $c_1$ creando un par entrelazado ($\psi^+=\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})$) entre el segundo y tercer qubit.
+                <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
+                <Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{000}"}/>
+                <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{001}"}/>
+                <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{010}"}/>
+                <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{011}"}/>
+                </div>
+                <div style="display: flex; justify-content:center; align-items:center; flex-direction:row">
+                <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{100}"}/>
+                <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{101}"}/>
+                <Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{110}"}/>
+                <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{111}"}/>
+                </div>
+            </div>
+            
+            <ResourceDivider icon='pencil' text='\(\phi_3\)' />
+            <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+              En el paso $\phi_3$ se aplica la compuerta U, definida previamente en la
+              figura 3, cumple la funcionalidad descrita en el componente $c_2$.
+              <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+                <Circle width={'80'} phase={22.5} prob={0.42677} label={'\\ket{000}'} />
+                <Circle width={'80'} phase={-67.5} prob={0.073223} label={'\\ket{001}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{010}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{011}'} />
+              </div>
+              <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{100}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{101}'} />
+                <Circle width={'80'} phase={22.5} prob={0.42677} label={'\\ket{110}'} />
+                <Circle width={'80'} phase={-67.5} prob={0.073223} label={'\\ket{111}'} />
+              </div>
+            </div>
+            
+            <ResourceDivider icon='pencil' text='\(\phi_4\)' />
+            <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+              En este paso se prepara el envío del mensaje (componente $c_3$), aplicando una
+              CNOT, teniendo como control el primer qubit y como objetivo el segundo qubit.
+              El resultado de esto es el entrelazamiento del primer qubit con el segundo
+              qubit y se crea, de forma indirecta, un entrelazamiento entre el primer qubit
+              y el tercero (ya que estos dos estaban previamente entrelazados).
+              <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+                <Circle width={'80'} phase={22.5} prob={0.42677} label={'\\ket{000}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{001}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
+                <Circle width={'80'} phase={-67.5} prob={0.073223} label={'\\ket{011}'} />
+              </div>
+              <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{100}'} />
+                <Circle width={'80'} phase={-67.5} prob={0.073223} label={'\\ket{101}'} />
+                <Circle width={'80'} phase={22.5} prob={0.42677} label={'\\ket{110}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{111}'} />
+              </div>
+            </div>
+            
+            <ResourceDivider icon='pencil' text='\(\phi_5\)' />
+            <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+              Seguido al anterior, se aplica una Hadamard al primer qubit, dejandolo
+              superpuesto para no perder información de magnitud y fase en el siguiente
+              paso.
+              <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+                <Circle width={'80'} phase={22.5} prob={0.21338} label={'\\ket{000}'} />
+                <Circle width={'80'} phase={22.5} prob={0.21338} label={'\\ket{001}'} />
+                <Circle width={'80'} phase={-67.5} prob={0.036612} label={'\\ket{010}'} />
+                <Circle width={'80'} phase={112.5} prob={0.036612} label={'\\ket{011}'} />
+              </div>
+              <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+                <Circle width={'80'} phase={-67.5} prob={0.036612} label={'\\ket{100}'} />
+                <Circle width={'80'} phase={112.5} prob={0.036612} label={'\\ket{101}'} />
+                <Circle width={'80'} phase={22.5} prob={0.21338} label={'\\ket{110}'} />
+                <Circle width={'80'} phase={22.5} prob={0.21338} label={'\\ket{111}'} />
+              </div>
+            </div>
+            
+            <ResourceDivider icon='pencil' text='\(\phi_6\)' />
+            <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+              Este paso es crucial ya que realiza el envío (finaliza el componente $c_3$) y define como interpretar el mensaje al receptor. Las lecturas causan una perdida de los primeros dos qubits, estas son necesarias ya que no se pueden copiar los estados cuánticos.
+            
+            Digamos que el primer qubit, al leerlo, colapsa en un $1$ (convirtiendose en un bit clásico), y supongamos que el segundo qubit al leerlo también colapsa en $1$, obteniendo el siguiente estado cuántico.
+            
+            {' '}
+            
+            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+              <Circle width={'80'} phase={0} prob={0} label={'\\ket{000}'} />
+              <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />
+              <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
+              <Circle width={'80'} phase={112.5} prob={0.146447} label={'\\ket{011}'} />
+            </div>
+            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row;margin-bottom:30px'>
+              <Circle width={'80'} phase={0} prob={0} label={'\\ket{100}'} />
+              <Circle width={'80'} phase={0} prob={0} label={'\\ket{101}'} />
+              <Circle width={'80'} phase={0} prob={0} label={'\\ket{110}'} />
+              <Circle width={'80'} phase={22.5} prob={0.853553} label={'\\ket{111}'} />
+            </div>
+            
+              <Aside>
+              Es interesante denotar que las lecturas posibles $(00, 01, 10, 11)$ corresponden con las columnas de la notación de círculos, por ejemplo si se hubiese leido un $1$ en el primer qubit y un $0$ en el segundo se hubiese obtenido la tercer columna (finalizando con $10$).
+              </Aside>
+            </div>
+            
+            <ResourceDivider icon='pencil' text='\(\phi_7\)' />
+            <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+              Tanto $\phi_7$ como $\phi_8$ cumplen el rol de interpretar el mensaje recibido y realizarle las transformaciones necesarias para obtener el estado original, cumplen la función del componente $c_4$.
+            
+            Dadas las lecturas definidas previamente, como el segundo qubit colapsó en $1$ se aplica una Pauli-X al tercer qubit (CNOT), intercambiando las magnitudes.
+            
+              <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{000}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
+                <Circle width={'80'} phase={22.5} prob={0.853553} label={'\\ket{011}'} />
+              </div>
+              <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{100}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{101}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{110}'} />
+                <Circle width={'80'} phase={112.5} prob={0.146447} label={'\\ket{111}'} />
+              </div>
+            </div>
+            
+            <ResourceDivider icon='pencil' text='\(\phi_8\)' />
+            <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+              De la misma manera que el paso anterior, como el primer qubit colapsó en $1$ se aplica una compuerta Pauli-Z al tercer qubit (CZ), rotando su fase relativa en $180^{\circ}$, finalizando el componente $c_4$.
+              <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{000}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
+                <Circle width={'80'} phase={22.5} prob={0.853553} label={'\\ket{011}'} />
+              </div>
+              <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{100}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{101}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{110}'} />
+                <Circle width={'80'} phase={-67.5} prob={0.146447} label={'\\ket{111}'} />
+              </div>
+            </div>
+            
+            <ResourceDivider icon='pencil' text='\(\phi_9\)' />
+            <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+              Finalmente este paso cumple la función de verificar el resultado (componente $c_5$), esto conlleva aplicar la compuerta inversa a **U**. En este caso implica realizar una Hadamard, seguida por una T$^{-1}$ y finalizada por otra Hadamard, es decir que supone realizar los pasos inversos que realiza **U**.
+            
+            Al aplicarlo obtenemos que el estado es $\ket{000}$, el estado inicial, por lo que verificamos que la teleportación fue exitosa.
+            
+              <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+                <Circle width={'80'} phase={0} prob={1} label={'\\ket{000}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{010}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{011}'} />
+              </div>
+              <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{100}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{101}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{110}'} />
+                <Circle width={'80'} phase={0} prob={0} label={'\\ket{111}'} />
+              </div>
+            </div>
+        </Box>
+    </TabItem>
+
   <TabItem label='Quirk'>
     <Box>
       <Tabs>
