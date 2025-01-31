@@ -1,0 +1,111 @@
+---
+layout: '@layouts/math.astro'
+title: Amplificación de amplitudes
+description: Primitiva cuántica que permite manipular superposiciones para leer de forma confiable
+---
+
+import { Image } from 'astro:assets'
+import { Tabs, TabItem, Code, Aside } from '@astrojs/starlight/components'
+import Box from '@components/Box.astro'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+import Circle from '@components/CircleNotation.astro'
+import ResourceDivider from '@components/ResourceDivider.astro'
+import {
+  flip_3_example,
+  qiskit_flip_3_example_result,
+  qiskit_flip_3_example,
+} from '@code-snippets/amplitude-amplification'
+
+La amplificación de amplitudes se puede tomar como una primitiva cuántica, es decir como un algoritmo que se abstrae de la implementación y es reutilizable en otros algoritmos. Por ejemplo el algoritmo de <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>Grover</a> utiliza una versión del mismo para destacar y magnificar la amplitud de la respuesta correcta.
+
+## Objetivo
+
+La amplificación de amplitudes tiene como objetivo convertir información inaccesible de diferencias de _fases_ a diferencias de _magnitudes_ que es un tipo de información accesible mediante lecturas.
+
+## Solución
+
+El algoritmo de amplificación de amplitudes se divide en tres partes: la **preparación**, la **selección** y el **reflejo**.
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/amplitude-amplification-structure.png`}
+    alt='Estructura de la primitiva de amplificación de amplitudes (AA) con tres secciones distintivas, una para la preparación otra para la selección y otra para el reflejo.'
+    width='637'
+    height='290'
+  />
+  <span style='max-width:637px; padding:10px 40px'>
+    **Figura (1):** Estructura de la primitiva de amplificación de amplitudes
+    (AA), seleccionando el número "3".
+  </span>
+</div>
+
+La etapa de **preparación** denota una precondición del algoritmo, que el estado cuántico se encuentre en un estado de superposición.
+
+Le sigue la etapa de **selección**, en esta se provee un circuito que marque o distinga los estados cuánticos a buscar, esto se hace mediante la modificación de la fase de aquellos qubits que se buscan, este circuito puede ser implementado de diferentes maneras.
+
+En el ejemplo provisto de la figura 1 se lo implementa con una compuerta CZ, marcando el numero 3 ($\ket{0011}$, leyendo de abajo hacia arriba), es decir que solo invertirá la fase cuando el estado cuántico es 3, esto hace parecer que se anula el propósito del algoritmo (buscar), pero solo se utiliza como ejemplo, siendo que en los algoritmos reales se utilizan subrutinas más complejas para invertir las fases. Por ejemplo en ciertos algoritmos esta etapa se implementa utilizando un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>, como es el caso del algoritmo de <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>Grover</a>, siendo distinguidos si cumplen con la función, es decir si $f(x)=1$.
+
+Finaliza con la etapa de **reflejo**, que en ciertas bibliografías se lo llama como el _operador de difusión_ (Grover) o como la _inversión sobre la media_ (Nielsen y Chuang). En esta etapa se **convierten** las diferencias de fases en contrastes de magnitud y se **deselecciona** los qubits marcados en el paso previo.
+
+Estas últimas dos etapas se pueden **repetir** un mayor número de veces para obtener un mejor resultado, el número de iteraciones depende de la cantidad de soluciones posibles y del tamaño de la entrada. La fórmula óptima para obtener la cantidad de iteraciones es la siguiente:
+
+```math
+N_{iteraciones}=\left\lfloor \frac{\pi}{4}\sqrt{\frac{2^n}{s}} \right\rfloor
+```
+
+Donde $n$ es la cantidad de qubits y $s$ es la cantidad de soluciones posibles.
+
+<Aside>
+  Realizar más iteraciones de las necesarias puede resultar contraproducente ya
+  que, si se pasa del número óptimo de iteraciones $\left(N_{iteraciones}
+  +1\right)$, el estado cúantico permanecerá seleccionado haciendo que la
+  operación de selección funcione de manera insensata.{' '}
+</Aside>
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+      <Tabs>
+        <TabItem label='Ejemplo de la Figura (1) con tres iteraciones'>
+          <QuantumCircuit src={flip_3_example} />
+          <Aside>La compuerta **flip_3** y **mirror** se implementan como fueron diagramadas en la Figura (1) las etapas de selección y de reflejo respectivamente.</Aside>
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+      <Tabs>
+        <TabItem label='Código'>
+          <Code code={qiskit_flip_3_example} lang='py' />
+        </TabItem>
+        <TabItem label='Resultado'>
+          <Code code={qiskit_flip_3_example_result} lang='text' />
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+
+</Tabs>
+
+## Mas información
+
+
+- <a href='https://arxiv.org/pdf/quant-ph/0005055' target='_blank'>
+    Quantum Amplitude Amplification and Estimation (Gilles Brassard; Peter
+    Høyer; Michele Mosca; Alain Tapp) [Inglés]
+  </a>
+- <a href='https://arxiv.org/pdf/quant-ph/9605043' target='_blank'>
+    A fast quantum mechanical algorithm for database search (Lov K. Grover)
+    [Inglés]
+  </a>
+
+- <a
+    href='https://docs.quantum.ibm.com/api/qiskit/qiskit.circuit.library.GroverOperator'
+    target='_blank'
+  >
+    GroverOperator (IBM) [Inglés]
+  </a>
+
+- Capítulo 6, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
+- Páginas 248-276, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>

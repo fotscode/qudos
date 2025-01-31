@@ -37,6 +37,9 @@ export default defineConfig({
                         {
                             label:'Teleportación cuántica',
                             slug:'concepts/teleportation'
+                        },
+                        {   label: 'Amplificación de amplitudes', 
+                            slug: 'concepts/amplitude-amplification' 
                         }
                     ],
                     translations: {
