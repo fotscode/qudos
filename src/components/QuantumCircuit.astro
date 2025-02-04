@@ -1,8 +1,9 @@
 ---
-const { src } = Astro.props;
+const { src, height } = Astro.props;
+const finalHeight = height || 560;
 ---
 <iframe 
-    style="position: relative; height: 560px"
+    style=`position: relative; height: ${finalHeight}px`
     width="100%"
     title="Algassert"
     src={src}>

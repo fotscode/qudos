@@ -4,9 +4,450 @@ title: Transformada de Fourier cuántica
 description: Primitiva cuántica que permite acceder a patrones ocultos codificados en frecuencias.
 ---
 
+import { Image } from 'astro:assets'
+import { Tabs, TabItem, Code, Aside } from '@astrojs/starlight/components'
+import Box from '@components/Box.astro'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+import Circle from '@components/CircleNotation.astro'
+import ResourceDivider from '@components/ResourceDivider.astro'
+import {
+  computational_basis_fourier,
+  qft_quirk_example,
+  inv_qft_quirk_example,
+  qft_qiskit_example,
+  qft_qiskit_result,
+  qft_quirk_example_extra_1,
+  qft_quirk_example_extra_2,
+  qft_quirk_example_extra_3,
+  inv_qft_quirk_example_extra_1,
+  inv_qft_quirk_example_extra_2,
+} from '@code-snippets/fourier-transform'
 
-inverse qft:
-https://algassert.com/quirk#circuit=%7B%22cols%22%3A%5B%5B%22Counting8%22%5D%2C%5B%22Chance8%22%5D%2C%5B%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%5D%2C%5B%22QFT8%22%5D%2C%5B%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%5D%2C%5B1%2C1%2C1%2C1%2C1%2C1%2C1%2C%22H%22%5D%2C%5B%22~d7r3%22%2C%22~roao%22%2C%22~eavv%22%2C%22~82ut%22%2C%22~5i7s%22%2C%22Z%5E-%C2%BC%22%2C%22Z%5E-%C2%BD%22%2C%22%E2%80%A2%22%5D%2C%5B1%2C1%2C1%2C1%2C1%2C1%2C%22H%22%5D%2C%5B%22~roao%22%2C%22~eavv%22%2C%22~82ut%22%2C%22~5i7s%22%2C%22Z%5E-%C2%BC%22%2C%22Z%5E-%C2%BD%22%2C%22%E2%80%A2%22%5D%2C%5B1%2C1%2C1%2C1%2C1%2C%22H%22%5D%2C%5B%22~eavv%22%2C%22~82ut%22%2C%22~5i7s%22%2C%22Z%5E-%C2%BC%22%2C%22Z%5E-%C2%BD%22%2C%22%E2%80%A2%22%5D%2C%5B1%2C1%2C1%2C1%2C%22H%22%5D%2C%5B%22~82ut%22%2C%22~5i7s%22%2C%22Z%5E-%C2%BC%22%2C%22Z%5E-%C2%BD%22%2C%22%E2%80%A2%22%5D%2C%5B1%2C1%2C1%2C%22H%22%5D%2C%5B%22~5i7s%22%2C%22Z%5E-%C2%BC%22%2C%22Z%5E-%C2%BD%22%2C%22%E2%80%A2%22%5D%2C%5B1%2C1%2C%22H%22%5D%2C%5B%22Z%5E-%C2%BC%22%2C%22Z%5E-%C2%BD%22%2C%22%E2%80%A2%22%5D%2C%5B1%2C%22H%22%5D%2C%5B%22Z%5E-%C2%BD%22%2C%22%E2%80%A2%22%5D%2C%5B%22H%22%5D%2C%5B%22Swap%22%2C1%2C1%2C1%2C1%2C1%2C1%2C%22Swap%22%5D%2C%5B1%2C%22Swap%22%2C1%2C1%2C1%2C1%2C%22Swap%22%5D%2C%5B1%2C1%2C%22Swap%22%2C1%2C1%2C%22Swap%22%5D%2C%5B1%2C1%2C1%2C%22Swap%22%2C%22Swap%22%5D%2C%5B%22Chance8%22%5D%5D%2C%22gates%22%3A%5B%7B%22id%22%3A%22~d7r3%22%2C%22name%22%3A%22Z%5E-1%2F128%22%2C%22circuit%22%3A%7B%22cols%22%3A%5B%5B%7B%22id%22%3A%22Z%5Eft%22%2C%22arg%22%3A%22-1%2F128%22%7D%5D%5D%7D%7D%2C%7B%22id%22%3A%22~roao%22%2C%22name%22%3A%22Z%5E-1%2F64%22%2C%22circuit%22%3A%7B%22cols%22%3A%5B%5B%7B%22id%22%3A%22Z%5Eft%22%2C%22arg%22%3A%22-1%2F64%22%7D%5D%5D%7D%7D%2C%7B%22id%22%3A%22~eavv%22%2C%22name%22%3A%22Z%5E-1%2F32%22%2C%22circuit%22%3A%7B%22cols%22%3A%5B%5B%7B%22id%22%3A%22Z%5Eft%22%2C%22arg%22%3A%22-1%2F32%22%7D%5D%5D%7D%7D%2C%7B%22id%22%3A%22~82ut%22%2C%22name%22%3A%22Z%5E-1%2F16%22%2C%22circuit%22%3A%7B%22cols%22%3A%5B%5B%7B%22id%22%3A%22Z%5Eft%22%2C%22arg%22%3A%22-1%2F16%22%7D%5D%5D%7D%7D%2C%7B%22id%22%3A%22~5i7s%22%2C%22name%22%3A%22Z%5E-1%2F8%22%2C%22circuit%22%3A%7B%22cols%22%3A%5B%5B%7B%22id%22%3A%22Z%5Eft%22%2C%22arg%22%3A%22-1%2F8%22%7D%5D%5D%7D%7D%5D%7D
 
-qft:
-https://algassert.com/quirk#circuit=%7B%22cols%22%3A%5B%5B%22Counting8%22%5D%2C%5B%22Chance8%22%5D%2C%5B%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%2C%22%E2%80%A6%22%5D%2C%5B%22Swap%22%2C1%2C1%2C1%2C1%2C1%2C1%2C%22Swap%22%5D%2C%5B1%2C%22Swap%22%2C1%2C1%2C1%2C1%2C%22Swap%22%5D%2C%5B1%2C1%2C%22Swap%22%2C1%2C1%2C%22Swap%22%5D%2C%5B1%2C1%2C1%2C%22Swap%22%2C%22Swap%22%5D%2C%5B%22H%22%5D%2C%5B%22Z%5E%C2%BD%22%2C%22%E2%80%A2%22%5D%2C%5B1%2C%22H%22%5D%2C%5B%22Z%5E%C2%BC%22%2C%22Z%5E%C2%BD%22%2C%22%E2%80%A2%22%5D%2C%5B1%2C1%2C%22H%22%5D%2C%5B%22Z%5E%E2%85%9B%22%2C%22Z%5E%C2%BC%22%2C%22Z%5E%C2%BD%22%2C%22%E2%80%A2%22%5D%2C%5B1%2C1%2C1%2C%22H%22%5D%2C%5B%22Z%5E%E2%85%9F%E2%82%81%E2%82%86%22%2C%22Z%5E%E2%85%9B%22%2C%22Z%5E%C2%BC%22%2C%22Z%5E%C2%BD%22%2C%22%E2%80%A2%22%5D%2C%5B1%2C1%2C1%2C1%2C%22H%22%5D%2C%5B%22Z%5E%E2%85%9F%E2%82%83%E2%82%82%22%2C%22Z%5E%E2%85%9F%E2%82%81%E2%82%86%22%2C%22Z%5E%E2%85%9B%22%2C%22Z%5E%C2%BC%22%2C%22Z%5E%C2%BD%22%2C%22%E2%80%A2%22%5D%2C%5B1%2C1%2C1%2C1%2C1%2C%22H%22%5D%2C%5B%22Z%5E%E2%85%9F%E2%82%86%E2%82%84%22%2C%22Z%5E%E2%85%9F%E2%82%83%E2%82%82%22%2C%22Z%5E%E2%85%9F%E2%82%81%E2%82%86%22%2C%22Z%5E%E2%85%9B%22%2C%22Z%5E%C2%BC%22%2C%22Z%5E%C2%BD%22%2C%22%E2%80%A2%22%5D%2C%5B1%2C1%2C1%2C1%2C1%2C1%2C%22H%22%5D%2C%5B%22Z%5E%E2%85%9F%E2%82%81%E2%82%82%E2%82%88%22%2C%22Z%5E%E2%85%9F%E2%82%86%E2%82%84%22%2C%22Z%5E%E2%85%9F%E2%82%83%E2%82%82%22%2C%22Z%5E%E2%85%9F%E2%82%81%E2%82%86%22%2C%22Z%5E%E2%85%9B%22%2C%22Z%5E%C2%BC%22%2C%22Z%5E%C2%BD%22%2C%22%E2%80%A2%22%5D%2C%5B1%2C1%2C1%2C1%2C1%2C1%2C1%2C%22H%22%5D%5D%7D
+La **transformada de Fourier cuántica (QFT)**, es otra primitiva cuántica, que se asemeja al algoritmo clásico (transformada de Fourier discreta o DFT) la cual es utilizada en distintos algoritmo. Por ejemplo el algoritmo de Shor y la primitiva de estimación de fases que este mismo utiliza.
+
+
+## Objetivo 
+
+La primitiva QFT permite obtener información acerca de las **frecuencias** de repetición de las fases relativas en un estado cuántico. A su vez existe su operación inversa, esta permite convertir una frecuencia en diferencias de **fases relativas** de un estado cuántico.
+
+Ciertas bibliografías expresan este objetivo en transformar la base computacional a base de Fourier:
+- La **base computacional** es una forma de expresar números mediante el comportamiento del eje $X$ en un estado cuántico (magnitud), se asemaja a su contraparte clásica. Por ejemplo cuando decimos $\ket{5}$, en verdad decimos $\ket{101}$.
+- La **base de Fourier** es otra forma de expresar números pero mediante el comportamiento del eje $Z$ en un estado cuántico (fase relativa).
+
+<Box>
+    <QuantumCircuit src={computational_basis_fourier} height={400} />
+    <Aside>Se puede ver el cambio de base observando la representación de la esfera de Bloch.</Aside>
+</Box>
+
+## Solución
+
+La transformación de QFT es expresada en la literatura en forma de matriz de la siguiente manera (es igual a DFT pero con el ángulo opuesto):
+
+```math
+F_N=\frac{1}{\sqrt{N}}
+\begin{bmatrix}
+1&1&1&1&\ldots&1\\
+1&\omega_N&\omega_N^2&\omega_N^3&\ldots&\omega_N^{N-1}\\
+1&\omega_N^2&\omega_N^4&\omega_N^6&\ldots&\omega_N^{2(N-1)}\\
+1&\omega_N^3&\omega_N^6&\omega_N^9&\ldots&\omega_N^{3(N-1)}\\
+\vdots&\vdots&\vdots&\vdots&\ddots&\vdots\\
+1&\omega_N^{N-1}&\omega_N^{2(N-1)}&\omega_N^{2(N-1)}&\ldots&\omega_N^{(N-1)(N-1)}\\
+\end{bmatrix}
+```
+
+Donde $\omega_N=e^{\frac{2\pi i}{N}}$
+
+<Aside> 
+Se prueba que $F_2=H$:
+```math
+F_2=\frac{1}{\sqrt{2}}\begin{bmatrix}
+1&1\\
+1&w_2\\
+\end{bmatrix}=\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+1&1\\
+1&e^{2\pi i/2}
+\end{bmatrix}=
+\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+1&1\\
+1&-1\\
+\end{bmatrix}=H
+\\
+```
+</Aside>
+
+
+Un circuito de QFT es posible definirlo utilizando compuertas <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> y compuertas de fase controladas $R_i$.
+
+
+La compuerta $R_i$ se define de la siguiente manera:
+```math
+R_i=\begin{bmatrix}
+1&0\\
+0&e^{2\pi i/2^i}\\
+\end{bmatrix}=
+\begin{bmatrix}
+1&0\\
+0&\omega_{2^i}\\
+\end{bmatrix}
+```
+
+Con esto en condiseración el algoritmo $QFT_n$ sigue una estructura facilmente generalizable, donde $n$ es la cantidad de qubits presentes.
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/qft-algorithm.png`}
+    alt='Estructura de la primitiva QFT de forma general (Nielsen y Chuang)'
+    width='815'
+    height='196'
+  />
+  <span style='max-width:815px; padding:10px 40px'>
+    **Figura (1):** Estructura de la primitiva QFT de forma general (Nielsen y Chuang).
+  </span>
+</div>
+
+Se encuentran $n$ compuertas Hadamard y $(n)(n+1)/2$ compuertas de rotación, por lo que el órden del algoritmo es $O(n^2)=O((log_2 N)^2)$, ya que $N=2^n$.
+
+<Aside>La implementación de QFT varía según la bibliografía, se pueden presentar con diferentes compuertas, o en diferente órden, o con/sin compuertas de intercambio. A su vez, existen casos donde se interpreta QFT con la misma definición que DFT y en otros casos como su inversa (ángulos opuestos).</Aside>
+
+Por otra parte, como el algoritmo de QFT es conformado por compuertas unitarias, para implementar la **inversa de QFT** basta con aplicar las operaciones conjugadas transpuestas en el orden inverso.
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+      <Tabs>
+        <TabItem label='QFT'>
+          <QuantumCircuit src={qft_quirk_example} height={"650"}/>
+        </TabItem>
+        <TabItem label='invQFT'>
+          <QuantumCircuit src={inv_qft_quirk_example} height={"650"}/>
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+      <Tabs>
+        <TabItem label='Código'>
+          <Code code={qft_qiskit_example} lang='py'/>
+        </TabItem>
+        <TabItem label='Resultado'>
+          <Code code={qft_qiskit_result} lang='text'/>
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+</Tabs>
+
+<Aside>
+Corolario de proposiciones útiles
+```math
+\begin{gather}
+F_N F_N\ket{k} =\ket{-k}=\ket{N-k}\\
+F_N F_N F_N F_N \ket{k}    =\ket{k} \rightarrow F_N^\dag = F_N  F_N  F_N  \\
+F_N^\dag F_N^\dag F_N^\dag F_N^\dag \ket{k}    =\ket{k} \rightarrow F_N = F_N^\dag  F_N^\dag  F_N^\dag
+\end{gather}
+```
+</Aside>
+
+## Ejemplos
+
+En esta sección se elaboran distintos ejemplos que permitan demostrar el funcionamiento de QFT para casos específicos.
+
+### Usando QFT
+
+<Tabs>
+  <TabItem label='Círculos'>
+    <Box>
+      <Tabs>
+        <TabItem label='Ejemplo 1'>
+          <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+           Estado inicial del algoritmo, se repite ocho veces el patron de fases.
+            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0011}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0111}'} />
+            </div>
+            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1011}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1111}'} />
+            </div>
+          </div>
+          <ResourceDivider icon='pencil' text='QFT' />
+          <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+            Luego de aplicar QFT se revela que la frecuencia del estado cuántico es 8.
+            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
+            </div>
+            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+              <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
+            </div>
+          </div>
+        </TabItem>
+        <TabItem label='Ejemplo 2'>
+          <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+           Estado inicial del algoritmo, se repite cuatro veces el patron de fases.
+            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+              <Circle width={'80'} phase={'0'}   prob={0.0625} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'90'}  prob={0.0625} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'270'} prob={0.0625} label={'\\ket{0011}'} />
+              <Circle width={'80'} phase={'0'}   prob={0.0625} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'90'}  prob={0.0625} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'270'} prob={0.0625} label={'\\ket{0111}'} />
+            </div>
+            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+              <Circle width={'80'} phase={'0'}   prob={0.0625} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'90'}  prob={0.0625} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'270'} prob={0.0625} label={'\\ket{1011}'} />
+              <Circle width={'80'} phase={'0'}   prob={0.0625} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'90'}  prob={0.0625} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'270'} prob={0.0625} label={'\\ket{1111}'} />
+            </div>
+          </div>
+          <ResourceDivider icon='pencil' text='QFT' />
+          <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+            Luego de aplicar QFT se revela que la frecuencia del estado cuántico es 4.
+            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
+              <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
+            </div>
+            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
+            </div>
+          </div>
+        </TabItem>
+        <TabItem label='Ejemplo 3'>
+          <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+           Estado inicial del algoritmo, se repite dos veces el patron de fases, pero representan señales "cuadradas".
+            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0011}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0111}'} />
+            </div>
+            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1011}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1111}'} />
+            </div>
+          </div>
+          <ResourceDivider icon='pencil' text='QFT' />
+          <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+            Luego de aplicar QFT se revela que la frecuencia del estado cuántico es probable que sea 2, pero existen otros valores posibles.
+            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'67.5'} prob={0.42677} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'22.5'} prob={0.07323} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
+            </div>
+            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'-22.5'} prob={0.07323} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'-67.5'} prob={0.42677} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
+            </div>
+          </div>
+          <Aside>En estos casos como utilizamos señales reales y no complejas, es útil descartar aquellos valores mayores a la mitad de los valores posibles, es decir tomar los primeros 16/2+1=9 valores, ya que el resto solo representa un espejo de la frecuencia de la señal.</Aside>
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+  <TabItem label='Quirk'>
+    <Box>
+      <Tabs>
+        <TabItem label='Ejemplo 1'>
+          <QuantumCircuit src={qft_quirk_example_extra_1} />
+        </TabItem>
+        <TabItem label='Ejemplo 2'>
+          <QuantumCircuit src={qft_quirk_example_extra_2} />
+        </TabItem>
+        <TabItem label='Ejemplo 3'>
+          <QuantumCircuit src={qft_quirk_example_extra_3} />
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+</Tabs>
+
+### Usando invQFT
+
+<Tabs>
+  <TabItem label='Círculos'>
+    <Box>
+      <Tabs>
+        <TabItem label='Ejemplo 1'>
+          <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+           Estado inicial del algoritmo, se marca como frecuencia el numero "2".
+            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
+            </div>
+            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
+            </div>
+          </div>
+          <ResourceDivider icon='pencil' text='invQFT' />
+          <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+            Luego de aplicar la inversa de QFT se genera la señal con frecuencia 2.
+            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+              <Circle width={'80'} phase={'0 '}  prob={0.0625} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'-45 '}  prob={0.0625} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'-90'} prob={0.0625} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'-135'} prob={0.0625} label={'\\ket{0011}'} />
+              <Circle width={'80'} phase={'-180'} prob={0.0625} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'-225'} prob={0.0625} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'-270'} prob={0.0625} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'-315'}    prob={0.0625} label={'\\ket{0111}'} />
+            </div>
+            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+              <Circle width={'80'} phase={'0 '}  prob={0.0625} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'-45 '}  prob={0.0625} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'-90'} prob={0.0625} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'-135'} prob={0.0625} label={'\\ket{1011}'} />
+              <Circle width={'80'} phase={'-180'} prob={0.0625} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'-225'} prob={0.0625} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'-270'} prob={0.0625} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'-315'}    prob={0.0625} label={'\\ket{1111}'} />
+            </div>
+          </div>
+        </TabItem>
+        <TabItem label='Ejemplo 2'>
+          <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+           Estado inicial del algoritmo, se marca como frecuencia el numero "1".
+            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
+            </div>
+            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
+            </div>
+          </div>
+          <ResourceDivider icon='pencil' text='invQFT' />
+          <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+            Luego de aplicar la inversa de QFT se genera la señal con frecuencia 1.
+            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
+              <Circle width={'80'} phase={'0 '}  prob={0.0625} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'-22.5 '}  prob={0.0625} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'-45'} prob={0.0625} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'-67.5'} prob={0.0625} label={'\\ket{0011}'} />
+              <Circle width={'80'} phase={'-90'} prob={0.0625} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'-112.5'} prob={0.0625} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'-125'} prob={0.0625} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'-147.5'}    prob={0.0625} label={'\\ket{0111}'} />
+            </div>
+            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
+              <Circle width={'80'} phase={'180'}  prob={0.0625} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'157.5 '}  prob={0.0625} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'135'} prob={0.0625} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'112.5'} prob={0.0625} label={'\\ket{1011}'} />
+              <Circle width={'80'} phase={'90'} prob={0.0625} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'67.5'} prob={0.0625} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'45'} prob={0.0625} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'22.5'}    prob={0.0625} label={'\\ket{1111}'} />
+            </div>
+          </div>
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+  <TabItem label='Quirk'>
+    <Box>
+      <Tabs>
+        <TabItem label='Ejemplo 1'>
+          <QuantumCircuit src={inv_qft_quirk_example_extra_1} />
+        </TabItem>
+        <TabItem label='Ejemplo 2'>
+          <QuantumCircuit src={inv_qft_quirk_example_extra_2} />
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+</Tabs>
+

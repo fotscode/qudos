@@ -41,6 +41,9 @@ export default defineConfig({
                         {   label: 'Amplificación de amplitudes', 
                             slug: 'concepts/amplitude-amplification' 
                         },
+                        {   label: 'Transformada de Fourier',
+                            slug: 'concepts/fourier-transform' 
+                        },
                         {
                             label:'Uncomputation',
                             slug:'concepts/uncomputation'
