@@ -1,0 +1,101 @@
+---
+layout: '@layouts/math.astro'
+title: Estimación de fase
+description: Primitiva cuántica que permite obtener una estimación de la fase global o autovalor de una operación aplicada a un estado cuántico que es autovector.
+---
+
+import { Image } from 'astro:assets'
+import { Tabs, TabItem, Code, Aside } from '@astrojs/starlight/components'
+import Box from '@components/Box.astro'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+import Circle from '@components/CircleNotation.astro'
+import ResourceDivider from '@components/ResourceDivider.astro'
+
+import {
+  quirk_phase_estimation_hadamard,
+  qiskit_phase_estimation_hadamard_code,
+  qiskit_phase_estimation_hadamard_result,
+} from '@code-snippets/phase-estimation'
+
+La **estimatición de fase (EF)**, es otra primitiva cuántica que es utilizada en distintos algoritmos, permite extraer información legible de superposiciones. Por ejemplo es utilizada en el algoritmo de Shor, el algoritmo de HHL, entre otros. Internamente esta primitiva utiliza la <a href={`${import.meta.env.BASE_URL}/concepts/fourier-transform`}>transformada de Fourier</a> inversa.
+
+## Objetivo
+
+El objetivo de la primitiva es obtener una estimación de la fase global o autovalor (eigenvalue) de una operación aplicada a un estado cuántico que es autovector (eigenvector).
+
+Para entender mejor que valor es el que obtiene la primitiva se propone el siguiente ejemplo:
+
+<Box>
+   Supongamos el estado inicial $\ket{\psi}$, el cual es un autovector de la operación $U$, al ser un autovector de $U$ se cumple que $U\ket{\psi}=e^{i \theta}\ket{\psi}$, siendo $e^{i\theta}$ el autovalor.
+
+    Ejemplificando, supongamos que existe un estado cuántico que es autovector de $U$ con el siguiente valor:
+    <div style='display: flex; justify-content:center; align-items:center;flex-direction:row; margin-bottom:40px'>
+      <Circle width={'80'} phase={'180'} prob={0.1464} label={'\\ket{0}'} />
+      <Circle width={'80'} phase={'0'} prob={0.8535} label={'\\ket{1}'} />
+    </div>
+    y que al aplicar la operación $U$, obtenemos el siguiente estado:
+    <div style='display: flex; justify-content:center; align-items:center;flex-direction:row; margin-bottom:40px'>
+      <Circle width={'80'} phase={'180'} prob={0.1464} label={'\\ket{0}'} />
+      <Circle width={'80'} phase={'0'} prob={0.8535} label={'\\ket{1}'} />
+      $$\overset{U}{\rightarrow}$$
+      <Circle width={'80'} phase={'0'} prob={0.1464} label={'\\ket{0}'} />
+      <Circle width={'80'} phase={'180'} prob={0.8535} label={'\\ket{1}'} />
+    </div>
+    Notar que las magnitudes no cambiaron, ni la fase relativa cambió, y por ende se obtuvo el mismo estado cuántico pero con un autovalor de $e^{\pi i}$ ($180^\circ$).
+
+    El algoritmo de EF nos permite obtener una estimación sobre este autovalor.
+
+</Box>
+
+Aunque parezca que esta información obtenida es arbitraria y que no sea practicamente útil, es altamente importante en muchos algoritmos como los mencionados previamente.
+
+## Solución
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/phase-estimation.png`}
+    alt='Estructura de la primitiva EF de forma general'
+    width='1035'
+    height='425'
+  />
+  <span style='max-width:1035px; padding:10px 40px'>
+    **Figura (1):** Estructura de la primitiva EF de forma general.
+  </span>
+</div>
+
+Tres secciones claras, inicializacion y superposicion
+
+aplicacion de compuertas crontoladas U
+
+qft inverse y medicion
+
+## Ejemplos
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+      <Tabs>
+        <TabItem label='Estimación de fase con Hadamard'>
+            <QuantumCircuit src={quirk_phase_estimation_hadamard}/>
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+      <Tabs>
+        <TabItem label='Código'>
+          <Code code={qiskit_phase_estimation_hadamard_code} lang='py'/>
+        </TabItem>
+        <TabItem label='Resultado'>
+          <Code code={qiskit_phase_estimation_hadamard_result} lang='text'/>
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+</Tabs>
+Interpretando el resultado, obtenemos $\ket{1000}$ como lectura para los primeros 4 qubits. Esto implica haber leido el número $0.1000_2$=$0.5_{10}$, para obtener el *autovalor* se inserta este valor en el exponencial:
+```math
+e^{2\pi i 0.5}=e^{\pi i}= 180^\circ
+```
+De esta manera obtenemos el autovalor del autovector con la operación Hadamard.
