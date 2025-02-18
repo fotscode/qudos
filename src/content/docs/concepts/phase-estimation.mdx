@@ -1,0 +1,191 @@
+---
+layout: '@layouts/math.astro'
+title: Estimación de fase
+description: Primitiva cuántica que permite obtener una estimación de la fase global o autovalor de una operación aplicada a un estado cuántico que es autovector.
+---
+
+import { Image } from 'astro:assets'
+import { Tabs, TabItem, Code, Aside } from '@astrojs/starlight/components'
+import Box from '@components/Box.astro'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+import Circle from '@components/CircleNotation.astro'
+import ResourceDivider from '@components/ResourceDivider.astro'
+
+import {
+  quirk_phase_estimation_hadamard,
+  qiskit_phase_estimation_hadamard_code,
+  qiskit_phase_estimation_hadamard_result,
+} from '@code-snippets/phase-estimation'
+
+La **estimatición de fase (EF)**, es otra primitiva cuántica que es utilizada en distintos algoritmos, permite extraer información legible de superposiciones. Por ejemplo es utilizada en el algoritmo de Shor, el algoritmo de HHL, entre otros. Internamente esta primitiva utiliza la <a href={`${import.meta.env.BASE_URL}/concepts/fourier-transform`}>transformada de Fourier</a> inversa.
+
+## Objetivo
+
+El objetivo de la primitiva es obtener una estimación de la fase global o autovalor (eigenvalue) de una operación aplicada a un estado cuántico que es autovector (eigenvector).
+
+Para entender mejor que valor es el que obtiene la primitiva se propone el siguiente ejemplo:
+
+<Box>
+   Supongamos el estado inicial $\ket{\psi}$, el cual es un autovector de la operación $U$, al ser un autovector de $U$ se cumple que $U\ket{\psi}=e^{i \theta}\ket{\psi}$, siendo $e^{i\theta}$ el autovalor.
+
+    Ejemplificando, supongamos que existe un estado cuántico que es autovector de $U$ con el siguiente valor:
+    <div style='display: flex; justify-content:center; align-items:center;flex-direction:row; margin-bottom:40px'>
+      <Circle width={'80'} phase={'180'} prob={0.1464} label={'\\ket{0}'} />
+      <Circle width={'80'} phase={'0'} prob={0.8535} label={'\\ket{1}'} />
+    </div>
+    y que al aplicar la operación $U$, obtenemos el siguiente estado:
+    <div style='display: flex; justify-content:center; align-items:center;flex-direction:row; margin-bottom:40px'>
+      <Circle width={'80'} phase={'180'} prob={0.1464} label={'\\ket{0}'} />
+      <Circle width={'80'} phase={'0'} prob={0.8535} label={'\\ket{1}'} />
+      $$\overset{U}{\rightarrow}$$
+      <Circle width={'80'} phase={'0'} prob={0.1464} label={'\\ket{0}'} />
+      <Circle width={'80'} phase={'180'} prob={0.8535} label={'\\ket{1}'} />
+    </div>
+    Notar que las magnitudes no cambiaron, ni la fase relativa cambió, y por ende se obtuvo el mismo estado cuántico pero con un autovalor de $e^{\pi i}$ ($180^\circ$).
+
+    El algoritmo de EF nos permite obtener una estimación sobre este autovalor.
+
+</Box>
+
+Aunque parezca que esta información obtenida es arbitraria y que no sea practicamente útil, es altamente importante en muchos algoritmos como los mencionados previamente.
+
+## Solución
+
+El algoritmo de estimación de fase se puede dividir en cuatro secciones: **inicialización**, **superposición**, aplicación de **compuertas controladas** y uso de la **transformada cuántica inversa**. En el siguiente gráfico se dividen las etapas utilizando $\ket{\sigma_i}$ para representar el estado cuántico en cada sección.
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/phase-estimation.png`}
+    alt='Estructura de la primitiva EF de forma general, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las compuertas siguen un patron escalonado del qubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como qubit de control.'
+    width='1221'
+    height='580'
+  />
+  <span style='max-width:1221px; padding:10px 40px'>
+    **Figura (1):** Estructura de la primitiva EF de forma general, con cuatro señalizadores indicando las distintas secciones del algoritmo. En ciertas bibliografías se aplican las compuertas U controladas con el órden inverso.
+  </span>
+</div>
+
+El algoritmo recibe tres parametros como **entrada**:
+
+- $q_{salida}$ el cual es un registro inicializado en $0$ sobre el cual se dejará el resultado. Llamaremos $t$ al tamaño en qubits de $q_{salida}$.
+- $q_{entrada}$ es el autovector del cual se quiere obtener el autovalor. 
+- La compuerta controlada de $U$.
+
+La notación $U^{2^g}$ implica que se realizan $2^g$ operaciones sucesivas de $U$, esto conlleva un **gran costo computacional**, por lo que se busca poder crear una compuerta que cumpla el mismo funcionamiento que $U^{2^g}$ de una forma más eficiente que simplemente repetir la operación original.
+
+En la **primer etapa** $\ket{\sigma_1}$ se inicializan los estados cuánticos, el registro de $q_{salida}$ con 0 y el registro $q_{entrada}$ con el autovector.
+```math
+\begin{align}
+\ket{\sigma_1}&=\ket{0}^{\otimes t}\ket{\psi}
+\end{align}
+```
+Luego en la **segunda etapa** se crea una superposición de $q_{salida}$:
+```math
+\begin{align}
+\ket{\sigma_2}&=H^{\otimes t}\ket{0}^{\otimes t}\ket{\psi}\\
+&=2^{-t/2}(\ket{0}+\ket{1})^{\otimes t}\ket{\psi}\\
+&=2^{-t/2}(\ket{0}+\ket{1})(\ket{0}+\ket{1})\ldots(\ket{0}+\ket{1})\ket{\psi}
+\end{align}
+```
+En la **tercer etapa** se aplican las compuertas controladas de $U$, aplicandose el fenómeno de retroceso de fase, por lo que aplicar la compuerta $U^{2^h}$ puede generalizarse de la siguiente manera:
+```math
+\begin{align}
+U^{2^h}\ket{\gamma}&=U^{2^{h-1}}U\ket{\gamma}\\
+&=U^{2^{h-1}}e^{i \theta}\ket{\gamma}\\
+&=e^{i\theta 2^{h}}\ket{\gamma}
+\end{align}
+```
+
+Por lo que al aplicar las compuertas controladas de $U$ al estado superpuesto de $\ket{\sigma_2}$ se obtiene:
+```math
+\begin{align}
+\ket{\sigma_3}&=2^{-t/2}(\ket{0}+e^{i \theta 2^{t}}\ket{1})(\ket{0}+e^{i \theta 2^{t-1}}\ket{1})\ldots(\ket{0}+e^{i \theta 2^{0}}\ket{1})\ket{\psi}
+\end{align}
+```
+Es util reescribir $\theta=2\pi j$, donde $j=0.j_1j_2\ldots j_t$ siendo $j$ una fracción en binario, para obtener un formato similar al de $QFT$:
+```math
+\begin{align}
+\ket{\sigma_3}&=2^{-t/2}(\ket{0}+e^{2\pi i 2^{t}(0.j_1j_2\ldots j_t)}\ket{1})(\ket{0}+e^{2\pi i 2^{t-1}(0.j_1j_2\ldots j_t) }\ket{1})\\&
+\ldots(\ket{0}+e^{2\pi i 2^{0}(0.j_1j_2\ldots j_t)}\ket{1})\ket{\psi}
+\end{align}
+```
+Aplicar la operación $2^h(0.j_1j_2\ldots j_t)$ implica realizar un desplazamiento binario (shift) de $h$ posiciones. Debido a que multiplicar enteros por $2\pi$ es redundante, se puede simplificar de la siguiente manera:
+```math
+\begin{align}
+\ket{\sigma_3}&=2^{-t/2}(\ket{0}+e^{2\pi i (0.j_t)}\ket{1})(\ket{0}+e^{2\pi i (0.j_{t-1} j_t) }\ket{1})\\&
+\ldots(\ket{0}+e^{2\pi i (0.j_1j_2\ldots j_t)}\ket{1})\ket{\psi}
+\end{align}
+```
+El resultado de esta simplificación es idéntico al estado cuántico luego de aplicar $QFT$ sobre el estado $\ket{j}$, por lo que aplicar su inversa $QFT^\dag$ se puede obtener $\ket{j}$:
+```math
+\begin{align}
+\ket{\sigma_4}&=QFT^\dag(2^{-t/2}(\ket{0}+e^{2\pi i (0.j_t)}\ket{1})(\ket{0}+e^{2\pi i (0.j_{t-1} j_t) }\ket{1})\\&
+\ldots(\ket{0}+e^{2\pi i (0.j_1j_2\ldots j_t)}\ket{1})\ket{\psi})\\
+&=\ket{j}
+\end{align}
+```
+Finalmente al medir la respuesta obtenemos una estimación de $j$. A partir de este $j$ podemos obtener el angulo $\theta$ y finalmente su autovalor:
+```math
+\begin{align}
+\theta&=2\pi j=2\pi0.j_1j_2\ldots j_t\\
+autovalor &= e^{i \theta}
+\end{align}
+```
+
+
+## Ejemplos
+
+Para este ejemplo utilizaremos la operación $H$ con su versión controlada, el autovector del cual se va a obtener el autovalor es $\ket{\psi}=0.38268\ket{0}-0.92388\ket{1}$, que se puede construir aplicandole a un qubit inicializado en $\ket{0}$ la compuerta $X$ seguida por una rotación en el eje $y$ de $\pi/4$ radianes ($45^\circ$ grados).
+
+El autovector que se eligió coincide con el estado cuántico de la sección de "Objetivo", su autovalor es a su vez el de $e^{\pi i}$ ($180^\circ$).
+
+Notar que se aplica una sola vez la compuerta Hadamard controlada. Esto se debe a que la compuerta controlada de Hadamard es Hermitiana, cumpliendo la cierta propiedad:
+```math
+\begin{cases}
+H^{2^i}=H& \text{si }i = 0\\
+H^{2^i}=\mathbb{I}& \text{si }i > 0\\
+\end{cases}
+```
+Por lo que solo es necesario aplicarla donde el numero de ocurrencias no es par (solo el primer qubit).
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+      <Tabs>
+        <TabItem label='Estimación de fase con Hadamard'>
+            <QuantumCircuit src={quirk_phase_estimation_hadamard}/>
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+      <Tabs>
+        <TabItem label='Código'>
+          <Code code={qiskit_phase_estimation_hadamard_code} lang='py'/>
+        </TabItem>
+        <TabItem label='Resultado'>
+          <Code code={qiskit_phase_estimation_hadamard_result} lang='text'/>
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+</Tabs>
+Interpretando el resultado, obtenemos $\ket{1000}$ como lectura para los primeros 4 qubits. Esto implica haber leido el número $0.1000_2$=$0.5_{10}$, para obtener el *autovalor* se inserta este valor en el exponencial:
+```math
+e^{2\pi i 0.5}=e^{\pi i}= 180^\circ
+```
+De esta manera obtenemos el autovalor del autovector con la operación Hadamard.
+
+## Más información
+- Capítulo 8, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
+- Páginas 221-226, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
+- <a href="https://www.youtube.com/watch?v=Ex96GyRIFes" target="_blank">Quantum Computing Course: 3.7 Quantum Phase Estimation (Quantum Soar) [Inglés]</a>
+- <a href="https://github.com/qiskit-community/qiskit-textbook/blob/main/content/ch-algorithms/quantum-phase-estimation.ipynb" target="_blank">Quantum Phase Estimation - Qiskit Textbook (Qiskit) [Inglés]</a>
+- <a href="https://www.youtube.com/watch?v=3DeQeYZ0EjI" target="_blank">Inverse n-qubit Quantum Fourier Transform and Phase Estimation Quantum Circuit (Elucyda) [Inglés]</a>
+- <a href="https://youtu.be/4nT0BTUxhJY?si=PiaWK7cp_zlwiYNJ" target="_blank">Phase Estimation and Factoring | Understanding Quantum Information & Computation - Lesson 07 (Qiskit) [Inglés]</a>
+- <a href="https://learning.quantum.ibm.com/course/fundamentals-of-quantum-algorithms/phase-estimation-and-factoring" target="_blank">Phase-estimation and factoring (IBM) [Inglés]</a>
+- <a href="https://www.youtube.com/watch?v=5kcoaanYyZw" target="_blank">9. Shor's Algorithm I: Understanding Quantum Fourier Transform, Quantum Phase Estimation - Part 3 (Qiskit) [Inglés]</a>
+- <a href="https://www.cl.cam.ac.uk/teaching/1920/QuantComp/Quantum_Computing_Lecture_9.pdf" target="_blank">Quantum Computing (CST Part II) | Lecture 9: Quantum Fourier Transform & Quantum Phase Estimation (Cambridge) [Inglés]</a>
+- <a href="https://es.wikipedia.org/wiki/Algoritmo_cu%C3%A1ntico_de_estimaci%C3%B3n_de_fase" target="_blank">Algoritmo cuántico de estimación de fase (Wikipedia) [Español]</a>
+

@@ -44,6 +44,9 @@ export default defineConfig({
                         {   label: 'Transformada de Fourier',
                             slug: 'concepts/fourier-transform' 
                         },
+                        {   label: 'Estimación de fase',
+                            slug: 'concepts/phase-estimation' 
+                        },
                         {
                             label:'Uncomputation',
                             slug:'concepts/uncomputation'
