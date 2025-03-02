@@ -99,6 +99,7 @@ export default defineConfig({
                         { label: 'Deutsch-Jozsa', slug: 'algorithms/deutsch-jozsa' },
                         { label: 'Bernstein-Vazirani', slug: 'algorithms/bernstein-vazirani' },
                         { label: 'Grover', slug: 'algorithms/grover' },
+                        { label: 'Shor', slug: 'algorithms/shor' },
                     ],
                     translations: {
                         en: 'Algorithms',
@@ -106,6 +107,7 @@ export default defineConfig({
                 },
                 {
                     label: 'Pruebas matemáticas',
+                    collapsed: true,
                     items: [
                         {
                             label: 'Pauli-X',
@@ -131,6 +133,10 @@ export default defineConfig({
                         {
                             label: 'Grover',
                             slug: 'proofs/grover',
+                        },
+                        {
+                            label: 'Shor',
+                            slug: 'proofs/shor',
                         },
                     ],
                     translations: {
