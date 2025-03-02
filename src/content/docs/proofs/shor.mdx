@@ -1,0 +1,107 @@
+---
+layout: '@layouts/math.astro'
+title: 'Pruebas Matemáticas de Shor'
+---
+
+import { Image } from 'astro:assets'
+
+En esta página se elaboran distintas pruebas matemáticas relacionadas al <a href={`${import.meta.env.BASE_URL}/algorithms/shor`}>algoritmo de Shor</a>.
+
+## Definición de autovector
+```math
+\begin{align}
+\ket{u_s}&=\frac{1}{\sqrt{r}}(e^{-2\pi i s(0)/r} \ket{x^0 mod\ N}+e^{-2\pi i s(1)/r} \ket{x^1 mod\ N}+\\
+&\ldots+ e^{-2\pi i s(r-1)/r} \ket{x^{r-1} mod\ N})\\
+&=\frac{1}{\sqrt{r}}\sum^{r-1}_{k=0} e^{-2\pi i sk/r}\ket{x^k mod\ N}\\
+\end{align}
+```
+
+## Obtención de autovalor de U
+```math
+\begin{align}
+U\ket{u_s}=&\frac{1}{\sqrt{r}}(e^{-2\pi i s(0)/r} U\ket{x^0 mod\ N}+e^{-2\pi i s(1)/r} U\ket{x^1 mod\ N}+\\
+&\ldots+ e^{-2\pi i s(r-1)/r} U\ket{x^{r-1} mod\ N})\\
+=&\frac{1}{\sqrt{r}}(e^{-2\pi i s(0)/r} \ket{x^1 mod\ N}+e^{-2\pi i s(1)/r} \ket{x^2 mod\ N}+\\
+&\ldots+ e^{-2\pi i s(r-1)/r} \ket{x^{r} mod\ N})\\
+=&(e^{2\pi i s/r}e^{-2\pi i s/r})\frac{1}{\sqrt{r}}(e^{-2\pi i s(r-1)/r} \ket{x^0 mod\ N}+\\
+&e^{-2\pi i s(0)/r} \ket{x^1 mod\ N}+\ldots+ e^{-2\pi i s(r-2)/r} \ket{x^{r-1} mod\ N})\\
+=&e^{2\pi i s/r}\frac{1}{\sqrt{r}}(e^{-2\pi i s(r)/r} \ket{x^0 mod\ N}+\\
+&e^{-2\pi i s(1)/r} \ket{x^1 mod\ N}+\ldots+ e^{-2\pi i s(r-1)/r} \ket{x^{r-1} mod\ N})\\
+=&e^{2\pi i s/r}\frac{1}{\sqrt{r}}(e^{-2\pi i s(0)/r} \ket{x^0 mod\ N}+e^{-2\pi i s(1)/r} \ket{x^1 mod\ N}\\
+&+\ldots+ e^{-2\pi i s(r-1)/r} \ket{x^{r-1} mod\ N})\\
+=&e^{2\pi i s/r}\ket{u_s}
+\end{align}
+```
+
+## Obtención de autovector específico a EF
+```math
+\begin{align}
+\frac{1}{\sqrt{r}}\sum_{s=0}^{r-1}\ket{u_s}=&\frac{1}{\sqrt{r}}\sum_{s=0}^{r-1}\frac{1}{\sqrt{r}}\sum_{k=0}^{r-1}e^{-2\pi i sk/r}\ket{x^k mod\ N}\\
+=&\frac{1}{r}\sum_{k=0}^{r-1}\underbrace{\left(\sum_{s=0}^{r-1}e^{-2\pi i sk/r}\right)}_{r\text{ cuando }k=0\text{, 0 si } k\neq 0}\ket{x^k mod\ N}\\
+\end{align}
+```
+Si $k=0$:
+```math
+\sum_{s=0}^{r-1}e^{-2\pi i sk/r}=\sum_{s=0}^{r-1}e^{-2\pi i s0/r}=\sum_{s=0}^{r-1}e^0=\sum_{s=0}^{r-1} 1 = r
+```
+Si $k\neq 0$, donde $\omega=e^{-2\pi i k}$:
+```math
+\sum_{s=0}^{r-1}e^{-2\pi i sk/r}=\sum_{s=0}^{r-1}\omega^s=1+\omega+\omega^2+\ldots+\omega^{r-1}
+```
+En formato de serie queda de la siguiente manera:
+```math
+\begin{align}
+S&=1+\omega+\omega^2+\ldots+\omega^{r-1}\\
+\omega S&=\omega+\omega^2+\ldots+\omega^{r}\\
+S-\omega S&=(1+\omega+\omega^2+\ldots+\omega^{r-1})-(\omega+\omega^2+\ldots+\omega^{r})\\
+S-\omega S&= 1-\omega^r\\
+S(1-\omega)&= 1-\omega^r\\
+S&= \frac{1-\omega^r}{1-\omega}\\
+S&= \frac{1-e^{(-2\pi is/r)^r}}{1-e^{-2\pi is/r}}\\
+S&= \frac{1-e^{-2\pi is}}{1-e^{-2\pi is/r}}\\
+S&= \frac{1-1}{1-e^{-2\pi is/r}}\quad\text{ya que s es un entero}\\
+S&= 0
+\end{align}
+```
+Finalmente, como solo toma el valor cuando $k=0$:
+```math
+\begin{align}
+\frac{1}{r}\sum_{k=0}^{r-1}\sum_{s=0}^{r-1}e^{-2\pi i sk/r}\ket{x^k mod\ N}&=\frac{1}{r}\sum_{s=0}^{r-1}e^{-2\pi i s0/r}\ket{x^0 mod\ N}\\
+&=\frac{1}{r}\sum_{s=0}^{r-1}e^0\ket{x^0 mod\ N}\\
+&=\frac{1}{r}\sum_{s=0}^{r-1}1\ket{x^0 mod\ N}\\
+&=\frac{1}{r}r\ket{x^0 mod\ N}\\
+&=\ket{1\ mod\ N}\\
+&=\ket{1}
+\end{align}
+```
+
+## Aplicacion de EF a algoritmo de Shor con autovector 1
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/shor-pe-steps.png`}
+    alt='Estructura de la primitiva EF aplicada al algoritmo de Shor, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las compuertas siguen un patron escalonado del qubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como qubit de control.'
+    width='1510'
+    height='708'
+  />
+  <span style='max-width:1510px; padding:10px 40px'>
+    **Figura (1):** Estructura de la primitiva EF aplicada al algoritmo de Shor.
+  </span>
+</div>
+
+
+
+```math
+\begin{align}
+\ket{\sigma_1}&=\underbrace{\ket{00\ldots 0}}_{m}\underbrace{\ket{00\ldots 1}}_{L}\\
+\ket{\sigma_2}&=\frac{1}{\sqrt{2^{m}}}\sum_{k=0}^{2^m-1}\ket{k}\ket{1}\\
+\ket{\sigma_3}&=\frac{1}{\sqrt{2^{m}}}\sum_{k=0}^{2^m-1}\ket{k}U^k\ket{1}\\
+&=\frac{1}{\sqrt{2^{m}}}\sum_{k=0}^{2^m-1}\ket{k}\frac{1}{\sqrt{r}}\sum_{s=0}^{r-1}U^k\ket{u_s}\\
+&=\frac{1}{\sqrt{2^{m}}}\frac{1}{\sqrt{r}}\sum_{s=0}^{r-1}\sum_{k=0}^{2^m-1}\ket{k}U^k\ket{u_s}\\
+&=\frac{1}{\sqrt{2^{m}}}\frac{1}{\sqrt{r}}\sum_{s=0}^{r-1}\sum_{k=0}^{2^m-1}e^{2\pi i k s/r}\ket{k}\ket{u_s}\\
+\ket{\sigma_4}&=\frac{1}{\sqrt{r}}\sum_{s=0}^{r-1}\ket{\widetilde{s/r}}\ket{u_s}\\
+&=\ket{\widetilde{s/r}}\ket{1}\\
+\end{align}
+```
+
+

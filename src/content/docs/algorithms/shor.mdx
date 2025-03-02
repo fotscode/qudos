@@ -1,0 +1,344 @@
+---
+layout: '@layouts/math.astro'
+title: Algoritmo de Shor
+description: Analisis del algoritmo de Shor, el problema que resuelve y los componentes que lo conforman.
+head:
+  - tag: meta
+    attrs:
+      { property: 'og:image', content: /quantum-katas/shor-pe-steps.png }
+  - tag: meta
+    attrs:
+      { property: 'og:image:alt', content: Circuito del algoritmo de Deutsch }
+---
+
+import { Image } from 'astro:assets'
+import { Aside, Code, Tabs, TabItem, Badge, Steps } from '@astrojs/starlight/components'
+import Math from '@components/Math.astro'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+import Box from '@components/Box.astro'
+import {
+   shor_quirk_7_mod_15,
+   shor_quirk_7_mod_58,
+    shor_qiskit_7_mod_15_code_main,
+    shor_qiskit_7_mod_15_code_init,
+    shor_qiskit_7_mod_15_code_shor,
+    shor_qiskit_7_mod_15_code_fraction,
+    shor_qiskit_7_mod_15_result,
+} from '@code-snippets/shor'
+
+El algoritmo de Shor es un algoritmo cuántico desarrollado por <a href="https://es.wikipedia.org/wiki/Peter_Shor" target="_blank">Peter Shor</a> en 1994, diseñado para factorizar números enteros de manera eficiente. 
+
+Su importancia radica en que puede resolver este problema en tiempo **polinomial**, en contraste con los mejores algoritmos clásicos conocidos, que requieren tiempo subexponencial o exponencial. 
+
+La aplicación más destacada está en la criptografía, ya que amenaza la seguridad de los sistemas basados en la factorización de números grandes, como <a href="https://es.wikipedia.org/wiki/RSA" target="_blank">RSA</a>.
+
+## Objetivo
+
+El objetivo del algoritmo de Shor es encontrar los factores de un número entero compuesto $N$. 
+
+Para lograrlo, utiliza un enfoque híbrido que combina cálculos clásicos con un subrutina cuántica basada en la <a href={`${import.meta.env.BASE_URL}/concepts/phase-estimation`}>estimación de fases</a>.
+
+La clave del algoritmo radica en la identificación del período de la función $x^r\ mod\ N$, lo que permite deducir los factores de $N$ de manera eficiente.
+
+## Intuición
+
+Factorizar un número $N$ implica encontrar dos números $p$ y $q$ tal que $N=pq$. 
+
+Otra forma de expresar este problema es a partir de la búsqueda del periodo u órden de un número $x^r$ tal que $x^r\ mod\ N=1$, $r$ debe ser lo más chico posible y mayor a $0$, por ejemplo:
+```math
+x=4,\ N=5\\
+x^0\ mod\ N=4^0\ mod\ 5=1\\
+x^1\ mod\ N=4^1\ mod\ 5=4\\
+x^2\ mod\ N=4^2\ mod\ 5=1\\
+x^3\ mod\ N=4^3\ mod\ 5=4\\
+x^4\ mod\ N=4^4\ mod\ 5=1\\
+\vdots
+```
+En este caso $r=2$, cada 2 valores se repite la secuencia, y se obtienen los factores de $N$ de la siguiente manera:
+```math
+p=gcd(x^{r/2}-1,N)=gcd(4^{2/2}-1,N)=1\\
+q=gcd(x^{r/2}+1,N)=gcd(4^{2/2}+1,N)=5\\
+```
+El algoritmo de Shor, resuelve el problema de factorización, utilizando una solución **mixta**, con componentes clásicos y con un componente cuántico que resuelve el problema de busqueda del órden.
+
+Este algoritmo tiene **tres etapas** clave:
+<Steps>
+1. <Badge text="Clásico" />: Inicialización y selección de candidato
+
+2. <Badge text="Cuántico" variant="tip" />: Estimación de fases aplicado al candidato
+
+3. <Badge text="Clásico" />: Obtención del órden y los factores de N
+</Steps>
+Estos pasos se pueden descomponer en componentes funcionales más chicos y menos misteriosos:
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/shor_diagram.svg`}
+    alt='Diagrama del algoritmo de Shor, identificando sus componentes funcionales clásicas y cuánticas'
+    width='1280'
+    height='340'
+  />
+  <span style='max-width:1280px; padding:10px 40px'>
+    **Figura (1):** Diagrama del algoritmo de Shor, identificando sus componentes funcionales clásicas y cuánticas.
+  </span>
+</div>
+
+Los componentes funcionales de este algoritmo se pueden a reducir a los siguientes pasos implementables usando un lenguaje de programación:
+
+<Steps>
+1. <Badge text="Clásico" />: Si $N$ es par, $p=2$ y $q=N/2$, finalmente parar.
+
+2. <Badge text="Clásico" />: Si $N$ es una potencia de números primos, existe un [algoritmo clásico eficiente](https://mathoverflow.net/questions/106313/algorithm-for-detecting-prime-powers) para obtener $r$ y por lo tanto los factores $p$ y $q$, finalmente parar.
+
+3. <Badge text="Clásico" />: Si $N$ no es par ni una potencia de números primos, obtener un número entre $1 < x < N$, tal que $s=gcd(x,N)$. Si $s\neq 1$, entonces $p=s$ y $q=N/s$, finalmente parar.
+
+4. <Badge text="Cuántico" variant="tip" />: Si $s=1$ *(son coprimos)*, obtener $\widetilde{s/r}$ usando la subrutina cuántica de <a href={`${import.meta.env.BASE_URL}/concepts/phase-estimation`}>estimación de fases</a>.
+
+5. <Badge text="Clásico" />: Obtener $r$ de $\widetilde{s/r}$ utilizando el algoritmo de **fracciones continuas**.
+
+6. <Badge text="Clásico" />: Si $r$ es impar volver al paso 3. 
+    Verificar que $x^r\ mod\ N=1$, y que $b=x^{r/2}\ mod\ N$ tal que $b\neq N-1$ y $b \neq 1$, en caso contrario volver al paso 3.
+
+7. <Badge text="Clásico" />: Obtener los factores:
+
+    $$p=gcd(x^{r/2}-1,N), q=gcd(x^{r/2}+1,N)$$
+</Steps>
+
+Resolviendo estos pasos solucionariamos el problema de factorización. En las proximas secciónes ahondaremos matemáticamente e implementaremos estos pasos.
+
+## Solución
+
+Dividiremos la explicación de la solución, para ser más amena la lectura, en las tres etapas definidas previamente.
+
+### Inicialización y selección de candidato
+
+Antes de siquiera elegir el candidato, se verifica que $N$ no sea par, en caso contrario los factores son obvios, $p=2$ y $q=N/2$.
+
+Verificar que el número sea primo antes de empezar es ideal para evitar la búsqueda de factores no existentes (además de $1$ y si mismo).
+
+Por otra parte si $N$ es una potencia de números primos, es decir $N=c^k$ siendo $c$ un número primo, se puede obtener su exponente $k$ con un algoritmo clásico eficiente, por lo que $p=c$ y $q=c^{k-1}$.
+
+Generar un valor aleatorio de $x$ tal que $1 < x < N$, verificar $s=gcd(x,N)$, si $s$ es diferente a $1$, significa que no son coprimos, por lo que $s$ es un factor, obteniendo $p=s$ y $q=N/s$.
+
+Si $s=1$, se procede a la estimación de fases aplicada a $x$.
+
+### Estimación de fases aplicado al candidato 
+
+La estimación de fases permite obtener el autovalor de un autovector para una operación $U$. Este requiere **tres** parametros como entrada:
+
+- El **primero**, $q_{salida}$, es un registro inicializado en $0$ donde se obtendrá $\widetilde{\varphi}$, la fracción binaria del ángulo del autovalor $e^{2\pi i \widetilde{\varphi}}$, su tamaño condiciona la precisión de la fracción, a mayor tamaño, mayor precisión.
+- Por otra parte, el **segundo** parámetro es la compuerta controlada de $U$.
+- Finalmente, el **tercer** parámetro es $q_{entrada}$, un registro que representa el autovector de $U$ del cual se quiere obtener su autovalor.
+
+
+El primer parámetro es facil de preparar, un registro de qubits con $\ket{0}$. El segundo depende la definición de $U$, la cual definiremos a continuación.
+
+Definiremos $U$ en una forma general de la siguiente manera:
+```math
+U\ket{y}=\ket{xy\ mod\ N}
+```
+Aplicar $U$ reiteradas veces sobre $\ket{1}$ obtenemos una potencia de $x$:
+```math
+\begin{align}
+U^0\ket{1}&=\ket{x^{0}\ mod\ N}=\ket{1\ mod\ N}\\
+U^1\ket{1}&=\ket{x^{1}\ mod\ N}\\
+U^2\ket{1}&=\ket{x^{2}\ mod\ N}\\
+\vdots&\\
+U^r\ket{1}&=\ket{x^{r}\ mod\ N}=\ket{x^0\ mod\ N}\\
+\end{align}
+```
+
+Presentamos $u_s$, un estado cuántico del cual queremos probar que es un autovector de $U$ con autovalor $e^{2\pi i s/r}$:
+```math
+\begin{align}
+\ket{u_s}&=\frac{1}{\sqrt{r}}(e^{-2\pi i s(0)/r} \ket{x^0 mod\ N}+e^{-2\pi i s(1)/r} \ket{x^1 mod\ N}+\\
+&\ldots+ e^{-2\pi i s(r-1)/r} \ket{x^{r-1} mod\ N})\\
+&=\frac{1}{\sqrt{r}}\sum^{r-1}_{k=0} e^{-2\pi i sk/r}\ket{x^k mod\ N}\\
+\end{align}
+```
+Ahora aplicamos $U$ sobre $\ket{u_s}$ para verificar su autovalor (<a href={`${import.meta.env.BASE_URL}/proofs/shor#obtenci%C3%B3n-de-autovalor-de-u`}>ver prueba completa</a>):
+```math
+\begin{align}
+U\ket{u_s}&=\frac{1}{\sqrt{r}}\sum^{r-1}_{k=0} e^{-2\pi i sk/r}U\ket{x^k mod\ N}\\
+&=e^{2\pi i s/r}\ket{u_s}
+\end{align}
+```
+Por otra parte, al saber que $\ket{u_s}$ es un autovector de $U$, ocurre el fenómeno de **retroceso de fase** cuando se aplica la compuerta controlada de $U$:
+```math
+CU\ket{1}\ket{u_s}=e^{2\pi i s/r}\ket{1}\ket{u_s}
+```
+
+Para suplir con el tercer parametro, debemos obtener una instancia de $\ket{u_s}$ el cual ya sabemos que es un autovector de $U$. Para esto construimos una superposición de $\ket{u_s}$ que suple esta necesidad (<a href={`${import.meta.env.BASE_URL}/proofs/shor#obtención-de-autovector-específico-a-ef`}>ver prueba completa</a>):
+```math
+\begin{align}
+\frac{1}{\sqrt{r}}\sum_{s=0}^{r-1}\ket{u_s}&=\ket{1}
+\end{align}
+```
+
+Cumplimos los tres parámetros necesarios para la implementación de estimación de fase, por lo que obtenemos el siguiente circuito:
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/shor-pe-steps.png`}
+    alt='Estructura de la primitiva EF aplicada al algoritmo de Shor, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las compuertas siguen un patron escalonado del qubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como qubit de control.'
+    width='1510'
+    height='708'
+  />
+  <span style='max-width:1510px; padding:10px 40px'>
+    **Figura (2):** Estructura de la primitiva EF aplicada al algoritmo de Shor.
+  </span>
+</div>
+
+Aplicamos el algoritmo de estimación de fases sobre $\ket{0}\ket{1}$, como el autovalor de $\ket{1}$ es $e^{2\pi i s/r}$ el resultado es (<a href={`${import.meta.env.BASE_URL}/proofs/shor#aplicacion-de-ef-a-algoritmo-de-shor-con-autovector-1`}>ver prueba completa</a>):
+
+```math
+\begin{align}
+EF\ket{0}\ket{1}&=\ket{\widetilde{s/r}}\ket{1}
+\end{align}
+```
+Obtenemos finalmente el valor de $\widetilde{s/r}$ luego de aplicar una lectura en $q_{salida}$, este valor es estimado al nivel de precisión dependiente de la cantidad de qubits provistos.
+
+### Obtención del órden y los factores de N
+
+
+Luego de obtener $\widetilde{s/r}$, que es una fracción binaria con formato $0.j_0j_1\ldots j_n$, convertimos la fracción binaria a una fracción decimal de la siguiente manera:
+```math
+\begin{align}
+j=0.j_0j_1\ldots j_n&, j_i \in \{0,1\}, 0\leq i \leq n\\
+l=0.l_0l_1\ldots l_m&, l_h \in \{0,1,2,3,4,5,6,7,8,9\}, 0\leq h \leq m\\
+\widetilde{s/r}&=j\\
+&=0.j_0j_1\ldots j_n\\
+&=0+j_02^{-1}+j_12^{-2}+\ldots +2^{n-1}j_n\\
+&=0.l_0l_1\ldots l_m\\
+&=l
+\end{align}
+```
+Una vez obtenida el valor de la fracción decimal, utilizamos un algoritmo para convertir de la fracción decimal a una fracción continua que tiene el siguiente formato:
+```math
+x=b_0+\frac{1}{b_1+\frac{1}{b_2+\frac{1}{\ddots}}}
+```
+El resultado de este algoritmo será un arreglo de valores enteros $c_f$ que representa la fracción continua, $c_f=[b_0,b_1,b_2,\ldots]$.
+Por ejemplo con el valor $0.1562$:
+```math
+\begin{align}
+0.1562&=\frac{1562}{10000}\\
+&=0+\frac{1}{\frac{10000}{1562}}\\
+&=0+\frac{1}{6+\frac{628}{1562}}\\
+&\quad\vdots\\
+&=0+\frac{1}{6+\frac{1}{2+\frac{1}{2+\frac{1}{19+\frac{1}{8}}}}}
+\end{align}
+```
+Obtenemos la fracción continua como un arreglo de los valores enteros: $[0,6,2,2,19,8]$
+
+A partir de este arreglo $c_f$ podemos obtener el numerador y denominador de la fracción:
+```math
+\begin{align}
+s_0 = 1,& \quad r_0 = 0\\
+b_k \in c_f,& \quad 0\leq k,g < |c_f|\\
+s_k &= r_{k-1} + s_{k-1} \cdot b_k\\
+r_k &= s_{k-1}\\
+s=s_{g}, & \quad  r=r_{g},\quad r_g=max(r_k)|r_k<N
+\end{align}
+```
+Por lo que ya obtuvimos $r$ a partir de la fracción continua, siendo este el valor con mayor precisión de $r_k$ posible menor a $N$. 
+
+El último paso a realizar es comprobar que $r$ es un valor correcto y extraer los factores, en todos los casos en los que $r$ no sea correcto se debe elegir un nuevo candidato y reiterar el algoritmo cuántico para obtener otro valor de $r$ posible. 
+
+El valor de $r$ es correcto cuando es par, es decir que $r\ mod\ 2=0$, a su vez tiene que cumplir que $x^r\ mod\ N=1$, siendo esta la premisa del problema del órden.
+
+Por otra parte se computa $y=x^{r/2}\ mod\ N$ y se verifica que $y\neq 1$, $y\neq N-1$ para no obtener los factores "obvios" de $N$, es decir $1$ y $N$.
+
+Finalmente obtenemos los valores de $p$ y $q$ de la siguiente manera:
+```math
+p=gcd(x^{r/2}-1,N)\\
+q=gcd(x^{r/2}+1,N)
+```
+
+## Ejemplos
+
+Dentro de esta sección se implementará el algoritmo de Shor, se presentará un ejemplo simple y otro ejemplo más general, expresando limitaciones y desafíos a la hora de implementar este algoritmo.
+
+### Factorizando el número 15
+
+Como primer ejemplo factorizaremos el número $15$ con el candidato $7$, cuyos factores $p$ y $q$ son $3$ y $5$ respectivamente. 
+
+Los ejemplos con *Quirk* son de la parte **cuántica** del algoritmo, por lo que luego se debe realizar el algoritmo de **fracciones continuas** para obtener los factores $p$ y $q$.
+
+Por otra parte en el ejemplo de *Qiskit*, se resuelve el problema completo, con partes de computación **clásica y cuántica**.
+
+<Tabs>
+    <TabItem label='Quirk'>
+        <Box>
+            <QuantumCircuit src={shor_quirk_7_mod_15} height={830} />
+            Se interpreta $s/r$ como una fracción binaria. 
+
+            Por ejemplo si obtenemos el valor $11000000_2=2^{-1}+2^{-2}=0.75_{10}$
+
+            Luego con fracciones continuas, obtenemos que $0.75=[0,1,3]$ y finalmente que $r=4$.
+
+            Obtenemos $p=gcd(7^2-1,15)=3$, $q=gcd(7^2+1,15)=5$.
+            <Aside>
+               Notar que de los valores posibles de $s/r$, que son: 0, 1/4, 1/2, 3/4, los únicos que cumplen con $7^r\ mod\ N = 1$ son los que tienen $r=4$. Por lo que si se obtiene un $r$ diferente a $4$ se debe reiterar el procesamiento.
+            </Aside>
+        </Box>
+    </TabItem>
+    <TabItem label='Qiskit'>
+        <Box>
+            <Tabs>
+                <TabItem label='Main'>
+                    <Code lang="py" code={shor_qiskit_7_mod_15_code_main} />
+                </TabItem>
+                <TabItem label='Inicio'>
+                    <Code lang="py" code={shor_qiskit_7_mod_15_code_init} />
+                </TabItem>
+                <TabItem label='Shor'>
+                    <Code lang="py" code={shor_qiskit_7_mod_15_code_shor} />
+                </TabItem>
+                <TabItem label='Fracción'>
+                    <Code lang="py" code={shor_qiskit_7_mod_15_code_fraction} />
+                </TabItem>
+                <TabItem label='Resultado'>
+                    <Code lang="text" code={shor_qiskit_7_mod_15_result} />
+                </TabItem>
+            </Tabs>
+        </Box>
+    </TabItem>
+</Tabs>
+
+### Factorizando números más grandes
+
+A la hora de factorizar números más grandes, nos encontramos con dos problemas.
+
+El primero es el **físico**, al no existir máquinas cuánticas con qubits lógicos suficientes, se **emula** el funcionamiento de estas en computadoras clásicas. Este procedimiento es muy costoso, ya que el crecimiento en operaciones es **exponencial**.
+
+El segundo problema es la implementación de la **exponencialización modular**, en el ejemplo previo se utilizó una compuerta que calculaba el módulo con $N=15$ y se repitió de forma exponencial la utilización de esta compuerta según el qubit, es decir, una vez en el primer qubit, 2 veces en el segundo qubit, 4 veces en el tercero, etc.
+
+La aplicación exponencial de las compuertas controladas de módulo **deshacen** la ventaja exponencial provista por el algoritmo. Existen **circuitos eficientes**$^{[1][2]}$ que resuelven este problema, pero dado su complejidad y su lentitud al emularlo, se decidió evitar la implementación de un algoritmo general de Shor usando *Qiskit*.
+
+
+<Tabs>
+    <TabItem label='Quirk'>
+        <QuantumCircuit src={shor_quirk_7_mod_58} height={1030} />
+    </TabItem>
+</Tabs>
+
+## Más información
+
+- Páginas 226-238, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
+- Páginas 235-259, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
+- Páginas 327-344, <a href='https://isbnsearch.org/isbn/9798985593105' target='_blank'>Introduction to Classical and Quantum Computing (Thomas G. Wong) [Inglés]</a>
+- <a href='https://algassert.com/post/1718' target='_blank'>Shor's Quantum Factoring Algorithm (Craig Gidney) [Inglés]</a>
+- <a href='https://github.com/bluecheese123/QME' target='_blank'>Quantum Circuit of Modular Exponentiation in Qiskit (Writika Sarkar; Soham Chatterjee; Shree Ganesh SJ) [Inglés]</a>
+- <a href='https://learning.quantum.ibm.com/course/fundamentals-of-quantum-algorithms/phase-estimation-and-factoring#shors-algorithm' target='_blank'>Shor's algorithm (IBM) [Inglés]</a>
+- <a href='https://youtu.be/4nT0BTUxhJY?si=HDMpW6nxjOulKWuJ' target='_blank'>Phase Estimation and Factoring | Understanding Quantum Information & Computation - Lesson 07 (Qiskit) [Inglés]</a>
+- <a href='https://www.youtube.com/watch?v=5_56TXtFVK4' target='_blank'>Quantum Computing Course: 3.8 Shor's Algorithm (Quantum Soar) [Inglés]</a>
+- <a href='https://youtu.be/lw0R2SOmLTw?si=oK9NMn8d6AQyKXlI' target='_blank'>Quantum Order-Finding Subroutine of Shor's Factoring Algorithm, Phase Estimation Quantum Circuit (Elucyda) [Inglés]</a>
+- <a href='https://www.cl.cam.ac.uk/teaching/1920/QuantComp/Quantum_Computing_Lecture_10.pdf' target='_blank'>Quantum Computing (CST Part II) Lecture 10: Application 1 of QFT / QPE: Factoring (Cambridge) [Inglés]</a>
+- <a href='https://arxiv.org/pdf/1706.07884' target='_blank'>Factoring with n + 2 clean qubits and n − 1 dirty qubits (Craig Gidney) [Inglés]</a>
+- <a href='https://arxiv.org/pdf/quant-ph/0205095' target='_blank'>Circuit for Shor’s algorithm using 2n+3 qubits (Stáphane Beauregard) [Inglés]</a>
+- [1] <a href='https://github.com/tiagomsleao/ShorAlgQiskit/tree/master' target='_blank'>Implementation Shor's Algorithm in Qiskit (Rui Maia; Tiago Leao) [Inglés]</a>
+- [2] <a href='https://github.com/Qiskit/qiskit/blob/stable/0.18/qiskit/algorithms/factorizers/shor.py' target='_blank'>Shor's factoring algorithm implementation (Qiskit) [Inglés]</a>
+- <a href='https://es.wikipedia.org/wiki/Fracci%C3%B3n_continua_generalizada' target='_blank'>Fracción continua generalizada (Wikipedia) [Inglés]</a>
+- <a href='https://github.com/Qiskit/textbook/blob/main/notebooks/ch-algorithms/shor.ipynb' target='_blank'>Shor's algorithm python notebook (Qiskit) [Inglés]</a>
+
+
