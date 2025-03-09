@@ -1,0 +1,439 @@
+---
+layout: '@layouts/math.astro'
+title: El Qubit
+description: Definición de qubit, superposición, representaciones, fases global y relativa, mediciones en diferentes bases, normalización.
+---
+
+import { Image } from 'astro:assets'
+import { Aside } from '@astrojs/starlight/components'
+
+En la computación clásica existe el bit como la unidad mínima de información. Análogamente, en la computación cuántica se adoptó el término qubit (quantum bit) para referirse 
+a la unidad mínima de información propia de este paradigma. Los qubits pueden describirse como objetos matemáticos que tienen ciertas propiedades particulares. Así como un bit tiene 
+un estado (0 o 1), un qubit también lo tiene. Dos estados posibles son $\ket{0}$ y $\ket{1}$, los cuales se corresponden con los estados 0 y 1 de un bit clásico.
+La diferencia principal entre los bits y los qubits radica en que estos últimos pueden estar en otros estados, ya que es posible formar combinaciones lineales de estados, conocidas
+como superposiciones:
+
+```math 
+\ket{\psi} =  \alpha \ket{0} + \beta \ket{1}
+```
+
+Donde los números $\alpha$ y $\beta$ son números complejos, aunque en muchos casos basta con interpretarlos como números reales. 
+Dicho de otra manera, el estado de un qubit es un vector en un espacio vectorial complejo de dos dimensiones. Los estados $\ket{0}$ y $\ket{1}$ son conocidos como estados 
+computacionales base, y forman una base ortonormal para este espacio vectorial.
+
+Una particularidad de los qubits consiste en que no es posible examinarlos para determinar su estado cuántico, es decir, sus valores de $\alpha$ y $\beta$. Cuando se mide un qubit 
+se obtiene el valor 0 con probabilidad $|\alpha|^2$ o el valor 1 con probabilidad $|\beta|^2$. Debe cumplirse que $|\alpha|^2 + |\beta|^2 = 1$, ya que las probabilidades deben sumar 1 en total. 
+Geométricamente esto puede interpretarse como la condición de que el estado del qubit debe ser normalizado a longitud 1. 
+Por lo tanto, generalmente el estado de un qubit es un vector unitario en un espacio vectorial complejo de dos dimensiones.
+
+En base a lo anterior, es posible afirmar que la medición de un qubit retornará únicamente 0 o 1. Además, la medición cambia el estado de un qubit, colapsando su superposición de $\ket{0}$ y $\ket{1}$ a un estado específico 
+que sea consistente con el resultado de la medición.
+
+Para darse una idea de por qué la computación cuántica podría tener un gran potencial, notar que existe un número infinito de superposiciones posibles en las que un solo qubit puede 
+existir previo a ser leído. 
+
+## Representación de los qubits 
+
+Existen diversas formas de representar los estados cuánticos de los qubits, cuya visualización suele ser complementaria y puede facilitar la legibilidad 
+y comprensión en función del problema a tratar.
+
+Una de las notaciones más conocidas es la notación Dirac, también conocida como bra-ket (utiliza los símbolos $\bra{}$ y $\ket{}$). Es la notación estándar para los estados en la mecánica cuántica. Los números 
+encerrados en notación bra-ket denotan valores que un qubit podría tener al momento de ser leído. Por ejemplo: 
+
+```math
+\frac{1}{\sqrt{2}} \ket{0} + \frac{1}{\sqrt{2}} \ket{1}
+```
+
+Dado que $|\alpha|^2 + |\beta|^2 = 1$, puede definirse la ecuación anterior como 
+
+```math
+\ket{\psi} = e^{i\gamma} \left( cos\left(\frac{\theta}{2}\right) \ket{0} + e^{i\phi} sin\left(\frac{\theta}{2}\right) \ket{1} \right)
+``` 
+
+donde $\theta$, $\phi$ y $\gamma$ son números reales. Los números $\theta$ y $\phi$ definen un punto en una esfera unitaria de tres dimensiones, que es conocida como **esfera de Bloch**. 
+Esta provee una manera útil de visualizar el estado de un solo qubit. Sin embargo, aún no se encontró una generalización sencilla de la esfera de Bloch para múltiples qubits.
+
+Siguiendo la convención de la física tradicional, el eje $x$ es el que "sale" de la página, el eje $y$ apunta hacia un costado, y el eje $z$ se encuentra orientado hacia arriba. Por lo tanto,
+ya que la esfera de Bloch es de radio 1 (de forma que los estados cuánticos se encuentren normalizados), $\ket{0}$ corresponde al punto $(x, y, z) = (0, 0, 1)$, y $\ket{1}$ corresponde 
+al punto $(0, 0, -1)$. Es importante notar que un qubit puede estar en cualquier punto de la esfera de Bloch.
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/concept-qubit/bloch-sphere.png`}
+    alt='Esfera de Bloch con tres estados cuánticos que representan distintos puntos dentro de la esfera'
+    width='800'
+    height='800'
+  />
+  <span style='max-width:1510px; padding:10px 40px'>
+    **Figura (1):** Esfera de Bloch con tres estados cuánticos que representan distintos puntos dentro de la esfera
+  </span>
+</div>
+
+Por otra parte, ha surgido como una alternativa de visualización interesante la notación de círculos. La misma muestra el estado cuántico de la siguiente manera: 
+- La magnitud de la amplitud asociada con cada valor que un qubit puede tomar ($\ket{0}$ o $\ket{1}$) se encuentra relacionada al radio del área pintada con color 
+expuesta para cada uno de los círculos $\ket{0}$ o $\ket{1}$.
+- La fase relativa entre las amplitudes de dichos valores se encuentra indicada por la rotación del círculo $\ket{1}$ relativamente al círculo $\ket{0}$ (se traza una línea 
+oscura en los círculos para que pueda visualizarse dicha rotación).
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/concept-qubit/circle-notation.png`}
+    alt='Notación de círculos'
+    width='600'
+    height='600'
+  />
+  <span style='max-width:1510px; padding:10px 40px'>
+    **Figura (2):** Notación de círculos, donde cada estado está asociado a dos círculos: el de la izquierda representa al $\ket{0}$ y el de la derecha al $\ket{1}$. 
+    El primer estado devolverá $\ket{0}$ con $100\%$ de probabilidad. El segundo estado retornará $\ket{1}$ con $100\%$ de probabilidad. 
+    El tercer estado tiene una probabilidad $50:50$ para $\ket{0}$ y $\ket{1}$. El cuarto estado tiene la misma probabilidad que el anterior, con la diferencia de que 
+    existe una fase relativa de $180º$ (esto se percibe mediante la línea oscura). El último estado retornará $\ket{0}$ con un $90\%$ de probabilidad.
+  </span>
+</div>
+
+Por convención, un ángulo positivo rota al círculo en el sentido contrario de las agujas del reloj. Además, suele rotarse únicamente el círculo $\ket{1}$, ya que lo único que 
+importa es la fase relativa entre ambos estados base $\ket{0}$ y $\ket{1}$. No obstante, cabe recalcar que la fase relativa de un qubit no produce efecto alguno sobre las 
+magnitudes en una superposición, por lo que no tiene influencia directa sobre los resultados observables en una medición en la base $\{\ket{0}, \ket{1}\}$.
+
+Otra forma de visualizar al qubit puede emplearse mediante la representación vectorial, donde:
+
+```math
+\ket{0} = \begin{bmatrix}
+1\\
+0
+\end{bmatrix}, 
+\ket{1} = \begin{bmatrix}
+0\\
+1
+\end{bmatrix}
+```
+
+Esta quizás es la concepción más cercana al punto de vista matemático, y podría ser de utilidad para algunos casos particulares, donde se facilitarían los cálculos al realizar 
+operaciones con compuertas cuánticas, acudiendo a su representación matricial.
+
+## Representación de múltiples qubits 
+
+A la hora de trabajar con varios qubits puede que ninguna de las representaciones mostradas previamente sean lo ideal debido a que se tornan poco prácticas y, en muchos casos, 
+ilegibles. Es por esto que se desarrollaron los circuitos cuánticos como estrategia de representación de algoritmos y secuencias de aplicación de compuertas cuánticas 
+sobre uno o varios qubits que son manipulados a lo largo de su ciclo de vida. Bajo esta representación, las líneas que van de izquierda a derecha representan "cables cuánticos", 
+donde cada uno de ellos representa a un qubit. El cable cuántico permite visualizar cómo un qubit es sometido a diferentes cambios a lo largo del tiempo, mediante la aplicación de 
+diferentes compuertas cuánticas. Cada compuerta es representada con un símbolo diferente dentro del circuito. Generalmente, las compuertas unarias son representadas como cajas 
+con una etiqueta de texto que indica el tipo de compuerta. 
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/concept-qubit/unary-gates.svg`}
+    alt='Compuertas unarias en un circuito cuántico'
+    width='400'
+    height='200'
+  />
+  <span style='max-width:1510px; padding:10px 40px'>
+    **Figura (3):** Visualización de compuertas unitarias A, B y C en un circuito cuántico
+  </span>
+</div>
+
+Por otro lado, las compuertas n-arias se representan mediante una línea que conecta diferentes qubits. 
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/concept-qubit/n-ary-gates.avif`}
+    alt='Compuertas n-arias en un circuito cuántico'
+    width='400'
+    height='200'
+  />
+  <span style='max-width:1510px; padding:10px 40px'>
+    **Figura (4):** Visualización de compuertas binarias Controlled NOT y Controlled Y en un circuito cuántico
+  </span>
+</div>
+
+La operación de medición es representada por un símbolo de un medidor que siempre recibe un qubit como entrada y genera información clásica como salida (denotada por una línea doble).
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/concept-qubit/measurement.svg`}
+    alt='Medición de un qubit en un circuito cuántico'
+    width='400'
+    height='200'
+  />
+  <span style='max-width:1510px; padding:10px 40px'>
+    **Figura (5):** Visualización de la medición de un qubit en un circuito cuántico
+  </span>
+</div>
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/shor-pe-steps.png`}
+    alt='Estructura de la primitiva EF aplicada al algoritmo de Shor, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las compuertas siguen un patron escalonado del qubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como qubit de control.'
+    width='1510'
+    height='708'
+  />
+  <span style='max-width:1510px; padding:10px 40px'>
+    **Figura (6):** Ejemplo de circuito cuántico, el cual representa la estructura de la primitiva EF aplicada al algoritmo de Shor.
+  </span>
+</div>
+
+
+## Mediciones en otras bases 
+
+Dentro de la esfera de Bloch se describió al $\ket{0}$ y $\ket{1}$ como sus polos norte y sur respectivamente. Sin embargo, dos puntos 
+opuestos cualesquiera pueden ser tomados como polos norte y sur. Por ejemplo, $\ket{+}$ y $\ket{-}$ pueden serlo, así como también 
+$\ket{i}$ y $\ket{-i}$, o cualquier otro par de puntos opuestos. Un conjunto de resultados de la medición es llamado una base, y $\{\ket{0}, \ket{1}\}$ 
+es denominada *base Z* porque acude al eje $z$ de la esfera de Bloch. De forma similar, $\{\ket{+}, \ket{-}\}$ constituye la *base X* porque recurre al eje $x$ 
+de la esfera, mientras que $\{\ket{i}, \ket{-i}\}$ es llamada *base Y* porque acude al eje $y$ de la misma. Es posible medir respecto a cualquiera de estas 
+bases, o respecto a cualquier par de estados opuestos dentro de la esfera de Bloch. 
+
+## Fase global y Fase relativa
+
+Cuando se habla de fase, se hace referencia a una rotación. Existen dos tipos de fase: fase global y fase relativa. 
+
+Un ejemplo de fase global puede observarse en el siguiente estado:
+
+```math 
+e^{i\theta}\left(\frac{\sqrt{3}}{2}\ket{0} + \frac{1}{2}\ket{1}\right)
+```
+
+donde la fase $e^{i\theta}$ se aplica sobre todo el estado cuántico.
+
+Notar que a la hora de realizar una medición la probabilidad de obtener $\ket{0}$ es:
+
+```math 
+\left|e^{i\theta}\frac{\sqrt{3}}{2}\right|^2 = e^{i\theta}e^{-i\theta} \left(\frac{\sqrt{3}}{2}\right)^2 = e^0 \frac{3}{4} = \frac{3}{4}
+```
+
+Por otra parte, la probabilidad de obtener $\ket{1}$ es:
+
+```math 
+\left|e^{i\theta}\frac{1}{2}\right|^2 = e^{i\theta}e^{-i\theta} \left(\frac{1}{2}\right)^2 = e^0 \frac{1}{4} = \frac{1}{4}
+```
+
+De lo anterior se deduce que para cualquier valor que pueda tomar la fase global, la misma no producirá cambios en las probabilidades de la medición. Por lo tanto,
+las fases globales son físicamente irrelevantes. Y como tales, pueden ignorarse. Esto se debe a que los estados que difieren únicamente en su fase global 
+son realmente el mismo estado; corresponden al mismo punto en la esfera de Bloch.
+
+Mientras tanto, la fase relativa refleja una rotación de $\ket{1}$ en relación a $\ket{0}$. Este tipo de fase es físicamente importante, ya que dos estados cuánticos 
+con fases relativas diferentes representan dos puntos distintos en la esfera de Bloch, los cuales pueden distinguirse mediante mediciones en las bases apropiadas. 
+Por ejemplo, a partir de los siguientes estados cuánticos:
+
+```math 
+\ket{+} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})\\
+\ket{i} = \frac{1}{\sqrt{2}}(\ket{0} + i\ket{1}) = \frac{1}{\sqrt{2}}\left(\ket{0} + e^{i\pi/2}\ket{1}\right)
+```
+
+Si se aplica una medición en *base Z* se obtendrán las mismas estadísticas: $\ket{0}$ con probabilidad $1/2$ o $\ket{1}$ con probabilidad $1/2$. No obstante, midiendo 
+en *base X* $\{\ket{+}, \ket{-}\}$ se obtienen resultados diferentes. Medir $\ket{+}$ en *base X* siempre retorna $\ket{+}$, mientras que medir $\ket{i}$ en esta base 
+devuelve $\ket{+}$ o $\ket{-}$ con una probabilidad $50:50$.
+
+
+## Normalización
+
+Se dice que un estado cuántico se encuentra normalizado si su probabilidad total es 1, como debería ser. A veces, debe encontrarse una constante de normalización para asegurarse 
+de que esto se cumpla. Por ejemplo, un qubit se encuentra en el estado 
+
+```math 
+A = (\sqrt{2}\ket{0} + i\ket{1})
+```
+
+Es posible normalizar este estado encontrando la constante de normalización $A$ que asegura que la probabilidad total sea 1. Por lo tanto,
+
+```math
+\begin{align}
+1&= (A\sqrt{2})(A\sqrt{2})^∗ + (Ai)(Ai)^∗\\
+&= 2|A|^2 + |A|^2\\
+&= 3|A|^2\\
+|A|^2&=\frac{1}{3}
+\end{align}
+```
+
+Dado que la fase global no importa, se puede seleccionar una constante $A$ que sea real. Así,
+
+```math 
+A = \frac{1}{\sqrt{3}}
+```
+
+y el estado normalizado resultante es el siguiente:
+
+```math 
+\frac{1}{\sqrt{3}}(\sqrt{2}\ket{0} + i\ket{1})
+```
+
+
+
+{/* 
+
+GLOBAL PHASE AND RELATIVE PHASE:
+
+O'Reilly (page 17):
+
+The relative phase between the different paths in the photon’s superposition captures the amount by which the photon is delayed on one path relative to the
+other. Mathematically speaking, its relative phase is the angle if the complex number is expressed in polar form. 
+
+Thomas Wong (page 91):
+
+Global phases are physically irrelevant. As such, global phases can be dropped/ignored. States that differ by a global phase
+are actually the same state; they correspond to the same point on the Bloch sphere.
+Note that a relative phase is physically significant, such as
+
+These correspond to different points on the Bloch sphere, and they can be distinguished by measurements in appropriate bases. Although measuring |+⟩ and |i⟩ in
+the Z-basis yields the same statistics, i.e., |0⟩ with probability 1/2 or |1⟩ with probability 1/2, measuring in the X-basis {|+⟩, |−⟩} yields different results. Measuring
+|+⟩ in the X-basis always yields |+⟩, but measuring |i⟩ in the X-basis yields |+⟩ or |−⟩ with a 50:50 probability.
+
+https://www.quantumgrad.com/article/676:
+
+phase is actually a rotation
+there are two types: the global phase and the relative phase.
+
+We may ignore the global phase from an observational point of view because the probabilities of outcomes seem similar when we make an observation. 
+global phase does not affect the measurement; this is the reason why we ignore it.
+
+We cannot ignore the relative phase; it's really important during measurement (according to Schrödinger's equation) because it is observable when state evolves.
+
+
+REPRESENTATION
+
+Quantum Computing for the very curious:
+
+First it shows the vector representation for qubits:
+
+\ket{0} = [1 0]
+\ket{1} = [0 1]
+
+
+Then, it shows quantum circuit representation for showing different quantum gates and algorithms.
+The line from left to right is what’s called a quantum wire. A quantum wire represents a single qubit. 
+The term “wire” and the way it’s drawn looks like the qubit is moving through space. 
+But it's often helpful to instead think of left-to-right as representing the passage of time. 
+So the initial segment of wire is just the passage of time, with nothing happening to the qubit. 
+
+Nielsen (page 13):
+
+Notation like ‘\ket{}’ is called the Dirac notation, which is the standard notation for states in quantum mechanics.
+
+For example: 1/\sqrt{2} \ket{0} + 1/\sqrt{2} \ket{1}
+
+Because |α|^2 + |β|^2 = 1, we may previous equation as \ket{ψ} = e^{iγ} = (cos θ/2 \ket{0} + e^{iϕ} sin θ/2 \ket{1}) where θ, ϕ and γ are real numbers. 
+The numbers θ and ϕ define a point on the unit three-dimensional sphere. This sphere is often called the Bloch sphere; it provides a useful means of
+visualizing the state of a single qubit. However, it must be kept in mind that this intuition is limited because there is
+no simple generalization of the Bloch sphere known for multiple qubits.
+
+# Figure: bloch sphere
+
+Thomas Wong (page 76):
+Following the standard physics convention, the x-axis comes out of the page, the
+y-axis points to the side, and z-axis is oriented up. Then, since the Bloch sphere
+has radius 1, |0⟩ corresponds to the (x, y, z) point (0, 0, 1), and |1⟩ corresponds to
+(0, 0, −1).
+
+A qubit can be any point on the Bloch sphere.
+
+O'Reilly (page 14):
+This is called bra-ket notation, and it’s commonly used in quantum computing. As a casual rule of thumb,
+numbers enclosed in bra-ket notation denote values that a qubit might be found to have when read out. When referring to a value
+that a qubit has been read out to have, we just use the number to represent the resulting digital value.
+
+Circle notation displays these parameters as follows:
+• The magnitude of the amplitude associated with each value a qubit can assume (so far, ∣0⟩ and ∣1⟩) is related to the radius of the filled-in area shown for each of
+the ∣0⟩ or ∣1⟩ circles.
+• The relative phase between the amplitudes of these values is indicated by the rotation of the ∣1⟩ circle relative to the ∣0⟩ circle (a darker line is drawn in the circles
+to make this rotation apparent)
+
+# Figure: circle notation
+
+By convention, a positive angle rotates the relevant circle counter-clockwise.
+
+In all the preceding examples we have only rotated the ∣1⟩ circle. Why not the ∣0⟩ cir‐
+cle as well? As the name suggests, it’s only the relative phase in a qubit’s superposition
+that ever makes any difference.
+
+The fact that the relative phase of a single qubit has no effect on the magnitudes in a
+superposition means that it has no direct influence on observable readout results.
+
+
+DEFINITION
+
+
+O'Reilly (page 13):
+
+We’ll try to tackle just what superposition means shortly. But to first give you an idea
+of why it might be powerful, note that there are an infinite number of possible superpositions in which a single qubit can exist prior to being read. 
+
+The amplitudes associated with different paths in a superposition are generally described by com‐
+plex numbers. The magnitude associated with an amplitude is precisely the modulus of this complex number (the square root of the
+number multipled by its complex conjugate), while its relative phase is the angle if the complex number is expressed in polar form. 
+
+Thomas Wong (page 85):
+Measurement collapses the qubit.
+
+Nielsen (page 13):
+
+qubits can be described as mathematical objects with certain specific properties. As a classical bit has a state – either 0 or 1 – a qubit also
+has a state. Two possible states for a qubit are the states \ket{0} and \ket{1}, which as you might guess correspond to the states 0 and 1 for a classical bit.
+The difference between bits and qubits is that a qubit can be in a state other than \ket{0} or \ket{1}. It is also possible to form linear combinations of states, often
+called superpositions:
+
+\ket{ψ} =  \alpha \ket{0} + \beta \ket{1}.
+
+The numbers \alpha and \beta are complex numbers, although for many purposes not much is lost by thinking of them as real numbers. 
+Put another way, the state of a qubit is a vector in a two-dimensional complex vector space. The special states \ket{0} and \ket{1} are known as
+computational basis states, and form an orthonormal basis for this vector space.
+
+We cannot examine a qubit to determine its quantum state, that is, the values of \alpha and \beta. 
+When we measure a qubit we get either the result 0, with probability |α|^2 , or the result 1, with probability |β|^2 . Naturally,
+|α|^2 + |β|^2 = 1, since the probabilities must sum to one. Geometrically, we can interpret this as the condition that the qubit’s state be normalized to length 1.
+Thus, in general a qubit’s state is a unit vector in a two-dimensional complex vector space.
+
+Measurement of a qubit will give only either 0 or 1. Furthermore, measurement changes the state of a qubit, collapsing it from its superposition of \ket{0} and \ket{1} 
+to the specific state consistent with the measurement result.
+
+
+
+NORMALIZATION
+
+Thomas Wong (page 85):
+We say a quantum state is normalized if its total probability is 1, as it should be. Sometimes, we must find an overall normalization constant to make this true. For
+example, a qubit is in the state
+
+A = (\sqrt{2}|0⟩ + i|1⟩)
+
+We normalize this state by finding the normalization constant A that ensures that the total probability is 1. So,
+
+1 = (A√2)(A√2)^∗ + (Ai)(Ai)^∗
+= 2|A|^2 + |A|^2
+= 3|A|^2
+|A|^2 = 1/3
+
+As we will prove later, the overall phase does not matter, so we might as well pick
+A to be real. Thus,
+
+A = 1/\sqrt{3}
+
+and the normalized state is
+
+1/\sqrt{3}(\sqrt{2}\ket{0} + i\ket{1})
+
+MEASUREMENT IN OTHER BASES
+
+Thomas Wong (page 86):
+
+Even though we introduced |0⟩ and |1⟩ as the north and south poles, respectively, of
+the Bloch sphere, the Bloch sphere is not a planet, and it is not spinning. Then, any
+two opposite points could be taken as the north and south poles. For example, |+⟩
+and |−⟩ could be the north and south poles, or |i⟩ and |−i⟩, or any opposite points.
+A set of distinct measurement outcomes is called a basis, and {|0⟩, |1⟩} is called the
+Z-basis because they lie on the z-axis of the Bloch sphere. Similarly, {|+⟩, |−⟩} is
+called the X-basis because they lie on the x-axis of the Bloch sphere, and {|i⟩, |−i⟩}
+is called the Y -basis because they lie on the y-axis of the Bloch sphere. We can
+measure with respect to any of these bases, or with respect to any two states on
+opposite sides of the Bloch sphere.
+
+
+
+*/}
+
+
+## Mas información
+
+
+- Páginas 13-17, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
+- Páginas 13-21, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
+- Páginas 76-91, <a href='https://isbnsearch.org/isbn/9798985593105' target='_blank'>Introduction to Classical and Quantum Computing (Thomas G. Wong) [Inglés]</a>
+- <a href='https://www.quantumgrad.com/article/676' target='_blank'>"Global Phase and Relative phase" (juweria) [Inglés]</a>
+- <a href='https://quantum.microsoft.com/en-us/insights/education/concepts/quantum-circuits' target='_blank'>"Explore quantum - Quantum circuits" (Microsoft) [Inglés]</a>

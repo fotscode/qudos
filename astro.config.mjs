@@ -31,6 +31,10 @@ export default defineConfig({
                     label: 'Conceptos clave',
                     items: [
                         {
+                            label: 'El Qubit',
+                            slug: 'concepts/qubit',
+                        },
+                        {
                             label: 'Oráculos',
                             slug: 'concepts/oracles',
                         },
