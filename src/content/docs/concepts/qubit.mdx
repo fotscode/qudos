@@ -1,9 +1,10 @@
 ---
 layout: '@layouts/math.astro'
 title: El Qubit
-description: Definición de qubit, fases global y relativa, representaciones, superposición.
+description: Definición de qubit, superposición, representaciones, fases global y relativa, mediciones en diferentes bases, normalización.
 ---
 
+import { Image } from 'astro:assets'
 import { Aside } from '@astrojs/starlight/components'
 
 En la computación clásica existe el bit como la unidad mínima de información. Análogamente, en la computación cuántica se adoptó el término qubit (quantum bit) para referirse 
@@ -56,7 +57,17 @@ Siguiendo la convención de la física tradicional, el eje $x$ es el que "sale" 
 ya que la esfera de Bloch es de radio 1 (de forma que los estados cuánticos se encuentren normalizados), $\ket{0}$ corresponde al punto $(x, y, z) = (0, 0, 1)$, y $\ket{1}$ corresponde 
 al punto $(0, 0, -1)$. Es importante notar que un qubit puede estar en cualquier punto de la esfera de Bloch.
 
-**Figure: bloch sphere**
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/concept-qubit/bloch-sphere.png`}
+    alt='Esfera de Bloch con tres estados cuánticos que representan distintos puntos dentro de la esfera'
+    width='800'
+    height='800'
+  />
+  <span style='max-width:1510px; padding:10px 40px'>
+    **Figura (1):** Esfera de Bloch con tres estados cuánticos que representan distintos puntos dentro de la esfera
+  </span>
+</div>
 
 Por otra parte, ha surgido como una alternativa de visualización interesante la notación de círculos. La misma muestra el estado cuántico de la siguiente manera: 
 - La magnitud de la amplitud asociada con cada valor que un qubit puede tomar ($\ket{0}$ o $\ket{1}$) se encuentra relacionada al radio del área pintada con color 
@@ -64,11 +75,24 @@ expuesta para cada uno de los círculos $\ket{0}$ o $\ket{1}$.
 - La fase relativa entre las amplitudes de dichos valores se encuentra indicada por la rotación del círculo $\ket{1}$ relativamente al círculo $\ket{0}$ (se traza una línea 
 oscura en los círculos para que pueda visualizarse dicha rotación).
 
-**Figure: circle notation**
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/concept-qubit/circle-notation.png`}
+    alt='Notación de círculos'
+    width='600'
+    height='600'
+  />
+  <span style='max-width:1510px; padding:10px 40px'>
+    **Figura (2):** Notación de círculos, donde cada estado está asociado a dos círculos: el de la izquierda representa al $\ket{0}$ y el de la derecha al $\ket{1}$. 
+    El primer estado devolverá $\ket{0}$ con $100\%$ de probabilidad. El segundo estado retornará $\ket{1}$ con $100\%$ de probabilidad. 
+    El tercer estado tiene una probabilidad $50:50$ para $\ket{0}$ y $\ket{1}$. El cuarto estado tiene la misma probabilidad que el anterior, con la diferencia de que 
+    existe una fase relativa de $180º$ (esto se percibe mediante la línea oscura). El último estado retornará $\ket{0}$ con un $90\%$ de probabilidad.
+  </span>
+</div>
 
 Por convención, un ángulo positivo rota al círculo en el sentido contrario de las agujas del reloj. Además, suele rotarse únicamente el círculo $\ket{1}$, ya que lo único que 
 importa es la fase relativa entre ambos estados base $\ket{0}$ y $\ket{1}$. No obstante, cabe recalcar que la fase relativa de un qubit no produce efecto alguno sobre las 
-magnitudes en una superposición, por lo que no tiene influencia directa sobre los resultados observables en una medición.
+magnitudes en una superposición, por lo que no tiene influencia directa sobre los resultados observables en una medición en la base $\{\ket{0}, \ket{1}\}$.
 
 Otra forma de visualizar al qubit puede emplearse mediante la representación vectorial, donde:
 
@@ -92,11 +116,60 @@ A la hora de trabajar con varios qubits puede que ninguna de las representacione
 ilegibles. Es por esto que se desarrollaron los circuitos cuánticos como estrategia de representación de algoritmos y secuencias de aplicación de compuertas cuánticas 
 sobre uno o varios qubits que son manipulados a lo largo de su ciclo de vida. Bajo esta representación, las líneas que van de izquierda a derecha representan "cables cuánticos", 
 donde cada uno de ellos representa a un qubit. El cable cuántico permite visualizar cómo un qubit es sometido a diferentes cambios a lo largo del tiempo, mediante la aplicación de 
-diferentes compuertas cuánticas. Cada compuerta es representada con un símbolo diferente dentro del circuito, los cuales serán presentados a continuación.
+diferentes compuertas cuánticas. Cada compuerta es representada con un símbolo diferente dentro del circuito. Generalmente, las compuertas unarias son representadas como cajas 
+con una etiqueta de texto que indica el tipo de compuerta. 
 
-**Figura de circuito cuántico**
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/concept-qubit/unary-gates.svg`}
+    alt='Compuertas unarias en un circuito cuántico'
+    width='400'
+    height='200'
+  />
+  <span style='max-width:1510px; padding:10px 40px'>
+    **Figura (3):** Visualización de compuertas unitarias A, B y C en un circuito cuántico
+  </span>
+</div>
 
-**Figura de compuertas cuánticas**
+Por otro lado, las compuertas n-arias se representan mediante una línea que conecta diferentes qubits. 
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/concept-qubit/n-ary-gates.avif`}
+    alt='Compuertas n-arias en un circuito cuántico'
+    width='400'
+    height='200'
+  />
+  <span style='max-width:1510px; padding:10px 40px'>
+    **Figura (4):** Visualización de compuertas binarias Controlled NOT y Controlled Y en un circuito cuántico
+  </span>
+</div>
+
+La operación de medición es representada por un símbolo de un medidor que siempre recibe un qubit como entrada y genera información clásica como salida (denotada por una línea doble).
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/concept-qubit/measurement.svg`}
+    alt='Medición de un qubit en un circuito cuántico'
+    width='400'
+    height='200'
+  />
+  <span style='max-width:1510px; padding:10px 40px'>
+    **Figura (5):** Visualización de la medición de un qubit en un circuito cuántico
+  </span>
+</div>
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/shor-pe-steps.png`}
+    alt='Estructura de la primitiva EF aplicada al algoritmo de Shor, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las compuertas siguen un patron escalonado del qubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como qubit de control.'
+    width='1510'
+    height='708'
+  />
+  <span style='max-width:1510px; padding:10px 40px'>
+    **Figura (6):** Ejemplo de circuito cuántico, el cual representa la estructura de la primitiva EF aplicada al algoritmo de Shor.
+  </span>
+</div>
 
 
 ## Mediciones en otras bases 
@@ -147,39 +220,7 @@ Por ejemplo, a partir de los siguientes estados cuánticos:
 
 Si se aplica una medición en *base Z* se obtendrán las mismas estadísticas: $\ket{0}$ con probabilidad $1/2$ o $\ket{1}$ con probabilidad $1/2$. No obstante, midiendo 
 en *base X* $\{\ket{+}, \ket{-}\}$ se obtienen resultados diferentes. Medir $\ket{+}$ en *base X* siempre retorna $\ket{+}$, mientras que medir $\ket{i}$ en esta base 
-devuelve $\ket{+}$ o $\ket{-}$ con una probabilidad 50:50.
-
-
-{/* 
-
-GLOBAL PHASE AND RELATIVE PHASE:
-
-O'Reilly (page 17):
-
-The relative phase between the different paths in the photon’s superposition captures the amount by which the photon is delayed on one path relative to the
-other. Mathematically speaking, its relative phase is the angle if the complex number is expressed in polar form. 
-
-Thomas Wong (page 91):
-
-Global phases are physically irrelevant. As such, global phases can be dropped/ignored. States that differ by a global phase
-are actually the same state; they correspond to the same point on the Bloch sphere.
-Note that a relative phase is physically significant, such as
-
-These correspond to different points on the Bloch sphere, and they can be distinguished by measurements in appropriate bases. Although measuring |+⟩ and |i⟩ in
-the Z-basis yields the same statistics, i.e., |0⟩ with probability 1/2 or |1⟩ with probability 1/2, measuring in the X-basis {|+⟩, |−⟩} yields different results. Measuring
-|+⟩ in the X-basis always yields |+⟩, but measuring |i⟩ in the X-basis yields |+⟩ or |−⟩ with a 50:50 probability.
-
-https://www.quantumgrad.com/article/676:
-
-phase is actually a rotation
-there are two types: the global phase and the relative phase.
-
-We may ignore the global phase from an observational point of view because the probabilities of outcomes seem similar when we make an observation. 
-global phase does not affect the measurement; this is the reason why we ignore it.
-
-We cannot ignore the relative phase; it's really important during measurement (according to Schrödinger's equation) because it is observable when state evolves.
-
-*/}
+devuelve $\ket{+}$ o $\ket{-}$ con una probabilidad $50:50$.
 
 
 ## Normalización
@@ -202,7 +243,7 @@ Es posible normalizar este estado encontrando la constante de normalización $A$
 \end{align}
 ```
 
-Dado que la fase global no importa, se puede seleccionar una constante $A$ que sea real. Por lo tanto,
+Dado que la fase global no importa, se puede seleccionar una constante $A$ que sea real. Así,
 
 ```math 
 A = \frac{1}{\sqrt{3}}
@@ -390,16 +431,9 @@ opposite sides of the Bloch sphere.
 
 ## Mas información
 
-- Páginas 248-249, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
-- <a href='https://www.youtube.com/watch?v=eE7eumEZOSE' target='_blank'>
-    "Consulting the (phase) oracle" (Chris Ferrie) [Inglés]
-  </a>
-- <a href='https://www.youtube.com/watch?v=N3PhGaAZyoE' target='_blank'>
-    "Quantum Computing Course: 3.2.B Quantum Functions" (Quantum Soar) [Inglés]
-  </a>
-- <a
-    href='https://learn.microsoft.com/en-us/azure/quantum/concepts-oracles'
-    target='_blank'
-  >
-    Understanding quantum oracles (Microsoft) [Inglés]
-  </a>
+
+- Páginas 13-17, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
+- Páginas 13-21, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
+- Páginas 76-91, <a href='https://isbnsearch.org/isbn/9798985593105' target='_blank'>Introduction to Classical and Quantum Computing (Thomas G. Wong) [Inglés]</a>
+- <a href='https://www.quantumgrad.com/article/676' target='_blank'>"Global Phase and Relative phase" (juweria) [Inglés]</a>
+- <a href='https://quantum.microsoft.com/en-us/insights/education/concepts/quantum-circuits' target='_blank'>"Explore quantum - Quantum circuits" (Microsoft) [Inglés]</a>
