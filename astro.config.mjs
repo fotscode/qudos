@@ -35,12 +35,16 @@ export default defineConfig({
                             slug: 'concepts/qubit',
                         },
                         {
-                            label: 'Oráculos',
-                            slug: 'concepts/oracles',
-                        },
-                        {
                             label:'Teleportación cuántica',
                             slug:'concepts/teleportation'
+                        },
+                        {
+                            label:'Teorema de no clonación',
+                            slug:'concepts/no-cloning-theorem'
+                        },
+                        {
+                            label: 'Oráculos',
+                            slug: 'concepts/oracles',
                         },
                         {   label: 'Amplificación de amplitudes', 
                             slug: 'concepts/amplitude-amplification' 
