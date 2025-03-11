@@ -1,0 +1,133 @@
+---
+layout: '@layouts/math.astro'
+title: Teorema de no clonación
+description: Explicación del teorema de no clonación
+---
+
+import { Image } from 'astro:assets'
+import { Aside } from '@astrojs/starlight/components'
+
+En la computación clásica es fácil copiar información leyendo cada bit y escribiéndolo en otra parte. 
+En la computación cuántica, clonar qubits es más complicado. Supóngase que se dispone de un qubit en un estado 
+de superposición. Si se mide en *base Z*, se obtiene $\ket{0}$ o $\ket{1}$ con cierta probabilidad. De esta manera, 
+no puede observarse el estado de superposición. Además, la medición colapsa el estado a $\ket{0}$ o $\ket{1}$, lo 
+que significa que se pierde el estado que se tenía inicialmente.
+
+Notar que si se tiene un qubit en un estado cuántico conocido, como por ejemplo $\ket{+}$, pueden producirse copias 
+adicionales recurriendo a las compuertas que producen dicho estado: 
+
+```math
+\ket{+}\ket{0} \overset{I \otimes H}{\longrightarrow} \ket{+}\ket{+}
+```
+
+Así, en lugar de tener una copia ahora se tienen dos. Por lo tanto, no hay inconvenientes cuando se quiere copiar un estado 
+cuántico conocido. El problema surge cuando quiere copiarse un estado cuántico desconocido. Supóngase que se dispone de 
+un qubit en un estado desconocido $\ket{\psi} = \alpha\ket{0} + \beta\ket{1}$, a partir del cual quiere hacerse una copia:
+
+```math
+\ket{\psi}\ket{0} \longrightarrow \ket{\psi}\ket{\psi}
+```
+
+Asumiendo que existe una operación unitaria $U$ que es capaz de clonar los qubits en dos estados posibles 
+$\ket{\psi}$ y $\ket{\phi}$. Esto es, 
+
+```math
+U\ket{\psi}\ket{0} = \ket{\psi}\ket{\psi}\\
+U\ket{\phi}\ket{0} = \ket{\phi}\ket{\phi}
+```
+
+Al realizar el producto interior de las dos ecuaciones previas, se obtiene:
+
+```math
+\begin{align}
+\bra{\psi}\bra{0}U^\dagger U\ket{\phi}\ket{0}&=&\bra{\psi}\bra{\psi}\ket{\phi}\ket{\phi}\\
+\bra{\psi}\bra{0}\ket{\phi}\ket{0}&=&\bra{\psi}\bra{\psi}\ket{\phi}\ket{\phi}\\
+\bra{\psi}\ket{\phi}\bra{0}\ket{0}&=&\bra{\psi}\ket{\phi}\bra{\psi}\ket{\phi}\\
+\bra{\psi}\ket{\phi}&=&(\bra{\psi}\ket{\phi})^2
+\end{align}
+```
+
+Para que $\bra{\psi}\ket{\phi}$ sea equivalente a su cuadrado, el resultado debe ser $0$ o $1$. Esto 
+se da únicamente cuando $\ket{\psi} = \ket{\phi}$ o cuando $\ket{\psi}$ y $\ket{\phi}$ son ortogonales. 
+Por lo tanto, un dispositivo de clonación puede clonar únicamente estados que son ortogonales entre sí, y en consecuencia
+un dispositivo de clonación cuántico general es imposible. Un potencial clonador cuántico no puede, por ejemplo, 
+clonar los estados $\ket{\psi} = \ket{0}$ y $\ket{\phi} = (\ket{0} + \ket{1})/\sqrt{2}$, ya que estos estados no son ortogonales. 
+De esta manera queda demostrado que es imposible clonar perfectamente un estado cuántico desconocido utilizando una evolución unitaria.
+
+Este resultado es conocido como el teorema de no clonación. 
+
+
+{/* 
+
+Thomas Wong (4.4.4, page 165):
+
+Classically, it is easy to copy or clone information by reading each bit and writing
+it somewhere. In quantum computing, cloning qubits is more complicated. Say we
+have a qubit in some superposition state. If we measure it in the Z-basis, we get |0⟩
+or |1⟩ with some probability. So, we do not learn the original superposition state.
+Furthermore, the measurement collapses the state to |0⟩ or |1⟩, meaning we lost
+whatever superposition state we originally had.
+To investigate this in greater detail, say we have a qubit in a known quantum
+state, such as |+⟩. Since we know its state, we can produce additional copies of it
+
+```math
+\ket{+}\ket{0} \overset{I \otimes H}{\rightarrow} \ket{+}\ket{+}
+```
+
+We went from having one copy to two. So, copying a known quantum state is no
+problem.
+The issue is copying an unknown quantum state. Say we have a qubit in an un-
+known quantum state |ψ⟩ = α|0⟩ + β |1⟩, and we would like to make a copy of it
+
+```math
+\ket{\psi}\ket{0} \rightarrow \ket{\psi}\ket{\psi}
+```
+
+Say there is a unitary U that is able to clone qubits in two known states |ψ⟩ and
+|φ ⟩. That is,
+
+```math
+U\ket{\psi}\ket{0} = \ket{\psi}\ket{\psi}
+U\ket{\phi}\ket{0} = \ket{\phi}\ket{\phi}
+```
+
+Taking the inner product of the previous two equations,
+
+```math
+\bra{\psi}\bra{0}U^\dagger U\ket{\phi}\ket{0} = \bra{\psi}\bra{\psi}\ket{\phi}\ket{\phi}\\
+\bra{\psi}\bra{0}\ket{\phi}\ket{0} = \bra{\psi}\bra{\psi}\ket{\phi}\ket{\phi}\\
+\bra{\psi}\ket{\phi}\bra{0}\ket{0} = \bra{\psi}\ket{\phi}\bra{\psi}\ket{\phi}\\
+\bra{\psi}\ket{\phi} = (\bra{\psi}\ket{\phi})^2\\
+```
+
+For ⟨ψ|φ ⟩ to be equal to its square, it must equal 0 or 1. Thus, |ψ⟩ = |φ ⟩, or |ψ⟩ and |φ ⟩ are
+orthogonal. Thus, an operator can only clone states that are orthogonal.
+
+Recall that states orthogonal are those for which the inner product between them gives 0.
+
+This result is called the no-cloning theorem. While classical information can be
+cloned, quantum information can not generally be cloned.
+Using this theorem, some scientists have proposed quantum software that cannot
+be copied or pirated, and quantum money that cannot be copied or counterfeited,
+but that is beyond the scope of this textbook
+
+
+Nielsen (Box 12.1, page 532):
+
+But x = x^2 has only two solutions, x = 0 and x = 1, so either |ψ> = |ϕ> or |ψ> and
+|ϕ> are orthogonal. Thus a cloning device can only clone states which are orthogonal
+to one another, and therefore a general quantum cloning device is impossible. A
+potential quantum cloner cannot, for example, clone the qubit states |ψ> = |0> and
+|ϕ> = (|0> + |1>)/√2, since these states are not orthogonal.
+What we have shown is that it is impossible to perfectly clone an unknown quantum
+state using unitary evolution.
+
+*/}
+
+
+## Mas información
+
+
+- Box 12.1, página 532, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
+- Sección 4.4.4, páginas 165-166, <a href='https://isbnsearch.org/isbn/9798985593105' target='_blank'>Introduction to Classical and Quantum Computing (Thomas G. Wong) [Inglés]</a>
+- <a href='https://learning.quantum.ibm.com/course/basics-of-quantum-information/quantum-circuits' target='_blank'>"Quantum circuits" (IBM) [Inglés]</a>
