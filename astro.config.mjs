@@ -43,6 +43,10 @@ export default defineConfig({
                             slug:'concepts/no-cloning-theorem'
                         },
                         {
+                            label:'Retroceso de fase',
+                            slug:'concepts/phase-kickback'
+                        },
+                        {
                             label: 'Oráculos',
                             slug: 'concepts/oracles',
                         },
@@ -169,3 +173,5 @@ export default defineConfig({
     site: 'https://fotscode.github.io',
     base: '/quantum-katas',
 })
+
+
