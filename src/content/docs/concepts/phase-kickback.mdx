@@ -1,0 +1,307 @@
+---
+layout: '@layouts/math.astro'
+title: Retroceso de fase
+description: Explicación del retroceso de fase
+---
+
+import { Image } from 'astro:assets'
+import { Aside } from '@astrojs/starlight/components'
+
+El retroceso de fase (phase kickback en inglés) es un fenómeno de vital importancia en la computación cuántica, el cual es utilizado en 
+una gran cantidad de algoritmos, tales como el algoritmo de Deutsch, la estimación de fase, la iteración de Grover, entre otros. 
+
+Este fenómeno consiste en el traslado del resultado de una función a la fase de un estado cuántico para que pueda ser manipulado mediante interferencias y alcanzar 
+un resultado determinado. Dicho proceso ocurre cuando el eigenvalue agregado por una compuerta cuántica a un qubit es desplazado hacia un qubit 
+diferente utilizando una operación de control. 
+
+La idea del retroceso de fase es muy útil, ya que puede utilizarse para aplicar rotaciones de fase sobre valores específicos en un registro de qubits.
+Esto puede realizarse aplicando una rotación de fase en algún otro registro condicionado por qubits que pertenecen al registro que nos interesa. Es posible 
+elegir dichos qubits para seleccionar específicamente los valores que se quieren rotar. 
+
+## Oráculo de fase 
+
+En este apartado se presentará el oráculo de fase, cuyo mecanismo sirve de ejemplo para visualizar los efectos del retroceso de fase. 
+Dicho oráculo mantiene la estructura descrita en el artículo <a href={`${import.meta.env.BASE_URL}/concepts/oracles`}>Oráculos</a>, y 
+existe una manera de utilizarlo que causa que el qubit de respuesta $\ket{y}$ no cambie mientras se multiplica a $\ket{x}$ por una fase. Esto funciona 
+estableciendo $\ket{y} = \ket{-}$, lo cual puede hacerse inicializando el qubit de respuesta en $\ket{0}$, aplicando $X$ para convertirlo en $\ket{1}$, 
+y luego aplicando $H$ para llegar a $\ket{-}$. Esto es,
+
+```math 
+\ket{x}\ket{0} \overset{I \otimes X}{\longrightarrow} \ket{x}\ket{1} \overset{I \otimes H}{\longrightarrow} \ket{x}\ket{-}
+```
+
+Notar que es posible preparar el qubit de respuesta $\ket{y}$ en el estado $\ket{-}$ porque el estado de un qubit puede ser una superposición de $\ket{0}$
+y $\ket{1}$; con un bit clásico de respuesta esto sería imposible. Ahora, expandiendo $\ket{x}\ket{-}$ e invocando al oráculo se llega a lo siguiente:
+
+```math 
+\begin{align}
+\ket{x}\ket{-} =&\ket{x}\frac{1}{\sqrt{2}}(\ket{0} - \ket{1})\\
+=&\frac{1}{\sqrt{2}}(\ket{x}\ket{0} - \ket{x}\ket{1})\\
+\overset{U_f}{\longrightarrow}&\frac{1}{\sqrt{2}}(\ket{x}\ket{0 \oplus f(x)} - \ket{x}\ket{1 \oplus f(x)})\\
+=&\left\{ 
+    \begin{array}{lcc} 
+            \frac{1}{\sqrt{2}}(\ket{x}\ket{0} - \ket{x}\ket{1}), & f(x) = 0 \\ \\ 
+            \frac{1}{\sqrt{2}}(\ket{x}\ket{1} - \ket{x}\ket{0}), & f(x) = 1 
+    \end{array} 
+\right.\\
+=&\left\{ 
+    \begin{array}{lcc} 
+            \ket{x}\ket{-}, & f(x) = 0 \\ \\ 
+            -\ket{x}\ket{-}, & f(x) = 1
+    \end{array} 
+\right.\\
+=&-1^{f(x)}\ket{x}\ket{-}
+\end{align}
+```
+
+De lo anterior puede interpretarse que el qubit de respuesta permanece en el estado $\ket{-}$ mientras que el qubit de 
+entrada pasa del estado $\ket{x}$ a $(-1)^{f(x)}\ket{x}$. Esto significa que el qubit de entrada adquiere una fase, por lo cual este fenómeno 
+recibe el nombre de **retroceso de fase**. Normalmente el qubit de respuesta es descartado, ya que permanece en el estado $\ket{-}$, y 
+solamente se escribe el qubit de entrada:
+
+```math 
+\ket{x} \overset{U_f}{\longrightarrow} (-1)^{f(x)}\ket{x}
+```
+
+Este oráculo se conoce como **oráculo de fase**, donde el qubit $\ket{x}$ es multiplicado por una fase $(-1)^{f(x)}$.
+
+### Detalles adicionales
+
+Es importante analizar que la siguiente fórmula funciona para todas las combinaciones de bits $b,c \in \Sigma$. 
+
+```math
+\ket{b \oplus c} = X^c \ket{b}
+```
+
+Esto puede comprobarse verificando para los dos posibles valores $c=0$ y $c=1$:
+
+```math
+\ket{b \oplus 0} = \ket{b} = 1\ket{b} = X^0\ket{b}\\
+\ket{b \oplus 1} = \neg\ket{b} = X\ket{b} = X^1\ket{b}\\
+```
+
+Utilizando dicha fórmula sobre el oráculo de fase,
+
+```math 
+U_f(\ket{b}\ket{a})=\ket{b\oplus f(a)}\ket{a}=(X^{f(a)}\ket{b})\ket{a}
+```
+
+para toda combinación de bits $a,b \in \Sigma$. Dado que la fórmula se mantiene verdadera para $b=0$ y $b=1$, por linealidad se llega a que 
+
+```math 
+U_f(\ket{\psi}\ket{a}) = (X^{f(a)}\ket{\psi})\ket{a}
+```
+
+para todo estado posible $\ket{\psi}$, y en consecuencia
+
+```math 
+U_f(\ket{-}\ket{a}) = (X^{f(a)}\ket{-})\ket{a} = (-1)^{f(a)}\ket{-}\ket{a}
+```
+
+La clave que permite que esto funcione está en que $X\ket{-} = -\ket{-}$. En términos matemáticos, el vector $\ket{-}$ es un eigenvector de la matriz $X$ 
+con eigenvalue $-1$.
+
+## Retroceso de fase sobre compuertas de control CNOT
+
+Se presenta otro ejemplo a continuación, utilizando compuertas de control $CNOT$. 
+
+Como se vio anteriormente, al aplicar una compuerta $X$ sobre un qubit $\ket{-}$, se retorna la fase $-1$ 
+(ver <a href={`${import.meta.env.BASE_URL}/concepts/phase-kickback#detalles-adicionales`}>Detalles adicionales</a>):
+
+```math 
+X\ket{-} = -\ket{-}
+```
+
+Cuando un qubit de control está en $\ket{0}$ o $\ket{1}$, dicha fase afecta al estado completo, sin embargo es una fase global y no tiene efectos observables.
+
+```math 
+\begin{align}
+CNOT\ket{-0} & = \ket{-} \otimes \ket{0}\\
+& = \ket{-0}
+\end{align}
+```
+
+```math 
+\begin{align}
+CNOT\ket{-1} & = X\ket{-} \otimes \ket{1}\\
+& = -\ket{-} \otimes \ket{1}\\
+& = -\ket{-1}
+\end{align}
+```
+
+El efecto interesante ocurre cuando el qubit de control se encuentra en un estado de superposición. El componente del qubit de control que se encuentra en 
+la dirección del $\ket{1}$ aplica este factor de fase al qubit objetivo correspondiente. Dicho factor de fase aplicado termina introduciendo una fase relativa 
+en el qubit de control:
+
+```math 
+\begin{align}
+CNOT\ket{-+} & = \frac{1}{\sqrt{2}}(CNOT\ket{-0} + CNOT\ket{-1})\\
+CNOT\ket{-+} & = \frac{1}{\sqrt{2}}(\ket{-0} + X\ket{-1})\\
+CNOT\ket{-+} & = \frac{1}{\sqrt{2}}(\ket{-0} - \ket{-1})
+\end{align}
+```
+
+Lo cual puede escribirse como dos estados de qubits separados:
+
+```math 
+\begin{align}
+CNOT\ket{-+} & = \ket{-} \otimes \frac{1}{\sqrt{2}}(\ket{0} - \ket{1})\\
+CNOT\ket{-+} & = \ket{--}
+\end{align}
+```
+
+En base a lo anterior puede concluirse que involucrar el operador $CNOT$ con compuertas Hadamard transforma los qubits de la *base Z* $\{\ket{0}, \ket{1}\}$ a 
+la *base X* $\{\ket{+}, \ket{-}\}$, donde se percibe dicho efecto. Este procesamiento es muy útil en hardware, ya que algunos dispositivos solamente permiten 
+operaciones $CNOTs$ en una dirección entre dos qubits concretos. Puede aprovecharse el retroceso de fase para superar este problema y permitir $CNOTs$ en ambas direcciones.
+
+
+{/* 
+
+
+Qiskit:
+
+Kickback is where the eigenvalue added by a gate to a qubit is ‘kicked back’ into a different qubit via a controlled operation. 
+For example, we saw that performing an X-gate on a |-> qubit gives it the phase :
+
+```math 
+X\ket{-} = -\ket{-}
+```
+
+When our control qubit is in either or , this phase affects the whole state, however it is a global phase and has no observable effects:
+
+```math 
+\begin{align}
+CNOT\ket{-0} & = \ket{-} \otimes \ket{0}\\
+& = \ket{-0}
+\end{align}
+```
+
+```math 
+\begin{align}
+CNOT\ket{-1} & = X\ket{-} \otimes \ket{1}\\
+& = -\ket{-} \otimes \ket{1}\\
+& = -\ket{-1}
+\end{align}
+```
+
+The interesting effect is when our control qubit is in superposition. The component of the control qubit that lies in the direction of applies this phase factor to the 
+corresponding target qubit. This applied phase factor in turn introduces a relative phase into the control qubit:
+
+```math 
+\begin{align}
+CNOT\ket{-+} & = \frac{1}{\sqrt{2}}(CNOT\ket{-0} + CNOT\ket{-1})\\
+CNOT\ket{-+} & = \frac{1}{\sqrt{2}}(\ket{-0} + X\ket{-1})\\
+CNOT\ket{-+} & = \frac{1}{\sqrt{2}}(\ket{-0} - \ket{-1})\\
+\end{align}
+```
+
+This can then be written as the two separable qubit states:
+
+```math 
+\begin{align}
+CNOT\ket{-+} & = \frac{1}{\sqrt{2}}(CNOT\ket{-0} + CNOT\ket{-1})\\
+CNOT\ket{-+} & = \frac{1}{\sqrt{2}}(\ket{-0} + X\ket{-1})\\
+CNOT\ket{-+} & = \frac{1}{\sqrt{2}}(\ket{-0} - \ket{-1})
+\end{align}
+```
+
+Wrapping the CNOT in H-gates transforms the qubits from the computational basis to the basis $(\ket{+}, \ket{-})$, where we see this effect. 
+This identity is very useful in hardware, since some hardwares only allow for CNOTs in one direction between two specific qubits. 
+We can use this identity to overcome this problem and allow CNOTs in both directions.
+
+Classiq: 
+
+Phase kickback [1,2,3] is an important and highly used primitive in quantum computing. 
+The algorithm deals with "kicking" the result of a function to the phase of a quantum state so it can be wisely manipulated with interferences 
+to achieve the desired result. Every quantum algorithm can be decomposed into these steps: 
+1) Encoding the data, 2) Manipulating the data, and 3) Extracting the result. 
+The phase kickback primitive is a key step in manipulating the data, enabling the extraction of the result. 
+
+
+O'Reilly (page 52):
+
+Phase kickback is a very useful idea, as we can use it to apply phase rotations to spe‐
+cific values in a register (register 1 in the preceding example). We can do this by per‐
+forming a phase rotation on some other register conditioned on qubits from the
+register we really care about. We can choose these qubits to specifically pick out the
+values we want to rotate.
+
+For phase kickback to work, we always need to initialize the second
+register in the ∣1⟩ value. Notice that although we are applying two-
+qubit operations between the two registers, we are not creating any
+entanglement; hence, we can fully represent the state as separate
+registers
+
+Thomas Wong (page 276):
+
+There is a way to
+query the quantum oracle, however, that causes the answer qubit |y⟩ to be unchanged
+while multiplying |x⟩ by a phase. It works by setting |y⟩ = |−⟩, which can be done by
+initializing the answer qubit to |0⟩, applying X to turn it into |1⟩, and then applying
+H to turn it into |−⟩. That is, writing both the input and answer qubits
+
+```math 
+\ket{x}\ket{0} \overset{I \otimes X}{\longrightarrow} \ket{x}\ket{1} \overset{I \otimes H}{\longrightarrow} \ket{x}\ket{-}
+```
+
+Note it is possible to prepare the answer qubit |y⟩ in the state |−⟩ because the state of
+a qubit can be a superposition of |0⟩ and |1⟩; with a classical answer bit, this would
+be impossible. Now, let us expand |x⟩|−⟩ and see what happens when we query the
+oracle:
+
+...
+
+We can interpret this as the answer qubit staying in the |−⟩ state while the input
+qubit goes from |x⟩ to (−1) f (x)|x⟩. That is, the input qubit acquires a phase. This
+is called phase kickback. Often, we drop the answer qubit, since it stays in the |−⟩
+state, and only write the input qubit:
+
+```math 
+\ket{x} \overset{U_f}{\rightarrow} (-1)^{f(x)}\ket{x}
+```
+
+This is called a phase oracle, where the qubit |x⟩ is multiplied by a phase (−1) f (x).
+
+
+IBM:
+
+First, notice the following formula works for all choices of bits b,c∈Σ.b,c∈Σ.
+∣b⊕c⟩=X^c∣b⟩
+
+This can be verified by checking it for the two possible values c=0c=0 and c=1c=1:
+∣b⊕0⟩=∣b⟩=1∣b⟩=X^0∣b⟩
+∣b⊕1⟩=∣¬b⟩=X∣b⟩=X^1∣b⟩.
+
+Using this formula, we see that
+
+```math 
+U_f(\ket{b}\ket{a})=\ket{b\oplus\f(a)}\ket{a}=(X^{f(a)}\ket{b})\ket{a}
+```
+
+for every choice of bits a,b∈Σ.a,b∈Σ. Because this formula is true for b=0b=0 and b=1,b=1, we see by linearity that
+
+```math 
+U_f(\ket{\psi}\ket{a}) = (X^{f(a)}\ket{\psi})\ket{a}
+```
+for all qubit state vectors ∣ψ>, and therefore
+
+```math 
+U_f(\ket{-}\ket{a}) = (X^{f(a)}\ket{-})\ket{a} = (-1)^{f(a)}\ket{-}\ket{a}
+```
+The key that makes this work is that X∣−⟩=−∣−⟩. In mathematical terms, the vector ∣−⟩ is an eigenvector of the matrix X having eigenvalue −1. 
+
+
+phase kickback es usado en muchos algoritmos: deutsch, phase estimation, grover
+
+
+*/}
+
+## Mas información
+
+
+- Secciones 6.1-6.2, páginas 248-261 <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
+- Páginas 51-52, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
+- Sección 7.1.4, páginas 276-277, <a href='https://isbnsearch.org/isbn/9798985593105' target='_blank'>Introduction to Classical and Quantum Computing (Thomas G. Wong) [Inglés]</a>
+- <a href='https://learning.quantum.ibm.com/course/fundamentals-of-quantum-algorithms/quantum-query-algorithms#further-remarks-on-the-phase-kickback' target='_blank'>"Quantum query algorithms" (IBM) [Inglés]</a>
+- <a href='https://github.com/Qiskit/textbook/blob/main/notebooks/ch-gates/phase-kickback.ipynb' target='_blank'>"Phase Kickback" (Qiskit) [Inglés]</a>
+- <a href='https://docs.classiq.io/latest/classiq_101/quantum_primitives_with_classiq/phase_kickback/' target='_blank'>"Phase Kickback" (Classiq) [Inglés]</a>
