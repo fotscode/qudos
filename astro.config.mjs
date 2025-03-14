@@ -31,6 +31,10 @@ export default defineConfig({
                     label: 'Conceptos clave',
                     items: [
                         {
+                            label: 'Codificación superdensa', 
+                            slug: 'concepts/superdense-coding' 
+                        },
+                        {
                             label: 'El Qubit',
                             slug: 'concepts/qubit',
                         },
@@ -62,7 +66,7 @@ export default defineConfig({
                         {
                             label:'Uncomputation',
                             slug:'concepts/uncomputation'
-                        }
+                        },
                     ],
                     translations: {
                         en: 'Key concepts',
