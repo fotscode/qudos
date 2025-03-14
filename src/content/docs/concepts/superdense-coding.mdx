@@ -5,15 +5,24 @@ description: Explicación del protocolo de codificación superdensa.
 ---
 
 import { Image } from 'astro:assets'
-import { Aside } from '@astrojs/starlight/components'
+import { Aside, Tabs, TabItem, Code } from '@astrojs/starlight/components'
+import Box from '@components/Box.astro'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+import Circle from '@components/CircleNotation.astro'
+import ResourceDivider from '@components/ResourceDivider.astro'
+import {
+  superdense_coding_example_tp,
+  superdense_coding_example_result,
+  superdense_coding_example_code,
+} from '@code-snippets/superdense-coding'
 
 La codificación superdensa es una aplicación simple de la mecánica cuántica elemental, ya que combina 
 todas las ideas básicas de dicha rama, y es por lo tanto un ejemplo ideal de las tareas de procesamiento 
 de la información que pueden llevarse a cabo mediante la mecánica cuántica. Se trata de un protocolo que 
 adquiere un rol complementario a la <a href={`${import.meta.env.BASE_URL}/concepts/teleportation`}>Teleportación cuántica</a>.
 La diferencia radica en que en lugar de permitir la transmisión de un qubit usando dos bits clásicos de comunicación 
-(con el costo de un qubit de entrelazamiento), permite la transmisión de dos bits cásicos usando un qubit de comunicación 
-cuántica (también con el costo de un qubit de entrelazamiento).
+(con el costo de un e-bit de entrelazamiento), permite la transmisión de dos bits cásicos usando un qubit de comunicación 
+cuántica (también con el costo de un e-bit de entrelazamiento).
 
 ## Protocolo
 
@@ -88,13 +97,169 @@ en la *base Z*. Esto es,
 
 Computacionalmente este protocolo aún requiere dos qubits para funcionar, pero como protocolo de comunicación requiere 
 que se envíe un único qubit. Generalizando la codificación superdensa, notar que si Alice y Bob comparten $n$ pares de 
-qubits entrelazados (con un total de $2n$ qubits), entonces Alice puede medir cada uno de sus $n$ qubits y enviárselos a Bob, 
+qubits entrelazados ($n$ e-bits conforman un total de $2n$ qubits), entonces Alice puede medir cada uno de sus $n$ qubits y enviárselos a Bob, 
 disminuyendo notablemente la cantidad de qubits a enviar.
 
 Por último es importante destacar que un teorema famoso en la teoría de la información cuántica, conocido como teorema de Holevo, 
 dice que sin el uso de estados entrelazados compartidos es imposible comunicar más de un bit de información clásica enviando un solo qubit. 
 Así, mediante la codificación superdensa, el entrelazamiento compartido permite duplicar efectivamente la capacidad de transferencia de información clásica al enviar qubits.
 
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/superdense-coding/circuit.png`}
+    alt='Protocolo de codificación superdensa, ubicando los qubits que poseen Alice y Bob.'
+    width='700'
+    height='300'
+  />
+  <span style='max-width:620px; padding:10px 40px'>
+    **Figura (1):** Protocolo de codificación superdensa, indicando las responsabilidades de Alice y Bob en las distintas partes del circuito.
+  </span>
+</div>
+
+## Ejemplos
+
+Para finalizar este artículo se presentará un ejemplo que involucre la acción de dos qubits, donde Alice desea enviar 
+los bits de información $11$ mediante el qubit que ella tiene en su poder. Tal como se explicó anteriormente, se asume que los dos qubits se 
+encuentran en un estado de entrelazamiento, y que un tercero le otorgó uno a Alice y otro a Bob.
+
+A continuación se elaborará un paso a paso de la aplicación del protocolo.
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/superdense-coding/circuit-with-slices.png`}
+    alt='Protocolo de codificación superdensa, con cortes ante la aplicación de cada compuerta.'
+    width='700'
+    height='300'
+  />
+  <span style='max-width:620px; padding:10px 40px'>
+    **Figura (2):** Protocolo de codificación superdensa, con cortes ante la aplicación de cada compuerta.
+  </span>
+</div>
+
+
+<Tabs>
+    <TabItem label="Círculos">
+        <Box>
+            Se analizará paso a paso el estado de los qubits segun los separadores provistos en el circuito, donde \\(\phi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=1\\) y finalizando con \\(i=5\\).
+            <div style="margin-top:10px">
+                <ResourceDivider icon="pencil" text="\(\phi_0\)" />
+            </div>
+            <div style="display: flex; flex-direction:column; align-items:center; margin-bottom:60px; text-align:left">
+                El paso $0$ representa los valores con los cuales se inicializó el circuito. En este caso, se inicia el circuito con el estado 
+                $\ket{\Phi^+} = \frac{1}{\sqrt{2}}(\ket{00} + \ket{11})$, es decir, los qubits ya se encuentran entrelazados.
+
+                <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
+                    <Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{00}"}/>
+                    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{01}"}/>
+                </div>
+                <div style="display: flex; justify-content:center; align-items:center; flex-direction:row; margin-bottom:30px">
+                    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{10}"}/>
+                    <Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{11}"}/>
+                </div>
+            </div>
+            
+            <ResourceDivider icon='pencil' text='\(\phi_1\)' />
+            <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+                Se aplica una compuerta Controlled-Z sobre el primer qubit con el valor del bit más significativo $d$ como bit de control,
+                cuyo valor es 1, por lo que se aplica un cambio de fase en 180º sobre dicho qubit. 
+                Se alcanza el estado $\ket{\Phi^-} = \frac{1}{\sqrt{2}}(\ket{00} - \ket{11})$.
+                
+                <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
+                    <Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{00}"}/>
+                    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{01}"}/>
+                </div>
+                <div style="display: flex; justify-content:center; align-items:center; flex-direction:row; margin-bottom:30px">
+                    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{10}"}/>
+                    <Circle width={"80"} phase={"180"} prob={0.5} label={"\\ket{11}"}/>
+                </div>
+            </div>
+            
+            <ResourceDivider icon="pencil" text="\(\phi_2\)" />
+            <div style="display: flex; flex-direction:column; align-items:center; margin-bottom:60px">
+                Se aplica una compuerta CNOT sobre el primer qubit con el valor del bit menos significativo $c$ como bit de control, cuyo 
+                valor es 1, por lo que se aplica NOT sobre dicho qubit. 
+                Se alcanza el estado $\frac{1}{\sqrt{2}}(-\ket{01} + \ket{10})$, que convenientemente es equivalente a 
+                $-\frac{1}{\sqrt{2}}(\ket{01} - \ket{10})$, aplicando una fase global $-1$.
+
+                <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
+                    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{00}"}/>
+                    <Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{01}"}/>
+                </div>
+                <div style="display: flex; justify-content:center; align-items:center; flex-direction:row; margin-bottom:30px">
+                    <Circle width={"80"} phase={"180"} prob={0.5} label={"\\ket{10}"}/>
+                    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{11}"}/>
+                </div>
+            </div>
+            
+            <ResourceDivider icon='pencil' text='\(\phi_3\)' />
+            <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+                Se opera con la compuerta CNOT con el primer qubit como control y el segundo qubit como target.
+                Se alcanza el estado $-\frac{1}{\sqrt{2}}(\ket{01} - \ket{11})$.
+
+                <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
+                    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{00}"}/>
+                    <Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{01}"}/>
+                </div>
+                <div style="display: flex; justify-content:center; align-items:center; flex-direction:row; margin-bottom:30px">
+                    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{10}"}/>
+                    <Circle width={"80"} phase={"180"} prob={0.5} label={"\\ket{11}"}/>
+                </div>
+            </div>
+            
+            <ResourceDivider icon='pencil' text='\(\phi_4\)' />
+            <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+                Se aplica Hadamard sobre el primer qubit para deshacer el entrelazamiento y poder medir los qubits.
+                Se llega al estado $-\ket{11}$.
+
+                <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
+                    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{00}"}/>
+                    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{01}"}/>
+                </div>
+                <div style="display: flex; justify-content:center; align-items:center; flex-direction:row; margin-bottom:30px">
+                    <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{10}"}/>
+                    <Circle width={"80"} phase={"180"} prob={1} label={"\\ket{11}"}/>
+                </div>
+            </div>
+            
+            <ResourceDivider icon='pencil' text='\(\phi_5\)' />
+            <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+
+                Se realiza la medición sobre ambos qubits, obteniendo el valor $\ket{11}$ con $100\%$ de probabilidad (la fase global 
+                no afecta en la medición), donde el primer qubit toma el valor del bit $d$ y el segundo qubit toma el valor del bit $c$.
+            </div>
+        </Box>
+    </TabItem>
+
+
+    <TabItem label='Quirk'>
+        <Box>
+            <QuantumCircuit src={superdense_coding_example_tp} />
+            <Aside>
+                El resultado de la medición representa con valores **"On"** aquellos
+                valores que son $1$ y los que son **"Off"** los valores que son $0$.
+                
+                **Aclaración**: se usan los primeros dos qubits en representación de los dos bits clásicos a transferir; el tercer 
+                y último qubits son entrelazados utilizando las compuertas H y CNOT; los qubits intermedios simulan el envío del 
+                qubit desde el emisor hacia el receptor (notar el aviso 'Send' acompañado de la compuerta SWAP para intercambiar 
+                los estados cuánticos entre el qubit del emisor y un qubit que a modo de ejemplo le llega al receptor). Finalmente, 
+                la medición de los qubits en la quinta y sexta posición representan la lectura final de los dos bits recibidos.
+            </Aside>
+        </Box>
+    </TabItem>
+    <TabItem label='Qiskit'>
+        <Box>
+            <Tabs>
+                <TabItem label='Código'>
+                    <Code code={superdense_coding_example_code} lang='py' />
+                </TabItem>
+                <TabItem label='Resultado'>
+                    <Code code={superdense_coding_example_result} lang='text' />
+                </TabItem>
+            </Tabs>
+        </Box>
+    </TabItem>
+</Tabs>
 
 {/*
 
