@@ -1,6 +1,5 @@
 ---
 import Dialog from '@components/Dialog.astro'
-import { Badge, Icon } from '@astrojs/starlight/components'
 import ResourceDivider from '@components/ResourceDivider.astro'
 import Recommendations from '@components/Recommendations.astro'
 import BibItem from '@components/BibItem.astro'
@@ -22,11 +21,13 @@ import BibItem from '@components/BibItem.astro'
             document.querySelectorAll(`[id^="${dialog}"]`).forEach((g) => {
                 g.addEventListener("click", () => {
                     opened=true;
-                    const d = document.getElementById(dialog)
+                    const d = document.getElementById(dialog) as HTMLDialogElement;
+                    if (!d) return;
                     d.showModal();
                     document.body.style.overflow = 'hidden';
                     d.addEventListener('click', function(event) {
-                        var target = event.target;
+                        var target = event.target as HTMLElement;
+                        if (!target) return;
                         if (target.tagName === 'svg' || target.tagName === 'path' || target.tagName.toLowerCase() === 'button' && target.classList.contains('dialog-close')) {
                             d.close();
                             return;
@@ -43,7 +44,8 @@ import BibItem from '@components/BibItem.astro'
                 });
                 g.addEventListener("mouseover", () => {
                     if (!opened) {
-                        g.style.cursor = "pointer";
+                        let gTyped = g as SVGElement;
+                        gTyped.style.cursor = "pointer";
                     }
                 });
             });

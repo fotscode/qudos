@@ -1,5 +1,4 @@
 ---
-const {id, rate, prefix} = Astro.props;
 import { Badge, Icon } from '@astrojs/starlight/components'
 const rateMap = {
     r:'recommended',
@@ -82,7 +81,14 @@ const bibMap = {
     phaseEstimationWiki: { badge: 'Wiki', title: 'Estimación de fase (Facundo Tomatis, Facundo Miglierini) [Español]', url: `${BASE_URL}/concepts/phase-estimation`, target: '_self' },
     shorWiki: { badge: 'Wiki', title: 'Algoritmo de Shor (Facundo Tomatis, Facundo Miglierini) [Español]', url: `${BASE_URL}/algorithms/shor`, target: '_self' },
 }
-
+type BibItemType = keyof typeof bibMap
+type RateType = keyof typeof rateMap
+type AstroProps = {
+    id: BibItemType;
+    rate: RateType;
+    prefix?: string
+}
+const { id, rate, prefix = '' } = Astro.props as AstroProps
 const colorClass = rateMap[rate];
 const { title, badge, url, target } = bibMap[id]
 ---
