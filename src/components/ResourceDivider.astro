@@ -1,28 +1,50 @@
 ---
-const { text,icon } = Astro.props;
+let { text, icon, colorBg, colorText, colorBorder, size, margin, alignRight } = Astro.props;
 import { Icon } from '@astrojs/starlight/components';
+let left = '10px', right = 'none';
+
+if (colorBg === undefined) {
+    colorBg = 'var(--sl-color-bg)';
+}
+if (colorText === undefined) {
+    colorText = 'var(--sl-color-text-accent)';
+}
+if (colorBorder === undefined) {
+    colorBorder = 'var(--sl-color-text-accent)';
+}
+if (size === undefined) {
+    size = '1px';
+}
+
+if (margin === undefined) {
+    margin = '30px 0';
+}
+if (alignRight !== undefined) {
+    left='none';
+    right='10px';
+}
 ---
 
-<style>
+<style define:vars={{colorBg, colorText, colorBorder, size, margin, left, right}}>
 .separator {
     position: relative;
     width: 100%;
-    border-bottom: 1px solid var(--sl-color-gray-3);
-    margin: 30px 0;
+    border-bottom: var(--size) solid var(--colorBorder);
+    margin: var(--margin);
 }
 
 .separator-content {
     position:absolute;
-    background: var(--sl-color-bg);
-    border-color: var(--sl-color-text-accent);
-    color: var(--sl-color-text-accent);
+    background: var(--colorBg);
+    color: var(--colorText);
     display:flex;
     border-radius: 8px;
-    border: 1px solid var(--sl-color-gray-3);
+    border: 1px solid var(--colorBorder);
     justify-content: center;
     align-items: center;
     top: -15px;
-    left: 10px;
+    left: var(--left);
+    right : var(--right);
     gap: 10px;
     padding: 0 10px;
 }
@@ -30,7 +52,7 @@ import { Icon } from '@astrojs/starlight/components';
 
 <div class="separator">
     <div class="separator-content">
-        <Icon name={icon} color="var(--sl-color-text-accent)" />
+        {icon && <Icon name={icon} color={colorText} />}
         <span>{text}</span>
     </div>
 </div>
