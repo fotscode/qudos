@@ -1,0 +1,46 @@
+---
+import { Icon } from '@astrojs/starlight/components'
+---
+<style>
+.flex, .flex-responsive {
+    display:flex;
+    align-items:center;
+    height:20px;
+    gap:10px;
+}
+.flex-responsive > * {
+    margin:0 !important;
+}
+@media (max-width: 500px) {
+    .flex-responsive {
+        flex-direction:column;
+        height:auto;
+        align-items:start;
+    }
+}
+.recommended, .alternative, .optional {
+    border-radius:50%;
+    min-width:fit-content;
+}
+.recommended {
+    background: #874EFE;
+}
+.alternative {
+    background: #4F7A28;
+}
+.optional {
+    background: #929292;
+}
+</style>
+<div class="flex-responsive">
+    <span>Bibliografía:</span>
+    <div class="flex">
+    <Icon name="approve-check" class="recommended" color="white" /> <span>Recomendada</span>
+    </div>
+    <div class="flex">
+    <Icon name="approve-check" class="alternative" color="white" /> <span>Alternativa</span>
+    </div>
+    <div class="flex">
+    <Icon name="approve-check" class="optional" color="white" /> <span>Opcional</span>
+    </div>
+</div>

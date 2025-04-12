@@ -1,6 +1,6 @@
 ---
 layout: '@layouts/math.astro'
-title: Uncomputation
+title: Descomputación
 description: Descripción de la técnica, ventajas y costo de aplicación. 
 ---
 
@@ -80,13 +80,13 @@ whether a reversible or irreversible model of computation is used.
 Existen ocasiones en las que el procesamiento cuántico produce qubits "basura". Esto puede afectar a los resultados de cómputo debido a que 
 los bits basura, cuyo valor dependen del estado de entrada, generalmente destruirán las propiedades de interferencia que son tan importantes 
 para la computación cuántica. Por ejemplo, podría requerirse trabajar con el entrelazamiento y el mismo se efectuaría con qubits que se encuentran en estados inservibles.
-Es por esto que en estos casos una buena opción consiste en aplicar uncomputation, una técnica que permite dejar los qubits auxiliares 
+Es por esto que en estos casos una buena opción consiste en aplicar descomputación, una técnica que permite dejar los qubits auxiliares 
 en $\ket{0}$ para que no interfieran durante el entrelazamiento. La idea consiste en en revertir las operaciones que entrelazaron los qubits basura, retornándolos 
 a su estado inicial $\ket{0}$, con un pequeño costo en el tiempo de procesamiento.
 
 A continuación se explicará el funcionamiento de esta técnica, aplicada sobre un ejemplo de procesamiento cuántico.
 
-El proceso de uncomputation involucra tres pasos:
+El proceso de descomputación involucra tres pasos:
 
 - Computar $\ket{x}\ket{0}\ket{0} \rightarrow \ket{x}\ket{s(x)}\ket{w(x)}$, donde $x$ es el estado inicial, $s(x)$ el resultado de aplicar una operación sobre $x$ y 
 $w(x)$ el estado "basura" resultante tras haber ejecutado $s(x)$. Se utiliza el enfoque estándar que consiste en convertir compuertas clásicas AND y NOT en compuertas cuánticas 
@@ -143,20 +143,20 @@ pero se terminó computando
 \ket{x_1, x_2, x_3}\ket{0} \rightarrow \ket{x_1, x_2, x_3}\ket{x_1 \land x_2}\ket{x_1 \land x_2 \land x_3}
 ```
 
-Esto puede evitarse fácilmente aplicando uncomputation. Siguiendo los pasos mencionados previamente, y recordando que la compuerta Toffoli es inversa de sí misma:
+Esto puede evitarse fácilmente aplicando descomputación. Siguiendo los pasos mencionados previamente, y recordando que la compuerta Toffoli es inversa de sí misma:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/uncomputation/03.png`}
-    alt='Aplicación de uncomputation sobre la operación x1 AND x2 AND x3 usando compuertas Toffoli'
+    alt='Aplicación de descomputación sobre la operación x1 AND x2 AND x3 usando compuertas Toffoli'
     width='400'
     height='400'
   />
 </div>
 
-El costo de aplicar uncomputation es lineal en relación a los números de qubits involucrados en el circuito, ya que deben aplicarse las operaciones inversas a las utilizadas 
+El costo de aplicar descomputación es lineal en relación a los números de qubits involucrados en el circuito, ya que deben aplicarse las operaciones inversas a las utilizadas 
 inicialmente. Además, el número de qubits auxiliares escala a lo sumo linealmente para guardar los resultados de las operaciones intermedias. Por lo tanto, puede afirmarse que 
-es posible aplicar uncomputation sobre los circuitos de forma eficiente, utilizando dicha práctica cuando sea requerida con el objetivo de mantener estados de cómputo limpios.
+es posible aplicar descomputación sobre los circuitos de forma eficiente, utilizando dicha práctica cuando sea requerida con el objetivo de mantener estados de cómputo limpios.
 
 ## Mas información
 

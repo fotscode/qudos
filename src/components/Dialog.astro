@@ -1,5 +1,5 @@
 ---
-const {id, title, open} = Astro.props;
+let {id, title, open, hideBtn} = Astro.props;
 
 const overflowBody = (overflow: string) => {
     return `document.body.style.overflow = '${overflow}';`
@@ -16,8 +16,10 @@ const clickOutside=`${base}.addEventListener('click', function(event) {
     ${close}
   }
 });`
+
+const visible = hideBtn ? 'none' : 'visible'
 ---
-<style>
+<style define:vars={{visible}}>
 dialog {
     margin: 10vh auto 10vh auto !important;
     height: auto;
@@ -75,13 +77,18 @@ dialog {
 }
 
 
-.dialog-content,.dialog-header {
+.dialog-header, .dialog-content {
     padding: 0 20px;
+}
+
+.dialog-content {
+    padding-bottom: 20px;
 }
 
 
 dialog::backdrop {
     background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
 }
 
 .dialog-open { 
@@ -89,6 +96,7 @@ dialog::backdrop {
     color: var(--sl-color-text-invert);
     border-radius: 8px;
     border: none;
+    display: var(--visible);
 }
 
 .dialog-open:hover {
@@ -96,11 +104,11 @@ dialog::backdrop {
 }
 </style>
 
-<button onclick={show+clickOutside} class="dialog-open">
+<button onclick={show+clickOutside} class="dialog-open" id=`${id}-open`>
     {open}
 </button>
 <dialog id={id} class="dialog">
-    <button class="dialog-close" onclick={close}>
+    <button class="dialog-close" onclick={close} id=`${id}-close`>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x h-5 w-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
     </button>
     <div class="dialog-header">
