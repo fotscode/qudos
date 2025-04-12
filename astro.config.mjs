@@ -64,7 +64,7 @@ export default defineConfig({
                             slug: 'concepts/phase-estimation' 
                         },
                         {
-                            label:'Uncomputation',
+                            label:'Descomputación',
                             slug:'concepts/uncomputation'
                         },
                     ],
@@ -76,16 +76,16 @@ export default defineConfig({
                     label: 'Compuertas',
                     items: [
                         {
-                            label: 'Pauli-X',
-                            slug: 'gates/pauli-x',
+                            label: 'Eje X',
+                            slug: 'gates/x-axis',
                         },
                         {
-                            label: 'Pauli-Y',
-                            slug: 'gates/pauli-y',
+                            label: 'Eje Y',
+                            slug: 'gates/y-axis',
                         },
                         {
-                            label: 'Pauli-Z',
-                            slug: 'gates/pauli-z',
+                            label: 'Eje Z',
+                            slug: 'gates/z-axis',
                         },
                         {
                             label: 'RotX',
@@ -126,16 +126,16 @@ export default defineConfig({
                     collapsed: true,
                     items: [
                         {
-                            label: 'Pauli-X',
-                            slug: 'proofs/pauli-x',
+                            label: 'Eje X',
+                            slug: 'proofs/x-axis',
                         },
                         {
-                            label: 'Pauli-Y',
-                            slug: 'proofs/pauli-y',
+                            label: 'Eje Y',
+                            slug: 'proofs/y-axis',
                         },
                         {
-                            label: 'Pauli-Z',
-                            slug: 'proofs/pauli-z',
+                            label: 'Eje Z',
+                            slug: 'proofs/z-axis',
                         },
                         { label: 'Hadamard', slug: 'proofs/hadamard' },
                         {
