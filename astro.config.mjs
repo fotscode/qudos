@@ -175,7 +175,7 @@ export default defineConfig({
         ],
     },
     site: 'https://fotscode.github.io',
-    base: '/quantum-katas',
+    base: '/qudos',
 })
 
 
