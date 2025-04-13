@@ -1,14 +1,7 @@
-# Quantum Katas
+# Qudos
 
-Quantum Katas es una plataforma interactiva diseñada como una guía para aprender los conceptos fundamentales de la computación cuántica. Inspirada en el proyecto [Microsoft Quantum Katas](https://quantum.microsoft.com/en-us/experience/quantum-katas), este recurso educativo ofrece ejercicios prácticos y tutoriales que permiten a los usuarios aprender conceptos de computación cuántica mediante el análisis exhaustivo de problemas.
+Qudos surge como parte de una tesina de licenciatura en informática de los autores de esta wiki. Inspirada en el proyecto [Quantum Katas de Microsoft](https://quantum.microsoft.com/en-us/experience/quantum-katas), su propósito es proporcionar un recurso abierto y colaborativo dirigido a la comunidad hispanohablante, que pueda crecer y evolucionar con el tiempo. Esta wiki tiene como objetivo simplificar el acceso a la computación cuántica y facilitar su aprendizaje. 
 
-El objetivo principal de Quantum Katas es hacer accesible la computación cuántica a estudiantes, investigadores y entusiastas, proporcionando una forma autodidacta de aprender. Al seguir las katas (un término inspirado en el aprendizaje repetitivo en artes marciales), los usuarios progresan a través de distintos niveles de dificultad, desde los conceptos básicos hasta algoritmos cuánticos avanzados.
+Se ofrece un espacio donde diversas representaciones de conceptos cuánticos se integren y se presenten de manera clara, ofreciendo distintas formas de aprender la misma idea. Para esto se utilizan simuladores cuánticos interactivos (utilizando [Quirk](https://algassert.com/quirk)), fragmentos de código junto a sus resultados y distintas notaciones utilizados por diversas bibliografías.
 
-Esta página pretende abarcar temas clave como:
-- Qubits y sus propiedades
-- Superposición y entrelazamiento
-- Operaciones cuánticas y puertas lógicas
-- Algoritmos cuánticos (como Grover y Shor)
-- Corrección de errores cuánticos
-
-Quantum Katas proporciona acceso a código interactivo y simuladores cuánticos (basandose en [Quirk](https://algassert.com/quirk)), lo que permite a los usuarios poner en práctica sus conocimientos en un entorno seguro y controlado.
+![logo de qudos](./public/favicon.svg)
