@@ -1,6 +1,6 @@
 ---
 layout: '@layouts/math.astro'
-title: 'Compuerta Hadamard'
+title: 'Puerta Hadamard'
 ---
 
 import Math from '@components/Math.astro'
@@ -15,9 +15,9 @@ H=\\frac{1}{\\sqrt{2}}
 \\end{bmatrix}
 `
 
-La compuerta Hadamard lleva su nombre en honor a <a href="https://es.wikipedia.org/wiki/Jacques_Hadamard" target="_blank">Jacques Hadamard</a>. Esta compuerta actua en un solo qubit y permite crear superposiciones.
+La puerta Hadamard lleva su nombre en honor a <a href="https://es.wikipedia.org/wiki/Jacques_Hadamard" target="_blank">Jacques Hadamard</a>. Esta puerta actua en un solo qubit y permite crear superposiciones.
 
-La compuerta en forma de matriz tiene la siguiente forma:
+La puerta en forma de matriz tiene la siguiente forma:
 
 <Math latex={hadamard_matrix_latex} />
 
@@ -52,18 +52,18 @@ Utilizando notación de circulos, se puede ver de la siguiente manera:
 
 Con esta gate toma sentido la fase, segun si este en \\(\ket{'+'}\\) o en \\(\ket{'-'}\\), al aplicarse, dará \\(\ket{0}\\) o \\(\ket{1}\\) respectivamente cuando previamente, antes de aplicarse la gate, existian \\(50\\%\\) de probabilidades de que sea \\(0\\) o \\(1\\).
 
-Una versión generalizada de la aplicacion de esta compuerta se puede observar en las <a href={`${import.meta.env.BASE_URL}/proofs/hadamard#generalizacion-de-la-operacion`}>pruebas elaboradas</a>.
+Una versión generalizada de la aplicacion de esta puerta se puede observar en las <a href={`${import.meta.env.BASE_URL}/proofs/hadamard#generalizacion-de-la-operacion`}>pruebas elaboradas</a>.
 
-En qiskit se aplica al circuito con la funcion `h` e indicando el qubit a aplicar la compuerta.
+En qiskit se aplica al circuito con la funcion `h` e indicando el qubit a aplicar la puerta.
 
 <Code
   code={`
 from qiskit import QuantumCircuit
 qc = QuantumCircuit(1)
-qc.h(0) # aplica la compuerta Hadamard al qubit 0
+qc.h(0) # aplica la puerta Hadamard al qubit 0
 `}
   lang='py'
-  title='Qiskit | Compuerta Hadamard'
+  title='Qiskit | Puerta Hadamard'
 />
 
 ## Más información

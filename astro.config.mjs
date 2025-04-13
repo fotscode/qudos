@@ -80,7 +80,7 @@ export default defineConfig({
                     },
                 },
                 {
-                    label: 'Compuertas',
+                    label: 'Puertas',
                     items: [
                         {
                             label: 'Eje X',

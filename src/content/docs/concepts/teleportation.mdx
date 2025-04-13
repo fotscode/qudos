@@ -32,7 +32,7 @@ Ademas el transmisor posee un qubit **Q** que es el que desea enviar al receptor
 
 ## Protocolo
 
-Se presenta una implementación general del protocolo de teleportación cuántica, este contiene compuertas <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a>, <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a>, <a href={`${import.meta.env.BASE_URL}/gates/z-axis`}>Pauli-Z</a> y una compuerta genérica "**U**" que pretende encapsular el estado del qubit **Q** a transmitir. La compuerta **U$^{\dag}$** es la conjugada transpuesta de **U**, tal que **UU$^{\dag}=I$**.
+Se presenta una implementación general del protocolo de teleportación cuántica, este contiene puertas <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a>, <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a>, <a href={`${import.meta.env.BASE_URL}/gates/z-axis`}>Pauli-Z</a> y una puerta genérica "**U**" que pretende encapsular el estado del qubit **Q** a transmitir. La puerta **U$^{\dag}$** es la conjugada transpuesta de **U**, tal que **UU$^{\dag}=I$**.
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -51,11 +51,11 @@ Dentro de los componentes, se enumeran $5$ pasos o étapas del protocolo, enumer
 
 El primer componente $c_1$ es la **creación de un par entrelazado**, como fue mencionado previamente, conformando el estado $\ket{\psi^+}$, que es uno de los estados de Bell.
 
-Luego el segundo componente $c_2$ es la **preparación del mensaje**. En esta etapa, utilizando la compuerta genérica **U**, se pretende encapsular compuertas e interacciones con otros qubits.
+Luego el segundo componente $c_2$ es la **preparación del mensaje**. En esta etapa, utilizando la puerta genérica **U**, se pretende encapsular puertas e interacciones con otros qubits.
 
 Le sigue el tercer componente $c_3$ que es el **envío del mensaje**, que consta de 3 pasos:
 
-- Se entrelaza el qubit que se desea transmitir con la mitad del par entrelazado del transmisor (primer linea con segunda) utilizando la compuerta CNOT. Esto causa que el qubit a transmitir se entrelace de forma _indirecta_ con el qubit del receptor (primer linea con tercer linea).
+- Se entrelaza el qubit que se desea transmitir con la mitad del par entrelazado del transmisor (primer linea con segunda) utilizando la puerta CNOT. Esto causa que el qubit a transmitir se entrelace de forma _indirecta_ con el qubit del receptor (primer linea con tercer linea).
 - Aplicar una Hadamard para no perder información de magnitud y fase al aplicar las lecturas.
 - Finalmente, se realizan las lecturas obteniendo información clásica, los resultados van a ser interpretados por el siguiente componente.
 
@@ -66,7 +66,7 @@ El cuarto componente $c_4$ finaliza la teleportación, **recibiendo el mensaje**
 - Por otro lado si lee un $1$ en la primera en la primer linea y un $0$ en la segunda, para que quede igual que el original es necesario aumentar la fase en $180^\circ$ (aplicar una CZ).
 - Por último si se lee un $1$ en la primera en la primer linea y un $1$ en la segunda, para que quede igual es necesario invertir las amplitudes e aumentar la fase en $180^\circ$.
 
-El último componente $c_5$ **verifica** el éxito de la teleportación, esto se hace aplicando las compuertas inversas a las recibidas en $c_2$ y midiendo el resultado. Si luego de medir resulta en $0$ significa que la teleportación fue exitosa, en caso contrario esta falló.
+El último componente $c_5$ **verifica** el éxito de la teleportación, esto se hace aplicando las puertas inversas a las recibidas en $c_2$ y midiendo el resultado. Si luego de medir resulta en $0$ significa que la teleportación fue exitosa, en caso contrario esta falló.
 
 Tanto los componentes $c_1$, $c_2$ y $c_5$ pueden considerarse como externos al protocolo, los componentes $c_1$ y $c_2$ se pueden tomar como precondiciones para que el protocolo funcione correctamente y $c_5$ como procesamiento opcional, en ciertas bibliografías estos se evitan y se dan por hecho.
 
@@ -77,33 +77,33 @@ Para obtener una mayor comprensión se desarrollará un ejemplo, en este mismo s
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/teleportation_steps.png`}
-    alt='Protocolo de teleportación cuántico, con cortes ante la aplicación de cada compuerta.'
+    alt='Protocolo de teleportación cuántico, con cortes ante la aplicación de cada puerta.'
     width='611'
     height='185'
   />
   <span style='max-width:620px; padding:10px 40px'>
     **Figura (2):** Protocolo de teleportación cuántico, con cortes ante la
-    aplicación de cada compuerta.
+    aplicación de cada puerta.
   </span>
 </div>
 
-Se reemplazará la compuerta genérica **U** con un ejemplo de compuerta que represente un estado cuántico a transmitir, la misma se puede observar en la siguiente imágen:
+Se reemplazará la puerta genérica **U** con un ejemplo de puerta que represente un estado cuántico a transmitir, la misma se puede observar en la siguiente imágen:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/teleportation_example_hth.png`}
-    alt='Reemplazo de la compuerta genérica U con una compuerta con una Hadamard seguida de una compuerta T y finalizando con otra compuerta Hadamard.'
+    alt='Reemplazo de la puerta genérica U con una puerta con una Hadamard seguida de una puerta T y finalizando con otra puerta Hadamard.'
     width='388'
     height='73'
   />
   <span style='max-width:620px; padding:10px 40px'>
-    **Figura (3):** Reemplazo de la compuerta U por una compuerta con una
-    Hadamard seguida de una compuerta T y finalizando con otra compuerta
+    **Figura (3):** Reemplazo de la puerta U por una puerta con una
+    Hadamard seguida de una puerta T y finalizando con otra puerta
     Hadamard.
   </span>
 </div>
 
-La compuerta aplicada sobre un qubit inicializado en $\ket{0}$ se puede representar de la siguiente manera:
+La puerta aplicada sobre un qubit inicializado en $\ket{0}$ se puede representar de la siguiente manera:
 
 <div style="display: flex; justify-content:center; align-items:center; flex-direction:row; margin-bottom:30px">
 <Circle width={"80"} phase={"0"} prob={1} label={"\\ket{0}"}/>
@@ -188,7 +188,7 @@ $$\overset{H}{\rightarrow}$$
             
             <ResourceDivider icon='pencil' text='\(\phi_3\)' />
             <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-              En el paso $\phi_3$ se aplica la compuerta U, definida previamente en la
+              En el paso $\phi_3$ se aplica la puerta U, definida previamente en la
               figura 3, cumple la funcionalidad descrita en el componente $c_2$.
               <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
                 <Circle width={'80'} phase={22.5} prob={0.42677} label={'\\ket{000}'} />
@@ -292,7 +292,7 @@ $$\overset{H}{\rightarrow}$$
             
             <ResourceDivider icon='pencil' text='\(\phi_8\)' />
             <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-              De la misma manera que el paso anterior, como el primer qubit colapsó en $1$ se aplica una compuerta Pauli-Z al tercer qubit (CZ), rotando su fase relativa en $180^{\circ}$, finalizando el componente $c_4$.
+              De la misma manera que el paso anterior, como el primer qubit colapsó en $1$ se aplica una puerta Pauli-Z al tercer qubit (CZ), rotando su fase relativa en $180^{\circ}$, finalizando el componente $c_4$.
               <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
                 <Circle width={'80'} phase={0} prob={0} label={'\\ket{000}'} />
                 <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />
@@ -309,7 +309,7 @@ $$\overset{H}{\rightarrow}$$
             
             <ResourceDivider icon='pencil' text='\(\phi_9\)' />
             <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-              Finalmente este paso cumple la función de verificar el resultado (componente $c_5$), esto conlleva aplicar la compuerta inversa a **U**. En este caso implica realizar una Hadamard, seguida por una T$^{-1}$ y finalizada por otra Hadamard, es decir que supone realizar los pasos inversos que realiza **U**.
+              Finalmente este paso cumple la función de verificar el resultado (componente $c_5$), esto conlleva aplicar la puerta inversa a **U**. En este caso implica realizar una Hadamard, seguida por una T$^{-1}$ y finalizada por otra Hadamard, es decir que supone realizar los pasos inversos que realiza **U**.
             
             Al aplicarlo obtenemos que el estado es $\ket{000}$, el estado inicial, por lo que verificamos que la teleportación fue exitosa.
             

@@ -1,15 +1,15 @@
 ---
 layout: '@layouts/math.astro'
-title: 'Compuerta RotZ'
+title: 'Puerta RotZ'
 ---
 
 import { Code } from '@astrojs/starlight/components'
 
-Esta compuerta también es conocida como Phase, y de forma similar a la compuerta <a href={`${import.meta.env.BASE_URL}/gates/z-axis`}>Pauli-Z</a> implica una rotación en el eje $z$ de la esfera de Bloch, esta compuerta se acompaña con la rotación empleada. Imitar el comportamiento de la compuerta Pauli-Z implica aplicar una RotZ con $\pi$ radianes de rotación. 
+Esta puerta también es conocida como Phase, y de forma similar a la puerta <a href={`${import.meta.env.BASE_URL}/gates/z-axis`}>Pauli-Z</a> implica una rotación en el eje $z$ de la esfera de Bloch, esta puerta se acompaña con la rotación empleada. Imitar el comportamiento de la puerta Pauli-Z implica aplicar una RotZ con $\pi$ radianes de rotación. 
 
-A su vez las compuertas S y T son especificaciones de esta, con $\pi/2$ radianes y $\pi/4$ radianes respectivamente.
+A su vez las puertas S y T son especificaciones de esta, con $\pi/2$ radianes y $\pi/4$ radianes respectivamente.
 
-Esta compuerta permite abstraerse de ángulos fijos, permitiendo una mayor libertad de aplicación.
+Esta puerta permite abstraerse de ángulos fijos, permitiendo una mayor libertad de aplicación.
 
 En forma de matriz se puede observar de la siguiente manera, siendo $\theta$ un valor en radianes:
 ```math
@@ -33,7 +33,7 @@ qc.rz(pi, 0) # aplica una rotacion de pi al qubit 0 en el eje z
 
 }
   lang='py'
-  title='Qiskit | Compuerta RotZ'
+  title='Qiskit | Puerta RotZ'
 />
 
 ## Mas información

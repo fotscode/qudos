@@ -1,12 +1,12 @@
 ---
 layout: '@layouts/math.astro'
-title: 'Compuerta Pauli-Z'
+title: 'Puerta Pauli-Z'
 ---
 
 import Circle from '@components/CircleNotation.astro'
 import { Code } from '@astrojs/starlight/components'
 
-La compuerta Pauli-Z nombrada por el fisico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a> (o simplemente $Z$), al aplicarse, aplica una rotación de $\pi$ radianes a traves del eje $z$ de la esfera de Bloch.
+La puerta Pauli-Z nombrada por el fisico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a> (o simplemente $Z$), al aplicarse, aplica una rotación de $\pi$ radianes a traves del eje $z$ de la esfera de Bloch.
 
 En forma de matriz se ve de la siguiente manera:
 ```math
@@ -60,7 +60,7 @@ Utilizando notación de circulos, se puede ver de la siguiente manera:
     <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
 </div>
 
-La version general de la aplicación de la compuerta es la siguiente:
+La version general de la aplicación de la puerta es la siguiente:
 ```math
 \begin{bmatrix}
 1&0\\
@@ -76,17 +76,17 @@ La version general de la aplicación de la compuerta es la siguiente:
 \end{bmatrix}
 ```
 
-En qiskit se aplica al circuito con la funcion `z` e indicando el qubit a aplicar la compuerta.
+En qiskit se aplica al circuito con la funcion `z` e indicando el qubit a aplicar la puerta.
 
 
 <Code
   code={`
 from qiskit import QuantumCircuit
 qc = QuantumCircuit(1)
-qc.z(0) # aplica la compuerta Z al qubit 0
+qc.z(0) # aplica la puerta Z al qubit 0
 `}
   lang='py'
-  title='Qiskit | Compuerta Pauli-Z'
+  title='Qiskit | Puerta Pauli-Z'
 />
 
 ## Más información

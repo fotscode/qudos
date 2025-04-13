@@ -1,14 +1,14 @@
 ---
 layout: '@layouts/math.astro'
-title: 'Compuerta Pauli-X'
+title: 'Puerta Pauli-X'
 ---
 
 import Circle from '@components/CircleNotation.astro'
 import { Code } from '@astrojs/starlight/components'
 
-La compuerta NOT cuantica, tambien conocida como Pauli-X nombrada por el fisico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a> (o simplemente $X$), funciona como la compuerta NOT logica en los casos de que los qubits sean 0 o 1, pero difiere en estados de superposicion.
+La puerta NOT cuantica, tambien conocida como Pauli-X nombrada por el fisico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a> (o simplemente $X$), funciona como la puerta NOT logica en los casos de que los qubits sean 0 o 1, pero difiere en estados de superposicion.
 
-El nombre $X$ deriva de la funcionalidad de la misma, ya que la aplicación de la compuerta implica una rotación de $\pi$ radianes a traves del eje $x$ de la esfera de Bloch.
+El nombre $X$ deriva de la funcionalidad de la misma, ya que la aplicación de la puerta implica una rotación de $\pi$ radianes a traves del eje $x$ de la esfera de Bloch.
 
 En forma de matriz se ve de la siguiente manera:
 ```math
@@ -54,7 +54,7 @@ Utilizando notación de circulos, se puede ver de la siguiente manera:
     <Circle width={"100"} phase={"75"} prob={0.9} label={"\\ket{1}"}/>
 </div>
 
-La version general de la aplicación de la compuerta es la siguiente:
+La version general de la aplicación de la puerta es la siguiente:
 ```math
 \begin{bmatrix}
 0&1\\
@@ -70,17 +70,17 @@ La version general de la aplicación de la compuerta es la siguiente:
 \end{bmatrix}
 ```
 
-En qiskit se aplica al circuito con la funcion `x` e indicando el qubit a aplicar la compuerta.
+En qiskit se aplica al circuito con la funcion `x` e indicando el qubit a aplicar la puerta.
 
 
 <Code
   code={`
 from qiskit import QuantumCircuit
 qc = QuantumCircuit(1)
-qc.x(0) # aplica la compuerta X al qubit 0
+qc.x(0) # aplica la puerta X al qubit 0
 `}
   lang='py'
-  title='Qiskit | Compuerta Pauli-X'
+  title='Qiskit | Puerta Pauli-X'
 />
 
 ## Más información

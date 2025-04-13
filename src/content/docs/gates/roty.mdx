@@ -1,13 +1,13 @@
 ---
 layout: '@layouts/math.astro'
-title: 'Compuerta RotY'
+title: 'Puerta RotY'
 ---
 
 import { Code } from '@astrojs/starlight/components'
 
-De forma similar a la compuerta <a href={`${import.meta.env.BASE_URL}/gates/y-axis`}>Pauli-Y</a> implica una rotación en el eje $y$ de la esfera de Bloch, esta compuerta se acompaña con la rotación empleada. Imitar el comportamiento de la compuerta Pauli-Y implica aplicar una RotY con $\pi$ radianes de rotación.
+De forma similar a la puerta <a href={`${import.meta.env.BASE_URL}/gates/y-axis`}>Pauli-Y</a> implica una rotación en el eje $y$ de la esfera de Bloch, esta puerta se acompaña con la rotación empleada. Imitar el comportamiento de la puerta Pauli-Y implica aplicar una RotY con $\pi$ radianes de rotación.
 
-Esta compuerta permite abstraerse de ángulos fijos, permitiendo una mayor libertad de aplicación.
+Esta puerta permite abstraerse de ángulos fijos, permitiendo una mayor libertad de aplicación.
 
 En forma de matriz se puede observar de la siguiente manera:
 ```math
@@ -31,7 +31,7 @@ qc.ry(pi, 0) # aplica una rotacion de pi al qubit 0 en el eje y
 
 }
   lang='py'
-  title='Qiskit | Compuerta RotY'
+  title='Qiskit | Puerta RotY'
 />
 
 ## Mas información

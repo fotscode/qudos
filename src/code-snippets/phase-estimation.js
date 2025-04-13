@@ -60,9 +60,9 @@ def inverse_qft(qc):
 
 def controlled_hadamard(qc, control):
     """
-    Aplica una compuerta de Hadamard controlada al qubit objetivo.
-    Como Hadamard controlada es una compuerta hermitiana (su inversa es ella misma)
-    Solo se necesita una compuerta Hadamard y es en el primer qubit, 
+    Aplica una puerta de Hadamard controlada al qubit objetivo.
+    Como Hadamard controlada es una puerta hermitiana (su inversa es ella misma)
+    Solo se necesita una puerta Hadamard y es en el primer qubit, 
     el resto al ser cantidades pares (2 veces en el segundo, 4 en el tercero, etc)
     se cancelan 
     """
