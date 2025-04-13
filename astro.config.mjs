@@ -7,16 +7,23 @@ import remarkMath from 'remark-math'
 export default defineConfig({
     integrations: [
         starlight({
-            title: 'Quantum Katas',
+            title: 'Qudos',
+            logo: {
+                dark: './public/qudos-dark.png',
+                light: './public/qudos-light.png',
+                replacesTitle: true,
+            },
+            editLink: {
+                baseUrl: 'https://github.com/fotscode/qudos/edit/main/',
+            },
+            social: {
+                github: 'https://github.com/fotscode/qudos',
+            },
             defaultLocale: 'root',
             locales: {
                 root: {
                     label: 'Español',
                     lang: 'es',
-                },
-                en: {
-                    label: 'English',
-                    lang: 'en',
                 },
             },
             sidebar: [
