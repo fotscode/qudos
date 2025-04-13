@@ -27,6 +27,8 @@ dialog {
     max-width: 1000px;
     border-radius: 8px;
     border: 1px solid var(--sl-color-gray-3);
+    background: var(--sl-color-black);
+    padding-top: 0;
 }
 
 @media (max-width: 800px) {
@@ -53,8 +55,19 @@ dialog {
     }
 }
 
+.sticky-top{
+    position: sticky;
+    top: 0;
+    right: 0;
+    padding: 10px 0 20px 0;
+    background: var(--sl-color-black);
+    blackdrop-filter: blur(5px);
+    border-bottom: 1px solid var(--sl-color-gray-3);
+}
+
 .dialog-close{
-    position: absolute;
+    position: sticky;
+    float: right;
     top: 0;
     right: 0;
     width: 40px;
@@ -76,6 +89,9 @@ dialog {
     color: var(--sl-color-white);
 }
 
+.dialog-header {
+    margin-top: 10px !important;
+}
 
 .dialog-header, .dialog-content {
     padding: 0 20px;
@@ -104,15 +120,17 @@ dialog::backdrop {
 }
 </style>
 
-<button onclick={show+clickOutside} class="dialog-open" id=`${id}-open`>
+<button onclick={show+clickOutside+escape} class="dialog-open" id=`${id}-open`>
     {open}
 </button>
 <dialog id={id} class="dialog">
-    <button class="dialog-close" onclick={close} id=`${id}-close`>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x h-5 w-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
-    </button>
-    <div class="dialog-header">
-        <h2 class="dialog-title">{title}</h2>
+    <div class="sticky-top">
+        <button class="dialog-close" onclick={close} id=`${id}-close`>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x h-5 w-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+        </button>
+        <div class="dialog-header">
+            <h2 class="dialog-title">{title}</h2>
+        </div>
     </div>
     <div class="dialog-content">
         <slot name="main" />
