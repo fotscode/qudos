@@ -1,14 +1,29 @@
 ---
 layout: '@layouts/math.astro'
-title: 'Puerta Pauli-X'
+title: 'Puertas en Eje X'
 ---
 
 import Circle from '@components/CircleNotation.astro'
-import { Code } from '@astrojs/starlight/components'
+import { Code, Tabs, TabItem } from '@astrojs/starlight/components'
+import Box from '@components/Box.astro'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+import {
+  pauli_x_example_quirk,
+  pauli_x_qiskit_code,
+  rotx_example_quirk,
+  rotx_qiskit_code,
+} from '@code-snippets/x-axis'
 
-La puerta NOT cuantica, tambien conocida como Pauli-X nombrada por el fisico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a> (o simplemente $X$), funciona como la puerta NOT logica en los casos de que los qubits sean 0 o 1, pero difiere en estados de superposicion.
 
-El nombre $X$ deriva de la funcionalidad de la misma, ya que la aplicación de la puerta implica una rotación de $\pi$ radianes a traves del eje $x$ de la esfera de Bloch.
+Este artículo se centra en un conjunto específico de puertas que actúan sobre el eje X. Primero se explorará la puerta **Pauli-X**, luego la puerta **RotX** que la generaliza y, por último, se hace mención a su **variante condicional**.
+
+## Pauli-X
+
+La puerta **NOT** cuántica, tambien conocida como **Pauli-X** (o simplemente **X**) nombrada por el físico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a>, funciona como la puerta NOT lógica en los casos de que los qubits sean 0 o 1, pero difiere en estados de superposición.
+
+El nombre $X$ deriva de la funcionalidad de la misma, ya que la aplicación de la puerta implica una rotación de $\pi$ radianes (o 180 grados) a traves del eje $x$ de la esfera de Bloch.
 
 En forma de matriz se ve de la siguiente manera:
 ```math
@@ -18,41 +33,6 @@ X=\begin{bmatrix}
 \end{bmatrix}
 ```
 
-Las operaciones comunes son las siguientes, las pruebas de estas operaciones se pueden encontrar con mayor detalle en las <a href={`${import.meta.env.BASE_URL}/proofs/x-axis#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>:
-```math
-X\ket{0}=\ket{1}\\
-X\ket{1}=\ket{0}\\
-X\ket{+}=\ket{+}\\
-X\ket{-}=\ket{-}
-```
-
-
-Utilizando notación de circulos, se puede ver de la siguiente manera:
-
-<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
-    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
-    $$\overset{X}{\rightarrow}$$ 
-    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{1}"}/>
-</div>
-
-
-<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
-    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{1}"}/>
-    $$\overset{X}{\rightarrow}$$ 
-    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
-</div>
-
-<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
-    <Circle width={"100"} phase={"75"} prob={0.9} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"155"} prob={0.1} label={"\\ket{1}"}/>
-    $$\overset{X}{\rightarrow}$$ 
-    <Circle width={"100"} phase={"155"} prob={0.1} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"75"} prob={0.9} label={"\\ket{1}"}/>
-</div>
 
 La version general de la aplicación de la puerta es la siguiente:
 ```math
@@ -65,28 +45,127 @@ La version general de la aplicación de la puerta es la siguiente:
 \beta
 \end{bmatrix}=
 \begin{bmatrix}
+0&1\\
+1&0\\
+\end{bmatrix}
+\alpha
+\begin{bmatrix}
+1\\
+0
+\end{bmatrix}+
+\begin{bmatrix}
+0&1\\
+1&0\\
+\end{bmatrix}
+\beta
+\begin{bmatrix}
+0\\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
 \beta\\
 \alpha
 \end{bmatrix}
 ```
 
-En qiskit se aplica al circuito con la funcion `x` e indicando el qubit a aplicar la puerta.
+Por lo que intercambia las amplitudes entre los estados base $\ket{0}$ y $\ket{1}$.
 
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <QuantumCircuit src={pauli_x_example_quirk} />
+        La puerta $r^t$ genera un estado aleatorio que cambia según el tiempo, el resultado de aplicar la puerta $X$ es el intercambio de amplitudes.
+    </Box>
+  </TabItem>
+  <TabItem label="Dirac">
+    <Box>
+        Las operaciones comunes son las siguientes, las pruebas de estas operaciones se pueden encontrar con mayor detalle en las <a href={`${import.meta.env.BASE_URL}/proofs/x-axis#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>:
+        ```math
+        X\ket{0}=\ket{1}\\
+        X\ket{1}=\ket{0}\\
+        X\ket{+}=\ket{+}\\
+        X\ket{-}=\ket{-}
+        ```
+    </Box>
+</TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+        <Code
+          code={pauli_x_qiskit_code}
+          lang='py'
+        />
+    </Box>
+  </TabItem>
+  <TabItem label='Círculos'>
+    <Box>
+        Aplicando $X$ en $\ket{0}$:
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
+            $$\overset{X}{\rightarrow}$$ 
+            <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{1}"}/>
+        </div>
+        Aplicando $X$ en $\ket{1}$:
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{1}"}/>
+            $$\overset{X}{\rightarrow}$$ 
+            <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
+        </div>
+        Aplicando $X$ en un estado general:
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={"100"} phase={"75"} prob={0.9} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"155"} prob={0.1} label={"\\ket{1}"}/>
+            $$\overset{X}{\rightarrow}$$ 
+            <Circle width={"100"} phase={"155"} prob={0.1} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"75"} prob={0.9} label={"\\ket{1}"}/>
+        </div>
+    </Box>
+  </TabItem>
+</Tabs>
 
-<Code
-  code={`
-from qiskit import QuantumCircuit
-qc = QuantumCircuit(1)
-qc.x(0) # aplica la puerta X al qubit 0
-`}
-  lang='py'
-  title='Qiskit | Puerta Pauli-X'
-/>
+## RotX
+
+Es la generalización de la puerta anterior, aplica una rotación en el eje $x$ de la esfera de Bloch pero con la rotación especificada. Imitar el comportamiento de la puerta Pauli-X implica aplicar una RotX con $\pi$ radianes de rotación.
+
+Esta puerta permite abstraerse de ángulos fijos, permitiendo una mayor libertad de aplicación.
+
+En forma de matriz se puede observar de la siguiente manera:
+```math
+RotX(\theta)=
+\begin{bmatrix}
+cos\left(\frac{\theta}{2}\right)&-i sin\left(\frac{\theta}{2}\right)\\
+-i sin\left(\frac{\theta}{2}\right)&cos\left(\frac{\theta}{2}\right)
+\end{bmatrix}
+```
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <QuantumCircuit src={rotx_example_quirk} />
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+        <Code
+          code={rotx_qiskit_code}
+          lang='py'
+        />
+    </Box>
+  </TabItem>
+</Tabs>
+
+## Variante condicional
+La variante condicional de la puerta Pauli-X es <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> o la Toffoli si se generaliza en más de una condición.
+
 
 ## Más información
 
-- <a target="_blank" href="https://es.wikipedia.org/wiki/Puerta_cu%C3%A1ntica">Puerta cuántica (Wikipedia) [Español]</a>
-- <a target="_blank" href="https://en.wikipedia.org/wiki/Pauli_matrices">Pauli Matrices (Wikipedia) [Inglés]</a>
-- <a target="_blank" href="https://docs.quantum.ibm.com/api/qiskit/qiskit.circuit.library.XGate">XGate (IBM) [Inglés]</a>
-
+<Recommendations />
+<BibItem id="wong" prefix="Capítulo 3.3, " rate="r" />
+<BibItem id="basicGatesSoar" rate="a" />
+<BibItem id="oreilly" rate="o" prefix="Capítulo 2, "/>
 

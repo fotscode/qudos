@@ -3,10 +3,27 @@ layout: '@layouts/math.astro'
 title: 'Puerta Pauli-Z'
 ---
 
-import Circle from '@components/CircleNotation.astro'
-import { Code } from '@astrojs/starlight/components'
+Este artículo se centra en un conjunto específico de puertas que actúan sobre el eje Z. Primero se explorará la puerta **Pauli-Z**, luego la puerta **RotZ** que la generaliza y que permite definir las puertas **S** y **T**. Por último, se hace mención a sus **variantes condicionales**.
 
-La puerta Pauli-Z nombrada por el fisico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a> (o simplemente $Z$), al aplicarse, aplica una rotación de $\pi$ radianes a traves del eje $z$ de la esfera de Bloch.
+## Pauli-Z
+
+import Circle from '@components/CircleNotation.astro'
+import { Code, Tabs, TabItem, Aside } from '@astrojs/starlight/components'
+import Box from '@components/Box.astro'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+import {
+  pauli_z_quirk_example,
+  pauli_z_qiskit_example_code,
+  rotz_quirk_example,
+  rotz_qiskit_example_code,
+  cz_quirk_example,
+  cz_qiskit_example_code,
+  cz_qiskit_example_result,
+} from '@code-snippets/z-axis'
+
+La puerta **Pauli-Z** (o simplemente **Z**) nombrada por el físico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a> , al aplicarse, aplica una rotación de $\pi$ radianes (o 180 grados) a traves del eje $z$ de la esfera de Bloch.
 
 En forma de matriz se ve de la siguiente manera:
 ```math
@@ -15,50 +32,6 @@ Z=\begin{bmatrix}
 0&-1\\
 \end{bmatrix}
 ```
-
-Las operaciones comunes son las siguientes, las pruebas de estas operaciones se pueden encontrar con mayor detalle en las <a href={`${import.meta.env.BASE_URL}/proofs/z-axis#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>:
-```math
-Z\ket{0}=\ket{0}\\
-Z\ket{1}=\ket{1}\\
-Z\ket{+}=\ket{-}\\
-Z\ket{-}=\ket{+}
-```
-
-
-Utilizando notación de circulos, se puede ver de la siguiente manera:
-
-<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
-    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
-    $$\overset{Z}{\rightarrow}$$ 
-    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
-</div>
-
-
-<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
-    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{1}"}/>
-    $$\overset{Z}{\rightarrow}$$ 
-    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{1}"}/>
-</div>
-
-<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
-    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
-    $$\overset{Z}{\rightarrow}$$ 
-    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"180"} prob={0.5} label={"\\ket{1}"}/>
-</div>
-
-<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
-    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"180"} prob={0.5} label={"\\ket{1}"}/>
-    $$\overset{Z}{\rightarrow}$$ 
-    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
-</div>
 
 La version general de la aplicación de la puerta es la siguiente:
 ```math
@@ -76,22 +49,158 @@ La version general de la aplicación de la puerta es la siguiente:
 \end{bmatrix}
 ```
 
-En qiskit se aplica al circuito con la funcion `z` e indicando el qubit a aplicar la puerta.
+Se dice que Pauli-Z aplica una fase relativa de $\pi$ radianes.
 
 
-<Code
-  code={`
-from qiskit import QuantumCircuit
-qc = QuantumCircuit(1)
-qc.z(0) # aplica la puerta Z al qubit 0
-`}
-  lang='py'
-  title='Qiskit | Puerta Pauli-Z'
-/>
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <QuantumCircuit src={pauli_z_quirk_example} />
+    </Box>
+  </TabItem>
+  <TabItem label="Dirac">
+    <Box>
+        Las operaciones comunes son las siguientes, las pruebas de estas operaciones se pueden encontrar con mayor detalle en las <a href={`${import.meta.env.BASE_URL}/proofs/z-axis#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>:
+        ```math
+        Z\ket{0}=\ket{0}\\
+        Z\ket{1}=\ket{1}\\
+        Z\ket{+}=\ket{-}\\
+        Z\ket{-}=\ket{+}
+        ```
+    </Box>
+  </TabItem>
+  <TabItem label="Círculos">
+    <Box>
+        Aplicando $Z$ en $\ket{0}$
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
+            $$\overset{Z}{\rightarrow}$$ 
+            <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
+        </div>
+        Aplicando $Z$ en $\ket{1}$
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{1}"}/>
+            $$\overset{Z}{\rightarrow}$$ 
+            <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{1}"}/>
+        </div>
+        Aplicando $Z$ en $\ket{+}$
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
+            $$\overset{Z}{\rightarrow}$$ 
+            <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"180"} prob={0.5} label={"\\ket{1}"}/>
+        </div>
+        Aplicando $Z$ en $\ket{-}$
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"180"} prob={0.5} label={"\\ket{1}"}/>
+            $$\overset{Z}{\rightarrow}$$ 
+            <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
+        </div>
+    </Box>
+  </TabItem>
+  <TabItem label="Qiskit">
+    <Box>
+        <Code
+          code={pauli_z_qiskit_example_code}
+          lang='py'
+        />
+    </Box>
+  </TabItem>
+</Tabs>
+
+## RotZ, S y T
+
+Es la generalización de la puerta anterior, aplica una rotación en el eje $z$ de la esfera de Bloch pero con la rotación especificada. Imitar el comportamiento de la puerta Pauli-Z implica aplicar una RotZ con $\pi$ radianes de rotación. La puerta **S** por otro lado es con $\pi/2$ radianes de rotación y **T** con $\pi/4$ radianes de rotación.
+
+Esta puerta permite abstraerse de ángulos fijos, permitiendo una mayor libertad de aplicación.
+
+En forma de matriz se puede observar de la siguiente manera, siendo $\theta$ un valor en radianes:
+```math
+RotZ(\theta)=
+\begin{bmatrix}
+1&0\\
+0&e^{i\theta}
+\end{bmatrix}
+```
+Por lo que definimos Z, S y T de la siguiente manera:
+```math
+\begin{gather}
+Z=RotZ(\pi)=\begin{bmatrix}
+1&0\\
+0&e^{i\pi}
+\end{bmatrix}=
+\begin{bmatrix}
+1&0\\
+0&-1
+\end{bmatrix}\\
+S=RotZ(\pi/2)=\begin{bmatrix}
+1&0\\
+0&e^{i\pi/2}
+\end{bmatrix}\\
+T=RotZ(\pi/4)=\begin{bmatrix}
+1&0\\
+0&e^{i\pi/4}
+\end{bmatrix}
+\end{gather}
+```
+Por otra parte, la inversa de estas puertas es equivalente a aplicar el ángulo opuesto (e.g $RotZ(-\pi)$ en el caso de Z).
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <QuantumCircuit src={rotz_quirk_example} />
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+        <Code
+          code={rotz_qiskit_example_code}
+          lang='py'
+        />
+    </Box>
+  </TabItem>
+</Tabs>
+
+
+
+
+## Variente condicional
+
+La variante condicional es conocida como **CZ**, los puntos negros representan que la puerta **Z** se activa con $1$, mientras que los puntos blancos o sin relleno implican que la puerta **Z** se activa con $0$. Otro aspecto a tener en cuenta es que la puerta **CZ** se aplica tanto en el control como en el objetivo.
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <QuantumCircuit src={cz_quirk_example} />
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+        <Tabs>
+            <TabItem label='Código'>
+                <Code code={cz_qiskit_example_code} lang="py"/>
+            </TabItem>
+            <TabItem label='Resultado'>
+                <Code code={cz_qiskit_example_result} lang="text"/>
+                <Aside>Esta representación con los puntos sin indicar que es la puerta **Z** es una notación común, debido a la particularidad de que se aplica tanto en el control como en el objetivo.</Aside>
+            </TabItem>
+        </Tabs>
+    </Box>
+  </TabItem>
+</Tabs>
+
 
 ## Más información
 
-- <a target="_blank" href="https://es.wikipedia.org/wiki/Puerta_cu%C3%A1ntica">Puerta cuántica (Wikipedia) [Español]</a>
-- <a target="_blank" href="https://en.wikipedia.org/wiki/Pauli_matrices">Pauli Matrices (Wikipedia) [Inglés]</a>
-- <a target="_blank" href="https://docs.quantum.ibm.com/api/qiskit/qiskit.circuit.library.ZGate">ZGate (IBM) [Inglés]</a>
-
+<Recommendations />
+<BibItem id="wong" prefix="Capítulo 3.3, " rate="r" />
+<BibItem id="basicGatesSoar" rate="a" />
+<BibItem id="phaseGatesSoar" rate="a" />
+<BibItem id="oreilly" rate="o" prefix="Capítulo 2, "/>

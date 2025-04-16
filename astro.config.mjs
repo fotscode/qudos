@@ -94,18 +94,6 @@ export default defineConfig({
                             label: 'Eje Z',
                             slug: 'gates/z-axis',
                         },
-                        {
-                            label: 'RotX',
-                            slug: 'gates/rotx',
-                        },
-                        {
-                            label: 'RotY',
-                            slug: 'gates/roty',
-                        },
-                        {
-                            label: 'RotZ',
-                            slug: 'gates/rotz',
-                        },
                         { label: 'Hadamard', slug: 'gates/hadamard' },
                         {
                             label: 'CNOT',

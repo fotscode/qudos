@@ -1,14 +1,32 @@
 ---
 layout: '@layouts/math.astro'
-title: 'Puerta Pauli-Y'
+title: 'Puertas en Eje Y'
 ---
 
-import Circle from '@components/CircleNotation.astro'
-import { Code } from '@astrojs/starlight/components'
+Este artículo se centra en un conjunto específico de puertas que actúan sobre el eje Y. Primero se explorará la puerta **Pauli-Y**, luego la puerta **RotY** que la generaliza y, por último, se hace mención a su **variante condicional**.
 
-La puerta Pauli-Y nombrada por el fisico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a> (o simplemente $Y$), al aplicarse, aplica una rotación de $\pi$ radianes a traves del eje $y$ de la esfera de Bloch.
+## Pauli-Y
+
+import Circle from '@components/CircleNotation.astro'
+import { Code, Tabs, TabItem } from '@astrojs/starlight/components'
+import Box from '@components/Box.astro'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+import {
+  pauli_y_quirk_example,
+  pauli_y_qiskit_example_code,
+  roty_quirk_example,
+  roty_qiskit_example_code,
+  cy_quirk_example,
+  cy_qiskit_example_code,
+  cy_qiskit_example_result,
+} from '@code-snippets/y-axis'
+
+La puerta **Pauli-Y** (o simplemente **Y**) nombrada por el físico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a> , al aplicarse, aplica una rotación de $\pi$ radianes (o 180 grados) a traves del eje $y$ de la esfera de Bloch.
 
 En forma de matriz se ve de la siguiente manera:
+
 ```math
 Y=\begin{bmatrix}
 0&-i\\
@@ -16,51 +34,8 @@ i&0\\
 \end{bmatrix}
 ```
 
-Las operaciones comunes son las siguientes, las pruebas de estas operaciones se pueden encontrar con mayor detalle en las <a href={`${import.meta.env.BASE_URL}/proofs/y-axis#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>:
-```math
-Y\ket{0}=\ket{1}\\
-Y\ket{1}=\ket{0}\\
-Y\ket{+}=\ket{-}\\
-Y\ket{-}=\ket{+}
-```
+La versión general de la aplicación de la puerta es la siguiente:
 
-
-Utilizando notación de circulos, se puede ver de la siguiente manera:
-
-<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
-    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
-    $$\overset{Y}{\rightarrow}$$ 
-    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"90"} prob={1} label={"\\ket{1}"}/>
-</div>
-
-
-<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
-    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{1}"}/>
-    $$\overset{Y}{\rightarrow}$$ 
-    <Circle width={"100"} phase={"-90"} prob={1} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
-</div>
-
-<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
-    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
-    $$\overset{Y}{\rightarrow}$$ 
-    <Circle width={"100"} phase={"270"} prob={0.5} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"90"} prob={0.5} label={"\\ket{1}"}/>
-</div>
-
-<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
-    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"180"} prob={0.5} label={"\\ket{1}"}/>
-    $$\overset{Y}{\rightarrow}$$ 
-    <Circle width={"100"} phase={"90"} prob={0.5} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"90"} prob={0.5} label={"\\ket{1}"}/>
-</div>
-
-La version general de la aplicación de la puerta es la siguiente:
 ```math
 \begin{bmatrix}
 0&-i\\
@@ -74,24 +49,136 @@ i&0\\
 -i\beta\\
 i\alpha
 \end{bmatrix}
+=
+-i
+\begin{bmatrix}
+\beta\\
+-\alpha
+\end{bmatrix}
 ```
 
-En qiskit se aplica al circuito con la funcion `y` e indicando el qubit a aplicar la puerta.
+Por lo que intercambia las amplitudes entre los estados base $\ket{0}$ y $\ket{1}$ y le aplica un cambio a la fase relativa de $\pi$ radianes. Es decir, es equivalente a aplicar en conjunto <a href={`${import.meta.env.BASE_URL}/gates/x-axis#pauli-x`}>Pauli-X</a> seguido por <a href={`${import.meta.env.BASE_URL}/gates/z-axis#pauli-z`}>Pauli-Z</a> ,o al revés.
 
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <QuantumCircuit src={pauli_y_quirk_example} />
+        La puerta $r^t$ genera un estado aleatorio que cambia según el tiempo.
+    </Box>
+  </TabItem>
+  <TabItem label="Dirac">
+    <Box>
+        Las operaciones comunes son las siguientes, las pruebas de estas operaciones se pueden encontrar con mayor detalle en las <a href={`${import.meta.env.BASE_URL}/proofs/y-axis#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>:
+        ```math
+        Y\ket{0}=i\ket{1}\\
+        Y\ket{1}=-i\ket{0}\\
+        Y\ket{+}=-i\ket{-}\\
+        Y\ket{-}=i\ket{+}
+        ```
+    </Box>
+  </TabItem>
+  <TabItem label='Círculos'>
+    <Box>
+        Aplicando $Y$ en $\ket{0}$
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
+            $$\overset{Y}{\rightarrow}$$ 
+            <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"90"} prob={1} label={"\\ket{1}"}/>
+        </div>
+        Aplicando $Y$ en $\ket{1}$
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{1}"}/>
+            $$\overset{Y}{\rightarrow}$$ 
+            <Circle width={"100"} phase={"-90"} prob={1} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
+        </div>
+        Aplicando $Y$ en $\ket{+}$
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
+            $$\overset{Y}{\rightarrow}$$ 
+            <Circle width={"100"} phase={"270"} prob={0.5} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"90"} prob={0.5} label={"\\ket{1}"}/>
+        </div>
+        Aplicando $Y$ en $\ket{-}$
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"180"} prob={0.5} label={"\\ket{1}"}/>
+            $$\overset{Y}{\rightarrow}$$ 
+            <Circle width={"100"} phase={"90"} prob={0.5} label={"\\ket{0}"}/>
+            <Circle width={"100"} phase={"90"} prob={0.5} label={"\\ket{1}"}/>
+        </div>
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'> 
+    <Box>
+        <Code
+          code={pauli_y_qiskit_example_code}
+          lang='py'
+        />
+    </Box>
+  </TabItem>
+</Tabs>
 
-<Code
-  code={`
-from qiskit import QuantumCircuit
-qc = QuantumCircuit(1)
-qc.y(0) # aplica la puerta Y al qubit 0
-`}
-  lang='py'
-  title='Qiskit | Puerta Pauli-Y'
-/>
+## RotY
+
+Es la generalización de la puerta anterior, aplica una rotación en el eje $y$ de la esfera de Bloch pero con la rotación especificada. Imitar el comportamiento de la puerta Pauli-Y implica aplicar una RotY con $\pi$ radianes de rotación.
+
+Esta puerta permite abstraerse de ángulos fijos, permitiendo una mayor libertad de aplicación.
+
+En forma de matriz se puede observar de la siguiente manera:
+
+```math
+RotY(\theta)=
+\begin{bmatrix}
+cos\left(\frac{\theta}{2}\right)&- sin\left(\frac{\theta}{2}\right)\\
+sin\left(\frac{\theta}{2}\right)&cos\left(\frac{\theta}{2}\right)
+\end{bmatrix}
+```
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+      <QuantumCircuit src={roty_quirk_example} />
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+      <Code code={roty_qiskit_example_code} lang='py' />
+    </Box>
+  </TabItem>
+</Tabs>
+
+## Variente condicional
+
+La variante condicional es conocida como **CY**, los puntos negros representan que la puerta **Y** se activa con $1$, mientras que los puntos blancos o sin relleno implican que la puerta **Y** se activa con $0$.
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+      <QuantumCircuit src={cy_quirk_example} />
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+      <Tabs>
+        <TabItem label='Código'>
+          <Code code={cy_qiskit_example_code} lang='py' />
+        </TabItem>
+        <TabItem label='Resultado'>
+          <Code code={cy_qiskit_example_result} lang='text' />
+        </TabItem>
+      </Tabs>
+    </Box>
+  </TabItem>
+</Tabs>
 
 ## Más información
 
-- <a target="_blank" href="https://es.wikipedia.org/wiki/Puerta_cu%C3%A1ntica">Puerta cuántica (Wikipedia) [Español]</a>
-- <a target="_blank" href="https://en.wikipedia.org/wiki/Pauli_matrices">Pauli Matrices (Wikipedia) [Inglés]</a>
-- <a target="_blank" href="https://docs.quantum.ibm.com/api/qiskit/qiskit.circuit.library.YGate">YGate (IBM) [Inglés]</a>
-
+<Recommendations />
+<BibItem id='wong' prefix='Capítulo 3.3, ' rate='r' />
+<BibItem id='basicGatesSoar' rate='a' />
+<BibItem id='oreilly' rate='o' prefix='Capítulo 2, ' />
