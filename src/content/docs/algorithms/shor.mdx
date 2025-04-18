@@ -35,7 +35,7 @@ La aplicación más destacada está en la criptografía, ya que amenaza la segur
 
 El objetivo del algoritmo de Shor es encontrar los factores de un número entero compuesto $N$. 
 
-Para lograrlo, utiliza un enfoque híbrido que combina cálculos clásicos con un subrutina cuántica basada en la <a href={`${import.meta.env.BASE_URL}/concepts/phase-estimation`}>estimación de fases</a>.
+Para lograrlo, utiliza un enfoque híbrido que combina cálculos clásicos con un subrutina cuántica basada en la <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fases</a>.
 
 La clave del algoritmo radica en la identificación del período de la función $x^r\ mod\ N$, lo que permite deducir los factores de $N$ de manera eficiente.
 
@@ -91,7 +91,7 @@ Los componentes funcionales de este algoritmo se pueden a reducir a los siguient
 
 3. <Badge text="Clásico" />: Si $N$ no es par ni una potencia de números primos, obtener un número entre $1 < x < N$, tal que $s=gcd(x,N)$. Si $s\neq 1$, entonces $p=s$ y $q=N/s$, finalmente parar.
 
-4. <Badge text="Cuántico" variant="tip" />: Si $s=1$ *(son coprimos)*, obtener $\widetilde{s/r}$ usando la subrutina cuántica de <a href={`${import.meta.env.BASE_URL}/concepts/phase-estimation`}>estimación de fases</a>.
+4. <Badge text="Cuántico" variant="tip" />: Si $s=1$ *(son coprimos)*, obtener $\widetilde{s/r}$ usando la subrutina cuántica de <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fases</a>.
 
 5. <Badge text="Clásico" />: Obtener $r$ de $\widetilde{s/r}$ utilizando el algoritmo de **fracciones continuas**.
 
