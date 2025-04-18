@@ -132,8 +132,8 @@ RotZ(\theta)=
 ```
 Por lo que definimos Z, S y T de la siguiente manera:
 ```math
-\begin{gather}
-Z=RotZ(\pi)=\begin{bmatrix}
+\begin{align}
+Z&=RotZ(\pi)=\begin{bmatrix}
 1&0\\
 0&e^{i\pi}
 \end{bmatrix}=
@@ -141,15 +141,15 @@ Z=RotZ(\pi)=\begin{bmatrix}
 1&0\\
 0&-1
 \end{bmatrix}\\
-S=RotZ(\pi/2)=\begin{bmatrix}
+S&=RotZ(\pi/2)=\begin{bmatrix}
 1&0\\
 0&e^{i\pi/2}
 \end{bmatrix}\\
-T=RotZ(\pi/4)=\begin{bmatrix}
+T&=RotZ(\pi/4)=\begin{bmatrix}
 1&0\\
 0&e^{i\pi/4}
 \end{bmatrix}
-\end{gather}
+\end{align}
 ```
 Por otra parte, la inversa de estas puertas es equivalente a aplicar el ángulo opuesto (e.g $RotZ(-\pi)$ en el caso de Z).
 
