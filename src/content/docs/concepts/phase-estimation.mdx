@@ -56,7 +56,7 @@ El algoritmo de estimación de fase se puede dividir en cuatro secciones: **inic
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/phase-estimation.png`}
-    alt='Estructura de la primitiva EF de forma general, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las puertas siguen un patron escalonado del qubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como qubit de control.'
+    alt='Estructura de la primitiva EF de forma general, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las puertas siguen un patron escalonado del cubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como cubit de control.'
     width='1221'
     height='580'
   />
@@ -67,7 +67,7 @@ El algoritmo de estimación de fase se puede dividir en cuatro secciones: **inic
 
 El algoritmo recibe tres parametros como **entrada**:
 
-- $q_{salida}$ el cual es un registro inicializado en $0$ sobre el cual se dejará el resultado. Llamaremos $t$ al tamaño en qubits de $q_{salida}$.
+- $q_{salida}$ el cual es un registro inicializado en $0$ sobre el cual se dejará el resultado. Llamaremos $t$ al tamaño en cubits de $q_{salida}$.
 - $q_{entrada}$ es el autovector del cual se quiere obtener el autovalor. 
 - La puerta controlada de $U$.
 
@@ -135,7 +135,7 @@ autovalor &= e^{i \theta}
 
 ## Ejemplos
 
-Para este ejemplo utilizaremos la operación $H$ con su versión controlada, el autovector del cual se va a obtener el autovalor es $\ket{\psi}=0.38268\ket{0}-0.92388\ket{1}$, que se puede construir aplicandole a un qubit inicializado en $\ket{0}$ la puerta $X$ seguida por una rotación en el eje $y$ de $\pi/4$ radianes ($45^\circ$ grados).
+Para este ejemplo utilizaremos la operación $H$ con su versión controlada, el autovector del cual se va a obtener el autovalor es $\ket{\psi}=0.38268\ket{0}-0.92388\ket{1}$, que se puede construir aplicandole a un cubit inicializado en $\ket{0}$ la puerta $X$ seguida por una rotación en el eje $y$ de $\pi/4$ radianes ($45^\circ$ grados).
 
 El autovector que se eligió coincide con el estado cuántico de la sección de "Objetivo", su autovalor es a su vez el de $e^{\pi i}$ ($180^\circ$).
 
@@ -146,7 +146,7 @@ H^{2^i}=H& \text{si }i = 0\\
 H^{2^i}=\mathbb{I}& \text{si }i > 0\\
 \end{cases}
 ```
-Por lo que solo es necesario aplicarla donde el numero de ocurrencias no es par (solo el primer qubit).
+Por lo que solo es necesario aplicarla donde el numero de ocurrencias no es par (solo el primer cubit).
 
 <Tabs>
   <TabItem label='Quirk'>
@@ -171,7 +171,7 @@ Por lo que solo es necesario aplicarla donde el numero de ocurrencias no es par 
     </Box>
   </TabItem>
 </Tabs>
-Interpretando el resultado, obtenemos $\ket{1000}$ como lectura para los primeros 4 qubits. Esto implica haber leido el número $0.1000_2$=$0.5_{10}$, para obtener el *autovalor* se inserta este valor en el exponencial:
+Interpretando el resultado, obtenemos $\ket{1000}$ como lectura para los primeros 4 cubits. Esto implica haber leido el número $0.1000_2$=$0.5_{10}$, para obtener el *autovalor* se inserta este valor en el exponencial:
 ```math
 e^{2\pi i 0.5}=e^{\pi i}= 180^\circ
 ```

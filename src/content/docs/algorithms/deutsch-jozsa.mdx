@@ -70,7 +70,7 @@ Una solución posible al problema reducido definido previamente puede ser el sig
 
 En este circuito cuántico se utilizan las puertas <a href={`${import.meta.env.BASE_URL}/gates/x-axis`}>Pauli X</a>, <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> y un oráculo \\(U_f\\) que es un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>. Notar que el oráculo de fase se encuentra asociado a \\(f\\), que es la función que estamos analizando si es constante/balanceada.
 
-Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
+Analizaremos paso a paso el estado de los cubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
 
 ```math
 \begin{align}
@@ -88,7 +88,7 @@ H\ket{-}=\ket{1} & \text{si \(f(0) \neq f(1)\)}
 
 Un desarrollo elaborado se puede observar dentro de las <a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#desarrollo-elaborado-de-la-versión-reducida`}>pruebas matemáticas</a>.
 
-La idea básica del algoritmo es poder reemplazar $U_f$ con un circuito, si este circuito representa una función constante, la salida del primer Qubit va a ser $\ket{0}$. Por otra parte, en caso de que el circuito represente una función balanceada, retornará $\ket{1}$.
+La idea básica del algoritmo es poder reemplazar $U_f$ con un circuito, si este circuito representa una función constante, la salida del primer Cubit va a ser $\ket{0}$. Por otra parte, en caso de que el circuito represente una función balanceada, retornará $\ket{1}$.
 
 ### Ejemplos
 
@@ -107,18 +107,18 @@ Sea $f$ una función constante, un circuito posible que actue como función cons
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/deutsch-fn-constante.png`}
-    alt='Circuito con dos qubits, siendo el primero la entrada de la función y el segundo su correspondiente salida. Denota una función constante donde f(x)=0.'
+    alt='Circuito con dos cubits, siendo el primero la entrada de la función y el segundo su correspondiente salida. Denota una función constante donde f(x)=0.'
     width='504'
     height='109'
   />
   <span style='max-width:504px; padding:10px 40px'>
-    **Figura (2):** Circuito con dos qubits, siendo el primero la entrada de la
+    **Figura (2):** Circuito con dos cubits, siendo el primero la entrada de la
     función y el segundo su correspondiente salida. Denota una función constante
     donde $f(x)=0$.
   </span>
 </div>
 
-Notar que si $x=0$ (primer qubit en el circuito de la izquierda), el resultado de la función $f(x)$ (segundo qubit) es $0$, y de la misma manera si $x=1$ (circuito de la derecha) la salida de $f(x)$ sigue siendo $0$, es decir que $f(0)=f(1)=0$.
+Notar que si $x=0$ (primer cubit en el circuito de la izquierda), el resultado de la función $f(x)$ (segundo cubit) es $0$, y de la misma manera si $x=1$ (circuito de la derecha) la salida de $f(x)$ sigue siendo $0$, es decir que $f(0)=f(1)=0$.
 
 Por lo que si introducimos esta función/circuito dentro del algoritmo de Deutsch la salida debe ser $\ket{0}$, gráficamente se observaría de la siguiente manera:
 
@@ -136,7 +136,7 @@ Por lo que si introducimos esta función/circuito dentro del algoritmo de Deutsc
   </span>
 </div>
 
-Desarrollando paso a paso el estado de los qubits según los separadores provistos:
+Desarrollando paso a paso el estado de los cubits según los separadores provistos:
 
 ```math
 \begin{align}
@@ -172,18 +172,18 @@ Sea $f$ una función balanceada, un circuito posible que representa una función
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/deutsch-fn-balanceada.png`}
-    alt='Circuito con dos qubits, siendo el primero la entrada de la función y el segundo su correspondiente salida. Denota una función balanceada'
+    alt='Circuito con dos cubits, siendo el primero la entrada de la función y el segundo su correspondiente salida. Denota una función balanceada'
     width='504'
     height='109'
   />
   <span style='max-width:504px; padding:10px 40px'>
-    **Figura (4):** Circuito con dos qubits, siendo el primero la entrada de la
+    **Figura (4):** Circuito con dos cubits, siendo el primero la entrada de la
     función y el segundo su correspondiente salida. Denota una función
     balanceada.
   </span>
 </div>
 
-Notar que si $x=0$ (primer qubit en el circuito de la izquierda), el resultado de la función $f(x)$ (segundo qubit) es $0$, y si $x=1$ (circuito de la derecha) la salida de $f(x)$ es $1$, es decir que $f(0)\neq f(1)$.
+Notar que si $x=0$ (primer cubit en el circuito de la izquierda), el resultado de la función $f(x)$ (segundo cubit) es $0$, y si $x=1$ (circuito de la derecha) la salida de $f(x)$ es $1$, es decir que $f(0)\neq f(1)$.
 
 Si introducimos esta función/circuito dentro del algoritmo de Deutsch la salida, a diferencia del previo, debe ser $\ket{1}$, gráficamente se observaria de la siguiente manera:
 
@@ -201,7 +201,7 @@ Si introducimos esta función/circuito dentro del algoritmo de Deutsch la salida
   </span>
 </div>
 
-Nuevamente desarrollando paso a paso los estados de los qubits en cada separador obtenemos:
+Nuevamente desarrollando paso a paso los estados de los cubits en cada separador obtenemos:
 
 ```math
 \begin{align}
@@ -265,13 +265,13 @@ El algoritmo de Deutsch-Jozsa se describe de forma genérica con el siguiente ci
 
 Este mantiene una estructura similar al algoritmo de Deutsch planteado en la figura 1 pero con algunos cambios:
 
-- Se reemplaza el segundo qubit de $\ket{0}$ a $\ket{-}$, esto es equivalente a aplicar una puerta Pauli-X y Hadamard pero se evitó para tener una mayor legibilidad.
+- Se reemplaza el segundo cubit de $\ket{0}$ a $\ket{-}$, esto es equivalente a aplicar una puerta Pauli-X y Hadamard pero se evitó para tener una mayor legibilidad.
 
-- Se generaliza el qubit de entrada a $n$ qubits que representan los valores de entrada, esto esta representado por el símbolo / $^n$ previo a $\psi_0$.
+- Se generaliza el cubit de entrada a $n$ cubits que representan los valores de entrada, esto esta representado por el símbolo / $^n$ previo a $\psi_0$.
 
-- Se aplican las puertas Hadamard a los $n$ qubits de entrada y el oráculo es aplicado a los $n$ qubits de entrada y al qubit que representa la salida de la función.
+- Se aplican las puertas Hadamard a los $n$ cubits de entrada y el oráculo es aplicado a los $n$ cubits de entrada y al cubit que representa la salida de la función.
 
-Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=3\\):
+Analizaremos paso a paso el estado de los cubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=3\\):
 
 ```math
 \begin{align}

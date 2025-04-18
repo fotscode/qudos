@@ -16,7 +16,7 @@ This construction is crucial for quantum computation, because garbage bits whose
 depends upon x will in general destroy the interference properties crucial to quantum
 computation. 
 
-The idea of uncomputing is to reverse the operations that entangled the scratch qubit, return‐
+The idea of uncomputing is to reverse the operations that entangled the scratch cubit, return‐
 ing it to its initial, disentangled ∣0⟩ state.
 
 The idea known as uncomputation to be used to get rid of the garbage bits, for a
@@ -25,7 +25,7 @@ small cost in the running time of the computation
 It involves three steps. The first is more or less what you’d expect, but the second and third are quite clever:
 
 Compute ∣x⟩∣0⟩∣0⟩→∣x⟩∣s(x)⟩∣w(x)⟩, using the standard approach of converting classical AND gates to Toffoli gates, and classical NOT gates to quantum NOT gates.
-Add on an extra qubit in the ∣0⟩∣0⟩ state, and do a CNOT with ∣s(x)⟩∣s(x)⟩ as the control. This effectively copies the result, and we obtain: ∣x⟩∣s(x)⟩∣w(x)⟩∣s(x)⟩∣x⟩∣s(x)⟩∣w(x)⟩∣s(x)⟩.
+Add on an extra cubit in the ∣0⟩∣0⟩ state, and do a CNOT with ∣s(x)⟩∣s(x)⟩ as the control. This effectively copies the result, and we obtain: ∣x⟩∣s(x)⟩∣w(x)⟩∣s(x)⟩∣x⟩∣s(x)⟩∣w(x)⟩∣s(x)⟩.
 Now apply all the gates from step 1, but in reverse order, and applying at each step the inverse gate. The result is to undo or uncompute what happened in step 1, resulting in ∣x⟩∣0⟩∣0⟩∣s(x)⟩∣x⟩∣0⟩∣0⟩∣s(x)⟩.
 
 At the end, we can ignore the ∣0⟩∣0⟩∣0⟩∣0⟩ state, which isn’t changed at all by the entire process. And so the net result of these steps is the desired transformation, ∣x⟩∣0⟩→∣x⟩∣s(x)⟩∣x⟩∣0⟩→∣x⟩∣s(x)⟩.
@@ -43,7 +43,7 @@ Then we’d use another Toffoli gate to AND the result with x3:
 
 Imagen
 
-So we’ve indeed computed s(x)=x1∧x2∧x3s(x)=x1∧x2∧x3, but along the way we’ve also generated an intermediate working qubit in the state ∣x1∧x2⟩∣x1∧x2⟩. That working state wasn’t part of our original specification. 
+So we’ve indeed computed s(x)=x1∧x2∧x3s(x)=x1∧x2∧x3, but along the way we’ve also generated an intermediate working cubit in the state ∣x1∧x2⟩∣x1∧x2⟩. That working state wasn’t part of our original specification. 
 Put another way, we wanted to compute
 
 ∣x1,x2,x3⟩∣0⟩→∣x1,x2,x3⟩∣x1∧x2∧x3⟩,
@@ -77,11 +77,11 @@ whether a reversible or irreversible model of computation is used.
 
 */}
 
-Existen ocasiones en las que el procesamiento cuántico produce qubits "basura". Esto puede afectar a los resultados de cómputo debido a que 
+Existen ocasiones en las que el procesamiento cuántico produce cubits "basura". Esto puede afectar a los resultados de cómputo debido a que 
 los bits basura, cuyo valor dependen del estado de entrada, generalmente destruirán las propiedades de interferencia que son tan importantes 
-para la computación cuántica. Por ejemplo, podría requerirse trabajar con el entrelazamiento y el mismo se efectuaría con qubits que se encuentran en estados inservibles.
-Es por esto que en estos casos una buena opción consiste en aplicar descomputación, una técnica que permite dejar los qubits auxiliares 
-en $\ket{0}$ para que no interfieran durante el entrelazamiento. La idea consiste en en revertir las operaciones que entrelazaron los qubits basura, retornándolos 
+para la computación cuántica. Por ejemplo, podría requerirse trabajar con el entrelazamiento y el mismo se efectuaría con cubits que se encuentran en estados inservibles.
+Es por esto que en estos casos una buena opción consiste en aplicar descomputación, una técnica que permite dejar los cubits auxiliares 
+en $\ket{0}$ para que no interfieran durante el entrelazamiento. La idea consiste en en revertir las operaciones que entrelazaron los cubits basura, retornándolos 
 a su estado inicial $\ket{0}$, con un pequeño costo en el tiempo de procesamiento.
 
 A continuación se explicará el funcionamiento de esta técnica, aplicada sobre un ejemplo de procesamiento cuántico.
@@ -91,7 +91,7 @@ El proceso de descomputación involucra tres pasos:
 - Computar $\ket{x}\ket{0}\ket{0} \rightarrow \ket{x}\ket{s(x)}\ket{w(x)}$, donde $x$ es el estado inicial, $s(x)$ el resultado de aplicar una operación sobre $x$ y 
 $w(x)$ el estado "basura" resultante tras haber ejecutado $s(x)$. Se utiliza el enfoque estándar que consiste en convertir puertas clásicas AND y NOT en puertas cuánticas 
 Toffoli y NOT, respectivamente
-- Agregar un qubit extra en el estado $\ket{0}$, y aplicar la puerta CNOT sobre $\ket{s(x)}$ como el control. Esto permitirá copiar el resultado y se obtendrá:
+- Agregar un cubit extra en el estado $\ket{0}$, y aplicar la puerta CNOT sobre $\ket{s(x)}$ como el control. Esto permitirá copiar el resultado y se obtendrá:
 $\ket{x}\ket{s(x)}\ket{w(x)}\ket{s(x)}$
 - Ahora aplicar todas las puertas del primer paso pero en orden inverso, y aplicando en cada paso la puerta inversa. El resultado deshará lo ocurrido en el paso 1, 
 resultando en $\ket{x}\ket{0}\ket{0}\ket{s(x)}$
@@ -128,7 +128,7 @@ Luego se usaría otra puerta Toffoli para aplicar la operación AND entre el res
   />
 </div>
 
-Hasta este punto se ha computado $s(x) = x_1 \land x_2 \land x_3$, pero durante el proceso se ha generado también un qubit intermedio en el estado $\ket{x_1 \land x_2}$. Este estado 
+Hasta este punto se ha computado $s(x) = x_1 \land x_2 \land x_3$, pero durante el proceso se ha generado también un cubit intermedio en el estado $\ket{x_1 \land x_2}$. Este estado 
 no era parte de la especificación original. 
 
 Se quería computar 
@@ -154,8 +154,8 @@ Esto puede evitarse fácilmente aplicando descomputación. Siguiendo los pasos m
   />
 </div>
 
-El costo de aplicar descomputación es lineal en relación a los números de qubits involucrados en el circuito, ya que deben aplicarse las operaciones inversas a las utilizadas 
-inicialmente. Además, el número de qubits auxiliares escala a lo sumo linealmente para guardar los resultados de las operaciones intermedias. Por lo tanto, puede afirmarse que 
+El costo de aplicar descomputación es lineal en relación a los números de cubits involucrados en el circuito, ya que deben aplicarse las operaciones inversas a las utilizadas 
+inicialmente. Además, el número de cubits auxiliares escala a lo sumo linealmente para guardar los resultados de las operaciones intermedias. Por lo tanto, puede afirmarse que 
 es posible aplicar descomputación sobre los circuitos de forma eficiente, utilizando dicha práctica cuando sea requerida con el objetivo de mantener estados de cómputo limpios.
 
 ## Mas información

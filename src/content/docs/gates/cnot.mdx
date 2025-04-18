@@ -19,7 +19,7 @@ import {
 
 La puerta **Controlled NOT (CNOT)**, combina la lógica de una <a href={`${import.meta.env.BASE_URL}/gates/x-axis`}>puerta NOT cuántica</a> con un condicional.
 
-Al igual que el resto de puertas controladas, existe un qubit que actúa de control y otro de objetivo. El de control determina si aplicar o no la puerta al objetivo, en este caso aplicando un NOT si el valor del primer qubit es 1.
+Al igual que el resto de puertas controladas, existe un cubit que actúa de control y otro de objetivo. El de control determina si aplicar o no la puerta al objetivo, en este caso aplicando un NOT si el valor del primer cubit es 1.
 
 Su representación matricial es la siguiente:
 
@@ -66,7 +66,7 @@ CNOT=\begin{bmatrix}
 
 ## Puerta Toffoli (CCNOT)
 
-La puerta **Toffoli** cuántica, también conocida como **CCNOT**, lleva su nombre en honor a <a href="https://en.wikipedia.org/wiki/Tommaso_Toffoli" target="_blank">Tomasso Toffoli</a>. Es una extensión de la puerta CNOT que utiliza dos qubits de control y un qubit objetivo. Su funcionamiento es equivalente a la puerta Toffoli lógica en los casos de que los qubits sean 0 o 1, pero difiere en estados de superposición.
+La puerta **Toffoli** cuántica, también conocida como **CCNOT**, lleva su nombre en honor a <a href="https://en.wikipedia.org/wiki/Tommaso_Toffoli" target="_blank">Tomasso Toffoli</a>. Es una extensión de la puerta CNOT que utiliza dos cubits de control y un cubit objetivo. Su funcionamiento es equivalente a la puerta Toffoli lógica en los casos de que los cubits sean 0 o 1, pero difiere en estados de superposición.
 
 Su representación matricial es la siguiente:
 
@@ -83,9 +83,9 @@ Toffoli=\begin{bmatrix}
 \end{bmatrix}
 ```
 
-### Generalización para n qubits
+### Generalización para n cubits
 
-La puerta Toffoli puede ser generalizada para múltiples qubits de control y múltiples qubits objetivo. En este caso, la puerta aplica un NOT a el/los qubit/s objetivo solo si todos los qubits de control están en el estado $\ket{1}$. Los puntos negros representan que la puerta Y se activa con 
+La puerta Toffoli puede ser generalizada para múltiples cubits de control y múltiples cubits objetivo. En este caso, la puerta aplica un NOT a el/los cubit/s objetivo solo si todos los cubits de control están en el estado $\ket{1}$. Los puntos negros representan que la puerta Y se activa con 
 
 Los puntos negros representan que la puerta se activa con 1, mientras que los puntos blancos o sin relleno implican que la puerta se activa con 0.
 
@@ -118,5 +118,5 @@ Los puntos negros representan que la puerta se activa con 1, mientras que los pu
 ## Más información
 
 <BibItem id='wong' prefix='Capítulo 4.4.2, ' rate='r' />
-<BibItem id='multiQubitGatesSoar' rate='a' />
+<BibItem id='multiCubitGatesSoar' rate='a' />
 <BibItem id='oreilly' rate='o' prefix='Capítulo 3, ' />

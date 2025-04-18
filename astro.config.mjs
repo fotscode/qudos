@@ -42,7 +42,7 @@ export default defineConfig({
                             slug: 'concepts/superdense-coding' 
                         },
                         {
-                            label: 'El Qubit',
+                            label: 'El Cubit',
                             slug: 'concepts/qubit',
                         },
                         {
