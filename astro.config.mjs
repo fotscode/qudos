@@ -99,6 +99,10 @@ export default defineConfig({
                             label: 'CNOT',
                             slug: 'gates/cnot',
                         },
+                        {
+                            label: 'Swap',
+                            slug: 'gates/swap',
+                        },
                     ],
                     translations: {
                         en: 'Gates',

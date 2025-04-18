@@ -1,0 +1,127 @@
+---
+layout: '@layouts/math.astro'
+title: 'Puerta Swap'
+---
+
+import Circle from '@components/CircleNotation.astro'
+import { Code, Tabs, TabItem } from '@astrojs/starlight/components'
+import Box from '@components/Box.astro'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+import {
+  swap_quirk_example,
+  swap_qiskit_example_code,
+  swap_quirk_cnot,
+  cswap_quirk_example,
+  cswap_qiskit_example_code,
+} from '@code-snippets/swap'
+
+La puerta **SWAP** es una operación cuántica que intercambia los estados de dos qubits. Es útil en algoritmos cuánticos donde se necesita reorganizar qubits en un circuito sin alterar sus estados.
+
+Su representación matricial es la siguiente:
+
+```math
+Swap=\begin{bmatrix}
+1&0&0&0\\
+0&0&1&0\\
+0&1&0&0\\
+0&0&0&1\\
+\end{bmatrix}
+```
+
+La puerta **SWAP** es su propia inversa, lo que significa que aplicarla dos veces consecutivas resulta en la identidad.
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <Tabs>
+            <TabItem label='Casos comunes'>
+                <QuantumCircuit src={swap_quirk_example} />
+            </TabItem>
+            <TabItem label='Equivalencia con CNOT'>
+                <QuantumCircuit src={swap_quirk_cnot} />
+            </TabItem>
+        </Tabs>
+    </Box>
+  </TabItem>
+  <TabItem label='Dirac'>
+    <Box>
+        ```math
+        Swap\ket{00}=\ket{00}\\
+        Swap\ket{01}=\ket{10}\\
+        Swap\ket{10}=\ket{01}\\
+        Swap\ket{11}=\ket{11}\\
+        Swap\ket{++}=\ket{++}\\
+        Swap\ket{+-}=\ket{-+}\\
+        Swap\ket{-+}=\ket{+-}\\
+        Swap\ket{--}=\ket{--}\\
+        ```
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+        <Code
+          code={swap_qiskit_example_code}
+          lang='py'
+        />
+    </Box>
+  </TabItem>
+</Tabs>
+
+## Variante condicional
+
+La variante condicional de la compuerta Swap es conocida como **CSWAP** o como la compuerta **Fredkin**, lleva su nombre en honor a <a href="https://en.wikipedia.org/wiki/Edward_Fredkin" target="_blank">Edward Fredkin</a>. 
+
+Su representación matricial es la siguiente:
+```math
+CSwap=\begin{bmatrix}
+1&0&0&0&0&0&0&0\\
+0&1&0&0&0&0&0&0\\
+0&0&1&0&0&0&0&0\\
+0&0&0&1&0&0&0&0\\
+0&0&0&0&1&0&0&0\\
+0&0&0&0&0&0&1&0\\
+0&0&0&0&0&1&0&0\\
+0&0&0&0&0&0&0&1\\
+\end{bmatrix}
+```
+
+Los puntos negros representan que la puerta se activa con 1, mientras que los puntos blancos o sin relleno implican que la puerta se activa con 0.
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <QuantumCircuit src={cswap_quirk_example} />
+    </Box>
+  </TabItem>
+  <TabItem label='Dirac'>
+    <Box>
+        ```math
+        CSwap\ket{101}=\ket{110}\\
+        CSwap\ket{110}=\ket{101}\\
+        CSwap\ket{001}=\ket{001}\\
+        CSwap\ket{010}=\ket{010}\\
+        CSwap\ket{1+-}=\ket{1-+}\\
+        CSwap\ket{1-+}=\ket{1+-}\\
+        CSwap\ket{0+-}=\ket{1+-}\\
+        CSwap\ket{0-+}=\ket{1-+}\\
+        ```
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+        <Code
+          code={cswap_qiskit_example_code}
+          lang='py'
+        />
+    </Box>
+  </TabItem>
+</Tabs>
+
+
+## Más información
+
+<Recommendations />
+<BibItem id='wong' prefix='Capítulo 4.4.2, ' rate='r' />
+<BibItem id='oreilly' rate='a' prefix='Capítulo 3, ' />
