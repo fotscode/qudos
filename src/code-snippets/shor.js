@@ -116,7 +116,7 @@ def run_circuit(qc: QuantumCircuit):
 
 def c_amod15(a, power):
     """
-    Compuerta controlada de multiplicación por a módulo 15.
+    Puerta controlada de multiplicación por a módulo 15.
     """
     if a not in [2,4,7,8,11,13]:
         raise ValueError("'a' debe ser 2,4,7,8,11 o 13")
@@ -170,7 +170,7 @@ def shor_cmod15(a):
     # inicialización de qubits de entrada en |1>
     qc.x(N_COUNT)
     
-    # aplicación de compuertas controladas
+    # aplicación de puertas controladas
     for q in range(N_COUNT):
         qc.append(c_amod15(a, 2**q),
                  [q] + [i+N_COUNT for i in range(4)])

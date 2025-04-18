@@ -13,7 +13,6 @@ head:
 
 import { Image } from 'astro:assets'
 import { Aside, Code, Tabs, TabItem, Badge, Steps } from '@astrojs/starlight/components'
-import Math from '@components/Math.astro'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
 import Box from '@components/Box.astro'
 import {
@@ -127,7 +126,7 @@ Si $s=1$, se procede a la estimación de fases aplicada a $x$.
 La estimación de fases permite obtener el autovalor de un autovector para una operación $U$. Este requiere **tres** parametros como entrada:
 
 - El **primero**, $q_{salida}$, es un registro inicializado en $0$ donde se obtendrá $\widetilde{\varphi}$, la fracción binaria del ángulo del autovalor $e^{2\pi i \widetilde{\varphi}}$, su tamaño condiciona la precisión de la fracción, a mayor tamaño, mayor precisión.
-- Por otra parte, el **segundo** parámetro es la compuerta controlada de $U$.
+- Por otra parte, el **segundo** parámetro es la puerta controlada de $U$.
 - Finalmente, el **tercer** parámetro es $q_{entrada}$, un registro que representa el autovector de $U$ del cual se quiere obtener su autovalor.
 
 
@@ -163,7 +162,7 @@ U\ket{u_s}&=\frac{1}{\sqrt{r}}\sum^{r-1}_{k=0} e^{-2\pi i sk/r}U\ket{x^k mod\ N}
 &=e^{2\pi i s/r}\ket{u_s}
 \end{align}
 ```
-Por otra parte, al saber que $\ket{u_s}$ es un autovector de $U$, ocurre el fenómeno de **retroceso de fase** cuando se aplica la compuerta controlada de $U$:
+Por otra parte, al saber que $\ket{u_s}$ es un autovector de $U$, ocurre el fenómeno de **retroceso de fase** cuando se aplica la puerta controlada de $U$:
 ```math
 CU\ket{1}\ket{u_s}=e^{2\pi i s/r}\ket{1}\ket{u_s}
 ```
@@ -180,7 +179,7 @@ Cumplimos los tres parámetros necesarios para la implementación de estimación
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/shor-pe-steps.png`}
-    alt='Estructura de la primitiva EF aplicada al algoritmo de Shor, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las compuertas siguen un patron escalonado del qubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como qubit de control.'
+    alt='Estructura de la primitiva EF aplicada al algoritmo de Shor, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las puertas siguen un patron escalonado del qubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como qubit de control.'
     width='1510'
     height='708'
   />
@@ -311,9 +310,9 @@ A la hora de factorizar números más grandes, nos encontramos con dos problemas
 
 El primero es el **físico**, al no existir máquinas cuánticas con qubits lógicos suficientes, se **emula** el funcionamiento de estas en computadoras clásicas. Este procedimiento es muy costoso, ya que el crecimiento en operaciones es **exponencial**.
 
-El segundo problema es la implementación de la **exponencialización modular**, en el ejemplo previo se utilizó una compuerta que calculaba el módulo con $N=15$ y se repitió de forma exponencial la utilización de esta compuerta según el qubit, es decir, una vez en el primer qubit, 2 veces en el segundo qubit, 4 veces en el tercero, etc.
+El segundo problema es la implementación de la **exponencialización modular**, en el ejemplo previo se utilizó una puerta que calculaba el módulo con $N=15$ y se repitió de forma exponencial la utilización de esta puerta según el qubit, es decir, una vez en el primer qubit, 2 veces en el segundo qubit, 4 veces en el tercero, etc.
 
-La aplicación exponencial de las compuertas controladas de módulo **deshacen** la ventaja exponencial provista por el algoritmo. Existen **circuitos eficientes**$^{[1][2]}$ que resuelven este problema, pero dado su complejidad y su lentitud al emularlo, se decidió evitar la implementación de un algoritmo general de Shor usando *Qiskit*.
+La aplicación exponencial de las puertas controladas de módulo **deshacen** la ventaja exponencial provista por el algoritmo. Existen **circuitos eficientes**$^{[1][2]}$ que resuelven este problema, pero dado su complejidad y su lentitud al emularlo, se decidió evitar la implementación de un algoritmo general de Shor usando *Qiskit*.
 
 
 <Tabs>

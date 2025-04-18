@@ -79,10 +79,10 @@ F_2=\frac{1}{\sqrt{2}}\begin{bmatrix}
 </Aside>
 
 
-Un circuito de QFT es posible definirlo utilizando compuertas <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> y compuertas de fase controladas $R_i$.
+Un circuito de QFT es posible definirlo utilizando puertas <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> y puertas de fase controladas $R_i$.
 
 
-La compuerta $R_i$ se define de la siguiente manera:
+La puerta $R_i$ se define de la siguiente manera:
 ```math
 R_i=\begin{bmatrix}
 1&0\\
@@ -124,11 +124,11 @@ QFT\ket{j}&=\frac{1}{2^{n/2}}\sum_{k=0}^{2^n-1}e^{2\pi i j k /2^n}\ket{k}\\
 \end{align}
 ```
 
-Se encuentran $n$ compuertas Hadamard y $(n)(n+1)/2$ compuertas de rotación, por lo que el órden del algoritmo es $O(n^2)=O((log_2 N)^2)$, ya que $N=2^n$.
+Se encuentran $n$ puertas Hadamard y $(n)(n+1)/2$ puertas de rotación, por lo que el órden del algoritmo es $O(n^2)=O((log_2 N)^2)$, ya que $N=2^n$.
 
-<Aside>La implementación de QFT varía según la bibliografía, se pueden presentar con diferentes compuertas, o en diferente órden, o con/sin compuertas de intercambio. A su vez, existen casos donde se interpreta QFT con la misma definición que DFT y en otros casos como su inversa (ángulos opuestos).</Aside>
+<Aside>La implementación de QFT varía según la bibliografía, se pueden presentar con diferentes puertas, o en diferente órden, o con/sin puertas de intercambio. A su vez, existen casos donde se interpreta QFT con la misma definición que DFT y en otros casos como su inversa (ángulos opuestos).</Aside>
 
-Por otra parte, como el algoritmo de QFT es conformado por compuertas unitarias, para implementar la **inversa de QFT** basta con aplicar las operaciones conjugadas transpuestas en el orden inverso.
+Por otra parte, como el algoritmo de QFT es conformado por puertas unitarias, para implementar la **inversa de QFT** basta con aplicar las operaciones conjugadas transpuestas en el orden inverso.
 
 <Tabs>
   <TabItem label='Quirk'>

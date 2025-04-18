@@ -1,23 +1,28 @@
 ---
 layout: '@layouts/math.astro'
-title: 'Compuerta CNOT'
+title: 'Puerta CNOT'
 ---
 
-La compuerta Controlled NOT o CNOT, combina la logica de una <a href={`${import.meta.env.BASE_URL}/gates/x-axis`}>compuerta NOT cuantica</a>  con un condicional.
+import Circle from '@components/CircleNotation.astro'
+import { Code, Tabs, TabItem } from '@astrojs/starlight/components'
+import Box from '@components/Box.astro'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+import {
+  cnot_quirk_example,
+  cnot_qiskit_example_code,
+  toffoli_quirk_example,
+  toffoli_qiskit_example_code,
+  toffoli_qiskit_example_result,
+} from '@code-snippets/cnot'
 
-Al igual que el resto de compuertas controladas, existe un qubit que actua de control y otro de objetivo, el de control determina si aplicar o no la compuerta al objetivo, en este caso aplicando un NOT si el valor del primer qubit es 1.
+La puerta **Controlled NOT (CNOT)**, combina la lógica de una <a href={`${import.meta.env.BASE_URL}/gates/x-axis`}>puerta NOT cuántica</a> con un condicional.
 
-En formato de tabla se puede observar de la siguiente manera:
-<div style="display:flex;justify-content:center">
-| Antes | Despues |
-|-------|---------|
-|Control: $\ket{0}$, Objetivo: $\ket{0}$ | Control: $\ket{0}$, Objetivo: $\ket{0}$ |
-|Control: $\ket{0}$, Objetivo: $\ket{1}$ | Control: $\ket{0}$, Objetivo: $\ket{1}$ |
-|Control: $\ket{1}$, Objetivo: $\ket{0}$ | Control: $\ket{1}$, Objetivo: $\ket{1}$ |
-|Control: $\ket{1}$, Objetivo: $\ket{1}$ | Control: $\ket{1}$, Objetivo: $\ket{0}$ |
-</div>
+Al igual que el resto de puertas controladas, existe un qubit que actúa de control y otro de objetivo. El de control determina si aplicar o no la puerta al objetivo, en este caso aplicando un NOT si el valor del primer qubit es 1.
 
-Su representacion matricial es la siguiente:
+Su representación matricial es la siguiente:
+
 ```math
 CNOT=\begin{bmatrix}
 1&0&0&0\\
@@ -27,18 +32,91 @@ CNOT=\begin{bmatrix}
 \end{bmatrix}
 ```
 
-Los casos mas interesantes ocurren cuando los valores son las bases $\ket{+}$ y $\ket{-}$, notar que en los casos donde el objetivo es $\ket{-}$ el valor del bit de control se invierte en vez de el valor del objetivo.
-<div style="display:flex;justify-content:center">
-| Antes | Despues |
-|-------|---------|
-|Control: $\ket{+}$, Objetivo: $\ket{+}$ | Control: $\ket{+}$, Objetivo: $\ket{+}$ |
-|Control: $\ket{+}$, Objetivo: $\ket{-}$ | Control: $\ket{-}$, Objetivo: $\ket{-}$ |
-|Control: $\ket{-}$, Objetivo: $\ket{+}$ | Control: $\ket{-}$, Objetivo: $\ket{+}$ |
-|Control: $\ket{-}$, Objetivo: $\ket{-}$ | Control: $\ket{+}$, Objetivo: $\ket{-}$ |
-</div>
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <QuantumCircuit src={cnot_quirk_example} />
+        La puerta $r^t$ genera un estado aleatorio que cambia según el tiempo.
+    </Box>
+  </TabItem>
+  <TabItem label="Dirac">
+    <Box>
+        Pruebas desarrolladas de estos casos se pueden encontrar en las <a href={`${import.meta.env.BASE_URL}/proofs/cnot#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>.
+        ```math
+        CNOT\ket{00}=\ket{00}\\
+        CNOT\ket{01}=\ket{01}\\
+        CNOT\ket{10}=\ket{11}\\
+        CNOT\ket{11}=\ket{10}\\
+        CNOT\ket{++}=\ket{++}\\
+        CNOT\ket{+-}=\ket{--}\\
+        CNOT\ket{-+}=\ket{-+}\\
+        CNOT\ket{--}=\ket{+-}\\
+        ```
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+        <Code
+          code={cnot_qiskit_example_code}
+          lang='py'
+        />
+    </Box>
+  </TabItem>
+</Tabs>
 
-Pruebas desarrolladas de estos casos se pueden encontrar en las <a href={`${import.meta.env.BASE_URL}/proofs/cnot#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>.
+## Puerta Toffoli (CCNOT)
 
-## Mas información
+La puerta **Toffoli** cuántica, también conocida como **CCNOT**, lleva su nombre en honor a <a href="https://en.wikipedia.org/wiki/Tommaso_Toffoli" target="_blank">Tomasso Toffoli</a>. Es una extensión de la puerta CNOT que utiliza dos qubits de control y un qubit objetivo. Su funcionamiento es equivalente a la puerta Toffoli lógica en los casos de que los qubits sean 0 o 1, pero difiere en estados de superposición.
 
-- <a target="_blank" href="https://en.wikipedia.org/wiki/Controlled_NOT_gate">Controlled NOT gate (Wikipedia) [Inglés]</a>
+Su representación matricial es la siguiente:
+
+```math
+Toffoli=\begin{bmatrix}
+1&0&0&0&0&0&0&0\\
+0&1&0&0&0&0&0&0\\
+0&0&1&0&0&0&0&0\\
+0&0&0&1&0&0&0&0\\
+0&0&0&0&1&0&0&0\\
+0&0&0&0&0&1&0&0\\
+0&0&0&0&0&0&0&1\\
+0&0&0&0&0&0&1&0\\
+\end{bmatrix}
+```
+
+### Generalización para n qubits
+
+La puerta Toffoli puede ser generalizada para múltiples qubits de control y múltiples qubits objetivo. En este caso, la puerta aplica un NOT a el/los qubit/s objetivo solo si todos los qubits de control están en el estado $\ket{1}$. Los puntos negros representan que la puerta Y se activa con 
+
+Los puntos negros representan que la puerta se activa con 1, mientras que los puntos blancos o sin relleno implican que la puerta se activa con 0.
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <QuantumCircuit src={toffoli_quirk_example} />
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+        <Tabs>
+            <TabItem label='Código'>
+                <Code
+                  code={toffoli_qiskit_example_code}
+                  lang='py'
+                />
+            </TabItem>
+            <TabItem label='Resultado'>
+                <Code
+                  code={toffoli_qiskit_example_result}
+                  lang='text'
+                />
+            </TabItem>
+        </Tabs>
+    </Box>
+  </TabItem>
+</Tabs>
+
+## Más información
+
+<BibItem id='wong' prefix='Capítulo 4.4.2, ' rate='r' />
+<BibItem id='multiQubitGatesSoar' rate='a' />
+<BibItem id='oreilly' rate='o' prefix='Capítulo 3, ' />

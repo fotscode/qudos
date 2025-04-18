@@ -43,7 +43,7 @@ La etapa de **preparación** denota una precondición del algoritmo, que el esta
 
 Le sigue la etapa de **selección**, en esta se provee un circuito que marque o distinga los estados cuánticos a buscar, esto se hace mediante la modificación de la fase de aquellos qubits que se buscan, este circuito puede ser implementado de diferentes maneras.
 
-En el ejemplo provisto de la figura 1 se lo implementa con una compuerta CZ, marcando el numero 3 ($\ket{0011}$, leyendo de abajo hacia arriba), es decir que solo invertirá la fase cuando el estado cuántico es 3, esto hace parecer que se anula el propósito del algoritmo (buscar), pero solo se utiliza como ejemplo, siendo que en los algoritmos reales se utilizan subrutinas más complejas para invertir las fases. Por ejemplo en ciertos algoritmos esta etapa se implementa utilizando un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>, como es el caso del algoritmo de <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>Grover</a>, siendo distinguidos si cumplen con la función, es decir si $f(x)=1$.
+En el ejemplo provisto de la figura 1 se lo implementa con una puerta CZ, marcando el numero 3 ($\ket{0011}$, leyendo de abajo hacia arriba), es decir que solo invertirá la fase cuando el estado cuántico es 3, esto hace parecer que se anula el propósito del algoritmo (buscar), pero solo se utiliza como ejemplo, siendo que en los algoritmos reales se utilizan subrutinas más complejas para invertir las fases. Por ejemplo en ciertos algoritmos esta etapa se implementa utilizando un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>, como es el caso del algoritmo de <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>Grover</a>, siendo distinguidos si cumplen con la función, es decir si $f(x)=1$.
 
 Finaliza con la etapa de **reflejo**, que en ciertas bibliografías se lo llama como el _operador de difusión_ (Grover) o como la _inversión sobre la media_ (Nielsen y Chuang). En esta etapa se **convierten** las diferencias de fases en contrastes de magnitud y se **deselecciona** los qubits marcados en el paso previo.
 
@@ -319,7 +319,7 @@ Donde $n$ es la cantidad de qubits y $s$ es la cantidad de soluciones posibles.
       <Tabs>
         <TabItem label='Ejemplo de la Figura (1) con tres iteraciones'>
           <QuantumCircuit src={flip_3_example} />
-          <Aside>La compuerta **flip_3** y **mirror** se implementan como fueron diagramadas en la Figura (1) las etapas de selección y de reflejo respectivamente.</Aside>
+          <Aside>La puerta **flip_3** y **mirror** se implementan como fueron diagramadas en la Figura (1) las etapas de selección y de reflejo respectivamente.</Aside>
         </TabItem>
       </Tabs>
     </Box>

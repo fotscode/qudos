@@ -41,11 +41,11 @@ Donde Alice posee el primer qubit y Bob posee el segundo qubit. Notar que $\ket{
 necesidad de que Alice haya enviado a Bob ningún qubit para preparar dicho estado. En su lugar, un tercero podría haber preparado
 el estado de entrelazamiento previamente, enviando uno de los qubits a Alice y el otro a Bob.
 
-Dependiendo de cuál de las cuatro opciones Alice desee comunicar a Bob (00, 01, 10 o 11), ella puede aplicar compuertas cuánticas 
+Dependiendo de cuál de las cuatro opciones Alice desee comunicar a Bob (00, 01, 10 o 11), ella puede aplicar puertas cuánticas 
 a su qubit, para luego enviárselo a Bob de manera que él tenga ambos qubits. 
 
 - Si Alice quiere enviar $00$, entonces no le hace nada a su qubit, y se lo envía a Bob. 
-- Si Alice quiere enviar $01$, entonces aplica la compuerta $X$ sobre su qubit, lo cual transforma $\ket{\Phi^+}$ en 
+- Si Alice quiere enviar $01$, entonces aplica la puerta $X$ sobre su qubit, lo cual transforma $\ket{\Phi^+}$ en 
 
 ```math 
 \ket{\Psi^+} = \frac{1}{\sqrt{2}}(\ket{10} + \ket{01})
@@ -53,7 +53,7 @@ a su qubit, para luego enviárselo a Bob de manera que él tenga ambos qubits.
 
 y luego envía el qubit a Bob. 
 
-- Si Alice quiere enviar $10$, entonces aplica la compuerta $Z$ a su qubit, lo cual transforma $\ket{\Phi^+}$ en 
+- Si Alice quiere enviar $10$, entonces aplica la puerta $Z$ a su qubit, lo cual transforma $\ket{\Phi^+}$ en 
 
 ```math 
 \ket{\Phi^-} = \frac{1}{\sqrt{2}}(\ket{00} - \ket{11})
@@ -128,12 +128,12 @@ A continuación se elaborará un paso a paso de la aplicación del protocolo.
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/superdense-coding/circuit-with-slices.png`}
-    alt='Protocolo de codificación superdensa, con cortes ante la aplicación de cada compuerta.'
+    alt='Protocolo de codificación superdensa, con cortes ante la aplicación de cada puerta.'
     width='700'
     height='300'
   />
   <span style='max-width:620px; padding:10px 40px'>
-    **Figura (2):** Protocolo de codificación superdensa, con cortes ante la aplicación de cada compuerta.
+    **Figura (2):** Protocolo de codificación superdensa, con cortes ante la aplicación de cada puerta.
   </span>
 </div>
 
@@ -161,7 +161,7 @@ A continuación se elaborará un paso a paso de la aplicación del protocolo.
             
             <ResourceDivider icon='pencil' text='\(\phi_1\)' />
             <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-                Se aplica una compuerta Controlled-Z sobre el primer qubit con el valor del bit más significativo $d$ como bit de control,
+                Se aplica una puerta Controlled-Z sobre el primer qubit con el valor del bit más significativo $d$ como bit de control,
                 cuyo valor es 1, por lo que se aplica un cambio de fase en 180º sobre dicho qubit. 
                 Se alcanza el estado $\ket{\Phi^-} = \frac{1}{\sqrt{2}}(\ket{00} - \ket{11})$.
                 
@@ -177,7 +177,7 @@ A continuación se elaborará un paso a paso de la aplicación del protocolo.
             
             <ResourceDivider icon="pencil" text="\(\phi_2\)" />
             <div style="display: flex; flex-direction:column; align-items:center; margin-bottom:60px">
-                Se aplica una compuerta CNOT sobre el primer qubit con el valor del bit menos significativo $c$ como bit de control, cuyo 
+                Se aplica una puerta CNOT sobre el primer qubit con el valor del bit menos significativo $c$ como bit de control, cuyo 
                 valor es 1, por lo que se aplica NOT sobre dicho qubit. 
                 Se alcanza el estado $\frac{1}{\sqrt{2}}(-\ket{01} + \ket{10})$, que convenientemente es equivalente a 
                 $-\frac{1}{\sqrt{2}}(\ket{01} - \ket{10})$, aplicando una fase global $-1$.
@@ -194,7 +194,7 @@ A continuación se elaborará un paso a paso de la aplicación del protocolo.
             
             <ResourceDivider icon='pencil' text='\(\phi_3\)' />
             <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-                Se opera con la compuerta CNOT con el primer qubit como control y el segundo qubit como target.
+                Se opera con la puerta CNOT con el primer qubit como control y el segundo qubit como target.
                 Se alcanza el estado $-\frac{1}{\sqrt{2}}(\ket{01} - \ket{11})$.
 
                 <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
@@ -240,8 +240,8 @@ A continuación se elaborará un paso a paso de la aplicación del protocolo.
                 valores que son $1$ y los que son **"Off"** los valores que son $0$.
                 
                 **Aclaración**: se usan los primeros dos qubits en representación de los dos bits clásicos a transferir; el tercer 
-                y último qubits son entrelazados utilizando las compuertas H y CNOT; los qubits intermedios simulan el envío del 
-                qubit desde el emisor hacia el receptor (notar el aviso 'Send' acompañado de la compuerta SWAP para intercambiar 
+                y último qubits son entrelazados utilizando las puertas H y CNOT; los qubits intermedios simulan el envío del 
+                qubit desde el emisor hacia el receptor (notar el aviso 'Send' acompañado de la puerta SWAP para intercambiar 
                 los estados cuánticos entre el qubit del emisor y un qubit que a modo de ejemplo le llega al receptor). Finalmente, 
                 la medición de los qubits en la quinta y sexta posición representan la lectura final de los dos bits recibidos.
             </Aside>

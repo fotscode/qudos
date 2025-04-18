@@ -108,40 +108,40 @@ Otra forma de visualizar al qubit puede emplearse mediante la representación ve
 ```
 
 Esta quizás es la concepción más cercana al punto de vista matemático, y podría ser de utilidad para algunos casos particulares, donde se facilitarían los cálculos al realizar 
-operaciones con compuertas cuánticas, acudiendo a su representación matricial.
+operaciones con puertas cuánticas, acudiendo a su representación matricial.
 
 ## Representación de múltiples qubits 
 
 A la hora de trabajar con varios qubits puede que ninguna de las representaciones mostradas previamente sean lo ideal debido a que se tornan poco prácticas y, en muchos casos, 
-ilegibles. Es por esto que se desarrollaron los circuitos cuánticos como estrategia de representación de algoritmos y secuencias de aplicación de compuertas cuánticas 
+ilegibles. Es por esto que se desarrollaron los circuitos cuánticos como estrategia de representación de algoritmos y secuencias de aplicación de puertas cuánticas 
 sobre uno o varios qubits que son manipulados a lo largo de su ciclo de vida. Bajo esta representación, las líneas que van de izquierda a derecha representan "cables cuánticos", 
 donde cada uno de ellos representa a un qubit. El cable cuántico permite visualizar cómo un qubit es sometido a diferentes cambios a lo largo del tiempo, mediante la aplicación de 
-diferentes compuertas cuánticas. Cada compuerta es representada con un símbolo diferente dentro del circuito. Generalmente, las compuertas unarias son representadas como cajas 
-con una etiqueta de texto que indica el tipo de compuerta. 
+diferentes puertas cuánticas. Cada puerta es representada con un símbolo diferente dentro del circuito. Generalmente, las puertas unarias son representadas como cajas 
+con una etiqueta de texto que indica el tipo de puerta. 
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/concept-qubit/unary-gates.svg`}
-    alt='Compuertas unarias en un circuito cuántico'
+    alt='Puertas unarias en un circuito cuántico'
     width='400'
     height='200'
   />
   <span style='max-width:1510px; padding:10px 40px'>
-    **Figura (3):** Visualización de compuertas unitarias A, B y C en un circuito cuántico
+    **Figura (3):** Visualización de puertas unitarias A, B y C en un circuito cuántico
   </span>
 </div>
 
-Por otro lado, las compuertas n-arias se representan mediante una línea que conecta diferentes qubits. 
+Por otro lado, las puertas n-arias se representan mediante una línea que conecta diferentes qubits. 
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/concept-qubit/n-ary-gates.avif`}
-    alt='Compuertas n-arias en un circuito cuántico'
+    alt='Puertas n-arias en un circuito cuántico'
     width='400'
     height='200'
   />
   <span style='max-width:1510px; padding:10px 40px'>
-    **Figura (4):** Visualización de compuertas binarias Controlled NOT y Controlled Y en un circuito cuántico
+    **Figura (4):** Visualización de puertas binarias Controlled NOT y Controlled Y en un circuito cuántico
   </span>
 </div>
 
@@ -162,7 +162,7 @@ La operación de medición es representada por un símbolo de un medidor que sie
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/shor-pe-steps.png`}
-    alt='Estructura de la primitiva EF aplicada al algoritmo de Shor, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las compuertas siguen un patron escalonado del qubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como qubit de control.'
+    alt='Estructura de la primitiva EF aplicada al algoritmo de Shor, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las puertas siguen un patron escalonado del qubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como qubit de control.'
     width='1510'
     height='708'
   />

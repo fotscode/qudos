@@ -89,11 +89,11 @@ A continuación se explicará el funcionamiento de esta técnica, aplicada sobre
 El proceso de descomputación involucra tres pasos:
 
 - Computar $\ket{x}\ket{0}\ket{0} \rightarrow \ket{x}\ket{s(x)}\ket{w(x)}$, donde $x$ es el estado inicial, $s(x)$ el resultado de aplicar una operación sobre $x$ y 
-$w(x)$ el estado "basura" resultante tras haber ejecutado $s(x)$. Se utiliza el enfoque estándar que consiste en convertir compuertas clásicas AND y NOT en compuertas cuánticas 
+$w(x)$ el estado "basura" resultante tras haber ejecutado $s(x)$. Se utiliza el enfoque estándar que consiste en convertir puertas clásicas AND y NOT en puertas cuánticas 
 Toffoli y NOT, respectivamente
-- Agregar un qubit extra en el estado $\ket{0}$, y aplicar la compuerta CNOT sobre $\ket{s(x)}$ como el control. Esto permitirá copiar el resultado y se obtendrá:
+- Agregar un qubit extra en el estado $\ket{0}$, y aplicar la puerta CNOT sobre $\ket{s(x)}$ como el control. Esto permitirá copiar el resultado y se obtendrá:
 $\ket{x}\ket{s(x)}\ket{w(x)}\ket{s(x)}$
-- Ahora aplicar todas las compuertas del primer paso pero en orden inverso, y aplicando en cada paso la compuerta inversa. El resultado deshará lo ocurrido en el paso 1, 
+- Ahora aplicar todas las puertas del primer paso pero en orden inverso, y aplicando en cada paso la puerta inversa. El resultado deshará lo ocurrido en el paso 1, 
 resultando en $\ket{x}\ket{0}\ket{0}\ket{s(x)}$
 
 Se puede ignorar el estado $\ket{0}\ket{0}$, el cual no es modificado durante todo el proceso. Así, el resultado de estos pasos es la transformación deseada: 
@@ -103,26 +103,26 @@ Se puede ignorar el estado $\ket{0}\ket{0}$, el cual no es modificado durante to
 ```
 
 Resumiendo, si se tiene un circuito clásico para computar una función $s(\cdot)$, se puede pensar en las tres etapas del circuito cuántico limpio como: computar $s(\cdot)$, 
-convirtiendo compuertas clásicas en cuánticas; copiar la respuesta usando CNOT; y finalmente aplicar uncomputing, revirtiendo las compuertas e invirtiéndolas.
+convirtiendo puertas clásicas en cuánticas; copiar la respuesta usando CNOT; y finalmente aplicar uncomputing, revirtiendo las puertas e invirtiéndolas.
 
-Suponiendo que se intenta computar $s(x) = x_1 \land x_2 \land x_3$, es decir, la operación AND de tres bits, se usará una compuerta Toffoli para computar el AND de los 
+Suponiendo que se intenta computar $s(x) = x_1 \land x_2 \land x_3$, es decir, la operación AND de tres bits, se usará una puerta Toffoli para computar el AND de los 
 primeros dos bits, $x_1 \land x_2$:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/uncomputation/01.png`}
-    alt='Operación AND sobre x1 y x2 usando compuertas Toffoli'
+    alt='Operación AND sobre x1 y x2 usando puertas Toffoli'
     width='300'
     height='150'
   />
 </div>
 
-Luego se usaría otra compuerta Toffoli para aplicar la operación AND entre el resultado de la operación previa y $x_3$:
+Luego se usaría otra puerta Toffoli para aplicar la operación AND entre el resultado de la operación previa y $x_3$:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/uncomputation/02.png`}
-    alt='Operación AND entre el resultado previo y x3 usando compuertas Toffoli'
+    alt='Operación AND entre el resultado previo y x3 usando puertas Toffoli'
     width='300'
     height='200'
   />
@@ -143,12 +143,12 @@ pero se terminó computando
 \ket{x_1, x_2, x_3}\ket{0} \rightarrow \ket{x_1, x_2, x_3}\ket{x_1 \land x_2}\ket{x_1 \land x_2 \land x_3}
 ```
 
-Esto puede evitarse fácilmente aplicando descomputación. Siguiendo los pasos mencionados previamente, y recordando que la compuerta Toffoli es inversa de sí misma:
+Esto puede evitarse fácilmente aplicando descomputación. Siguiendo los pasos mencionados previamente, y recordando que la puerta Toffoli es inversa de sí misma:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/uncomputation/03.png`}
-    alt='Aplicación de descomputación sobre la operación x1 AND x2 AND x3 usando compuertas Toffoli'
+    alt='Aplicación de descomputación sobre la operación x1 AND x2 AND x3 usando puertas Toffoli'
     width='400'
     height='400'
   />

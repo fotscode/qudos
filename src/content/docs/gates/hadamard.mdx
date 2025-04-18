@@ -1,75 +1,127 @@
 ---
 layout: '@layouts/math.astro'
-title: 'Compuerta Hadamard'
+title: 'Puerta Hadamard'
 ---
 
-import Math from '@components/Math.astro'
 import Circle from '@components/CircleNotation.astro'
-import { Code } from '@astrojs/starlight/components'
+import { Code, Tabs, TabItem } from '@astrojs/starlight/components'
+import QuantumCircuit from '@components/QuantumCircuit.astro'
+import Box from '@components/Box.astro'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
+import {
+  hadamard_quirk_example,
+  hadamard_qiskit_example_code,
+  chadamard_quirk_example,
+} from '@code-snippets/hadamard'
 
-export const hadamard_matrix_latex = `
-H=\\frac{1}{\\sqrt{2}}
-\\begin{bmatrix}
-1&1\\\\
+La puerta Hadamard lleva su nombre en honor a <a href="https://es.wikipedia.org/wiki/Jacques_Hadamard" target="_blank">Jacques Hadamard</a>. Esta puerta actúa en un solo qubit y permite crear superposiciones.
+
+La puerta en forma de matriz tiene la siguiente forma:
+
+```math
+H=\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+1&1\\
 1&-1
-\\end{bmatrix}
-`
+\end{bmatrix}
+```
 
-La compuerta Hadamard lleva su nombre en honor a <a href="https://es.wikipedia.org/wiki/Jacques_Hadamard" target="_blank">Jacques Hadamard</a>. Esta compuerta actua en un solo qubit y permite crear superposiciones.
+Una versión **generalizada** de la aplicación de esta puerta se puede observar en las <a href={`${import.meta.env.BASE_URL}/proofs/hadamard#generalizacion-de-la-operacion`}>pruebas elaboradas</a>.
 
-La compuerta en forma de matriz tiene la siguiente forma:
+Un aspecto a tener en cuenta es que la inversa de la puerta Hadamard es la propia Hadamard. Esto implica que aplicar dos veces Hadamard resultaría en una identidad.
 
-<Math latex={hadamard_matrix_latex} />
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <QuantumCircuit src={hadamard_quirk_example} />
+    </Box>
+  </TabItem>
+  <TabItem label='Dirac'>
+    <Box>
+        Dentro de las operaciones comunes, podemos notar las siguientes, estas se pueden observar en mayor detalle en las <a href={`${import.meta.env.BASE_URL}/proofs/hadamard#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>:
+        
+        ```math
+        H\ket{0}=\ket{+}\\
+        H\ket{+}=\ket{0}\\
+        H\ket{1}=\ket{-}\\
+        H\ket{-}=\ket{1}\\
+        ```
+    </Box>
+  </TabItem>
+  <TabItem label='Círculos'>
+    <Box>
+        Aplicando a $\ket{0}$
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={'80'} phase={"0"} prob={1} label={"\\ket{0}"}/>
+            <Circle width={'80'} phase={"0"} prob={0} label={"\\ket{1}"}/>
+            $$\overset{H}{\rightarrow}$$ 
+            <Circle width={'80'} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+            <Circle width={'80'} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
+        </div>
+        Aplicando a $\ket{1}$
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={'80'} phase={"0"} prob={0} label={"\\ket{0}"}/>
+            <Circle width={'80'} phase={"0"} prob={1} label={"\\ket{1}"}/>
+            $$\overset{H}{\rightarrow}$$ 
+            <Circle width={'80'} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+            <Circle width={'80'} phase={"180"} prob={0.5} label={"\\ket{1}"}/>
+        </div>
+        Aplicando a $\ket{+}$
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={'80'} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+            <Circle width={'80'} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
+            $$\overset{H}{\rightarrow}$$ 
+            <Circle width={'80'} phase={"0"} prob={1} label={"\\ket{0}"}/>
+            <Circle width={'80'} phase={"0"} prob={0} label={"\\ket{1}"}/>
+        </div>
+        Aplicando a $\ket{-}$
+        <div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
+            <Circle width={'80'} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
+            <Circle width={'80'} phase={"180"} prob={0.5} label={"\\ket{1}"}/>
+            $$\overset{H}{\rightarrow}$$ 
+            <Circle width={'80'} phase={"0"} prob={0} label={"\\ket{0}"}/>
+            <Circle width={'80'} phase={"0"} prob={1} label={"\\ket{1}"}/>
+        </div>
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+        <Code code={hadamard_qiskit_example_code} lang='py' />
+    </Box>
+  </TabItem>
+</Tabs>
 
-Dentro de las operaciones comunes, podemos notar las siguientes, estas se pueden observar en mayor detalle en las <a href={`${import.meta.env.BASE_URL}/proofs/hadamard#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>:
+## Variante condicional
 
-export const common_operation_1 = `
-H\\ket{0}=\\ket{+}\\\\
-H\\ket{+}=\\ket{0}\\\\
-H\\ket{1}=\\ket{-}\\\\
-H\\ket{-}=\\ket{1}\\\\
-`
+La variante condicional de Hadamard llamada **CH**, los puntos negros representan que la puerta **H** se activa con $1$, mientras que los puntos blancos o sin relleno implican que la puerta **Z** se activa con $0$. Otro aspecto a tener en cuenta es que la puerta **CH** se aplica tanto en el control como en el objetivo. 
 
-<Math latex={common_operation_1} />
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <QuantumCircuit src={chadamard_quirk_example} />
+    </Box>
+  </TabItem>
+  <TabItem label='Dirac'>
+    <Box>
+        ```math
+        CH\ket{10}=\ket{1+}\\
+        CH\ket{1+}=\ket{10}\\
+        CH\ket{11}=\ket{1-}\\
+        CH\ket{1-}=\ket{11}\\
+        CH\ket{00}=\ket{00}\\
+        CH\ket{0+}=\ket{0+}\\
+        CH\ket{01}=\ket{01}\\
+        CH\ket{0-}=\ket{0-}\\
+        ```
+    </Box>
+  </TabItem>
 
-Utilizando notación de circulos, se puede ver de la siguiente manera:
 
-<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
-    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{1}"}/>
-    $$\overset{H}{\rightarrow}$$ 
-    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{1}"}/>
-</div>
-
-<div style="display: flex; justify-content:center; align-items:center; margin-bottom:30px; flex-direction:row">
-    <Circle width={"100"} phase={"0"} prob={1} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"0"} prob={0} label={"\\ket{1}"}/>
-    $$\overset{H}{\rightarrow}$$ 
-    <Circle width={"100"} phase={"0"} prob={0.5} label={"\\ket{0}"}/>
-    <Circle width={"100"} phase={"180"} prob={0.5} label={"\\ket{1}"}/>
-</div>
-
-Con esta gate toma sentido la fase, segun si este en \\(\ket{'+'}\\) o en \\(\ket{'-'}\\), al aplicarse, dará \\(\ket{0}\\) o \\(\ket{1}\\) respectivamente cuando previamente, antes de aplicarse la gate, existian \\(50\\%\\) de probabilidades de que sea \\(0\\) o \\(1\\).
-
-Una versión generalizada de la aplicacion de esta compuerta se puede observar en las <a href={`${import.meta.env.BASE_URL}/proofs/hadamard#generalizacion-de-la-operacion`}>pruebas elaboradas</a>.
-
-En qiskit se aplica al circuito con la funcion `h` e indicando el qubit a aplicar la compuerta.
-
-<Code
-  code={`
-from qiskit import QuantumCircuit
-qc = QuantumCircuit(1)
-qc.h(0) # aplica la compuerta Hadamard al qubit 0
-`}
-  lang='py'
-  title='Qiskit | Compuerta Hadamard'
-/>
+</Tabs>
 
 ## Más información
-
-- <a target="_blank" href="https://es.wikipedia.org/wiki/Puerta_cu%C3%A1ntica">Puerta cuántica (Wikipedia) [Español]</a>
-
-- <a target="_blank" href="https://www.quantum-inspire.com/kbase/hadamard/">Hadamard gate (Quantum Inspire) [Inglés]</a>
-
-- <a target="_blank" href="https://www.youtube.com/watch?v=G9d0QWM82sU">Quantum Computing Course: 1.6 The Hadamard Gate and the +, -, i and -i States (Quantum Soar) [Inglés]</a>
+<Recommendations/>
+<BibItem id="wong" prefix="Capítulo 2.6.3, " rate="r" />
+<BibItem id="hadamardSoar" rate="a" />
+<BibItem id="oreilly" rate="o" prefix="Capítulo 2, "/>

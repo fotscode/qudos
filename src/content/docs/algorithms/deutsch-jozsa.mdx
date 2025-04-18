@@ -13,7 +13,6 @@ head:
 
 import { Image } from 'astro:assets'
 import { Aside, Code, Tabs, TabItem } from '@astrojs/starlight/components'
-import Math from '@components/Math.astro'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
 import Box from '@components/Box.astro'
 
@@ -59,17 +58,17 @@ Una solución posible al problema reducido definido previamente puede ser el sig
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/deutsch-jozsa-simple.png`}
-    alt='Algoritmo Deutsch en un circuito con separadores ante la aplicación de cada compuerta.'
+    alt='Algoritmo Deutsch en un circuito con separadores ante la aplicación de cada puerta.'
     width='455'
     height='220'
   />
   <span style='max-width:455px; padding:10px 40px'>
     **Figura (1):** Algoritmo Deutsch en un circuito con separadores ante la
-    aplicación de cada compuerta.
+    aplicación de cada puerta.
   </span>
 </div>
 
-En este circuito cuántico se utilizan las compuertas <a href={`${import.meta.env.BASE_URL}/gates/x-axis`}>Pauli X</a>, <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> y un oráculo \\(U_f\\) que es un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>. Notar que el oráculo de fase se encuentra asociado a \\(f\\), que es la función que estamos analizando si es constante/balanceada.
+En este circuito cuántico se utilizan las puertas <a href={`${import.meta.env.BASE_URL}/gates/x-axis`}>Pauli X</a>, <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> y un oráculo \\(U_f\\) que es un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>. Notar que el oráculo de fase se encuentra asociado a \\(f\\), que es la función que estamos analizando si es constante/balanceada.
 
 Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
 
@@ -126,13 +125,13 @@ Por lo que si introducimos esta función/circuito dentro del algoritmo de Deutsc
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/deutsch-aplicado-constante.png`}
-    alt='Algoritmo Deutsch en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función constante en vez del oráculo.'
+    alt='Algoritmo Deutsch en un gráfico con separadores ante la aplicación de cada puerta, utilizando la función constante en vez del oráculo.'
     width='455'
     height='220'
   />
   <span style='max-width:504px; padding:10px 40px'>
     **Figura (3):** Algoritmo Deutsch en un gráfico con separadores ante la
-    aplicación de cada compuerta, utilizando la función constante en vez del
+    aplicación de cada puerta, utilizando la función constante en vez del
     oráculo.
   </span>
 </div>
@@ -164,11 +163,11 @@ Se elimina el $\ket{-}$ ya que no es utilizado en la medición. Con este resulta
   </TabItem>
 </Tabs>
 
-La función descrita previamente era constante y retornaba 0 ante cualquier input. Otro ejemplo de función constante es aquella que siempre retorna 1 como salida, esta se puede implementar por ejemplo aplicando una compuerta Pauli-X a la salida.
+La función descrita previamente era constante y retornaba 0 ante cualquier input. Otro ejemplo de función constante es aquella que siempre retorna 1 como salida, esta se puede implementar por ejemplo aplicando una puerta Pauli-X a la salida.
 
 #### Funciones Balanceadas
 
-Sea $f$ una función balanceada, un circuito posible que representa una función balanceada es utilizando una compuerta CNOT.
+Sea $f$ una función balanceada, un circuito posible que representa una función balanceada es utilizando una puerta CNOT.
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -191,13 +190,13 @@ Si introducimos esta función/circuito dentro del algoritmo de Deutsch la salida
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/deutsch-aplicado-balanceada.png`}
-    alt='Algoritmo Deutsch en un gráfico con separadores ante la aplicación de cada compuerta, utilizando la función balanceada en vez del oráculo.'
+    alt='Algoritmo Deutsch en un gráfico con separadores ante la aplicación de cada puerta, utilizando la función balanceada en vez del oráculo.'
     width='455'
     height='220'
   />
   <span style='max-width:504px; padding:10px 40px'>
     **Figura (5):** Algoritmo Deutsch en un gráfico con separadores ante la
-    aplicación de cada compuerta, utilizando la función balanceada en vez del
+    aplicación de cada puerta, utilizando la función balanceada en vez del
     oráculo.
   </span>
 </div>
@@ -237,7 +236,7 @@ Esto determina que, para este ejemplo de función balanceada, se deriva al resul
   </TabItem>
 </Tabs>
 
-La función descrita previamente era balanceada retornando el mismo valor que el input (función identidad). Otro ejemplo de función balanceada es aquella que siempre retorna el opuesto de la entrada como salida (función de opuesto), esta se puede implementar, por ejemplo, aplicando una compuerta Pauli-X a la salida luego de haber aplicado un CNOT.
+La función descrita previamente era balanceada retornando el mismo valor que el input (función identidad). Otro ejemplo de función balanceada es aquella que siempre retorna el opuesto de la entrada como salida (función de opuesto), esta se puede implementar, por ejemplo, aplicando una puerta Pauli-X a la salida luego de haber aplicado un CNOT.
 
 ## Deutsch-Jozsa completo
 
@@ -254,23 +253,23 @@ El algoritmo de Deutsch-Jozsa se describe de forma genérica con el siguiente ci
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/deutsch-jozsa-completo.png`}
-    alt='Algoritmo Deutsch-Jozsa en un circuito con separadores ante la aplicación de cada compuerta.'
+    alt='Algoritmo Deutsch-Jozsa en un circuito con separadores ante la aplicación de cada puerta.'
     width='455'
     height='182'
   />
   <span style='max-width:455px; padding:10px 40px'>
     **Figura (6):** Algoritmo Deutsch-Jozsa en un circuito con separadores ante
-    la aplicación de cada compuerta.
+    la aplicación de cada puerta.
   </span>
 </div>
 
 Este mantiene una estructura similar al algoritmo de Deutsch planteado en la figura 1 pero con algunos cambios:
 
-- Se reemplaza el segundo qubit de $\ket{0}$ a $\ket{-}$, esto es equivalente a aplicar una compuerta Pauli-X y Hadamard pero se evitó para tener una mayor legibilidad.
+- Se reemplaza el segundo qubit de $\ket{0}$ a $\ket{-}$, esto es equivalente a aplicar una puerta Pauli-X y Hadamard pero se evitó para tener una mayor legibilidad.
 
 - Se generaliza el qubit de entrada a $n$ qubits que representan los valores de entrada, esto esta representado por el símbolo / $^n$ previo a $\psi_0$.
 
-- Se aplican las compuertas Hadamard a los $n$ qubits de entrada y el oráculo es aplicado a los $n$ qubits de entrada y al qubit que representa la salida de la función.
+- Se aplican las puertas Hadamard a los $n$ qubits de entrada y el oráculo es aplicado a los $n$ qubits de entrada y al qubit que representa la salida de la función.
 
 Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=3\\):
 
