@@ -1,7 +1,14 @@
 ---
 layout: '@layouts/math.astro'
 title: Transformada de Fourier cuántica
-description: Primitiva cuántica que permite acceder a patrones ocultos codificados en frecuencias.
+description: Una primitiva cuántica esencial que transforma estados cuánticos de la base computacional a la base de Fourier, revelando patrones de frecuencias ocultos y utilizada en algoritmos como el de Shor y la estimación de fases.
+head:
+  - tag: meta
+    attrs:
+      { property: 'og:image', content: /qft-algorithm.png }
+  - tag: meta
+    attrs:
+      { property: 'og:image:alt', content: 'Estructura de la primitiva QFT de forma general (Nielsen y Chuang).' }
 ---
 
 import { Image } from 'astro:assets'

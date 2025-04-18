@@ -1,11 +1,14 @@
 ---
 layout: '@layouts/math.astro'
 title: Algoritmo de Grover
-description: Un análisis profundo sobre el algoritmo de Grover, sus componentes y sus implicaciones en la computación cuántica.
+description: Un análisis profundo sobre el algoritmo de Grover, su funcionamiento, componentes y cómo acelera la búsqueda en conjuntos no estructurados mediante técnicas cuánticas.
 head:
-  - tag: link
+  - tag: meta
     attrs:
-      { property: 'og-image', href: /qudos/deutsch-jozsa-simple.png }
+      { property: 'og:image', content: /grover/grover-algorithm.png }
+  - tag: meta
+    attrs:
+      { property: 'og:image:alt', content: 'Algoritmo de Grover en un circuito cuántico utilizando la amplificación de amplitudes.' }
 ---
 
 import { Image } from 'astro:assets'

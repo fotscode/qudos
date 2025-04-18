@@ -1,7 +1,14 @@
 ---
 layout: '@layouts/math.astro'
 title: Estimación de fase
-description: Primitiva cuántica que permite obtener una estimación de la fase global o autovalor de una operación aplicada a un estado cuántico que es autovector.
+description: Una primitiva cuántica que permite estimar autovalores de operaciones aplicadas a estados cuánticos que son autovectores. Utiliza técnicas como la transformada de Fourier inversa y puertas controladas. Con aplicaciones en algoritmos como el de Shor y HHL.
+head:
+  - tag: meta
+    attrs:
+      { property: 'og:image', content: /phase-estimation.png }
+  - tag: meta
+    attrs:
+      { property: 'og:image:alt', content: 'Estructura de la primitiva estimación de fase de forma general, con cuatro señalizadores indicando las distintas secciones del algoritmo.' }
 ---
 
 import { Image } from 'astro:assets'
