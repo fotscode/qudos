@@ -12,6 +12,7 @@ import Recommendations from '@components/Recommendations.astro'
 import {
   hadamard_quirk_example,
   hadamard_qiskit_example_code,
+  chadamard_quirk_example,
 } from '@code-snippets/hadamard'
 
 La puerta Hadamard lleva su nombre en honor a <a href="https://es.wikipedia.org/wiki/Jacques_Hadamard" target="_blank">Jacques Hadamard</a>. Esta puerta actúa en un solo qubit y permite crear superposiciones.
@@ -89,6 +90,34 @@ Un aspecto a tener en cuenta es que la inversa de la puerta Hadamard es la propi
         <Code code={hadamard_qiskit_example_code} lang='py' />
     </Box>
   </TabItem>
+</Tabs>
+
+## Variante condicional
+
+La variante condicional de Hadamard llamada **CH**, los puntos negros representan que la puerta **H** se activa con $1$, mientras que los puntos blancos o sin relleno implican que la puerta **Z** se activa con $0$. Otro aspecto a tener en cuenta es que la puerta **CH** se aplica tanto en el control como en el objetivo. 
+
+<Tabs>
+  <TabItem label='Quirk'>
+    <Box>
+        <QuantumCircuit src={chadamard_quirk_example} />
+    </Box>
+  </TabItem>
+  <TabItem label='Dirac'>
+    <Box>
+        ```math
+        CH\ket{10}=\ket{1+}\\
+        CH\ket{1+}=\ket{10}\\
+        CH\ket{11}=\ket{1-}\\
+        CH\ket{1-}=\ket{11}\\
+        CH\ket{00}=\ket{00}\\
+        CH\ket{0+}=\ket{0+}\\
+        CH\ket{01}=\ket{01}\\
+        CH\ket{0-}=\ket{0-}\\
+        ```
+    </Box>
+  </TabItem>
+
+
 </Tabs>
 
 ## Más información
