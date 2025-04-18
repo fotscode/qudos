@@ -1,11 +1,14 @@
 ---
 layout: '@layouts/math.astro'
 title: Algoritmo de Grover
-description: Un análisis profundo sobre el algoritmo de Grover, sus componentes y sus implicaciones en la computación cuántica.
+description: Un análisis profundo sobre el algoritmo de Grover, su funcionamiento, componentes y cómo acelera la búsqueda en conjuntos no estructurados mediante técnicas cuánticas.
 head:
-  - tag: link
+  - tag: meta
     attrs:
-      { property: 'og-image', href: /qudos/deutsch-jozsa-simple.png }
+      { property: 'og:image', content: /grover/grover-algorithm.png }
+  - tag: meta
+    attrs:
+      { property: 'og:image:alt', content: 'Algoritmo de Grover en un circuito cuántico utilizando la amplificación de amplitudes.' }
 ---
 
 import { Image } from 'astro:assets'
@@ -47,17 +50,17 @@ has exactly M solutions, with 1 <= M <= N . A particular instance of the search 
 input an integer x, in the range 0 to N − 1. By definition, f (x) = 1 if x is a solution to the search problem, and $f(x) = 0$ if x is not a solution to the search problem.
 
 Suppose we are supplied with a quantum oracle – a black box whose internal workings we discuss later, but which are not important at this stage – with the ability 
-to recognize solutions to the search problem. This recognition is signalled by making use of an oracle qubit. More precisely, the oracle is a unitary operator, O, 
+to recognize solutions to the search problem. This recognition is signalled by making use of an oracle cubit. More precisely, the oracle is a unitary operator, O, 
 defined by its action on the computational basis:
 
 \ket{x}\ket{q} -> \ket{x}\ket{q mod 2 f(x)} 
 
-where \ket{x} is the index register, ⊕ denotes addition modulo 2, and the oracle qubit \ket{q} is
-a single qubit which is flipped if f (x) = 1, and is unchanged otherwise. We can check
+where \ket{x} is the index register, ⊕ denotes addition modulo 2, and the oracle cubit \ket{q} is
+a single cubit which is flipped if f (x) = 1, and is unchanged otherwise. We can check
 whether x is a solution to our search problem by preparing \ket{x}\ket{0}, applying the oracle,
-and checking to see if the oracle qubit has been flipped to \ket{1}.
+and checking to see if the oracle cubit has been flipped to \ket{1}.
 
-In the quantum search algorithm it is useful to apply the oracle with the oracle qubit
+In the quantum search algorithm it is useful to apply the oracle with the oracle cubit
 initially in the state (\ket{0} − \ket{1})/√2
 
 If x is not a solution to the search problem, applying the oracle to the state
@@ -95,7 +98,7 @@ f(x) = 1:
 -1^1\ket{x}\ket{-} = 
 -1^f(x)\ket{x}\ket{-} = 
 
-Notice that the state of the oracle qubit is not changed.
+Notice that the state of the oracle cubit is not changed.
 this remains \ket{-} throughout the quantum search algorithm, and can therefore be omitted
 from further discussion of the algorithm, simplifying our description.
 With this convention, the action of the oracle may be written:
@@ -112,16 +115,16 @@ $M$ soluciones, con $1 \leq M \leq N$. Una instancia del problema de búsqueda p
 del rango que va desde $0$ a $N - 1$. Por definición, $f(x) = 1$ si $x$ es una solución del problema, y $f(x) = 0$ en caso contrario.
 
 Además, se asumirá que se dispone de un oráculo cuántico con la habilidad para reconocer soluciones al problema de búsqueda. Este reconocimiento será reflejado 
-mediante un qubit destinado al oráculo. Precisamente, el oráculo es un operador unitario $O$, definido por su acción en la base computacional:
+mediante un cubit destinado al oráculo. Precisamente, el oráculo es un operador unitario $O$, definido por su acción en la base computacional:
 
 ```math
 \ket{x}\ket{q} \rightarrow \ket{x}\ket{q\oplus f(x)}
 ```
 
-donde $\ket{x}$ es el registro índice, $\oplus$ denota suma módulo 2, y el qubit del oráculo $\ket{q}$ es un solo qubit que cambia su valor únicamente si $f(x) = 1$.
-Puede verificarse si $x$ es una solución al problema preparando $\ket{x}\ket{0}$ para luego aplicar el oráculo y verificar si el qubit del mismo cambió su valor a $\ket{1}$.
+donde $\ket{x}$ es el registro índice, $\oplus$ denota suma módulo 2, y el cubit del oráculo $\ket{q}$ es un solo cubit que cambia su valor únicamente si $f(x) = 1$.
+Puede verificarse si $x$ es una solución al problema preparando $\ket{x}\ket{0}$ para luego aplicar el oráculo y verificar si el cubit del mismo cambió su valor a $\ket{1}$.
 
-Particularmente, en el algoritmo de búsqueda cuántico es útil aplicar el oráculo con su qubit inicializado en el estado $\frac{\ket{0} - \ket{1}}{\sqrt 2}$ 
+Particularmente, en el algoritmo de búsqueda cuántico es útil aplicar el oráculo con su cubit inicializado en el estado $\frac{\ket{0} - \ket{1}}{\sqrt 2}$ 
 (también conocido como $\ket{-}$).
 Si $x$ no es una solución al problema, aplicar el oráculo sobre $\ket{x}\ket{-}$ no cambiará el estado. En cambio, si $x$ es en efecto una solución, entonces $\ket{0}$ y 
 $\ket{1}$ serán intercambiados por acción del oráculo, produciendo el estado resultante $-\ket{x}\ket{-}$. En resumen, la acción del oráculo es:
@@ -130,7 +133,7 @@ $\ket{1}$ serán intercambiados por acción del oráculo, produciendo el estado 
 \ket{x}\ket{-} \rightarrow -1^{f(x)}\ket{x}\ket{-}
 ```
 
-Notar que el estado del qubit del oráculo no cambia, sino que se mantiene en $\ket{-}$ durante toda la ejecución del algoritmo, y por lo tanto puede ser 
+Notar que el estado del cubit del oráculo no cambia, sino que se mantiene en $\ket{-}$ durante toda la ejecución del algoritmo, y por lo tanto puede ser 
 omitido más adelante para lograr una mayor simplicidad. Con esta convención, la acción del oráculo puede escribirse como:
 
 ```math
@@ -173,7 +176,7 @@ Thus the Grover iteration G may be written G = (2\ket{u}\bra{u} - I)O
 */}
 
 En este apartado se desarrollará acerca del procedimiento realizado por el algoritmo de Grover. Para facilitar la comprensión, se denominará ``$Q$'' al registro 
-asociado a los $n$ qubits que codifican la información de la base de búsqueda, excluyendo así a los qubits adicionales que serán utilizados para la ejecución 
+asociado a los $n$ cubits que codifican la información de la base de búsqueda, excluyendo así a los cubits adicionales que serán utilizados para la ejecución 
 del oráculo.
 
 El algoritmo comienza en el estado $\ket{0}^{\otimes n}$. Luego, se aplica la transformación de Hadamard para alcanzar un estado de superposición uniforme

@@ -1,6 +1,7 @@
 ---
 layout: '@layouts/math.astro'
 title: 'Pruebas Matemáticas de Shor'
+description: Pruebas matemáticas relacionadas con el algoritmo de Shor, incluyendo definiciones de autovalores y autovectores.
 ---
 
 import { Image } from 'astro:assets'
@@ -80,7 +81,7 @@ Finalmente, como solo toma el valor cuando $k=0$:
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/shor-pe-steps.png`}
-    alt='Estructura de la primitiva EF aplicada al algoritmo de Shor, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las puertas siguen un patron escalonado del qubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como qubit de control.'
+    alt='Estructura de la primitiva EF aplicada al algoritmo de Shor, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las puertas siguen un patron escalonado del cubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como cubit de control.'
     width='1510'
     height='708'
   />

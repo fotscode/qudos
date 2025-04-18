@@ -1,7 +1,14 @@
 ---
 layout: '@layouts/math.astro'
 title: Teleportación cuántica
-description: Descripción del proceso de transmisión de información cuántica mediante un canal clásico.
+description: Un protocolo cuántico que permite transmitir el estado de un cubit utilizando un par entrelazado y dos bits clásicos.
+head:
+  - tag: meta
+    attrs:
+      { property: 'og:image', content: /teleportation_components.png }
+  - tag: meta
+    attrs:
+      { property: 'og:image:alt', content: 'Protocolo de teleportación cuántico, indicando los componentes funcionales del circuito.' }
 ---
 
 import { Image } from 'astro:assets'
@@ -17,22 +24,22 @@ import {
   hth_example_code,
 } from '@code-snippets/teleportation'
 
-Es un protocolo de comunicación donde un transmisor (Alice) envía un qubit a un receptor (Bob), utilizando un estado cuántico entrelazado compartido junto a dos bits clásicos para realizar la comunicación.
+Es un protocolo de comunicación donde un transmisor (Alice) envía un cubit a un receptor (Bob), utilizando un estado cuántico entrelazado compartido junto a dos bits clásicos para realizar la comunicación.
 
-Se asume que tanto el transmisor como el receptor comparten un qubit entrelazado, es decir que: el transmisor tiene un qubit **A**, el receptor tiene un qubit **B**, y juntos el par **(A,B)** está en el estado $\ket{\psi^+}$.
+Se asume que tanto el transmisor como el receptor comparten un cubit entrelazado, es decir que: el transmisor tiene un cubit **A**, el receptor tiene un cubit **B**, y juntos el par **(A,B)** está en el estado $\ket{\psi^+}$.
 
-Ademas el transmisor posee un qubit **Q** que es el que desea enviar al receptor, el estado de este qubit es desconocido tanto por el transmisor como el receptor. Esta transmisión implica una destrucción de información del qubit **Q** y del qubit **A**, ya que en ambos casos se miden sus estados, para luego reconstruirlo en el qubit **B** utilizando la información dada por las lecturas de **Q** y **A**.
+Ademas el transmisor posee un cubit **Q** que es el que desea enviar al receptor, el estado de este cubit es desconocido tanto por el transmisor como el receptor. Esta transmisión implica una destrucción de información del cubit **Q** y del cubit **A**, ya que en ambos casos se miden sus estados, para luego reconstruirlo en el cubit **B** utilizando la información dada por las lecturas de **Q** y **A**.
 
 <Aside>
   La teleportación es de información cuántica y no de materia (como en las
   películas). A su vez, no es más rápida que la velocidad de la luz ya que se
   utilizan dos bits clásicos (estos se transmiten en menor velocidad que la luz)
-  para reconstruir el qubit **Q**.
+  para reconstruir el cubit **Q**.
 </Aside>
 
 ## Protocolo
 
-Se presenta una implementación general del protocolo de teleportación cuántica, este contiene puertas <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a>, <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a>, <a href={`${import.meta.env.BASE_URL}/gates/z-axis`}>Pauli-Z</a> y una puerta genérica "**U**" que pretende encapsular el estado del qubit **Q** a transmitir. La puerta **U$^{\dag}$** es la conjugada transpuesta de **U**, tal que **UU$^{\dag}=I$**.
+Se presenta una implementación general del protocolo de teleportación cuántica, este contiene puertas <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a>, <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a>, <a href={`${import.meta.env.BASE_URL}/gates/z-axis`}>Pauli-Z</a> y una puerta genérica "**U**" que pretende encapsular el estado del cubit **Q** a transmitir. La puerta **U$^{\dag}$** es la conjugada transpuesta de **U**, tal que **UU$^{\dag}=I$**.
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -51,17 +58,17 @@ Dentro de los componentes, se enumeran $5$ pasos o étapas del protocolo, enumer
 
 El primer componente $c_1$ es la **creación de un par entrelazado**, como fue mencionado previamente, conformando el estado $\ket{\psi^+}$, que es uno de los estados de Bell.
 
-Luego el segundo componente $c_2$ es la **preparación del mensaje**. En esta etapa, utilizando la puerta genérica **U**, se pretende encapsular puertas e interacciones con otros qubits.
+Luego el segundo componente $c_2$ es la **preparación del mensaje**. En esta etapa, utilizando la puerta genérica **U**, se pretende encapsular puertas e interacciones con otros cubits.
 
 Le sigue el tercer componente $c_3$ que es el **envío del mensaje**, que consta de 3 pasos:
 
-- Se entrelaza el qubit que se desea transmitir con la mitad del par entrelazado del transmisor (primer linea con segunda) utilizando la puerta CNOT. Esto causa que el qubit a transmitir se entrelace de forma _indirecta_ con el qubit del receptor (primer linea con tercer linea).
+- Se entrelaza el cubit que se desea transmitir con la mitad del par entrelazado del transmisor (primer linea con segunda) utilizando la puerta CNOT. Esto causa que el cubit a transmitir se entrelace de forma _indirecta_ con el cubit del receptor (primer linea con tercer linea).
 - Aplicar una Hadamard para no perder información de magnitud y fase al aplicar las lecturas.
 - Finalmente, se realizan las lecturas obteniendo información clásica, los resultados van a ser interpretados por el siguiente componente.
 
-El cuarto componente $c_4$ finaliza la teleportación, **recibiendo el mensaje**. El recibir el mensaje implica realizar cambios al qubit recibido según las lecturas, dando cuatro combinaciones posibles:
+El cuarto componente $c_4$ finaliza la teleportación, **recibiendo el mensaje**. El recibir el mensaje implica realizar cambios al cubit recibido según las lecturas, dando cuatro combinaciones posibles:
 
-- En caso de que se lea un $0$ en la primera linea y un $0$ en la segunda linea no es necesario realizar ningún cambio al qubit recibido.
+- En caso de que se lea un $0$ en la primera linea y un $0$ en la segunda linea no es necesario realizar ningún cambio al cubit recibido.
 - Si se lee un $0$ en la primera en la primer linea y un $1$ en la segunda, para que quede igual que el original es necesario invertir las amplitudes (aplicar una CNOT).
 - Por otro lado si lee un $1$ en la primera en la primer linea y un $0$ en la segunda, para que quede igual que el original es necesario aumentar la fase en $180^\circ$ (aplicar una CZ).
 - Por último si se lee un $1$ en la primera en la primer linea y un $1$ en la segunda, para que quede igual es necesario invertir las amplitudes e aumentar la fase en $180^\circ$.
@@ -103,7 +110,7 @@ Se reemplazará la puerta genérica **U** con un ejemplo de puerta que represent
   </span>
 </div>
 
-La puerta aplicada sobre un qubit inicializado en $\ket{0}$ se puede representar de la siguiente manera:
+La puerta aplicada sobre un cubit inicializado en $\ket{0}$ se puede representar de la siguiente manera:
 
 <div style="display: flex; justify-content:center; align-items:center; flex-direction:row; margin-bottom:30px">
 <Circle width={"80"} phase={"0"} prob={1} label={"\\ket{0}"}/>
@@ -130,7 +137,7 @@ $$\overset{H}{\rightarrow}$$
 <Tabs>
   <TabItem label="Círculos">
         <Box>
-            Analizaremos paso a paso el estado de los qubits segun los separadores provistos en el circuito, donde \\(\phi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=1\\) y finalizando con \\(i=10\\).
+            Analizaremos paso a paso el estado de los cubits segun los separadores provistos en el circuito, donde \\(\phi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=1\\) y finalizando con \\(i=10\\).
             <div style="margin-top:10px">
                 <ResourceDivider icon="pencil" text="\(\phi_0\)" />
             </div>
@@ -153,7 +160,7 @@ $$\overset{H}{\rightarrow}$$
             
             <ResourceDivider icon='pencil' text='\(\phi_1\)' />
             <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-              Luego de aplicar una Hadamard al segundo qubit, se obtiene una superposición
+              Luego de aplicar una Hadamard al segundo cubit, se obtiene una superposición
               entre $\ket{000}$ y $\ket{010}$.
               <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
                 <Circle width={'80'} phase={'0'} prob={0.5} label={'\\ket{000}'} />
@@ -171,7 +178,7 @@ $$\overset{H}{\rightarrow}$$
             
             <ResourceDivider icon="pencil" text="\(\phi_2\)" />
             <div style="display: flex; flex-direction:column; align-items:center; margin-bottom:60px">
-                Con el paso $\phi_2$ se finaliza la componente $c_1$ creando un par entrelazado ($\psi^+=\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})$) entre el segundo y tercer qubit.
+                Con el paso $\phi_2$ se finaliza la componente $c_1$ creando un par entrelazado ($\psi^+=\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})$) entre el segundo y tercer cubit.
                 <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
                 <Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{000}"}/>
                 <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{001}"}/>
@@ -207,9 +214,9 @@ $$\overset{H}{\rightarrow}$$
             <ResourceDivider icon='pencil' text='\(\phi_4\)' />
             <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
               En este paso se prepara el envío del mensaje (componente $c_3$), aplicando una
-              CNOT, teniendo como control el primer qubit y como objetivo el segundo qubit.
-              El resultado de esto es el entrelazamiento del primer qubit con el segundo
-              qubit y se crea, de forma indirecta, un entrelazamiento entre el primer qubit
+              CNOT, teniendo como control el primer cubit y como objetivo el segundo cubit.
+              El resultado de esto es el entrelazamiento del primer cubit con el segundo
+              cubit y se crea, de forma indirecta, un entrelazamiento entre el primer cubit
               y el tercero (ya que estos dos estaban previamente entrelazados).
               <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
                 <Circle width={'80'} phase={22.5} prob={0.42677} label={'\\ket{000}'} />
@@ -227,7 +234,7 @@ $$\overset{H}{\rightarrow}$$
             
             <ResourceDivider icon='pencil' text='\(\phi_5\)' />
             <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-              Seguido al anterior, se aplica una Hadamard al primer qubit, dejandolo
+              Seguido al anterior, se aplica una Hadamard al primer cubit, dejandolo
               superpuesto para no perder información de magnitud y fase en el siguiente
               paso.
               <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
@@ -246,9 +253,9 @@ $$\overset{H}{\rightarrow}$$
             
             <ResourceDivider icon='pencil' text='\(\phi_6\)' />
             <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-              Este paso es crucial ya que realiza el envío (finaliza el componente $c_3$) y define como interpretar el mensaje al receptor. Las lecturas causan una perdida de los primeros dos qubits, estas son necesarias ya que no se pueden copiar los estados cuánticos.
+              Este paso es crucial ya que realiza el envío (finaliza el componente $c_3$) y define como interpretar el mensaje al receptor. Las lecturas causan una perdida de los primeros dos cubits, estas son necesarias ya que no se pueden copiar los estados cuánticos.
             
-            Digamos que el primer qubit, al leerlo, colapsa en un $1$ (convirtiendose en un bit clásico), y supongamos que el segundo qubit al leerlo también colapsa en $1$, obteniendo el siguiente estado cuántico.
+            Digamos que el primer cubit, al leerlo, colapsa en un $1$ (convirtiendose en un bit clásico), y supongamos que el segundo cubit al leerlo también colapsa en $1$, obteniendo el siguiente estado cuántico.
             
             {' '}
             
@@ -266,7 +273,7 @@ $$\overset{H}{\rightarrow}$$
             </div>
             
               <Aside>
-              Es interesante denotar que las lecturas posibles $(00, 01, 10, 11)$ corresponden con las columnas de la notación de círculos, por ejemplo si se hubiese leido un $1$ en el primer qubit y un $0$ en el segundo se hubiese obtenido la tercer columna (finalizando con $10$).
+              Es interesante denotar que las lecturas posibles $(00, 01, 10, 11)$ corresponden con las columnas de la notación de círculos, por ejemplo si se hubiese leido un $1$ en el primer cubit y un $0$ en el segundo se hubiese obtenido la tercer columna (finalizando con $10$).
               </Aside>
             </div>
             
@@ -274,7 +281,7 @@ $$\overset{H}{\rightarrow}$$
             <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
               Tanto $\phi_7$ como $\phi_8$ cumplen el rol de interpretar el mensaje recibido y realizarle las transformaciones necesarias para obtener el estado original, cumplen la función del componente $c_4$.
             
-            Dadas las lecturas definidas previamente, como el segundo qubit colapsó en $1$ se aplica una Pauli-X al tercer qubit (CNOT), intercambiando las magnitudes.
+            Dadas las lecturas definidas previamente, como el segundo cubit colapsó en $1$ se aplica una Pauli-X al tercer cubit (CNOT), intercambiando las magnitudes.
             
               <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
                 <Circle width={'80'} phase={0} prob={0} label={'\\ket{000}'} />
@@ -292,7 +299,7 @@ $$\overset{H}{\rightarrow}$$
             
             <ResourceDivider icon='pencil' text='\(\phi_8\)' />
             <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-              De la misma manera que el paso anterior, como el primer qubit colapsó en $1$ se aplica una puerta Pauli-Z al tercer qubit (CZ), rotando su fase relativa en $180^{\circ}$, finalizando el componente $c_4$.
+              De la misma manera que el paso anterior, como el primer cubit colapsó en $1$ se aplica una puerta Pauli-Z al tercer cubit (CZ), rotando su fase relativa en $180^{\circ}$, finalizando el componente $c_4$.
               <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
                 <Circle width={'80'} phase={0} prob={0} label={'\\ket{000}'} />
                 <Circle width={'80'} phase={0} prob={0} label={'\\ket{001}'} />

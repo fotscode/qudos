@@ -38,20 +38,8 @@ export default defineConfig({
                     label: 'Conceptos clave',
                     items: [
                         {
-                            label: 'Codificación superdensa', 
-                            slug: 'concepts/superdense-coding' 
-                        },
-                        {
-                            label: 'El Qubit',
+                            label: 'El Cubit',
                             slug: 'concepts/qubit',
-                        },
-                        {
-                            label:'Teleportación cuántica',
-                            slug:'concepts/teleportation'
-                        },
-                        {
-                            label:'Teorema de no clonación',
-                            slug:'concepts/no-cloning-theorem'
                         },
                         {
                             label:'Retroceso de fase',
@@ -61,14 +49,9 @@ export default defineConfig({
                             label: 'Oráculos',
                             slug: 'concepts/oracles',
                         },
-                        {   label: 'Amplificación de amplitudes', 
-                            slug: 'concepts/amplitude-amplification' 
-                        },
-                        {   label: 'Transformada de Fourier',
-                            slug: 'concepts/fourier-transform' 
-                        },
-                        {   label: 'Estimación de fase',
-                            slug: 'concepts/phase-estimation' 
+                        {
+                            label:'Teorema de no clonación',
+                            slug:'concepts/no-cloning-theorem'
                         },
                         {
                             label:'Descomputación',
@@ -106,6 +89,31 @@ export default defineConfig({
                     ],
                     translations: {
                         en: 'Gates',
+                    },
+                },
+                {
+                    label: 'Primitivas',
+                    items: [
+                        {
+                            label: 'Codificación superdensa', 
+                            slug: 'primitives/superdense-coding' 
+                        },
+                        {
+                            label:'Teleportación cuántica',
+                            slug:'primitives/teleportation'
+                        },
+                        {   label: 'Amplificación de amplitudes', 
+                            slug: 'primitives/amplitude-amplification' 
+                        },
+                        {   label: 'Transformada de Fourier',
+                            slug: 'primitives/fourier-transform' 
+                        },
+                        {   label: 'Estimación de fase',
+                            slug: 'primitives/phase-estimation' 
+                        },
+                    ],
+                    translations: {
+                        en: 'Primitives',
                     },
                 },
                 {

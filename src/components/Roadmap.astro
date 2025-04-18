@@ -7,9 +7,9 @@ import BibItem from '@components/BibItem.astro'
 <script>
         const dialogs = [
             'dialog-math',
-            'dialog-qubit',
+            'dialog-cubit',
             'dialog-gates',
-            'dialog-multiple-qubits',
+            'dialog-multiple-cubits',
             'dialog-key-concepts',
             'dialog-first-algorithm',
             'dialog-unstructured-search',
@@ -91,7 +91,7 @@ a {
 <p>Por otra parte dividimos el camino en tres etapas, remarcadas con un color violeta y un número indicando su progresión, estas son:</p>
 <ul>
     <li><strong>Principiante:</strong> En esta etapa se establece la base matemática necesaria para comprender los fundamentos de la mecánica cuántica. Se abordan los conceptos esenciales del funcionamiento de los sistemas cuánticos y las operaciones básicas, incluyendo la aplicación de puertas cuánticas.</li>
-    <li><strong>Competente:</strong> Aquí se introducen elementos más avanzados, tales como los sistemas de múltiples qubits. Se profundiza en los conceptos clave de la computación cuántica y se presentan los primeros algoritmos, como los de Deutsch y Deutsch-Jozsa.</li>
+    <li><strong>Competente:</strong> Aquí se introducen elementos más avanzados, tales como los sistemas de múltiples cubits. Se profundiza en los conceptos clave de la computación cuántica y se presentan los primeros algoritmos, como los de Deutsch y Deutsch-Jozsa.</li>
     <li><strong>Proficiente:</strong> Esta última etapa se centra en la comprensión de subrutinas cuánticas y en el estudio de algoritmos más complejos y potentes, como los desarrollados por Grover y Shor.</li>
 </ul>
 
@@ -138,7 +138,7 @@ a {
     </main>
 </Dialog>
 
-<Dialog id="dialog-qubit" title="El Cubit" open="Aprender más" hideBtn={true}>
+<Dialog id="dialog-cubit" title="El Cubit" open="Aprender más" hideBtn={true}>
   <main slot="main">
     <p>El cubit (bit cuántico) es la unidad básica de información en la computación cuántica, a diferencia del bit clásico que puede tener un valor de 0 o 1, el cubit puede estar en una combinación lineal del estado o <strong>superposición</strong>.</p>
     
@@ -155,13 +155,13 @@ a {
     <p>Cuando se mide un cubit, este deja de estar en superposición y <strong>colapsa</strong> a uno de los dos posibles estados clásicos: 0 o 1. La probabilidad de obtener uno u otro está determinado por las <strong>magnitudes al cuadrado</strong> de sus amplitudes complejas. Para que estas probabilidades tengan sentido, deben sumar 1, lo cual implica que el estado debe estar <strong>normalizado</strong>. Esta condición garantiza que el cubit se encuentre siempre en un estado válido.</p>
     <section>
       <ResourceDivider text="Recursos gratuitos" icon="rocket" margin={"50px 0 30px 0"}/>
-      <BibItem id="qubitWiki" rate="r" />
+      <BibItem id="cubitWiki" rate="r" />
       <BibItem id="wong" rate="r" prefix="Capítulo 2, "/>
-      <BibItem id="qubitSoar" rate="a" />
+      <BibItem id="cubitSoar" rate="a" />
       <BibItem id="phaseSoar" rate="a" />
       <BibItem id="notationSoar" rate="a" />
       <BibItem id="blochSoar" rate="a" />
-      <BibItem id="qubitQiskit" rate="o" />
+      <BibItem id="cubitQiskit" rate="o" />
     </section>
     <section>
       <ResourceDivider text="Recursos pagos" icon="open-book"/>
@@ -216,7 +216,7 @@ a {
   </main>
 </Dialog>
 
-<Dialog id="dialog-multiple-qubits" title="Múltiples Cubits" open="Aprender más" hideBtn={true}>
+<Dialog id="dialog-multiple-cubits" title="Múltiples Cubits" open="Aprender más" hideBtn={true}>
   <main slot="main">
 
     <p>Cuando trabajamos con más de un cubit, entramos en el terreno de los <strong>sistemas compuestos</strong>, donde el espacio de estados crece exponencialmente y aparecen fenómenos nuevos como el <strong>entrelazamiento</strong>. Estos sistemas se representan mediante el <strong>producto tensorial</strong> de los estados individuales.</p>
@@ -236,15 +236,15 @@ a {
     <p>En sistemas compuestos, es posible medir <strong>cubits individuales</strong>. Al hacerlo, el estado del sistema colapsa parcialmente, afectando las probabilidades y estados del resto del sistema según la mecánica cuántica. Luego de realizar la medición, si el cubit estaba en superposición, es necesario normalizar las amplitudes para que se encuentre en un estado válido.
     <section>
       <ResourceDivider text="Recursos gratuitos" icon="rocket" margin={"50px 0 30px 0"}/>
-      <BibItem id="multipleQubitsWiki" rate="r" />
+      <BibItem id="multipleCubitsWiki" rate="r" />
       <BibItem id="cnotWiki" rate="r" />
       <BibItem id="swapWiki" rate="r" />
       <BibItem id="wong" rate="r" prefix="Capítulo 4, "/>
-      <BibItem id="multipleQubitsSoar" rate="a" />
+      <BibItem id="multipleCubitsSoar" rate="a" />
       <BibItem id="circuitsSoar" rate="a" />
-      <BibItem id="multiQubitGatesSoar" rate="a" />
+      <BibItem id="multiCubitGatesSoar" rate="a" />
       <BibItem id="measureSoar" rate="a" />
-      <BibItem id="multipleQubitsQiskit" rate="o" />
+      <BibItem id="multipleCubitsQiskit" rate="o" />
       <BibItem id="circuitsQiskit" rate="o" />
     </section>
     <section>
@@ -661,7 +661,7 @@ a {
             dominant-baseline="alphabetic"> El Cubit</text>
     </g>
     <g stroke-linecap="round"
-        id="dialog-qubit-container"
+        id="dialog-cubit-container"
         transform="translate(454.56366525116755 181.83015396116753) rotate(0 50 18.5)">
         <path
             d="M9.25 0 C28.87 0, 48.5 0, 90.75 0 C96.92 0, 100 3.08, 100 9.25 C100 13.15, 100 17.06, 100 27.75 C100 33.92, 96.92 37, 90.75 37 C72.82 37, 54.9 37, 9.25 37 C3.08 37, 0 33.92, 0 27.75 C0 21.88, 0 16.02, 0 9.25 C0 3.08, 3.08 0, 9.25 0"
@@ -670,7 +670,7 @@ a {
             d="M9.25 0 C26.98 0, 44.7 0, 90.75 0 M9.25 0 C40.89 0, 72.53 0, 90.75 0 M90.75 0 C96.92 0, 100 3.08, 100 9.25 M90.75 0 C96.92 0, 100 3.08, 100 9.25 M100 9.25 C100 15.34, 100 21.43, 100 27.75 M100 9.25 C100 15.08, 100 20.91, 100 27.75 M100 27.75 C100 33.92, 96.92 37, 90.75 37 M100 27.75 C100 33.92, 96.92 37, 90.75 37 M90.75 37 C72.97 37, 55.18 37, 9.25 37 M90.75 37 C58.51 37, 26.27 37, 9.25 37 M9.25 37 C3.08 37, 0 33.92, 0 27.75 M9.25 37 C3.08 37, 0 33.92, 0 27.75 M0 27.75 C0 23.14, 0 18.54, 0 9.25 M0 27.75 C0 22.16, 0 16.57, 0 9.25 M0 9.25 C0 3.08, 3.08 0, 9.25 0 M0 9.25 C0 3.08, 3.08 0, 9.25 0"
             stroke="#1e1e1e" stroke-width="1" fill="none"></path>
     </g>
-    <g transform="translate(467.853696684273 186.83015396116753) rotate(0 36.70996856689453 13.5)" id="dialog-qubit-text">
+    <g transform="translate(467.853696684273 186.83015396116753) rotate(0 36.70996856689453 13.5)" id="dialog-cubit-text">
         <text x="36.70996856689453" y="20.08" font-family="Nunito, Segoe UI Emoji" font-size="20px"
             fill="#1e1e1e" text-anchor="middle" style="white-space: pre;" direction="ltr"
             dominant-baseline="alphabetic">Ver más</text>
@@ -1198,7 +1198,7 @@ a {
     </g>
     <mask></mask>
     <g stroke-linecap="round"
-        transform="translate(161.31370198053082 601.2398219110073) rotate(0 50 18.5)" id='dialog-multiple-qubits-container'>
+        transform="translate(161.31370198053082 601.2398219110073) rotate(0 50 18.5)" id='dialog-multiple-cubits-container'>
         <path
             d="M9.25 0 C30.78 0, 52.31 0, 90.75 0 C96.92 0, 100 3.08, 100 9.25 C100 16.29, 100 23.33, 100 27.75 C100 33.92, 96.92 37, 90.75 37 C70.71 37, 50.68 37, 9.25 37 C3.08 37, 0 33.92, 0 27.75 C0 23.28, 0 18.8, 0 9.25 C0 3.08, 3.08 0, 9.25 0"
             stroke="none" stroke-width="0" fill="#a5d8ff"></path>
@@ -1206,7 +1206,7 @@ a {
             d="M9.25 0 C34.24 0, 59.23 0, 90.75 0 M9.25 0 C31.35 0, 53.45 0, 90.75 0 M90.75 0 C96.92 0, 100 3.08, 100 9.25 M90.75 0 C96.92 0, 100 3.08, 100 9.25 M100 9.25 C100 13.33, 100 17.41, 100 27.75 M100 9.25 C100 13.28, 100 17.3, 100 27.75 M100 27.75 C100 33.92, 96.92 37, 90.75 37 M100 27.75 C100 33.92, 96.92 37, 90.75 37 M90.75 37 C68.86 37, 46.97 37, 9.25 37 M90.75 37 C72.36 37, 53.97 37, 9.25 37 M9.25 37 C3.08 37, 0 33.92, 0 27.75 M9.25 37 C3.08 37, 0 33.92, 0 27.75 M0 27.75 C0 20.97, 0 14.19, 0 9.25 M0 27.75 C0 23.01, 0 18.26, 0 9.25 M0 9.25 C0 3.08, 3.08 0, 9.25 0 M0 9.25 C0 3.08, 3.08 0, 9.25 0"
             stroke="#1e1e1e" stroke-width="1" fill="none"></path>
     </g>
-    <g transform="translate(174.6037334136363 606.2398219110073) rotate(0 36.70996856689453 13.5)" id='dialog-multiple-qubits-text'>
+    <g transform="translate(174.6037334136363 606.2398219110073) rotate(0 36.70996856689453 13.5)" id='dialog-multiple-cubits-text'>
         <text x="36.70996856689453" y="20.08" font-family="Nunito, Segoe UI Emoji" font-size="20px"
             fill="#1e1e1e" text-anchor="middle" style="white-space: pre;" direction="ltr"
             dominant-baseline="alphabetic">Ver más</text>

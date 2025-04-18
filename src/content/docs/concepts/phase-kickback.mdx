@@ -1,7 +1,7 @@
 ---
 layout: '@layouts/math.astro'
 title: Retroceso de fase
-description: Explicación del retroceso de fase
+description: Explicación del fenómeno de retroceso de fase, su importancia en algoritmos cuánticos y ejemplos prácticos.
 ---
 
 import { Image } from 'astro:assets'
@@ -11,26 +11,26 @@ El retroceso de fase (phase kickback en inglés) es un fenómeno de vital import
 una gran cantidad de algoritmos, tales como el algoritmo de Deutsch, la estimación de fase, la iteración de Grover, entre otros. 
 
 Este fenómeno consiste en el traslado del resultado de una función a la fase de un estado cuántico para que pueda ser manipulado mediante interferencias y alcanzar 
-un resultado determinado. Dicho proceso ocurre cuando el eigenvalue agregado por una puerta cuántica a un qubit es desplazado hacia un qubit 
+un resultado determinado. Dicho proceso ocurre cuando el eigenvalue agregado por una puerta cuántica a un cubit es desplazado hacia un cubit 
 diferente utilizando una operación de control. 
 
-La idea del retroceso de fase es muy útil, ya que puede utilizarse para aplicar rotaciones de fase sobre valores específicos en un registro de qubits.
-Esto puede realizarse aplicando una rotación de fase en algún otro registro condicionado por qubits que pertenecen al registro que nos interesa. Es posible 
-elegir dichos qubits para seleccionar específicamente los valores que se quieren rotar. 
+La idea del retroceso de fase es muy útil, ya que puede utilizarse para aplicar rotaciones de fase sobre valores específicos en un registro de cubits.
+Esto puede realizarse aplicando una rotación de fase en algún otro registro condicionado por cubits que pertenecen al registro que nos interesa. Es posible 
+elegir dichos cubits para seleccionar específicamente los valores que se quieren rotar. 
 
 ## Oráculo de fase 
 
 En este apartado se presentará el oráculo de fase, cuyo mecanismo sirve de ejemplo para visualizar los efectos del retroceso de fase. 
 Dicho oráculo mantiene la estructura descrita en el artículo <a href={`${import.meta.env.BASE_URL}/concepts/oracles`}>Oráculos</a>, y 
-existe una manera de utilizarlo que causa que el qubit de respuesta $\ket{y}$ no cambie mientras se multiplica a $\ket{x}$ por una fase. Esto funciona 
-estableciendo $\ket{y} = \ket{-}$, lo cual puede hacerse inicializando el qubit de respuesta en $\ket{0}$, aplicando $X$ para convertirlo en $\ket{1}$, 
+existe una manera de utilizarlo que causa que el cubit de respuesta $\ket{y}$ no cambie mientras se multiplica a $\ket{x}$ por una fase. Esto funciona 
+estableciendo $\ket{y} = \ket{-}$, lo cual puede hacerse inicializando el cubit de respuesta en $\ket{0}$, aplicando $X$ para convertirlo en $\ket{1}$, 
 y luego aplicando $H$ para llegar a $\ket{-}$. Esto es,
 
 ```math 
 \ket{x}\ket{0} \overset{I \otimes X}{\longrightarrow} \ket{x}\ket{1} \overset{I \otimes H}{\longrightarrow} \ket{x}\ket{-}
 ```
 
-Notar que es posible preparar el qubit de respuesta $\ket{y}$ en el estado $\ket{-}$ porque el estado de un qubit puede ser una superposición de $\ket{0}$
+Notar que es posible preparar el cubit de respuesta $\ket{y}$ en el estado $\ket{-}$ porque el estado de un cubit puede ser una superposición de $\ket{0}$
 y $\ket{1}$; con un bit clásico de respuesta esto sería imposible. Ahora, expandiendo $\ket{x}\ket{-}$ e invocando al oráculo se llega a lo siguiente:
 
 ```math 
@@ -54,16 +54,16 @@ y $\ket{1}$; con un bit clásico de respuesta esto sería imposible. Ahora, expa
 \end{align}
 ```
 
-De lo anterior puede interpretarse que el qubit de respuesta permanece en el estado $\ket{-}$ mientras que el qubit de 
-entrada pasa del estado $\ket{x}$ a $(-1)^{f(x)}\ket{x}$. Esto significa que el qubit de entrada adquiere una fase, por lo cual este fenómeno 
-recibe el nombre de **retroceso de fase**. Normalmente el qubit de respuesta es descartado, ya que permanece en el estado $\ket{-}$, y 
-solamente se escribe el qubit de entrada:
+De lo anterior puede interpretarse que el cubit de respuesta permanece en el estado $\ket{-}$ mientras que el cubit de 
+entrada pasa del estado $\ket{x}$ a $(-1)^{f(x)}\ket{x}$. Esto significa que el cubit de entrada adquiere una fase, por lo cual este fenómeno 
+recibe el nombre de **retroceso de fase**. Normalmente el cubit de respuesta es descartado, ya que permanece en el estado $\ket{-}$, y 
+solamente se escribe el cubit de entrada:
 
 ```math 
 \ket{x} \overset{U_f}{\longrightarrow} (-1)^{f(x)}\ket{x}
 ```
 
-Este oráculo se conoce como **oráculo de fase**, donde el qubit $\ket{x}$ es multiplicado por una fase $(-1)^{f(x)}$.
+Este oráculo se conoce como **oráculo de fase**, donde el cubit $\ket{x}$ es multiplicado por una fase $(-1)^{f(x)}$.
 
 ### Detalles adicionales
 
@@ -105,14 +105,14 @@ con eigenvalue $-1$.
 
 Se presenta otro ejemplo a continuación, utilizando puertas de control $CNOT$. 
 
-Como se vio anteriormente, al aplicar una puerta $X$ sobre un qubit $\ket{-}$, se retorna la fase $-1$ 
+Como se vio anteriormente, al aplicar una puerta $X$ sobre un cubit $\ket{-}$, se retorna la fase $-1$ 
 (ver <a href={`${import.meta.env.BASE_URL}/concepts/phase-kickback#detalles-adicionales`}>Detalles adicionales</a>):
 
 ```math 
 X\ket{-} = -\ket{-}
 ```
 
-Cuando un qubit de control está en $\ket{0}$ o $\ket{1}$, dicha fase afecta al estado completo, sin embargo es una fase global y no tiene efectos observables.
+Cuando un cubit de control está en $\ket{0}$ o $\ket{1}$, dicha fase afecta al estado completo, sin embargo es una fase global y no tiene efectos observables.
 
 ```math 
 \begin{align}
@@ -129,9 +129,9 @@ CNOT\ket{-1} & = X\ket{-} \otimes \ket{1}\\
 \end{align}
 ```
 
-El efecto interesante ocurre cuando el qubit de control se encuentra en un estado de superposición. El componente del qubit de control que se encuentra en 
-la dirección del $\ket{1}$ aplica este factor de fase al qubit objetivo correspondiente. Dicho factor de fase aplicado termina introduciendo una fase relativa 
-en el qubit de control:
+El efecto interesante ocurre cuando el cubit de control se encuentra en un estado de superposición. El componente del cubit de control que se encuentra en 
+la dirección del $\ket{1}$ aplica este factor de fase al cubit objetivo correspondiente. Dicho factor de fase aplicado termina introduciendo una fase relativa 
+en el cubit de control:
 
 ```math 
 \begin{align}
@@ -141,7 +141,7 @@ CNOT\ket{-+} & = \frac{1}{\sqrt{2}}(\ket{-0} - \ket{-1})
 \end{align}
 ```
 
-Lo cual puede escribirse como dos estados de qubits separados:
+Lo cual puede escribirse como dos estados de cubits separados:
 
 ```math 
 \begin{align}
@@ -150,9 +150,9 @@ CNOT\ket{-+} & = \ket{--}
 \end{align}
 ```
 
-En base a lo anterior puede concluirse que involucrar el operador $CNOT$ con puertas Hadamard transforma los qubits de la *base Z* $\{\ket{0}, \ket{1}\}$ a 
+En base a lo anterior puede concluirse que involucrar el operador $CNOT$ con puertas Hadamard transforma los cubits de la *base Z* $\{\ket{0}, \ket{1}\}$ a 
 la *base X* $\{\ket{+}, \ket{-}\}$, donde se percibe dicho efecto. Este procesamiento es muy útil en hardware, ya que algunos dispositivos solamente permiten 
-operaciones $CNOTs$ en una dirección entre dos qubits concretos. Puede aprovecharse el retroceso de fase para superar este problema y permitir $CNOTs$ en ambas direcciones.
+operaciones $CNOTs$ en una dirección entre dos cubits concretos. Puede aprovecharse el retroceso de fase para superar este problema y permitir $CNOTs$ en ambas direcciones.
 
 
 {/* 
@@ -160,14 +160,14 @@ operaciones $CNOTs$ en una dirección entre dos qubits concretos. Puede aprovech
 
 Qiskit:
 
-Kickback is where the eigenvalue added by a gate to a qubit is ‘kicked back’ into a different qubit via a controlled operation. 
-For example, we saw that performing an X-gate on a |-> qubit gives it the phase :
+Kickback is where the eigenvalue added by a gate to a cubit is ‘kicked back’ into a different cubit via a controlled operation. 
+For example, we saw that performing an X-gate on a |-> cubit gives it the phase :
 
 ```math 
 X\ket{-} = -\ket{-}
 ```
 
-When our control qubit is in either or , this phase affects the whole state, however it is a global phase and has no observable effects:
+When our control cubit is in either or , this phase affects the whole state, however it is a global phase and has no observable effects:
 
 ```math 
 \begin{align}
@@ -184,8 +184,8 @@ CNOT\ket{-1} & = X\ket{-} \otimes \ket{1}\\
 \end{align}
 ```
 
-The interesting effect is when our control qubit is in superposition. The component of the control qubit that lies in the direction of applies this phase factor to the 
-corresponding target qubit. This applied phase factor in turn introduces a relative phase into the control qubit:
+The interesting effect is when our control cubit is in superposition. The component of the control cubit that lies in the direction of applies this phase factor to the 
+corresponding target cubit. This applied phase factor in turn introduces a relative phase into the control cubit:
 
 ```math 
 \begin{align}
@@ -195,7 +195,7 @@ CNOT\ket{-+} & = \frac{1}{\sqrt{2}}(\ket{-0} - \ket{-1})\\
 \end{align}
 ```
 
-This can then be written as the two separable qubit states:
+This can then be written as the two separable cubit states:
 
 ```math 
 \begin{align}
@@ -205,8 +205,8 @@ CNOT\ket{-+} & = \frac{1}{\sqrt{2}}(\ket{-0} - \ket{-1})
 \end{align}
 ```
 
-Wrapping the CNOT in H-gates transforms the qubits from the computational basis to the basis $(\ket{+}, \ket{-})$, where we see this effect. 
-This identity is very useful in hardware, since some hardwares only allow for CNOTs in one direction between two specific qubits. 
+Wrapping the CNOT in H-gates transforms the cubits from the computational basis to the basis $(\ket{+}, \ket{-})$, where we see this effect. 
+This identity is very useful in hardware, since some hardwares only allow for CNOTs in one direction between two specific cubits. 
 We can use this identity to overcome this problem and allow CNOTs in both directions.
 
 Classiq: 
@@ -222,45 +222,45 @@ O'Reilly (page 52):
 
 Phase kickback is a very useful idea, as we can use it to apply phase rotations to spe‐
 cific values in a register (register 1 in the preceding example). We can do this by per‐
-forming a phase rotation on some other register conditioned on qubits from the
-register we really care about. We can choose these qubits to specifically pick out the
+forming a phase rotation on some other register conditioned on cubits from the
+register we really care about. We can choose these cubits to specifically pick out the
 values we want to rotate.
 
 For phase kickback to work, we always need to initialize the second
 register in the ∣1⟩ value. Notice that although we are applying two-
-qubit operations between the two registers, we are not creating any
+cubit operations between the two registers, we are not creating any
 entanglement; hence, we can fully represent the state as separate
 registers
 
 Thomas Wong (page 276):
 
 There is a way to
-query the quantum oracle, however, that causes the answer qubit |y⟩ to be unchanged
+query the quantum oracle, however, that causes the answer cubit |y⟩ to be unchanged
 while multiplying |x⟩ by a phase. It works by setting |y⟩ = |−⟩, which can be done by
-initializing the answer qubit to |0⟩, applying X to turn it into |1⟩, and then applying
-H to turn it into |−⟩. That is, writing both the input and answer qubits
+initializing the answer cubit to |0⟩, applying X to turn it into |1⟩, and then applying
+H to turn it into |−⟩. That is, writing both the input and answer cubits
 
 ```math 
 \ket{x}\ket{0} \overset{I \otimes X}{\longrightarrow} \ket{x}\ket{1} \overset{I \otimes H}{\longrightarrow} \ket{x}\ket{-}
 ```
 
-Note it is possible to prepare the answer qubit |y⟩ in the state |−⟩ because the state of
-a qubit can be a superposition of |0⟩ and |1⟩; with a classical answer bit, this would
+Note it is possible to prepare the answer cubit |y⟩ in the state |−⟩ because the state of
+a cubit can be a superposition of |0⟩ and |1⟩; with a classical answer bit, this would
 be impossible. Now, let us expand |x⟩|−⟩ and see what happens when we query the
 oracle:
 
 ...
 
-We can interpret this as the answer qubit staying in the |−⟩ state while the input
-qubit goes from |x⟩ to (−1) f (x)|x⟩. That is, the input qubit acquires a phase. This
-is called phase kickback. Often, we drop the answer qubit, since it stays in the |−⟩
-state, and only write the input qubit:
+We can interpret this as the answer cubit staying in the |−⟩ state while the input
+cubit goes from |x⟩ to (−1) f (x)|x⟩. That is, the input cubit acquires a phase. This
+is called phase kickback. Often, we drop the answer cubit, since it stays in the |−⟩
+state, and only write the input cubit:
 
 ```math 
 \ket{x} \overset{U_f}{\rightarrow} (-1)^{f(x)}\ket{x}
 ```
 
-This is called a phase oracle, where the qubit |x⟩ is multiplied by a phase (−1) f (x).
+This is called a phase oracle, where the cubit |x⟩ is multiplied by a phase (−1) f (x).
 
 
 IBM:
@@ -283,7 +283,7 @@ for every choice of bits a,b∈Σ.a,b∈Σ. Because this formula is true for b=0
 ```math 
 U_f(\ket{\psi}\ket{a}) = (X^{f(a)}\ket{\psi})\ket{a}
 ```
-for all qubit state vectors ∣ψ>, and therefore
+for all cubit state vectors ∣ψ>, and therefore
 
 ```math 
 U_f(\ket{-}\ket{a}) = (X^{f(a)}\ket{-})\ket{a} = (-1)^{f(a)}\ket{-}\ket{a}

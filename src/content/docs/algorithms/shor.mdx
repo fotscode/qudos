@@ -35,7 +35,7 @@ La aplicación más destacada está en la criptografía, ya que amenaza la segur
 
 El objetivo del algoritmo de Shor es encontrar los factores de un número entero compuesto $N$. 
 
-Para lograrlo, utiliza un enfoque híbrido que combina cálculos clásicos con un subrutina cuántica basada en la <a href={`${import.meta.env.BASE_URL}/concepts/phase-estimation`}>estimación de fases</a>.
+Para lograrlo, utiliza un enfoque híbrido que combina cálculos clásicos con un subrutina cuántica basada en la <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fases</a>.
 
 La clave del algoritmo radica en la identificación del período de la función $x^r\ mod\ N$, lo que permite deducir los factores de $N$ de manera eficiente.
 
@@ -91,7 +91,7 @@ Los componentes funcionales de este algoritmo se pueden a reducir a los siguient
 
 3. <Badge text="Clásico" />: Si $N$ no es par ni una potencia de números primos, obtener un número entre $1 < x < N$, tal que $s=gcd(x,N)$. Si $s\neq 1$, entonces $p=s$ y $q=N/s$, finalmente parar.
 
-4. <Badge text="Cuántico" variant="tip" />: Si $s=1$ *(son coprimos)*, obtener $\widetilde{s/r}$ usando la subrutina cuántica de <a href={`${import.meta.env.BASE_URL}/concepts/phase-estimation`}>estimación de fases</a>.
+4. <Badge text="Cuántico" variant="tip" />: Si $s=1$ *(son coprimos)*, obtener $\widetilde{s/r}$ usando la subrutina cuántica de <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fases</a>.
 
 5. <Badge text="Clásico" />: Obtener $r$ de $\widetilde{s/r}$ utilizando el algoritmo de **fracciones continuas**.
 
@@ -130,7 +130,7 @@ La estimación de fases permite obtener el autovalor de un autovector para una o
 - Finalmente, el **tercer** parámetro es $q_{entrada}$, un registro que representa el autovector de $U$ del cual se quiere obtener su autovalor.
 
 
-El primer parámetro es facil de preparar, un registro de qubits con $\ket{0}$. El segundo depende la definición de $U$, la cual definiremos a continuación.
+El primer parámetro es facil de preparar, un registro de cubits con $\ket{0}$. El segundo depende la definición de $U$, la cual definiremos a continuación.
 
 Definiremos $U$ en una forma general de la siguiente manera:
 ```math
@@ -179,7 +179,7 @@ Cumplimos los tres parámetros necesarios para la implementación de estimación
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/shor-pe-steps.png`}
-    alt='Estructura de la primitiva EF aplicada al algoritmo de Shor, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las puertas siguen un patron escalonado del qubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como qubit de control.'
+    alt='Estructura de la primitiva EF aplicada al algoritmo de Shor, con cuatro señalizadores indicando las distintas secciones del algoritmo. Las puertas siguen un patron escalonado del cubit de control, empezando por el ultimo (de arriba hacia abajo) y finalizando con el primero (el de arriba) como cubit de control.'
     width='1510'
     height='708'
   />
@@ -195,7 +195,7 @@ Aplicamos el algoritmo de estimación de fases sobre $\ket{0}\ket{1}$, como el a
 EF\ket{0}\ket{1}&=\ket{\widetilde{s/r}}\ket{1}
 \end{align}
 ```
-Obtenemos finalmente el valor de $\widetilde{s/r}$ luego de aplicar una lectura en $q_{salida}$, este valor es estimado al nivel de precisión dependiente de la cantidad de qubits provistos.
+Obtenemos finalmente el valor de $\widetilde{s/r}$ luego de aplicar una lectura en $q_{salida}$, este valor es estimado al nivel de precisión dependiente de la cantidad de cubits provistos.
 
 ### Obtención del órden y los factores de N
 
@@ -308,9 +308,9 @@ Por otra parte en el ejemplo de *Qiskit*, se resuelve el problema completo, con 
 
 A la hora de factorizar números más grandes, nos encontramos con dos problemas.
 
-El primero es el **físico**, al no existir máquinas cuánticas con qubits lógicos suficientes, se **emula** el funcionamiento de estas en computadoras clásicas. Este procedimiento es muy costoso, ya que el crecimiento en operaciones es **exponencial**.
+El primero es el **físico**, al no existir máquinas cuánticas con cubits lógicos suficientes, se **emula** el funcionamiento de estas en computadoras clásicas. Este procedimiento es muy costoso, ya que el crecimiento en operaciones es **exponencial**.
 
-El segundo problema es la implementación de la **exponencialización modular**, en el ejemplo previo se utilizó una puerta que calculaba el módulo con $N=15$ y se repitió de forma exponencial la utilización de esta puerta según el qubit, es decir, una vez en el primer qubit, 2 veces en el segundo qubit, 4 veces en el tercero, etc.
+El segundo problema es la implementación de la **exponencialización modular**, en el ejemplo previo se utilizó una puerta que calculaba el módulo con $N=15$ y se repitió de forma exponencial la utilización de esta puerta según el cubit, es decir, una vez en el primer cubit, 2 veces en el segundo cubit, 4 veces en el tercero, etc.
 
 La aplicación exponencial de las puertas controladas de módulo **deshacen** la ventaja exponencial provista por el algoritmo. Existen **circuitos eficientes**$^{[1][2]}$ que resuelven este problema, pero dado su complejidad y su lentitud al emularlo, se decidió evitar la implementación de un algoritmo general de Shor usando *Qiskit*.
 

@@ -1,7 +1,14 @@
 ---
 layout: '@layouts/math.astro'
 title: Transformada de Fourier cuántica
-description: Primitiva cuántica que permite acceder a patrones ocultos codificados en frecuencias.
+description: Una primitiva cuántica esencial que transforma estados cuánticos de la base computacional a la base de Fourier, revelando patrones de frecuencias ocultos y utilizada en algoritmos como el de Shor y la estimación de fases.
+head:
+  - tag: meta
+    attrs:
+      { property: 'og:image', content: /qft-algorithm.png }
+  - tag: meta
+    attrs:
+      { property: 'og:image:alt', content: 'Estructura de la primitiva QFT de forma general (Nielsen y Chuang).' }
 ---
 
 import { Image } from 'astro:assets'
@@ -24,7 +31,7 @@ import {
 } from '@code-snippets/fourier-transform'
 
 
-La **transformada de Fourier cuántica (QFT)**, es otra primitiva cuántica, que se asemeja al algoritmo clásico (transformada de Fourier discreta o DFT) la cual es utilizada en distintos algoritmo. Por ejemplo el algoritmo de Shor y la primitiva de <a href={`${import.meta.env.BASE_URL}/concepts/phase-estimation`}>estimación de fases</a> que este mismo utiliza.
+La **transformada de Fourier cuántica (QFT)**, es una primitiva cuántica, que se asemeja al algoritmo clásico (transformada de Fourier discreta o DFT) la cual es utilizada en distintos algoritmos. Por ejemplo el algoritmo de Shor y la primitiva de <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fases</a> que este mismo utiliza.
 
 
 ## Objetivo 
@@ -94,7 +101,7 @@ R_i=\begin{bmatrix}
 \end{bmatrix}
 ```
 
-Con esto en condiseración el algoritmo $QFT_n$ sigue una estructura facilmente generalizable, donde $n$ es la cantidad de qubits presentes.
+Con esto en condiseración el algoritmo $QFT_n$ sigue una estructura facilmente generalizable, donde $n$ es la cantidad de cubits presentes.
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -108,7 +115,7 @@ Con esto en condiseración el algoritmo $QFT_n$ sigue una estructura facilmente 
   </span>
 </div>
 
-En este caso se utiliza $j_1, j_2, \ldots, j_n$ para representar los qubits de entrada que conforman el estado cuántico $j$:
+En este caso se utiliza $j_1, j_2, \ldots, j_n$ para representar los cubits de entrada que conforman el estado cuántico $j$:
 ```math
 j=j_1j_2\ldots j_n
 ```

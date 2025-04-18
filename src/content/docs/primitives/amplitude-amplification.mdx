@@ -1,7 +1,14 @@
 ---
 layout: '@layouts/math.astro'
 title: Amplificación de amplitudes
-description: Primitiva cuántica que permite manipular superposiciones para leer de forma confiable
+description: Una primitiva cuántica fundamental que permite amplificar las probabilidades de estados deseados en superposiciones cuánticas, facilitando la extracción de información útil en algoritmos como el de Grover.
+head:
+  - tag: meta
+    attrs:
+      { property: 'og:image', content: /amplitude-amplification-structure.png }
+  - tag: meta
+    attrs:
+      { property: 'og:image:alt', content: 'Estructura de la primitiva de amplificación de amplitudes (AA) con tres secciones distintivas: preparación, selección y reflejo.' }
 ---
 
 import { Image } from 'astro:assets'
@@ -41,11 +48,11 @@ El algoritmo de amplificación de amplitudes se divide en tres partes: la **prep
 
 La etapa de **preparación** denota una precondición del algoritmo, que el estado cuántico se encuentre en un estado de superposición.
 
-Le sigue la etapa de **selección**, en esta se provee un circuito que marque o distinga los estados cuánticos a buscar, esto se hace mediante la modificación de la fase de aquellos qubits que se buscan, este circuito puede ser implementado de diferentes maneras.
+Le sigue la etapa de **selección**, en esta se provee un circuito que marque o distinga los estados cuánticos a buscar, esto se hace mediante la modificación de la fase de aquellos cubits que se buscan, este circuito puede ser implementado de diferentes maneras.
 
 En el ejemplo provisto de la figura 1 se lo implementa con una puerta CZ, marcando el numero 3 ($\ket{0011}$, leyendo de abajo hacia arriba), es decir que solo invertirá la fase cuando el estado cuántico es 3, esto hace parecer que se anula el propósito del algoritmo (buscar), pero solo se utiliza como ejemplo, siendo que en los algoritmos reales se utilizan subrutinas más complejas para invertir las fases. Por ejemplo en ciertos algoritmos esta etapa se implementa utilizando un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>, como es el caso del algoritmo de <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>Grover</a>, siendo distinguidos si cumplen con la función, es decir si $f(x)=1$.
 
-Finaliza con la etapa de **reflejo**, que en ciertas bibliografías se lo llama como el _operador de difusión_ (Grover) o como la _inversión sobre la media_ (Nielsen y Chuang). En esta etapa se **convierten** las diferencias de fases en contrastes de magnitud y se **deselecciona** los qubits marcados en el paso previo.
+Finaliza con la etapa de **reflejo**, que en ciertas bibliografías se lo llama como el _operador de difusión_ (Grover) o como la _inversión sobre la media_ (Nielsen y Chuang). En esta etapa se **convierten** las diferencias de fases en contrastes de magnitud y se **deselecciona** los cubits marcados en el paso previo.
 
 Estas últimas dos etapas se pueden **repetir** un mayor número de veces para obtener un mejor resultado, el número de iteraciones depende de la cantidad de soluciones posibles y del tamaño de la entrada. La fórmula óptima para obtener la cantidad de iteraciones es la siguiente:
 
@@ -53,7 +60,7 @@ Estas últimas dos etapas se pueden **repetir** un mayor número de veces para o
 N_{iteraciones}=\left\lfloor \frac{\pi}{4}\sqrt{\frac{2^n}{s}} \right\rfloor
 ```
 
-Donde $n$ es la cantidad de qubits y $s$ es la cantidad de soluciones posibles.
+Donde $n$ es la cantidad de cubits y $s$ es la cantidad de soluciones posibles.
 
 <Aside>
   Realizar más iteraciones de las necesarias puede resultar contraproducente ya
