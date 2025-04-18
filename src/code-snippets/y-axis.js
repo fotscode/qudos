@@ -18,8 +18,6 @@ export const cy_quirk_example=`https://algassert.com/quirk#circuit=%7B%22cols%22
 export const cy_qiskit_example_code=`
 from qiskit import QuantumCircuit
 from qiskit.circuit.library import CYGate
-import numpy as np
-pi = np.pi
 qc = QuantumCircuit(3)
 qc.cy(0, 1) # condicion en 0, objetivo en 1
 qc.barrier()
