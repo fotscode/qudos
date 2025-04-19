@@ -4,7 +4,9 @@ title: 'Puerta Pauli-Z'
 description: Análisis de la puerta Pauli-Z, su representación matricial, aplicaciones en circuitos cuánticos y variantes como RotZ, S y T.
 ---
 
-Este artículo se centra en un conjunto específico de puertas que actúan sobre el eje Z. Primero se explorará la puerta **Pauli-Z**, luego la puerta **RotZ** que la generaliza y que permite definir las puertas **S** y **T**. Por último, se hace mención a sus **variantes condicionales**.
+Este artículo se centra en un conjunto específico de puertas que actúan sobre el eje Z. 
+
+Primero se explorará la puerta **Pauli-Z**, luego la puerta **RotZ** que la generaliza y que permite definir las puertas **S** y **T**. Por último, se hace mención a sus **variantes condicionales**.
 
 ## Pauli-Z
 
@@ -24,7 +26,7 @@ import {
   cz_qiskit_example_result,
 } from '@code-snippets/z-axis'
 
-La puerta **Pauli-Z** (o simplemente **Z**) nombrada por el físico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a> , al aplicarse, aplica una rotación de $\pi$ radianes (o 180 grados) a traves del eje $z$ de la esfera de Bloch.
+La puerta **Pauli-Z** (o simplemente **Z**) nombrada por el físico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a> , al aplicarse, realiza una rotación de $\pi$ radianes (o 180 grados) a traves del eje $z$ de la esfera de Bloch.
 
 En forma de matriz se ve de la siguiente manera:
 ```math
@@ -118,7 +120,7 @@ Se dice que Pauli-Z aplica una fase relativa de $\pi$ radianes.
 
 ## RotZ, S y T
 
-Es la generalización de la puerta anterior, aplica una rotación en el eje $z$ de la esfera de Bloch pero con la rotación especificada. Imitar el comportamiento de la puerta Pauli-Z implica aplicar una RotZ con $\pi$ radianes de rotación. La puerta **S** por otro lado es con $\pi/2$ radianes de rotación y **T** con $\pi/4$ radianes de rotación.
+Es la generalización de la puerta anterior. Aplica una rotación en el eje $z$ de la esfera de Bloch pero con la rotación especificada. Imitar el comportamiento de la puerta Pauli-Z implica aplicar una RotZ con $\pi$ radianes de rotación. La puerta **S** por otro lado es con $\pi/2$ radianes de rotación y **T** con $\pi/4$ radianes de rotación.
 
 Esta puerta permite abstraerse de ángulos fijos, permitiendo una mayor libertad de aplicación.
 
