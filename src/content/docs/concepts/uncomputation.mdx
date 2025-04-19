@@ -12,6 +12,8 @@ head:
 ---
 
 import { Image } from 'astro:assets'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
 
 {/*
 
@@ -167,6 +169,8 @@ es posible aplicar descomputación sobre los circuitos de forma eficiente, utili
 
 ## Mas información
 
-- Páginas 156-159, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
-- Páginas 100-103, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
-- <a href="https://quantum.country/search">How the quantum search algorithm works [Inglés]</a>
+<Recommendations />
+<BibItem id='groverQC' rate='r' />
+<BibItem id='oreilly' prefix='Capítulo 5, ' rate='a' />
+<BibItem id='wong' prefix='Capítulo 4.5.2, ' rate='o' />
+<BibItem id='nielsen' prefix='Capítulo 3.2.5, ' rate='o' />

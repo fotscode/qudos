@@ -15,6 +15,8 @@ import { Image } from 'astro:assets'
 import { Aside, Tabs, TabItem, Code } from '@astrojs/starlight/components'
 import Box from '@components/Box.astro'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
 import Circle from '@components/CircleNotation.astro'
 import ResourceDivider from '@components/ResourceDivider.astro'
 import {
@@ -403,8 +405,9 @@ effectively allows for the doubling of the classical information-carrying capaci
 
 ## Más información
 
-
-- Sección 2.3, páginas 97-98, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
-- Sección 6.4, páginas 255-257, <a href='https://isbnsearch.org/isbn/9798985593105' target='_blank'>Introduction to Classical and Quantum Computing (Thomas G. Wong) [Inglés]</a>
-- <a href='https://learning.quantum.ibm.com/course/basics-of-quantum-information/entanglement-in-action#superdense-coding' target='_blank'>"Entanglement in action - Superdense coding" (IBM) [Inglés]</a>
-- <a href='https://en.wikipedia.org/wiki/Holevo%27s_theorem' target='_blank'>"Holevo's theorem" (Wikipedia) [Inglés]</a>
+<Recommendations />
+<BibItem id="wong" rate="r" prefix="Capítulo 6.4, " />
+<BibItem id="superdenseSoar" rate="r" />
+<BibItem id="entanglementQiskit" rate="a" />
+<BibItem id="nielsen" rate="o" prefix="Capítulo 2.3, " />
+<BibItem id="holevoNotes" rate="o" />

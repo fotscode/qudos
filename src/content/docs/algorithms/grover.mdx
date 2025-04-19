@@ -14,6 +14,8 @@ head:
 import { Image } from 'astro:assets'
 import { Aside, Card, Code, Tabs, TabItem } from '@astrojs/starlight/components'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
 import Box from '@components/Box.astro'
 import {
   solution_grover,
@@ -993,6 +995,9 @@ Sea $s=11$ la solución única al problema se modifica el oráculo con una funci
 
 ## Más información
 
-- Páginas 248-276, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
-- <a href="https://learning.quantum.ibm.com/course/fundamentals-of-quantum-algorithms/grovers-algorithm" target="_blank">Grover's algorithm (IBM) [Inglés]</a>
-- <a href="https://quantum.country/search">How the quantum search algorithm works [Inglés]</a>
+<Recommendations />
+<BibItem id="wong" rate="r" prefix="Capítulo 7.6.3, " />
+<BibItem id="nielsen" rate="a" prefix="Capítulo 6, " />
+<BibItem id="groverQiskit" rate="a" />
+<BibItem id="groverQC" rate="o" />
+<BibItem id="oreilly" rate="o" prefix="Capítulo 10, " />

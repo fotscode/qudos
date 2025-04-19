@@ -22,6 +22,8 @@ import { Tabs, TabItem, Code, Aside } from '@astrojs/starlight/components'
 import Box from '@components/Box.astro'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
 import Circle from '@components/CircleNotation.astro'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
 import ResourceDivider from '@components/ResourceDivider.astro'
 import {
   flip_3_example,
@@ -434,21 +436,9 @@ Donde $n$ es la cantidad de cubits y $s$ es la cantidad de soluciones posibles.
 
 ## Mas información
 
-- <a href='https://arxiv.org/pdf/quant-ph/0005055' target='_blank'>
-    Quantum Amplitude Amplification and Estimation (Gilles Brassard; Peter
-    Høyer; Michele Mosca; Alain Tapp) [Inglés]
-  </a>
-- <a href='https://arxiv.org/pdf/quant-ph/9605043' target='_blank'>
-    A fast quantum mechanical algorithm for database search (Lov K. Grover)
-    [Inglés]
-  </a>
-
-- <a
-    href='https://docs.quantum.ibm.com/api/qiskit/qiskit.circuit.library.GroverOperator'
-    target='_blank'
-  >
-    GroverOperator (IBM) [Inglés]
-  </a>
-
-- Capítulo 6, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
-- Páginas 248-276, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
+<Recommendations />
+<BibItem id="oreilly" rate="r" prefix="Capítulo 6, " />
+<BibItem id="wong" rate="a" prefix="Capítulo 7.6.3, " />
+<BibItem id="nielsen" rate="a" prefix="Capítulo 6.1.2, " />
+<BibItem id="amplitudeAmplificationPaper" rate="o" />
+<BibItem id="groverPaper" rate="o" />

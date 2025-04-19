@@ -5,6 +5,8 @@ description: Definición de oráculos cuánticos, su utilidad en algoritmos y ej
 ---
 
 import { Aside } from '@astrojs/starlight/components'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
 
 Los oráculos son operaciones abstractas que generalmente son definidas utilizando la notación de funciones binarias clásicas:
 
@@ -100,16 +102,8 @@ Por otra parte, en el algoritmo de **_Deutsch-Jozsa_** se utiliza para identific
 
 ## Mas información
 
-- Páginas 248-249, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
-- <a href='https://www.youtube.com/watch?v=eE7eumEZOSE' target='_blank'>
-    "Consulting the (phase) oracle" (Chris Ferrie) [Inglés]
-  </a>
-- <a href='https://www.youtube.com/watch?v=N3PhGaAZyoE' target='_blank'>
-    "Quantum Computing Course: 3.2.B Quantum Functions" (Quantum Soar) [Inglés]
-  </a>
-- <a
-    href='https://learn.microsoft.com/en-us/azure/quantum/concepts-oracles'
-    target='_blank'
-  >
-    Understanding quantum oracles (Microsoft) [Inglés]
-  </a>
+<Recommendations />
+<BibItem id='wong' prefix='Capítulo 7.1.3 y 7.1.4, ' rate='r' />
+<BibItem id='quantumFunctionsSoar' rate='a' />
+<BibItem id='oraclesMicrosoft' rate='a' />
+<BibItem id='nielsen' prefix='Capítulo 6.1.1, ' rate='o' />

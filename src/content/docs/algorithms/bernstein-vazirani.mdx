@@ -14,6 +14,8 @@ head:
 import { Image } from 'astro:assets'
 import { Tabs, TabItem, Card, Code, Aside } from '@astrojs/starlight/components'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
 import Box from '@components/Box.astro'
 import { common_deutsch_lib } from '@code-snippets/deutsch-jozsa'
 import {
@@ -136,20 +138,7 @@ Sea $s=1010$ la cadena a codificar se modifica el oráculo con una función que 
 
 ## Más información
 
-- <a
-    href='https://learning.quantum.ibm.com/course/fundamentals-of-quantum-algorithms/quantum-query-algorithms#the-bernstein-vazirani-problem'
-    target='_blank'
-  >
-    The Bernstein-Vazirani problem (IBM) [Inglés]
-  </a>
-- <a href='https://www.youtube.com/watch?v=a-w1NiXd3ps' target='_blank'>
-    Quantum Computing Course: 3.5 Bernstein-Vazarani Algorithm (Quantum Soar)
-    [Inglés]
-  </a>
-- <a
-    href='https://youtu.be/2wticzHE1vs?si=-tIwBEvYKHjJKNDu&t=2850'
-    target='_blank'
-  >
-    Quantum Query Algorithms | Understanding Quantum Information & Computation -
-    Lesson 05 (Qiskit) [Inglés]
-  </a>
+<Recommendations />
+<BibItem id="wong" rate="r" prefix="Capítulo 7.4.3, " />
+<BibItem id="bernsteinVaziraniSoar" rate="r" />
+<BibItem id="queryAlgorithmsQiskit" rate="a" />
