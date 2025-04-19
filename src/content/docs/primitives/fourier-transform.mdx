@@ -187,149 +187,197 @@ En esta sección se elaboran distintos ejemplos que permitan demostrar el funcio
       <Tabs>
         <TabItem label='Ejemplo 1'>
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-           Estado inicial del algoritmo, se repite ocho veces el patron de fases.
-            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0011}'} />
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0111}'} />
-            </div>
-            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1011}'} />
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1111}'} />
-            </div>
+            Estado inicial del algoritmo, se repite ocho veces el patron de fases.
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0000}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0001}'} />
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0010}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0100}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0101}'} />
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0110}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0111}'} />
+              </div>
+            </section>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1000}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1001}'} />
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1010}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1100}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1101}'} />
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1110}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1111}'} />
+              </div>
+            </section>
           </div>
           <ResourceDivider icon='pencil' text='QFT' />
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
             Luego de aplicar QFT se revela que la frecuencia del estado cuántico es 8.
-            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
-            </div>
-            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-              <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
-            </div>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0010}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
+              </div>
+            </section>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{1000}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
+              </div>
+            </section>
           </div>
         </TabItem>
         <TabItem label='Ejemplo 2'>
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
            Estado inicial del algoritmo, se repite cuatro veces el patron de fases.
-            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-              <Circle width={'80'} phase={'0'}   prob={0.0625} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'90'}  prob={0.0625} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'270'} prob={0.0625} label={'\\ket{0011}'} />
-              <Circle width={'80'} phase={'0'}   prob={0.0625} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'90'}  prob={0.0625} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'270'} prob={0.0625} label={'\\ket{0111}'} />
-            </div>
-            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-              <Circle width={'80'} phase={'0'}   prob={0.0625} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'90'}  prob={0.0625} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'270'} prob={0.0625} label={'\\ket{1011}'} />
-              <Circle width={'80'} phase={'0'}   prob={0.0625} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'90'}  prob={0.0625} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'270'} prob={0.0625} label={'\\ket{1111}'} />
-            </div>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'}   prob={0.0625} label={'\\ket{0000}'} />
+                <Circle width={'80'} phase={'90'}  prob={0.0625} label={'\\ket{0001}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0010}'} />
+                <Circle width={'80'} phase={'270'} prob={0.0625} label={'\\ket{0011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'}   prob={0.0625} label={'\\ket{0100}'} />
+                <Circle width={'80'} phase={'90'}  prob={0.0625} label={'\\ket{0101}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0110}'} />
+                <Circle width={'80'} phase={'270'} prob={0.0625} label={'\\ket{0111}'} />
+              </div>
+            </section>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'}   prob={0.0625} label={'\\ket{1000}'} />
+                <Circle width={'80'} phase={'90'}  prob={0.0625} label={'\\ket{1001}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1010}'} />
+                <Circle width={'80'} phase={'270'} prob={0.0625} label={'\\ket{1011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'}   prob={0.0625} label={'\\ket{1100}'} />
+                <Circle width={'80'} phase={'90'}  prob={0.0625} label={'\\ket{1101}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1110}'} />
+                <Circle width={'80'} phase={'270'} prob={0.0625} label={'\\ket{1111}'} />
+              </div>
+            </section>
           </div>
           <ResourceDivider icon='pencil' text='QFT' />
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
             Luego de aplicar QFT se revela que la frecuencia del estado cuántico es 4.
-            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
-              <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
-            </div>
-            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
-            </div>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0010}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{0100}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
+              </div>
+            </section>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1000}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
+              </div>
+            </section>
           </div>
         </TabItem>
         <TabItem label='Ejemplo 3'>
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
            Estado inicial del algoritmo, se repite dos veces el patron de fases, pero representan señales "cuadradas".
-            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0011}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0111}'} />
-            </div>
-            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1011}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1111}'} />
-            </div>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0000}'} />
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0001}'} />
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0010}'} />
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0100}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0101}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0110}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0111}'} />
+              </div>
+            </section>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1000}'} />
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1001}'} />
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1010}'} />
+                <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1100}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1101}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1110}'} />
+                <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1111}'} />
+              </div>
+            </section>
           </div>
           <ResourceDivider icon='pencil' text='QFT' />
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
             Luego de aplicar QFT se revela que la frecuencia del estado cuántico es probable que sea 2, pero existen otros valores posibles.
-            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'67.5'} prob={0.42677} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'22.5'} prob={0.07323} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
-            </div>
-            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'-22.5'} prob={0.07323} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'-67.5'} prob={0.42677} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
-            </div>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
+                <Circle width={'80'} phase={'67.5'} prob={0.42677} label={'\\ket{0010}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
+                <Circle width={'80'} phase={'22.5'} prob={0.07323} label={'\\ket{0110}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
+              </div>
+            </section>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1000}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
+                <Circle width={'80'} phase={'-22.5'} prob={0.07323} label={'\\ket{1010}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
+                <Circle width={'80'} phase={'-67.5'} prob={0.42677} label={'\\ket{1110}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
+              </div>
+            </section>
           </div>
           <Aside>En estos casos como utilizamos señales reales y no complejas, es útil descartar aquellos valores mayores a la mitad de los valores posibles, es decir tomar los primeros 16/2+1=9 valores, ya que el resto solo representa un espejo de la frecuencia de la señal.</Aside>
         </TabItem>
@@ -362,99 +410,131 @@ En esta sección se elaboran distintos ejemplos que permitan demostrar el funcio
         <TabItem label='Ejemplo 1'>
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
            Estado inicial del algoritmo, se marca como frecuencia el numero "2".
-            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
-            </div>
-            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
-            </div>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
+                <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{0010}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
+              </div>
+            </section>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1000}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
+              </div>
+            </section>
           </div>
           <ResourceDivider icon='pencil' text='invQFT' />
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
             Luego de aplicar la inversa de QFT se genera la señal con frecuencia 2.
-            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-              <Circle width={'80'} phase={'0 '}  prob={0.0625} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'-45 '}  prob={0.0625} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'-90'} prob={0.0625} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'-135'} prob={0.0625} label={'\\ket{0011}'} />
-              <Circle width={'80'} phase={'-180'} prob={0.0625} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'-225'} prob={0.0625} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'-270'} prob={0.0625} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'-315'}    prob={0.0625} label={'\\ket{0111}'} />
-            </div>
-            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-              <Circle width={'80'} phase={'0 '}  prob={0.0625} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'-45 '}  prob={0.0625} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'-90'} prob={0.0625} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'-135'} prob={0.0625} label={'\\ket{1011}'} />
-              <Circle width={'80'} phase={'-180'} prob={0.0625} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'-225'} prob={0.0625} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'-270'} prob={0.0625} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'-315'}    prob={0.0625} label={'\\ket{1111}'} />
-            </div>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0 '}  prob={0.0625} label={'\\ket{0000}'} />
+                <Circle width={'80'} phase={'-45 '}  prob={0.0625} label={'\\ket{0001}'} />
+                <Circle width={'80'} phase={'-90'} prob={0.0625} label={'\\ket{0010}'} />
+                <Circle width={'80'} phase={'-135'} prob={0.0625} label={'\\ket{0011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'-180'} prob={0.0625} label={'\\ket{0100}'} />
+                <Circle width={'80'} phase={'-225'} prob={0.0625} label={'\\ket{0101}'} />
+                <Circle width={'80'} phase={'-270'} prob={0.0625} label={'\\ket{0110}'} />
+                <Circle width={'80'} phase={'-315'}    prob={0.0625} label={'\\ket{0111}'} />
+              </div>
+            </section>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0 '}  prob={0.0625} label={'\\ket{1000}'} />
+                <Circle width={'80'} phase={'-45 '}  prob={0.0625} label={'\\ket{1001}'} />
+                <Circle width={'80'} phase={'-90'} prob={0.0625} label={'\\ket{1010}'} />
+                <Circle width={'80'} phase={'-135'} prob={0.0625} label={'\\ket{1011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'-180'} prob={0.0625} label={'\\ket{1100}'} />
+                <Circle width={'80'} phase={'-225'} prob={0.0625} label={'\\ket{1101}'} />
+                <Circle width={'80'} phase={'-270'} prob={0.0625} label={'\\ket{1110}'} />
+                <Circle width={'80'} phase={'-315'}    prob={0.0625} label={'\\ket{1111}'} />
+              </div>
+            </section>
           </div>
         </TabItem>
         <TabItem label='Ejemplo 2'>
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
            Estado inicial del algoritmo, se marca como frecuencia el numero "1".
-            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
-            </div>
-            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
-            </div>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
+                <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{0001}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0010}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
+              </div>
+            </section>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1000}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
+                <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
+              </div>
+            </section>
           </div>
           <ResourceDivider icon='pencil' text='invQFT' />
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
             Luego de aplicar la inversa de QFT se genera la señal con frecuencia 1.
-            <div style='display: flex; justify-content:center; align-items:center;flex-direction:row'>
-              <Circle width={'80'} phase={'0 '}  prob={0.0625} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'-22.5 '}  prob={0.0625} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'-45'} prob={0.0625} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'-67.5'} prob={0.0625} label={'\\ket{0011}'} />
-              <Circle width={'80'} phase={'-90'} prob={0.0625} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'-112.5'} prob={0.0625} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'-125'} prob={0.0625} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'-147.5'}    prob={0.0625} label={'\\ket{0111}'} />
-            </div>
-            <div style='display: flex; justify-content:center; align-items:center; flex-direction:row'>
-              <Circle width={'80'} phase={'180'}  prob={0.0625} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'157.5 '}  prob={0.0625} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'135'} prob={0.0625} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'112.5'} prob={0.0625} label={'\\ket{1011}'} />
-              <Circle width={'80'} phase={'90'} prob={0.0625} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'67.5'} prob={0.0625} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'45'} prob={0.0625} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'22.5'}    prob={0.0625} label={'\\ket{1111}'} />
-            </div>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'0 '}  prob={0.0625} label={'\\ket{0000}'} />
+                <Circle width={'80'} phase={'-22.5 '}  prob={0.0625} label={'\\ket{0001}'} />
+                <Circle width={'80'} phase={'-45'} prob={0.0625} label={'\\ket{0010}'} />
+                <Circle width={'80'} phase={'-67.5'} prob={0.0625} label={'\\ket{0011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'-90'} prob={0.0625} label={'\\ket{0100}'} />
+                <Circle width={'80'} phase={'-112.5'} prob={0.0625} label={'\\ket{0101}'} />
+                <Circle width={'80'} phase={'-125'} prob={0.0625} label={'\\ket{0110}'} />
+                <Circle width={'80'} phase={'-147.5'}    prob={0.0625} label={'\\ket{0111}'} />
+              </div>
+            </section>
+            <section class="responsive-circles">
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'180'}  prob={0.0625} label={'\\ket{1000}'} />
+                <Circle width={'80'} phase={'157.5 '}  prob={0.0625} label={'\\ket{1001}'} />
+                <Circle width={'80'} phase={'135'} prob={0.0625} label={'\\ket{1010}'} />
+                <Circle width={'80'} phase={'112.5'} prob={0.0625} label={'\\ket{1011}'} />
+              </div>
+              <div class="quadrant-circles">
+                <Circle width={'80'} phase={'90'} prob={0.0625} label={'\\ket{1100}'} />
+                <Circle width={'80'} phase={'67.5'} prob={0.0625} label={'\\ket{1101}'} />
+                <Circle width={'80'} phase={'45'} prob={0.0625} label={'\\ket{1110}'} />
+                <Circle width={'80'} phase={'22.5'}    prob={0.0625} label={'\\ket{1111}'} />
+              </div>
+            </section>
           </div>
         </TabItem>
       </Tabs>
