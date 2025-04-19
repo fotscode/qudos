@@ -1,0 +1,110 @@
+---
+layout: '@layouts/math.astro'
+title: Entrelazamiento
+description: Explicación del fenómeno de entrelazamiento, su definición e importancia en los sistemas cuánticos y los estados de Bell.
+---
+
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
+
+El **entrelazamiento** cuántico (entanglement en inglés) es un fenómeno en el cual múltiples cubits comparten un estado conjunto de manera que no pueden describirse individualmente. 
+
+Este tipo de correlación es crucial ya que, a la hora de medir, el estado de un cubit afecta instantáneamente al estado de otro cubit entrelazado, sin importar la distancia entre ellos. Este fenómeno **no tiene** un equivalente clásico.
+
+## Estados Producto y Entrelazados
+
+Para comprender el entrelazamiento, es importante distinguir entre estados producto y estados entrelazados.
+
+Los **estados producto** son aquellos en los que cada cubit puede describirse de manera independiente. Por ejemplo el siguiente estado cuántico:
+```math
+\begin{align}
+\frac{1}{2}(\ket{00}-\ket{01}+\ket{10}-\ket{11})&=\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\\
+&=\ket{+}\otimes\ket{-}\\
+&=\ket{+-}
+\end{align}
+```
+
+Por otra parte, los **estados entrelazados** son aquellos en los que el estado de un cubit no puede describirse sin considerar el estado del otro cubit. Un ejemplo de esto es el siguiente estado cuántico:
+```math
+\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})
+```
+Este estado no puede separarse en un producto de estados individuales $\ket{\psi_1}\ket{\psi_0}$, como prueba:
+```math
+\begin{align}
+\ket{\psi_1}\ket{\psi_0}&=(\alpha_1\ket{0}+\beta_1\ket{1})(\alpha_0\ket{0}+\beta_0\ket{1})\\
+&=\alpha_1\alpha_0\ket{00}+\alpha_1\beta_0\ket{01}+\beta_1\alpha_0\ket{10}+\beta_1\beta_0\ket{11}\\
+\end{align}
+```
+Los coeficientes en formato de ecuación para el caso especifico son:
+```math
+\begin{align}
+\alpha_1\alpha_0&=\frac{1}{\sqrt{2}}\\
+\alpha_1\beta_0&=0\\
+\beta_1\alpha_0&=0\\
+\beta_1\beta_0&=\frac{1}{\sqrt{2}}
+\end{align}
+```
+La segunda ecuación requiere $\alpha_1=0$ o $\beta_0=0$, si $\alpha_1=0$ entonces la primera ecuación se convierte en $0=1/\sqrt{2}$, lo cual es **falso**. 
+
+Por otra parte si $\beta_0=0$ entonces la cuarta ecuación se convierte en $0=1/\sqrt{2}$, lo cual también es **falso**. Por lo tanto, **no es posible** separar el estado cuántico en un producto de estados individuales.
+
+## Medición y colapso
+
+Si medimos un solo cubit en un estado producto, **no afecta** el estado del otro cubit. Por ejemplo, si medimos el primer cubit en el estado $\ket{+-}$, obtenemos $\ket{0}$ o $\ket{1}$ con probabilidad $1/2$ y el segundo cubit permanece en su estado original, es decir que los estados resultantes posibles son $\ket{0}\ket{-}$ o $\ket{1}\ket{-}$.
+
+Por otra parte, en los estados entrelazados, cuando se mide un cubit, el otro cubit **es afectado** por la medición del primero. Según como afecte esta medición se los clasifica en maximal y parcial.
+
+### Entrelazamiento maximal
+
+
+Si medimos un solo cubit en un estado maximalmente entrelazado, el resultado de la medición colapsa el estado del otro cubit. 
+
+Por ejemplo, considerando el estado entrelazado $\ket{\Phi^+}=(\ket{00}+\ket{11})/\sqrt{2}$. Si medimos el primer cubit, obtenemos $\ket{0}$ o $\ket{1}$ con probabilidad $1/2$. Si el resultado es $\ket{0}$, el segundo cubit colapsa a $\ket{0}$, y si el resultado es $\ket{1}$, el segundo cubit colapsa a $\ket{1}$. Por lo tanto, la medición de un cubit afecta completamente al otro cubit.
+
+
+Los **estados de Bell** representan los cuatro estados cuánticos maximalmente entrelazados posibles utlizando dos cubits. Estos estados son:
+
+```math
+\begin{align}
+\ket{\Phi^+}&=\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})\\
+\ket{\Phi^-}&=\frac{1}{\sqrt{2}}(\ket{00}-\ket{11})\\
+\ket{\Psi^+}&=\frac{1}{\sqrt{2}}(\ket{01}+\ket{10})\\
+\ket{\Psi^-}&=\frac{1}{\sqrt{2}}(\ket{01}-\ket{10})
+\end{align}
+```
+Estos estados comunes conforman la **base de Bell**, y son utilizados como las unidades mínimas de entrelazamiento. Son utilizados en diversas aplicaciones de la computación cuántica, como la <a href={`${import.meta.env.BASE_URL}/primitives/teleportation`}>teleportación cuántica</a> y la <a href={`${import.meta.env.BASE_URL}/primitives/superdense-coding`}>codificación superdensa</a>.
+
+Otros ejemplos de estados entrelazados comunes, pero con tres cubits, son:
+```math
+GHZ=\frac{1}{\sqrt{2}}(\ket{000}+\ket{111})\\
+W=\frac{1}{\sqrt{3}}(\ket{001}+\ket{010}+\ket{100})
+```
+
+### Entrelazamiento parcial
+
+Por otra parte, el entrelazamiento parcial ocurre cuando la medición de un cubit afecta el estado del otro pero no totalmente. Por ejemplo, se considera el siguiente estado entrelazado (podes verificar que lo sea con la prueba mencionada previamente):
+```math
+\frac{\sqrt{3}}{2\sqrt{2}}\ket{00}+\frac{\sqrt{3}}{2\sqrt{2}}\ket{01}+\frac{\sqrt{3}}{4}\ket{10}+\frac{1}{4}\ket{11}
+```
+
+Si medimos el primer cubit obtenemos:
+- $\ket{0}$ con probabilidad $3/4$ y el estado colapsa a:
+```math
+\frac{1}{\sqrt{2}}(\ket{00}+\ket{01})=\ket{0}\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})
+```
+- $\ket{1}$ con probabilidad $1/4$ y el estado colapsa a:
+```math
+\frac{\sqrt{3}}{2}\ket{10}+\frac{1}{2}\ket{11}=\ket{1}\left(\frac{\sqrt{3}}{2}\ket{0}+\frac{1}{2}\ket{1}\right)
+```
+
+Esto determina que medir el primer cubit afecta al segundo, por lo que existe entrelazamiento. Si se mide el segundo cubit podemos obtener $0$ o $1$ con probabilidades $50\%/50\%$ o $75\%/25\%$, dependiendo de si en la lectura del primer cubit se obtuvo $0$ o $1$ respectivamente.
+
+Como la lectura afectó el estado resultante pero no determinó totalmente la lectura del segundo cubit, entonces no está maximalmente entrelazado, si no que está **parcialmente entrelazado**.
+
+
+
+## Más información
+<Recommendations/>
+<BibItem id="wong" prefix="Capítulo 4.3 y 6.1, " rate="r" />
+<BibItem id="entanglementSoar" rate="a" />
+<BibItem id="entanglementQiskit" rate="o" />
