@@ -1,10 +1,12 @@
 ---
-const { src, height } = Astro.props;
+const { src, height, loading } = Astro.props;
 const finalHeight = height || 560;
+const finalLoading = loading || "lazy";
 ---
 <iframe 
     style=`position: relative; height: ${finalHeight}px`
     width="100%"
     title="Algassert"
+    loading={finalLoading}
     src={src}>
 </iframe>

@@ -90,14 +90,6 @@ Por lo que intercambia las amplitudes entre los estados base $\ket{0}$ y $\ket{1
         ```
     </Box>
 </TabItem>
-  <TabItem label='Qiskit'>
-    <Box>
-        <Code
-          code={pauli_x_qiskit_code}
-          lang='py'
-        />
-    </Box>
-  </TabItem>
   <TabItem label='Círculos'>
     <Box>
         Aplicando $X$ en $\ket{0}$:
@@ -124,6 +116,14 @@ Por lo que intercambia las amplitudes entre los estados base $\ket{0}$ y $\ket{1
             <Circle width={'80'} phase={"155"} prob={0.1} label={"\\ket{0}"}/>
             <Circle width={'80'} phase={"75"} prob={0.9} label={"\\ket{1}"}/>
         </div>
+    </Box>
+  </TabItem>
+  <TabItem label='Qiskit'>
+    <Box>
+        <Code
+          code={pauli_x_qiskit_code}
+          lang='py'
+        />
     </Box>
   </TabItem>
 </Tabs>

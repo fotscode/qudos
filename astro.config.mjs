@@ -50,6 +50,10 @@ export default defineConfig({
                             slug: 'concepts/oracles',
                         },
                         {
+                            label: 'Entrelazamiento',
+                            slug: 'concepts/entanglement',
+                        },
+                        {
                             label:'Teorema de no clonación',
                             slug:'concepts/no-cloning-theorem'
                         },
