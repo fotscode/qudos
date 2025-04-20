@@ -8,7 +8,7 @@ head:
       { property: 'og:image', content: /qudos/qft-algorithm.png }
   - tag: meta
     attrs:
-      { property: 'og:image:alt', content: 'Estructura de la primitiva QFT de forma general (Nielsen y Chuang).' }
+      { property: 'og:image:alt', content: 'Estructura de la primitiva QFT de forma general (Wong).' }
 ---
 
 import { Image } from 'astro:assets'
@@ -33,7 +33,9 @@ import {
 } from '@code-snippets/fourier-transform'
 
 
-La **transformada de Fourier cuántica (QFT)**, es una primitiva cuántica, que se asemeja al algoritmo clásico (transformada de Fourier discreta o DFT) la cual es utilizada en distintos algoritmos. Por ejemplo el algoritmo de Shor y la primitiva de <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fases</a> que este mismo utiliza.
+La **transformada de Fourier cuántica (QFT)**, es una primitiva cuántica, que se asemeja al algoritmo clásico (transformada de Fourier discreta o DFT) la cual es utilizada en distintos algoritmos cuánticos. 
+
+Por ejemplo el algoritmo de <a href={`${import.meta.env.BASE_URL}/algorithms/shor`}>Shor</a> y la primitiva de <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fases</a> utilizan esta primitiva.
 
 
 ## Objetivo 
@@ -41,7 +43,7 @@ La **transformada de Fourier cuántica (QFT)**, es una primitiva cuántica, que 
 La primitiva QFT permite obtener información acerca de las **frecuencias** de repetición de las fases relativas en un estado cuántico. A su vez existe su operación inversa, esta permite convertir una frecuencia en diferencias de **fases relativas** de un estado cuántico.
 
 Ciertas bibliografías expresan este objetivo en transformar la base computacional a base de Fourier:
-- La **base computacional** es una forma de expresar números mediante el comportamiento del eje $X$ en un estado cuántico (magnitud), se asemaja a su contraparte clásica. Por ejemplo cuando decimos $\ket{5}$, en verdad decimos $\ket{101}$.
+- La **base computacional** es una forma de expresar números mediante el comportamiento del eje $X$ en un estado cuántico (magnitud), se asemeja a su contraparte clásica. Por ejemplo cuando decimos $\ket{5}$, en verdad decimos $\ket{101}$.
 - La **base de Fourier** es otra forma de expresar números pero mediante el comportamiento del eje $Z$ en un estado cuántico (fase relativa).
 
 <Box>
@@ -67,39 +69,17 @@ F_N=\frac{1}{\sqrt{N}}
 
 Donde $\omega_N=e^{\frac{2\pi i}{N}}$
 
-<Aside> 
-Se prueba que $F_2=H$:
+Un circuito de QFT es posible definirlo utilizando puertas <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a>, puertas de fase controladas $R_r$, y puertas <a href={`${import.meta.env.BASE_URL}/gates/swap`}>Swap</a>.
+
+La puerta $R_r$ es una abreviación de <a href={`${import.meta.env.BASE_URL}/gates/z-axis`}>RotZ</a> y se define de la siguiente manera:
 ```math
-F_2=\frac{1}{\sqrt{2}}\begin{bmatrix}
-1&1\\
-1&w_2\\
-\end{bmatrix}=\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1&1\\
-1&e^{2\pi i/2}
-\end{bmatrix}=
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1&1\\
-1&-1\\
-\end{bmatrix}=H
-\\
-```
-</Aside>
-
-
-Un circuito de QFT es posible definirlo utilizando puertas <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> y puertas de fase controladas $R_i$.
-
-
-La puerta $R_i$ se define de la siguiente manera:
-```math
-R_i=\begin{bmatrix}
+R_r=RotZ(e^{2\pi i/2^r})=\begin{bmatrix}
 1&0\\
-0&e^{2\pi i/2^i}\\
+0&e^{2\pi i/2^r}\\
 \end{bmatrix}=
 \begin{bmatrix}
 1&0\\
-0&\omega_{2^i}\\
+0&\omega_{2^r}\\
 \end{bmatrix}
 ```
 
@@ -108,46 +88,49 @@ Con esto en condiseración el algoritmo $QFT_n$ sigue una estructura facilmente 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/qft-algorithm.png`}
-    alt='Estructura de la primitiva QFT de forma general (Nielsen y Chuang)'
+    alt='Estructura de la primitiva QFT de forma general (Wong)'
     width='815'
     height='196'
   />
   <span style='max-width:815px; padding:10px 40px'>
-    **Figura (1):** Estructura de la primitiva QFT de forma general (Nielsen y Chuang).
+    **Figura (1):** Estructura de la primitiva QFT de forma general (Wong).
   </span>
 </div>
 
-En este caso se utiliza $j_1, j_2, \ldots, j_n$ para representar los cubits de entrada que conforman el estado cuántico $j$:
+En este caso se utiliza $j_0, j_1, \ldots, j_{n-1}$ para representar los cubits de entrada que conforman el estado cuántico $j$:
 ```math
-j=j_1j_2\ldots j_n
+j=j_0j_1\ldots j_{n-1}
 ```
-Por otra parte se utiliza $0.j_lj_{l+1}\ldots j_m$ para denotar fracciones usando bianrias, cuya equivalencia con la fracción es la siguiente:
+Por otra parte se utiliza $0.j_lj_{l+1}\ldots j_m$ para denotar fracciones usando binarias, cuyo valor en decimal es el siguiente:
 ```math
 0.j_lj_{l+1}\ldots j_{m}=j_l/2+j_{l+1}/4+\ldots+j_m/2^{m-l+1}
 ```
 Finalmente definimos *QFT* en notación bra-ket como:
 ```math
 \begin{align}
-QFT\ket{j}&=\frac{1}{2^{n/2}}\sum_{k=0}^{2^n-1}e^{2\pi i j k /2^n}\ket{k}\\
-&=\frac{1}{2^{n/2}}(\ket{0}+e^{2\pi i 0.j_n}\ket{1})(\ket{0}+e^{2\pi i 0.j_{n-1}j_n}\ket{1})\ldots(\ket{0}+e^{2\pi i 0.j_1j_2\ldots j_n}\ket{1})
+QFT\ket{j}=&\frac{1}{2^{n/2}}\sum_{k=0}^{2^n-1}e^{2\pi i j k /2^n}\ket{k}\\
+=&\frac{1}{2^{n/2}}(\ket{0}+e^{2\pi i 0.j_{n-1}}\ket{1})(\ket{0}+e^{2\pi i 0.j_{n-2}j_{n-1}}\ket{1})\\
+&\ldots(\ket{0}+e^{2\pi i 0.j_0j_1\ldots j_{n-1}}\ket{1})\notag
 \end{align}
 ```
 
-Se encuentran $n$ puertas Hadamard y $(n)(n+1)/2$ puertas de rotación, por lo que el órden del algoritmo es $O(n^2)=O((log_2 N)^2)$, ya que $N=2^n$.
 
-<Aside>La implementación de QFT varía según la bibliografía, se pueden presentar con diferentes puertas, o en diferente órden, o con/sin puertas de intercambio. A su vez, existen casos donde se interpreta QFT con la misma definición que DFT y en otros casos como su inversa (ángulos opuestos).</Aside>
+Se encuentran $n$ puertas Hadamard y $(n)(n+1)/2$ puertas de rotación, por lo que el orden del algoritmo es $O(n^2)=O((log_2 N)^2)$, ya que $N=2^n$.
 
-Por otra parte, como el algoritmo de QFT es conformado por puertas unitarias, para implementar la **inversa de QFT** basta con aplicar las operaciones conjugadas transpuestas en el orden inverso.
+
+Por otra parte, como el algoritmo de QFT es conformado por puertas unitarias, para implementar la **inversa de QFT (invQFT)** basta con aplicar las operaciones conjugadas transpuestas en el orden inverso.
 
 <Tabs>
   <TabItem label='Quirk'>
     <Box>
       <Tabs>
         <TabItem label='QFT'>
-          <QuantumCircuit src={qft_quirk_example} height={"650"}/>
+          <QuantumCircuit src={qft_quirk_example} />
+          Es recomendable observar este ejemplo en el propio simulador de <a href={qft_quirk_example} target="_blank">Quirk</a> por su tamaño.
         </TabItem>
         <TabItem label='invQFT'>
-          <QuantumCircuit src={inv_qft_quirk_example} height={"650"}/>
+          <QuantumCircuit src={inv_qft_quirk_example} />
+          Es recomendable observar este ejemplo en el propio simulador de <a href={inv_qft_quirk_example} target="_blank">Quirk</a> por su tamaño.
         </TabItem>
       </Tabs>
     </Box>
@@ -166,8 +149,8 @@ Por otra parte, como el algoritmo de QFT es conformado por puertas unitarias, pa
   </TabItem>
 </Tabs>
 
-<Aside>
-Corolario de proposiciones útiles
+
+Observando el circuito uno puede detectar que tanto QFT como su inversa son similares. Como curiosidad, se puede probar que aplicar tres veces QFT es equivalente a utilizar su inversa:
 ```math
 \begin{gather}
 F_N F_N\ket{k} =\ket{-k}=\ket{N-k}\\
@@ -175,13 +158,16 @@ F_N F_N F_N F_N \ket{k}    =\ket{k} \rightarrow F_N^\dag = F_N  F_N  F_N  \\
 F_N^\dag F_N^\dag F_N^\dag F_N^\dag \ket{k}    =\ket{k} \rightarrow F_N = F_N^\dag  F_N^\dag  F_N^\dag
 \end{gather}
 ```
-</Aside>
 
 ## Ejemplos
 
 En esta sección se elaboran distintos ejemplos que permitan demostrar el funcionamiento de QFT para casos específicos.
 
 ### Usando QFT
+
+Se presentan tres ejemplos, en estos ejemplos se obtiene la frecuencia del patron de fases a partir de un estado cuántico dado. 
+
+En el primer ejemplo el patron se repite 8 veces, en el segundo 4 veces y en el tercero se repite 2 veces pero en formato de señales cuadradas.
 
 <Tabs>
   <TabItem label='Círculos'>
@@ -397,6 +383,7 @@ En esta sección se elaboran distintos ejemplos que permitan demostrar el funcio
         </TabItem>
         <TabItem label='Ejemplo 3'>
           <QuantumCircuit src={qft_quirk_example_extra_3} />
+          <Aside>En estos casos como utilizamos señales reales y no complejas, es útil descartar aquellos valores mayores a la mitad de los valores posibles, es decir tomar los primeros 16/2+1=9 valores, ya que el resto solo representa un espejo de la frecuencia de la señal.</Aside>
         </TabItem>
       </Tabs>
     </Box>
@@ -404,6 +391,10 @@ En esta sección se elaboran distintos ejemplos que permitan demostrar el funcio
 </Tabs>
 
 ### Usando invQFT
+
+En el formato contrario a la sección anterior, se presentaran ejemplos de frecuencias y se convertirán a patrones de fases relativas utilizando invQFT.
+
+En el primer ejemplo se obtendrá la señal con frecuencia 2, y en el segundo ejemplo la señal con frecuencia 1.
 
 <Tabs>
   <TabItem label='Círculos'>
@@ -555,6 +546,12 @@ En esta sección se elaboran distintos ejemplos que permitan demostrar el funcio
     </Box>
   </TabItem>
 </Tabs>
+
+## Consideraciones
+
+La implementación de QFT varía según la bibliografía, se pueden presentar con diferentes puertas, o en diferente orden, o con/sin puertas de intercambio.
+
+A su vez, existen casos donde se interpreta QFT con la misma definición que DFT y en otros casos como su inversa (ángulos opuestos).
 
 ## Más información
 

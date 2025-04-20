@@ -26,7 +26,9 @@ import {
   qiskit_phase_estimation_hadamard_result,
 } from '@code-snippets/phase-estimation'
 
-La **estimatición de fase (EF)**, es una primitiva cuántica que es utilizada en distintos algoritmoss, permite extraer información legible de superposiciones. Por ejemplo es utilizada en el algoritmo de Shor, el algoritmo de HHL, entre otros. Internamente esta primitiva utiliza la <a href={`${import.meta.env.BASE_URL}/primitives/fourier-transform`}>transformada de Fourier</a> inversa.
+La **estimatición de fase (EF)**, es una primitiva cuántica que es utilizada en distintos algoritmos, permite extraer información legible de superposiciones. 
+
+Por ejemplo es utilizada en el algoritmo de <a href={`${import.meta.env.BASE_URL}/algorithms/shor`}>Shor</a>, el algoritmo de HHL, entre otros. Internamente esta primitiva utiliza la <a href={`${import.meta.env.BASE_URL}/primitives/fourier-transform`}>transformada de Fourier</a> inversa.
 
 ## Objetivo
 
@@ -60,7 +62,9 @@ Aunque parezca que esta información obtenida es arbitraria y que no sea practic
 
 ## Solución
 
-El algoritmo de estimación de fase se puede dividir en cuatro secciones: **inicialización**, **superposición**, aplicación de **puertas controladas** y uso de la **transformada cuántica inversa**. En el siguiente gráfico se dividen las etapas utilizando $\ket{\sigma_i}$ para representar el estado cuántico en cada sección.
+El algoritmo de estimación de fase se puede dividir en cuatro secciones: **inicialización**, **superposición**, aplicación de **puertas controladas** y uso de la **transformada cuántica inversa**. 
+
+En el siguiente gráfico se dividen las etapas utilizando $\ket{\sigma_i}$ para representar el estado cuántico en cada sección.
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -70,7 +74,7 @@ El algoritmo de estimación de fase se puede dividir en cuatro secciones: **inic
     height='580'
   />
   <span style='max-width:1221px; padding:10px 40px'>
-    **Figura (1):** Estructura de la primitiva EF de forma general, con cuatro señalizadores indicando las distintas secciones del algoritmo. En ciertas bibliografías se aplican las puertas U controladas con el órden inverso.
+    **Figura (1):** Estructura de la primitiva EF de forma general, con cuatro señalizadores indicando las distintas secciones del algoritmo. En ciertas bibliografías se aplican las puertas U controladas con el orden inverso.
   </span>
 </div>
 
@@ -111,32 +115,36 @@ Por lo que al aplicar las puertas controladas de $U$ al estado superpuesto de $\
 \ket{\sigma_3}&=2^{-t/2}(\ket{0}+e^{i \theta 2^{t}}\ket{1})(\ket{0}+e^{i \theta 2^{t-1}}\ket{1})\ldots(\ket{0}+e^{i \theta 2^{0}}\ket{1})\ket{\psi}
 \end{align}
 ```
-Es util reescribir $\theta=2\pi j$, donde $j=0.j_1j_2\ldots j_t$ siendo $j$ una fracción en binario, para obtener un formato similar al de $QFT$:
+Es util reescribir $\theta=2\pi j$, donde $j=0.j_0j_1\ldots j_{t-1}$ siendo $j$ una fracción en binario, para obtener un formato similar al de $QFT$:
 ```math
 \begin{align}
-\ket{\sigma_3}&=2^{-t/2}(\ket{0}+e^{2\pi i 2^{t}(0.j_1j_2\ldots j_t)}\ket{1})(\ket{0}+e^{2\pi i 2^{t-1}(0.j_1j_2\ldots j_t) }\ket{1})\\&
-\ldots(\ket{0}+e^{2\pi i 2^{0}(0.j_1j_2\ldots j_t)}\ket{1})\ket{\psi}
+\ket{\sigma_3}&=2^{-t/2}(\ket{0}+e^{2\pi i 2^{t}(0.j_0j_1\ldots j_{t-1})}\ket{1})(\ket{0}+e^{2\pi i 2^{t-1}(0.j_0j_1\ldots j_{t-1}) }\ket{1})\\&
+\ldots(\ket{0}+e^{2\pi i 2^{0}(0.j_0j_1\ldots j_{t-1})}\ket{1})\ket{\psi}
 \end{align}
 ```
-Aplicar la operación $2^h(0.j_1j_2\ldots j_t)$ implica realizar un desplazamiento binario (shift) de $h$ posiciones. Debido a que multiplicar enteros por $2\pi$ es redundante, se puede simplificar de la siguiente manera:
+Aplicar la operación $2^h(0.j_0j_1\ldots j_{t-1})$ implica realizar un desplazamiento binario (shift) de $h$ posiciones. 
+
+Aplicar un desplazamiento a una fracción binaria puede incrementar la parte entera del número. Por ejemplo si se desplaza la fracción binaria $0.11$ ($0.75$ en decimal) por una posición se obtiene $1.10$ ($2.5$ en decimal).
+
+Debido a que multiplicar enteros por $2\pi$ es redundante, se puede simplificar de la siguiente manera:
 ```math
 \begin{align}
-\ket{\sigma_3}&=2^{-t/2}(\ket{0}+e^{2\pi i (0.j_t)}\ket{1})(\ket{0}+e^{2\pi i (0.j_{t-1} j_t) }\ket{1})\\&
-\ldots(\ket{0}+e^{2\pi i (0.j_1j_2\ldots j_t)}\ket{1})\ket{\psi}
+\ket{\sigma_3}&=2^{-t/2}(\ket{0}+e^{2\pi i (0.j_{t-1})}\ket{1})(\ket{0}+e^{2\pi i (0.j_{t-2} j_{t-1}) }\ket{1})\\&
+\ldots(\ket{0}+e^{2\pi i (0.j_0j_1\ldots j_{t-1})}\ket{1})\ket{\psi}
 \end{align}
 ```
-El resultado de esta simplificación es idéntico al estado cuántico luego de aplicar $QFT$ sobre el estado $\ket{j}$, por lo que aplicar su inversa $QFT^\dag$ se puede obtener $\ket{j}$:
+El resultado de esta simplificación es idéntico al estado cuántico luego de aplicar $QFT$ sobre el estado $\ket{j}$. Por lo que aplicar $QFT^\dag$ resulta en $\ket{j}$:
 ```math
 \begin{align}
-\ket{\sigma_4}&=QFT^\dag(2^{-t/2}(\ket{0}+e^{2\pi i (0.j_t)}\ket{1})(\ket{0}+e^{2\pi i (0.j_{t-1} j_t) }\ket{1})\\&
-\ldots(\ket{0}+e^{2\pi i (0.j_1j_2\ldots j_t)}\ket{1})\ket{\psi})\\
+\ket{\sigma_4}&=QFT^\dag(2^{-t/2}(\ket{0}+e^{2\pi i (0.j_{t-1})}\ket{1})(\ket{0}+e^{2\pi i (0.j_{t-2} j_{t-1}) }\ket{1})\\&
+\ldots(\ket{0}+e^{2\pi i (0.j_0j_1\ldots j_{t-1})}\ket{1})\ket{\psi})\\
 &=\ket{j}
 \end{align}
 ```
 Finalmente al medir la respuesta obtenemos una estimación de $j$. A partir de este $j$ podemos obtener el angulo $\theta$ y finalmente su autovalor:
 ```math
 \begin{align}
-\theta&=2\pi j=2\pi0.j_1j_2\ldots j_t\\
+\theta&=2\pi j=2\pi0.j_0j_1\ldots j_{t-1}\\
 autovalor &= e^{i \theta}
 \end{align}
 ```
@@ -144,7 +152,9 @@ autovalor &= e^{i \theta}
 
 ## Ejemplos
 
-Para este ejemplo utilizaremos la operación $H$ con su versión controlada, el autovector del cual se va a obtener el autovalor es $\ket{\psi}=0.38268\ket{0}-0.92388\ket{1}$, que se puede construir aplicandole a un cubit inicializado en $\ket{0}$ la puerta $X$ seguida por una rotación en el eje $y$ de $\pi/4$ radianes ($45^\circ$ grados).
+Para este ejemplo utilizaremos la operación <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> con su versión controlada. 
+
+El autovector del cual se va a obtener el autovalor es $\ket{\psi}=0.38268\ket{0}-0.92388\ket{1}$, que se puede construir aplicandole a un cubit inicializado en $\ket{0}$ la puerta <a href={`${import.meta.env.BASE_URL}/gates/x-axis`}>Pauli-X</a> seguida por una rotación en el eje $y$, usando <a href={`${import.meta.env.BASE_URL}/gates/y-axis`}>RotY</a>, de $\pi/4$ radianes ($45^\circ$ grados).
 
 El autovector que se eligió coincide con el estado cuántico de la sección de "Objetivo", su autovalor es a su vez el de $e^{\pi i}$ ($180^\circ$).
 

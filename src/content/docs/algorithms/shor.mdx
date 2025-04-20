@@ -45,7 +45,7 @@ La clave del algoritmo radica en la identificación del período de la función 
 
 Factorizar un número $N$ implica encontrar dos números $p$ y $q$ tal que $N=pq$. 
 
-Otra forma de expresar este problema es a partir de la búsqueda del periodo u órden de un número $x^r$ tal que $x^r\ mod\ N=1$, $r$ debe ser lo más chico posible y mayor a $0$, por ejemplo:
+Otra forma de expresar este problema es a partir de la búsqueda del periodo u orden de un número $x^r$ tal que $x^r\ mod\ N=1$, $r$ debe ser lo más chico posible y mayor a $0$. Por ejemplo:
 ```math
 x=4,\ N=5\\
 x^0\ mod\ N=4^0\ mod\ 5=1\\
@@ -60,7 +60,7 @@ En este caso $r=2$, cada 2 valores se repite la secuencia, y se obtienen los fac
 p=gcd(x^{r/2}-1,N)=gcd(4^{2/2}-1,N)=1\\
 q=gcd(x^{r/2}+1,N)=gcd(4^{2/2}+1,N)=5\\
 ```
-El algoritmo de Shor, resuelve el problema de factorización, utilizando una solución **mixta**, con componentes clásicos y con un componente cuántico que resuelve el problema de busqueda del órden.
+El algoritmo de Shor, resuelve el problema de factorización, utilizando una solución **mixta**, con componentes clásicos y con un componente cuántico que resuelve el problema de búsqueda del orden.
 
 Este algoritmo tiene **tres etapas** clave:
 <Steps>
@@ -68,7 +68,7 @@ Este algoritmo tiene **tres etapas** clave:
 
 2. <Badge text="Cuántico" variant="tip" />: Estimación de fases aplicado al candidato
 
-3. <Badge text="Clásico" />: Obtención del órden y los factores de N
+3. <Badge text="Clásico" />: Obtención del orden y los factores de N
 </Steps>
 Estos pasos se pueden descomponer en componentes funcionales más chicos y menos misteriosos:
 
@@ -190,16 +190,16 @@ Cumplimos los tres parámetros necesarios para la implementación de estimación
   </span>
 </div>
 
-Aplicamos el algoritmo de estimación de fases sobre $\ket{0}\ket{1}$, como el autovalor de $\ket{1}$ es $e^{2\pi i s/r}$ el resultado es (<a href={`${import.meta.env.BASE_URL}/proofs/shor#aplicacion-de-ef-a-algoritmo-de-shor-con-autovector-1`}>ver prueba completa</a>):
+Aplicamos el algoritmo de estimación de fases sobre $\ket{0}\ket{1}$. Como el autovalor de $\ket{1}$ es $e^{2\pi i s/r}$ el resultado es (<a href={`${import.meta.env.BASE_URL}/proofs/shor#aplicacion-de-ef-a-algoritmo-de-shor-con-autovector-1`}>ver prueba completa</a>):
 
 ```math
 \begin{align}
 EF\ket{0}\ket{1}&=\ket{\widetilde{s/r}}\ket{1}
 \end{align}
 ```
-Obtenemos finalmente el valor de $\widetilde{s/r}$ luego de aplicar una lectura en $q_{salida}$, este valor es estimado al nivel de precisión dependiente de la cantidad de cubits provistos.
+Obtenemos finalmente el valor de $\widetilde{s/r}$ luego de aplicar una lectura en $q_{salida}$. Este valor es estimado al nivel de precisión dependiente de la cantidad de cubits provistos.
 
-### Obtención del órden y los factores de N
+### Obtención del orden y los factores de N
 
 
 Luego de obtener $\widetilde{s/r}$, que es una fracción binaria con formato $0.j_0j_1\ldots j_n$, convertimos la fracción binaria a una fracción decimal de la siguiente manera:
@@ -243,9 +243,9 @@ s=s_{g}, & \quad  r=r_{g},\quad r_g=max(r_k)|r_k<N
 ```
 Por lo que ya obtuvimos $r$ a partir de la fracción continua, siendo este el valor con mayor precisión de $r_k$ posible menor a $N$. 
 
-El último paso a realizar es comprobar que $r$ es un valor correcto y extraer los factores, en todos los casos en los que $r$ no sea correcto se debe elegir un nuevo candidato y reiterar el algoritmo cuántico para obtener otro valor de $r$ posible. 
+El último paso a realizar es comprobar que $r$ es un valor correcto y extraer los factores. En todos los casos en los que $r$ no sea correcto se debe elegir un nuevo candidato y reiterar el algoritmo cuántico para obtener otro valor de $r$ posible. 
 
-El valor de $r$ es correcto cuando es par, es decir que $r\ mod\ 2=0$, a su vez tiene que cumplir que $x^r\ mod\ N=1$, siendo esta la premisa del problema del órden.
+El valor de $r$ es correcto cuando es par, es decir que $r\ mod\ 2=0$. A su vez, tiene que cumplir que $x^r\ mod\ N=1$, siendo esta la premisa del problema del orden.
 
 Por otra parte se computa $y=x^{r/2}\ mod\ N$ y se verifica que $y\neq 1$, $y\neq N-1$ para no obtener los factores "obvios" de $N$, es decir $1$ y $N$.
 
@@ -312,7 +312,7 @@ A la hora de factorizar números más grandes, nos encontramos con dos problemas
 
 El primero es el **físico**, al no existir máquinas cuánticas con cubits lógicos suficientes, se **emula** el funcionamiento de estas en computadoras clásicas. Este procedimiento es muy costoso, ya que el crecimiento en operaciones es **exponencial**.
 
-El segundo problema es la implementación de la **exponencialización modular**, en el ejemplo previo se utilizó una puerta que calculaba el módulo con $N=15$ y se repitió de forma exponencial la utilización de esta puerta según el cubit, es decir, una vez en el primer cubit, 2 veces en el segundo cubit, 4 veces en el tercero, etc.
+El segundo problema es la implementación de la **exponencialización modular**. En el ejemplo previo se utilizó una puerta que calculaba el módulo con $N=15$ y se repitió de forma exponencial la utilización de esta puerta según el cubit, es decir, una vez en el primer cubit, 2 veces en el segundo cubit, 4 veces en el tercero, etc.
 
 La aplicación exponencial de las puertas controladas de módulo **deshacen** la ventaja exponencial provista por el algoritmo. Existen **circuitos eficientes**$^{[1][2]}$ que resuelven este problema, pero dado su complejidad y su lentitud al emularlo, se decidió evitar la implementación de un algoritmo general de Shor usando *Qiskit*.
 
