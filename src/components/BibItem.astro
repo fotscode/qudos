@@ -12,7 +12,7 @@ const bibMap = {
     // === central books ===
     nielsen: { badge: 'Libro', title: 'Quantum Computation and Quantum Information (Michael A. Nielsen; Isaac L. Chuang) [Inglés]', url: 'https://isbnsearch.org/isbn/9781107002173', target: '_blank' },
     oreilly: { badge: 'Libro', title: 'Programming Quantum Computers: Essential Algorithms and Code Samples (O\'Reilly Media) [Inglés]', url: 'https://isbnsearch.org/isbn/9781492039686', target: '_blank' },
-    wong: { badge: 'Libro', title: 'Introduction to Classical and Quantum Computing (Thomas G. Wong) [Inglés]', url: 'https://isbnsearch.org/isbn/9798985593105', target: '_blank' },
+    wong: { badge: 'Libro', title: 'Introduction to Classical and Quantum Computing (Thomas G. Wong) [Inglés]', url: 'https://www.thomaswong.net/introduction-to-classical-and-quantum-computing-1e4p.pdf', target: '_blank' },
 
     // === quantum soar series ===
     // -math-
@@ -56,9 +56,49 @@ const bibMap = {
     queryAlgorithmsQiskit: { badge: 'Video', title: 'Quantum Query Algorithms | Understanding Quantum Information & Computation - Lesson 05 (Qiskit) [Inglés]', url: 'https://youtu.be/2wticzHE1vs?si=5BOTxZAOeRSqo6JQ', target: '_blank' },
     shorQiskit: { badge: 'Video', title: 'Phase Estimation and Factoring | Understanding Quantum Information & Computation - Lesson 07 (Qiskit) [Inglés]', url: 'https://youtu.be/4nT0BTUxhJY?si=BFTyCdceV8waZuUH', target: '_blank' },
     groverQiskit: { badge: 'Video', title: 'Grover\'s Algorithm | Understanding Quantum Information & Computation - Lesson 08 (Qiskit) [Inglés]', url: 'https://youtu.be/hnpjC8WQVrQ?si=OuPZ-7RSEFg9sJ41', target: '_blank' },
+    phaseEstimationQiskit : { badge: 'Otros', title: 'Quantum Phase Estimation - Qiskit Textbook (Qiskit) [Inglés]', url: 'https://github.com/qiskit-community/qiskit-textbook/blob/main/content/ch-algorithms/quantum-phase-estimation.ipynb', target: '_blank' },
+
+    // === elucyda ===
+    dftElucyda: { badge: 'Video', title: 'Quantum Fourier Transform, Tensor Product Representation, Analogy with Discrete Fourier Transform (Elucyda) [Inglés]', url: 'https://www.youtube.com/watch?v=EtBfGstwioQ', target: '_blank' },
+    qftElucyda: { badge: 'Video', title: 'Inverse n-qubit Quantum Fourier Transform and Phase Estimation Quantum Circuit (Elucyda) [Inglés]', url: 'https://youtu.be/3DeQeYZ0EjI?si=PxkpKSzDD8MjR_Zp', target: '_blank' },
+    shorElucyda: { badge: 'Video', title: 'Quantum Order-Finding Subroutine of Shor\'s Factoring Algorithm, Phase Estimation Quantum Circuit (Elucyda) [Inglés]', url: 'https://youtu.be/lw0R2SOmLTw?si=oK9NMn8d6AQyKXlI', target: '_blank' },
 
     // === quantum country ===
-    groverQC: { badge: 'Libro', title: 'How the quantum search algorithm works (Quantum Country) [Inglés]', url: 'https://quantum.country/grover', target: '_blank' },
+    groverQC: { badge: 'Otros', title: 'How the quantum search algorithm works (Quantum Country) [Inglés]', url: 'https://quantum.country/grover', target: '_blank' },
+
+    // === wikipedia ===
+    aliceAndBobNotes: { badge: 'Otros', title: 'Alice y Bob (Wikipedia) [Español]', url: 'https://es.wikipedia.org/wiki/Alice_y_Bob', target: '_blank' },
+    qftNotes: { badge: 'Otros', title: 'Transformada cuántica de Fourier (Wikipedia) [Español]', url: 'https://es.wikipedia.org/wiki/Transformada_cu%C3%A1ntica_de_Fourier', target: '_blank' },
+    phaseEstimationNotes: { badge: 'Otros', title: 'Algoritmo cuántico de estimación de fase (Wikipedia) [Español]', url: 'https://es.wikipedia.org/wiki/Algoritmo_cu%C3%A1ntico_de_estimaci%C3%B3n_de_fase', target: '_blank' },
+    holevoNotes: { badge: 'Otros', title: 'Holevo\'s theorem (Wikipedia) [Inglés]', url: 'https://en.wikipedia.org/wiki/Holevo%27s_theorem', target: '_blank' },
+    continuedFractionsNotes: { badge: 'Otros', title: 'Fracción continua generalizada (Wikipedia) [Español]', url: 'https://es.wikipedia.org/wiki/Fracci%C3%B3n_continua_generalizada', target: '_blank' },
+
+    // === Cambridge ===
+    deutschJozsaCambridge: { badge: 'Otros', title: 'Quantum Computing (CST Part II) | Lecture 7: Deutsch-Jozsa algorithm (Cambridge) [Inglés]', url: 'https://www.cl.cam.ac.uk/teaching/1920/QuantComp/Quantum_Computing_Lecture_7.pdf', target: '_blank' },
+    teleportationCambridge: { badge: 'Otros', title: 'Quantum Computing (CST Part II) | Lecture 6: Some Applications of Quantum Information (Cambridge) [Inglés]', url: 'https://www.cl.cam.ac.uk/teaching/1920/QuantComp/Quantum_Computing_Lecture_6.pdf', target: '_blank' },
+    qftCambridge: { badge: 'Otros', title: 'Quantum Computing (CST Part II) | Lecture 9: Quantum Fourier Transform & Quantum Phase Estimation (Cambridge) [Inglés]', url: 'https://www.cl.cam.ac.uk/teaching/1920/QuantComp/Quantum_Computing_Lecture_9.pdf', target: '_blank' },
+    shorCambridge: { badge: 'Otros', title: 'Quantum Computing (CST Part II) | Lecture 10: Application 1 of QFT / QPE: Factoring (Cambridge) [Inglés]', url: 'https://www.cl.cam.ac.uk/teaching/1920/QuantComp/Quantum_Computing_Lecture_10.pdf', target: '_blank' },
+
+    // === Papers ===
+    dJozsaCaoLiuPaper: { badge: 'Paper', title: 'Analysis of Deutsch-Jozsa Quantum Algorithm (Zhengjun Cao; Lihua Liu) [Inglés]', url: 'https://eprint.iacr.org/2018/249.pdf', target: '_blank' },
+    amplitudeAmplificationPaper: { badge: 'Paper', title: 'Quantum Amplitude Amplification and Estimation (Gilles Brassard; Peter Høyer; Michele Mosca; Alain Tapp) [Inglés]', url: 'https://arxiv.org/pdf/quant-ph/0005055.pdf', target: '_blank' },
+    groverPaper: { badge: 'Paper', title: 'A fast quantum mechanical algorithm for database search (Lov K. Grover) [Inglés]', url: 'https://arxiv.org/pdf/quant-ph/9605043.pdf', target: '_blank' },
+    factoringGidneyPaper: { badge: 'Paper', title: 'Factoring with n + 2 clean qubits and n − 1 dirty qubits (Craig Gidney) [Inglés]', url: 'https://arxiv.org/pdf/1706.07884.pdf', target: '_blank' },
+    shorBeauregardPaper: { badge: 'Paper', title: 'Circuit for Shor’s algorithm using 2n+3 qubits (Stáphane Beauregard) [Inglés]', url: 'https://arxiv.org/pdf/quant-ph/0205095.pdf', target: '_blank' },
+
+    // === others === 
+    dJozsaSentdex: { badge: 'Video', title: 'Deutsch Jozsa Algorithm - Quantum Computer Programming w/ Qiskit p.3 (sentdex) [Inglés]', url: 'https://youtu.be/_BHvE_pwF6E?si=mg6nYrRbRtzRecEh', target: '_blank' },
+    phaseOracleFerrie: { badge: 'Video', title: 'Consulting the (phase) oracle (Chris Ferrie) [Inglés]', url: 'https://www.youtube.com/watch?v=eE7eumEZOSE', target: '_blank' },
+    shorGidney: { badge: 'Otros', title: 'Shor\'s Quantum Factoring Algorithm (Craig Gidney) [Inglés]', url: 'https://algassert.com/post/1718', target: '_blank' },
+    modularExponentiationSarkarChatter: { badge: 'Otros', title: 'Quantum Circuit of Modular Exponentiation in Qiskit (Writika Sarkar; Soham Chatterjee; Shree Ganesh SJ) [Inglés]', url: 'https://github.com/bluecheese123/QME', target: '_blank' },
+    shorMaiaLeao: { badge: 'Otros', title: 'Implementation Shor\'s Algorithm in Qiskit (Rui Maia; Tiago Leao) [Inglés]', url: 'https://github.com/tiagomsleao/ShorAlgQiskit/tree/master', target: '_blank' },
+    shorQiskitImpl: { badge: 'Otros', title: 'Shor\'s factoring algorithm implementation (Qiskit) [Inglés]', url: 'https://github.com/Qiskit/qiskit/blob/stable/0.18/qiskit/algorithms/factorizers/shor.py', target: '_blank' },
+    shorQiskitNotebook: { badge: 'Otros', title: 'Shor\'s algorithm python notebook (Qiskit) [Inglés]', url: 'https://github.com/Qiskit/textbook/blob/main/notebooks/ch-algorithms/shor.ipynb', target: '_blank' },  
+    phaseJuweria: { badge: 'Otros', title: 'Global Phase and Relative phase (juweria) [Inglés]', url: 'https://www.quantumgrad.com/article/676', target: '_blank' },
+    circuitsMicrosoft: { badge: 'Otros', title: 'Explore quantum - Quantum circuits (Microsoft) [Inglés]', url: 'https://quantum.microsoft.com/en-us/insights/education/concepts/quantum-circuits', target: '_blank' },
+    phaseKickbackQiskitNotebook: { badge: 'Otros', title: 'Phase Kickback (Qiskit) [Inglés]', url: 'https://github.com/Qiskit/textbook/blob/main/notebooks/ch-gates/phase-kickback.ipynb', target: '_blank' },
+    phaseKickbackClassiq: { badge: 'Otros', title: 'Phase Kickback (Classiq) [Inglés]', url: 'https://docs.classiq.io/latest/classiq_101/quantum_primitives_with_classiq/phase_kickback/', target: '_blank' },
+    oraclesMicrosoft: { badge: 'Otros', title: 'Understanding quantum oracles (Microsoft) [Inglés]', url: 'https://learn.microsoft.com/en-us/azure/quantum/concepts-oracles', target: '_blank' },
 
     // === ours/wiki ===
     cubitWiki: { badge: 'Wiki', title: 'El Cubit (Facundo Tomatis, Facundo Miglierini) [Español]', url: `${BASE_URL}/concepts/qubit`, target: '_self' },
@@ -96,7 +136,7 @@ const colorClass = rateMap[rate];
 const { title, badge, url, target } = bibMap[id]
 ---
 <style>
-.Video, .Libro, .Wiki {
+.Video, .Libro, .Wiki, .Paper, .Otros {
     min-width: 55px;
     text-align: center;
 }
@@ -111,6 +151,16 @@ const { title, badge, url, target } = bibMap[id]
 .Wiki {
     background: var(--sl-color-accent-high);
     color: var(--sl-color-accent-low);
+}
+.Paper {
+    background: var(--sl-color-gray-2);
+    border: 1px solid var(--sl-color-gray-5);
+    color: var(--sl-color-black);
+}
+.Otros {
+    background: var(--sl-color-gray-5);
+    border: 1px solid var(--sl-color-gray-2);
+    color: var(--sl-color-white);
 }
 a {
     text-decoration: none;

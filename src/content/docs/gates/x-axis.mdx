@@ -18,7 +18,9 @@ import {
 } from '@code-snippets/x-axis'
 
 
-Este artículo se centra en un conjunto específico de puertas que actúan sobre el eje X. Primero se explorará la puerta **Pauli-X**, luego la puerta **RotX** que la generaliza y, por último, se hace mención a su **variante condicional**.
+Este artículo se centra en un conjunto específico de puertas que actúan sobre el eje X.
+
+Primero se explorará la puerta **Pauli-X**, luego la puerta **RotX** que la generaliza y, por último, se hace mención a su **variante condicional**.
 
 ## Pauli-X
 
@@ -130,7 +132,7 @@ Por lo que intercambia las amplitudes entre los estados base $\ket{0}$ y $\ket{1
 
 ## RotX
 
-Es la generalización de la puerta anterior, aplica una rotación en el eje $x$ de la esfera de Bloch pero con la rotación especificada. Imitar el comportamiento de la puerta Pauli-X implica aplicar una RotX con $\pi$ radianes de rotación.
+Es la generalización de la puerta anterior. Aplica una rotación en el eje $x$ de la esfera de Bloch pero con la rotación especificada. Imitar el comportamiento de la puerta Pauli-X implica aplicar una RotX con $\pi$ radianes de rotación.
 
 Esta puerta permite abstraerse de ángulos fijos, permitiendo una mayor libertad de aplicación.
 
@@ -160,7 +162,7 @@ cos\left(\frac{\theta}{2}\right)&-i sin\left(\frac{\theta}{2}\right)\\
 </Tabs>
 
 ## Variante condicional
-La variante condicional de la puerta Pauli-X es <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> o la Toffoli si se generaliza en más de una condición.
+La variante condicional de la puerta Pauli-X es <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> o la <a href={`${import.meta.env.BASE_URL}/gates/cnot#puerta-toffoli-ccnot`}>Toffoli</a> si se generaliza en más de una condición.
 
 
 ## Más información

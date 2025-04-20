@@ -93,9 +93,29 @@ Un aspecto a tener en cuenta es que la inversa de la puerta Hadamard es la propi
   </TabItem>
 </Tabs>
 
+Como curiosidad, la puerta Hadamard posee una relación con la <a href={`${import.meta.env.BASE_URL}/primitives/fourier-transform`}>transformada de Fourier</a>. Se prueba que $F_2=H$:
+```math
+F_2=\frac{1}{\sqrt{2}}\begin{bmatrix}
+1&1\\
+1&w_2\\
+\end{bmatrix}=\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+1&1\\
+1&e^{2\pi i/2}
+\end{bmatrix}=
+\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+1&1\\
+1&-1\\
+\end{bmatrix}=H
+\\
+```
+
 ## Variante condicional
 
-La variante condicional de Hadamard llamada **CH**, los puntos negros representan que la puerta **H** se activa con $1$, mientras que los puntos blancos o sin relleno implican que la puerta **Z** se activa con $0$. Otro aspecto a tener en cuenta es que la puerta **CH** se aplica tanto en el control como en el objetivo. 
+La variante condicional de Hadamard es llamada **CH**. 
+
+Los puntos negros representan que la puerta **H** se activa con $1$, mientras que los puntos blancos o sin relleno implican que la puerta **H** se activa con $0$. 
 
 <Tabs>
   <TabItem label='Quirk'>

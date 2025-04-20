@@ -5,6 +5,8 @@ description: Explicación del fenómeno de retroceso de fase, su importancia en 
 ---
 
 import { Aside } from '@astrojs/starlight/components'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
 
 El retroceso de fase (phase kickback en inglés) es un fenómeno de vital importancia en la computación cuántica, el cual es utilizado en 
 una gran cantidad de algoritmos, tales como el algoritmo de Deutsch, la estimación de fase, la iteración de Grover, entre otros. 
@@ -297,10 +299,10 @@ phase kickback es usado en muchos algoritmos: deutsch, phase estimation, grover
 
 ## Mas información
 
-
-- Secciones 6.1-6.2, páginas 248-261 <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
-- Páginas 51-52, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
-- Sección 7.1.4, páginas 276-277, <a href='https://isbnsearch.org/isbn/9798985593105' target='_blank'>Introduction to Classical and Quantum Computing (Thomas G. Wong) [Inglés]</a>
-- <a href='https://learning.quantum.ibm.com/course/fundamentals-of-quantum-algorithms/quantum-query-algorithms#further-remarks-on-the-phase-kickback' target='_blank'>"Quantum query algorithms" (IBM) [Inglés]</a>
-- <a href='https://github.com/Qiskit/textbook/blob/main/notebooks/ch-gates/phase-kickback.ipynb' target='_blank'>"Phase Kickback" (Qiskit) [Inglés]</a>
-- <a href='https://docs.classiq.io/latest/classiq_101/quantum_primitives_with_classiq/phase_kickback/' target='_blank'>"Phase Kickback" (Classiq) [Inglés]</a>
+<Recommendations />
+<BibItem id="phaseKickbackSoar" rate="r" />
+<BibItem id="queryAlgorithmsQiskit" rate="a" />
+<BibItem id="phaseKickbackQiskitNotebook" rate="a" />
+<BibItem id="phaseKickbackClassiq" rate="a" />
+<BibItem id="oreilly" rate="o" prefix="Capítulo 3, " />
+<BibItem id="wong" rate="o" prefix="Capítulo 7.1.4, " />

@@ -14,6 +14,8 @@ head:
 import { Image } from 'astro:assets'
 import { Aside, Code, Tabs, TabItem } from '@astrojs/starlight/components'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
 import Box from '@components/Box.astro'
 
 import {
@@ -345,37 +347,15 @@ Sea $f$ una función con 3 entradas y una salida, se debe codificar este orácul
   </TabItem>
 
 </Tabs>
+
 ## Más información
 
-- Páginas 32-36, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
-- Páginas 302-303, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
-- <a href='https://eprint.iacr.org/2018/249.pdf' target='_blank'>
-    Analysis of Deutsch-Jozsa Quantum Algorithm (Zhengjun Cao, Lihua Liu)
-    [Inglés]
-  </a>
-- <a
-    href='https://www.cl.cam.ac.uk/teaching/1920/QuantComp/Quantum_Computing_Lecture_7.pdf'
-    target='_blank'
-  >
-    Quantum Computing (CST Part II) Lecture 7: Deutsch-Jozsa algorithm
-    (Cambridge) [Inglés]
-  </a>
-- <a href='https://www.youtube.com/watch?v=pC2XRXInHnc' target='_blank'>
-    "Quantum Computing Course: 3.4 Deutsch-Jozsa Algorithm" (Quantum Soar)
-    [Inglés]
-  </a>
-- <a
-    href='https://youtu.be/2wticzHE1vs?si=0kdqs3NTdlArLUPW&t=1328'
-    target='_blank'
-  >
-    "Quantum Query Algorithms | Understanding Quantum Information & Computation
-    | Lesson 05" (Qiskit) [Inglés]
-  </a>
-- <a href="https://learning.quantum.ibm.com/course/fundamentals-of-quantum-algorithms/quantum-query-algorithms#the-deutsch-jozsa-algorithm" target="_blank">The Deutsch-Jozsa algorithm (IBM) [Inglés]</a>
-- <a href='https://www.youtube.com/watch?v=eE7eumEZOSE' target='_blank'>
-    "Consulting the (phase) oracle" (Chris Ferrie) [Inglés]
-  </a>
-- <a href='https://youtu.be/_BHvE_pwF6E?si=mg6nYrRbRtzRecEh' target='_blank'>
-    "Deutsch Jozsa Algorithm - Quantum Computer Programming w/ Qiskit p.3"
-    (sentdex) [Inglés]
-  </a>
+<Recommendations />
+<BibItem id="wong" rate="r" prefix="Capítulo 7.3.3, " />
+<BibItem id="deutschSoar" rate="r" />
+<BibItem id="deutschJozsaSoar" rate="r" />
+<BibItem id="queryAlgorithmsQiskit" rate="a" />
+<BibItem id="deutschJozsaCambridge" rate="a" />
+<BibItem id="nielsen" rate="a" prefix="Capítulo 1.4.3 y 1.4.4, " />
+<BibItem id="dJozsaCaoLiuPaper" rate="o" />
+<BibItem id="dJozsaSentdex" rate="o" />

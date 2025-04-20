@@ -16,6 +16,8 @@ import { Aside, Tabs, TabItem, Code } from '@astrojs/starlight/components'
 import Box from '@components/Box.astro'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
 import Circle from '@components/CircleNotation.astro'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
 import ResourceDivider from '@components/ResourceDivider.astro'
 import {
   randomized_tp,
@@ -26,7 +28,7 @@ import {
 
 Es un protocolo de comunicación donde un transmisor (Alice) envía un cubit a un receptor (Bob), utilizando un estado cuántico entrelazado compartido junto a dos bits clásicos para realizar la comunicación.
 
-Se asume que tanto el transmisor como el receptor comparten un cubit entrelazado, es decir que: el transmisor tiene un cubit **A**, el receptor tiene un cubit **B**, y juntos el par **(A,B)** está en el estado $\ket{\psi^+}$.
+Se asume que tanto el transmisor como el receptor comparten un cubit entrelazado, es decir que: el transmisor tiene un cubit **A**, el receptor tiene un cubit **B**, y juntos el par **(A,B)** está en el estado $\ket{\Phi^+}$, que es un <a href={`${import.meta.env.BASE_URL}/concepts/entanglement#entrelazamiento-maximal`}>estado de Bell</a>.
 
 Ademas el transmisor posee un cubit **Q** que es el que desea enviar al receptor, el estado de este cubit es desconocido tanto por el transmisor como el receptor. Esta transmisión implica una destrucción de información del cubit **Q** y del cubit **A**, ya que en ambos casos se miden sus estados, para luego reconstruirlo en el cubit **B** utilizando la información dada por las lecturas de **Q** y **A**.
 
@@ -54,9 +56,9 @@ Se presenta una implementación general del protocolo de teleportación cuántic
   </span>
 </div>
 
-Dentro de los componentes, se enumeran $5$ pasos o étapas del protocolo, enumerados en un órden que pretende simular la comunicación entre dos agentes.
+Dentro de los componentes, se enumeran $5$ pasos o étapas del protocolo, enumerados en un orden que pretende simular la comunicación entre dos agentes.
 
-El primer componente $c_1$ es la **creación de un par entrelazado**, como fue mencionado previamente, conformando el estado $\ket{\psi^+}$, que es uno de los estados de Bell.
+El primer componente $c_1$ es la **creación de un par entrelazado**, como fue mencionado previamente, conformando el estado $\ket{\Phi^+}$, que es uno de los estados de Bell.
 
 Luego el segundo componente $c_2$ es la **preparación del mensaje**. En esta etapa, utilizando la puerta genérica **U**, se pretende encapsular puertas e interacciones con otros cubits.
 
@@ -71,7 +73,7 @@ El cuarto componente $c_4$ finaliza la teleportación, **recibiendo el mensaje**
 - En caso de que se lea un $0$ en la primera linea y un $0$ en la segunda linea no es necesario realizar ningún cambio al cubit recibido.
 - Si se lee un $0$ en la primera en la primer linea y un $1$ en la segunda, para que quede igual que el original es necesario invertir las amplitudes (aplicar una CNOT).
 - Por otro lado si lee un $1$ en la primera en la primer linea y un $0$ en la segunda, para que quede igual que el original es necesario aumentar la fase en $180^\circ$ (aplicar una CZ).
-- Por último si se lee un $1$ en la primera en la primer linea y un $1$ en la segunda, para que quede igual es necesario invertir las amplitudes e aumentar la fase en $180^\circ$.
+- Por último si se lee un $1$ en la primera en la primer linea y un $1$ en la segunda, para que quede igual es necesario invertir las amplitudes y aumentar la fase en $180^\circ$ (aplicar ámbas puertas).
 
 El último componente $c_5$ **verifica** el éxito de la teleportación, esto se hace aplicando las puertas inversas a las recibidas en $c_2$ y midiendo el resultado. Si luego de medir resulta en $0$ significa que la teleportación fue exitosa, en caso contrario esta falló.
 
@@ -178,7 +180,7 @@ $$\overset{H}{\rightarrow}$$
             
             <ResourceDivider icon="pencil" text="\(\phi_2\)" />
             <div style="display: flex; flex-direction:column; align-items:center; margin-bottom:60px">
-                Con el paso $\phi_2$ se finaliza la componente $c_1$ creando un par entrelazado ($\psi^+=\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})$) entre el segundo y tercer cubit.
+                Con el paso $\phi_2$ se finaliza la componente $c_1$ creando un par entrelazado ($\Phi^+=\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})$) entre el segundo y tercer cubit.
                 <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
                 <Circle width={"80"} phase={"0"} prob={0.5} label={"\\ket{000}"}/>
                 <Circle width={"80"} phase={"0"} prob={0} label={"\\ket{001}"}/>
@@ -364,28 +366,10 @@ $$\overset{H}{\rightarrow}$$
 
 ## Mas información
 
-- <a href='https://es.wikipedia.org/wiki/Alice_y_Bob' href='_blank'>
-    Alice y Bob (Wikipedia) [Español]
-  </a>
-- Capítulo 4, <a href='https://isbnsearch.org/isbn/9781492039686' target='_blank'>Programming Quantum Computers: Essential Algorithms and Code Samples (Eric Johnston; Nic Harrigan; Mercedes Gimeno-Segovia) [Inglés]</a>
-- Páginas 26-28, <a href='https://isbnsearch.org/isbn/9781107002173' target='_blank'>Quantum Computation and Quantum Information: 10th Anniversary Edition (Michael A. Nielsen; Isaac L. Chuang) [Inglés]</a>
-- <a
-    href='https://learning.quantum.ibm.com/course/basics-of-quantum-information/entanglement-in-action#teleportation'
-    target='_blank'
-  >
-    Entanglement in action - Teleportation (IBM) [Inglés]
-  </a>
-- <a
-    href='https://youtu.be/GSsElSQgMbU?si=Kjvz41JfEP8rf49F&t=447'
-    target='_blank'
-  >
-    Entanglement in Action | Understanding Quantum Information & Computation -
-    Lesson 04 (Qiskit) [Inglés]
-  </a>
-- <a
-    href='https://www.cl.cam.ac.uk/teaching/1920/QuantComp/Quantum_Computing_Lecture_6.pdf'
-    target='_blank'
-  >
-    Quantum Computing (CST Part II) | Lecture 6: Some Applications of Quantum
-    Information (Cambridge) [Inglés]
-  </a>
+<Recommendations />
+<BibItem id="oreilly" rate="r" prefix="Capítulo 4, " />
+<BibItem id="wong" prefix="Capítulo 6.5, " rate="a" />
+<BibItem id="entanglementQiskit" rate="a" />
+<BibItem id="nielsen" rate="o" prefix="Capítulo 1.3.7, "/>
+<BibItem id="teleportationCambridge" rate="o" />
+<BibItem id="aliceAndBobNotes" rate="o" />
