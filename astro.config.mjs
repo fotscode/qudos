@@ -28,11 +28,16 @@ export default defineConfig({
             },
             sidebar: [
                 {
-                    label:'Hoja de ruta',
+                    label:'Introducción',
                     translations: {
-                        en: 'Roadmap'
+                        en: 'Introduction',
                     },
-                    slug: 'roadmap'
+                    items: [
+                        {
+                            label: 'Hoja de ruta',
+                            slug: 'roadmap',
+                        }
+                    ]
                 },
                 {
                     label: 'Conceptos clave',
