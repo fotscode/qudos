@@ -3,10 +3,31 @@ import starlight from '@astrojs/starlight'
 import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
 
+const googleAnalyticsId = 'G-2TSNFLLBJE'
+
 // https://astro.build/config
 export default defineConfig({
     integrations: [
         starlight({
+            head: [
+              // Adding google analytics
+              {
+                tag: 'script',
+                attrs: {
+                  src: `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`,
+                },
+              },
+              {
+                tag: 'script',
+                content: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', '${googleAnalyticsId}');
+                `,
+              },
+            ],
             title: 'Qudos',
             logo: {
                 dark: './public/qudos-dark.png',
