@@ -24,191 +24,37 @@ import {
 } from '@code-snippets/grover'
 
 
-{/*
-Moreover, the quantum search algorithm is general in the sense that it can be applied far beyond the route-finding example just described 
-to speed up many (though not all) classical algorithms that use search heuristics.
-*/}
-
-El algoritmo de Grover es el algoritmo de búsqueda cuántico por excelencia, ya que permite encontrar elementos dentro de un conjunto de elementos que 
-no posee estructura alguna. Es muy importante porque puede aplicarse sobre diferentes clases de problemas y acelerar los algoritmos clásicos 
-que usan heurísticas de búsqueda. 
+El algoritmo de Grover es el algoritmo de búsqueda cuántico por excelencia, ya que permite encontrar elementos dentro de un conjunto de elementos no estructurado. 
+Es muy importante porque puede aplicarse sobre diferentes clases de problemas y acelerar los algoritmos clásicos que usan heurísticas de búsqueda. 
 
 ## Metodología 
 
-{/*
-Let us begin by setting the stage for the search algorithm in terms of an oracle, similar to that encountered in Section 3.1.1. 
-This allows us to present a very general description of the search procedure, and a geometric way to visualize its action and see how it performs.
-*/}
+Se emplea el algoritmo de búsqueda en términos de un oráculo. Esto permite presentar una descripción general del proceso de búsqueda, junto con un punto de vista geométrico para ver cómo funciona. Además, facilita el análisis de complejidad, poniendo bajo consideración únicamente la cantidad de consultas realizadas al oráculo durante la ejecución del algoritmo.
 
-Se empleará el algoritmo de búsqueda en términos de un oráculo, lo que permitirá presentar una descripción general del proceso de búsqueda, y 
-un punto de vista geométrico para ver cómo funciona.
-
-### El oráculo 
-
-{/*
-Suppose we wish to search through a search space of N elements. Rather than search the elements directly, we concentrate on the index to those elements, 
-which is just a number in the range 0 to N − 1. For convenience we assume $N = 2^n$, so the index can be stored in n bits, and that the search problem 
-has exactly M solutions, with 1 <= M <= N . A particular instance of the search problem can conveniently be represented by a function f , which takes as 
-input an integer x, in the range 0 to N − 1. By definition, f (x) = 1 if x is a solution to the search problem, and $f(x) = 0$ if x is not a solution to the search problem.
-
-Suppose we are supplied with a quantum oracle – a black box whose internal workings we discuss later, but which are not important at this stage – with the ability 
-to recognize solutions to the search problem. This recognition is signalled by making use of an oracle cubit. More precisely, the oracle is a unitary operator, O, 
-defined by its action on the computational basis:
-
-\ket{x}\ket{q} -> \ket{x}\ket{q mod 2 f(x)} 
-
-where \ket{x} is the index register, ⊕ denotes addition modulo 2, and the oracle cubit \ket{q} is
-a single cubit which is flipped if f (x) = 1, and is unchanged otherwise. We can check
-whether x is a solution to our search problem by preparing \ket{x}\ket{0}, applying the oracle,
-and checking to see if the oracle cubit has been flipped to \ket{1}.
-
-In the quantum search algorithm it is useful to apply the oracle with the oracle cubit
-initially in the state (\ket{0} − \ket{1})/√2
-
-If x is not a solution to the search problem, applying the oracle to the state
-\ket{x}\ket{-} does not change the state. On the other hand, if x is a solution to the
-search problem, then \ket{0} and \ket{1} are interchanged by the action of the oracle, giving a
-final state −\ket{x}\ket{-}. The action of the oracle is thus
-
-\ket{x}\ket{-} -> (-1)^f(x)\ket{x}\ket{-}
-
-Demostración:
-
-f(x) = 0: 
-
-\ket{x}\ket{- mod 2 f(x)} = 
-\ket{x}\ket{- mod 2 0} = 
-\ket{x}(\ket{0} - \ket{1})/sqrt(2) mod 2 0 = 
-\ket{x}(\ket{0 mod 2 0} - \ket{1 mod 2 0})/sqrt(2) = 
-\ket{x}(\ket{0} - \ket{1})/sqrt(2) = 
-\ket{x}\ket{-} = 
-1\ket{x}\ket{-} = 
--1^0\ket{x}\ket{-} = 
--1^f(x)\ket{x}\ket{-} = 
-
-f(x) = 1: 
-
-\ket{x}\ket{- mod 2 f(x)} = 
-\ket{x}\ket{- mod 2 1} = 
-\ket{x}(\ket{0} - \ket{1})/sqrt(2) mod 2 1 = 
-\ket{x}(\ket{0 mod 2 1} - \ket{1 mod 2 1})/sqrt(2) = 
-\ket{x}(\ket{1} - \ket{0})/sqrt(2) = 
--\ket{x}(-\ket{1} + \ket{0})/sqrt(2) = 
--\ket{x}(\ket{0} - \ket{1})/sqrt(2) = 
--\ket{x}\ket{-} = 
--1\ket{x}\ket{-} = 
--1^1\ket{x}\ket{-} = 
--1^f(x)\ket{x}\ket{-} = 
-
-Notice that the state of the oracle cubit is not changed.
-this remains \ket{-} throughout the quantum search algorithm, and can therefore be omitted
-from further discussion of the algorithm, simplifying our description.
-With this convention, the action of the oracle may be written:
-
-\ket{x} -> (-1)^f(x) \ket{x}
-
-We say that the oracle marks the solutions to the search problem, by shifting the phase
-of the solution.
-*/}
+### Oráculo 
 
 Suponga que se desea buscar sobre un espacio de búsqueda de $N$ elementos. En lugar de buscar dichos elementos directamente, se pondrá el foco sobre su índice,
 el cual puede enumerarse desde $0$ hasta $N - 1$. Se asumirá $N = 2^n$, de manera que el índice pueda ser almacenado en $n$ bits, y el problema tendrá exactamente 
 $M$ soluciones, con $1 \leq M \leq N$. Una instancia del problema de búsqueda puede ser representada por una función $f$, que toma un entero $x$ como entrada dentro 
 del rango que va desde $0$ a $N - 1$. Por definición, $f(x) = 1$ si $x$ es una solución del problema, y $f(x) = 0$ en caso contrario.
 
-Además, se asumirá que se dispone de un oráculo cuántico con la habilidad para reconocer soluciones al problema de búsqueda. Este reconocimiento será reflejado 
-mediante un cubit destinado al oráculo. Precisamente, el oráculo es un operador unitario $O$, definido por su acción en la base computacional:
-
-```math
-\ket{x}\ket{q} \rightarrow \ket{x}\ket{q\oplus f(x)}
-```
-
-donde $\ket{x}$ es el registro índice, $\oplus$ denota suma módulo 2, y el cubit del oráculo $\ket{q}$ es un solo cubit que cambia su valor únicamente si $f(x) = 1$.
-Puede verificarse si $x$ es una solución al problema preparando $\ket{x}\ket{0}$ para luego aplicar el oráculo y verificar si el cubit del mismo cambió su valor a $\ket{1}$.
-
-Particularmente, en el algoritmo de búsqueda cuántico es útil aplicar el oráculo con su cubit inicializado en el estado $\frac{\ket{0} - \ket{1}}{\sqrt 2}$ 
-(también conocido como $\ket{-}$).
-Si $x$ no es una solución al problema, aplicar el oráculo sobre $\ket{x}\ket{-}$ no cambiará el estado. En cambio, si $x$ es en efecto una solución, entonces $\ket{0}$ y 
-$\ket{1}$ serán intercambiados por acción del oráculo, produciendo el estado resultante $-\ket{x}\ket{-}$. En resumen, la acción del oráculo es:
-
-```math
-\ket{x}\ket{-} \rightarrow -1^{f(x)}\ket{x}\ket{-}
-```
-
-Notar que el estado del cubit del oráculo no cambia, sino que se mantiene en $\ket{-}$ durante toda la ejecución del algoritmo, y por lo tanto puede ser 
-omitido más adelante para lograr una mayor simplicidad. Con esta convención, la acción del oráculo puede escribirse como:
-
-```math
-\ket{x} \rightarrow -1^{f(x)}\ket{x}
-```
-
-Dado el funcionamiento previamente mencionado, es posible afirmar que el oráculo se encarga de marcar las soluciones del problema de búsqueda, modificando su fase.
+La función $f$ antes definida se asume implementada por medio de un oráculo cuántico con la habilidad para reconocer soluciones al problema de búsqueda. 
+Precisamente, se trata de un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#oráculo-de-fase`}>oráculo de fase</a>, encargado de marcar las soluciones del problema de búsqueda, modificando su fase.
 
 ### Procedimiento 
-{/*
-The algorithm begins with the computer in the state \ket{0}⊗n. The Hadamard transform
-is used to put the computer in the equal superposition state
-1/sqrt(N) sum(0, N - 1, \ket{x})
 
-The quantum search algorithm then consists of repeated application of a quantum
-subroutine, know as the Grover iteration or Grover operator, which we denote G
+Los pasos llevados a cabo en este algoritmo se corresponden con la metodología general de la <a href={`${import.meta.env.BASE_URL}/primitives/amplitude-amplification`}>amplificación de amplitudes</a>, implementada de manera específica para el problema planteado en este artículo.
 
-4 steps:
-1 - Apply the oracle O.
-2 - Apply the Hadamard transform H⊗n.
-3 - Perform a conditional phase shift on the computer, with every computational basis
-state except \ket{0} receiving a phase shift of −1,
+El oráculo antes definido se llamará $O$, mientras que se denominará  $Q$ al registro asociado a los $n$ cubits que codifican la información de la base de búsqueda, excluyendo así a los cubits adicionales que serán utilizados para la ejecución del oráculo.
 
-\ket{x} -> -(-1)^delta_x0 \ket{x}
+El algoritmo comienza en el estado $\ket{0}^{\otimes n}$. Así, se introduce la etapa de **preparación**, aplicando la transformación de Hadamard para alcanzar un estado de superposición uniforme $\frac{1}{\sqrt N} \sum_{0}^{N - 1}\ket{x}$ sobre todas las soluciones en el espacio de búsqueda. 
 
-Note: the unitary operator corresponding to the phase shift in the
-Grover iteration is 2\ket{0}\bra{0} − I.
+A continuación, el algoritmo de búsqueda consiste en la aplicación reiterada de una subrutina cuántica, conocida como iteración de Grover, que es representada mediante la letra $G$ y consta de los siguientes pasos:
 
-4 - Apply the Hadamard transform H⊗n
+1. Etapa de **selección**. Llevada a cabo mediante la aplicación del oráculo O.
+2. Etapa de **reflejo**. <a href={`${import.meta.env.BASE_URL}/primitives/amplitude-amplification#reflejo`}>Ver detalles de implementación</a>. 
 
-The combined effect of steps 2,3 and 4 is 
-
-H⊗n(2\ket{0}\bra{0} − I)H⊗n = 
-2(H⊗n\ket{0}\bra{0}H⊗n) − I = 
-
-Given that H⊗n gives a uniform superposition u:
-2\ket{u}\bra{u} − I 
-
-Thus the Grover iteration G may be written G = (2\ket{u}\bra{u} - I)O 
-*/}
-
-En este apartado se desarrollará acerca del procedimiento realizado por el algoritmo de Grover. Para facilitar la comprensión, se denominará ``$Q$'' al registro 
-asociado a los $n$ cubits que codifican la información de la base de búsqueda, excluyendo así a los cubits adicionales que serán utilizados para la ejecución 
-del oráculo.
-
-El algoritmo comienza en el estado $\ket{0}^{\otimes n}$. Luego, se aplica la transformación de Hadamard para alcanzar un estado de superposición uniforme
-$\frac{1}{\sqrt N} \sum_{0}^{N - 1}\ket{x}$. Llegados a este punto, el algoritmo de búsqueda consiste en la aplicación reiterada de una subrutina 
-cuántica, conocida como iteración de Grover, que es representada mediante la letra $G$ y consta de los siguientes pasos:
-
-1. Aplicar el oráculo O 
-2. Aplicar la transformación de Hadamard $H^{\otimes n}$
-3. Realizar un cambio de fase condicional, con todos los estados a excepción de $\ket{0}$ recibiendo un cambio de fase con valor $-1$,
-
-```math
-\ket{x} \rightarrow -(-1)^{\delta_{x0}} \ket{x}
-```
-
-*Nota: el operador unitario correspondiente al cambio de fase en la iteración de Grover es $2\ket{0}\bra{0} - I$.*
-
-4. Aplicar la transformación de Hadamard $H^{\otimes n}$
-
-El efecto combinado de los pasos 2, 3 y 4 se encuentra desarrollado a continuación.
-
-```math
-\begin{align}
-H^{\otimes n}(2\ket{0}\bra{0} - I)H^{\otimes n}&=\\
-2(H^{\otimes n}\ket{0}\bra{0}H^{\otimes n}) - I&=\\
-2\ket{u}\bra{u} - I
-\end{align}
-```
-
-Debido a que aplicar $H^{\otimes n}$ da como resultado una superposición uniforme $u$.
-Por lo tanto, la iteración de Grover $G$ puede ser escrita como 
+Dado que el efecto de la última etapa se percibe como $2\ket{u}\bra{u} - I$, la iteración de Grover $G$ puede escribirse de la siguiente manera:
 
 ```math
 G = (2\ket{u}\bra{u} - I)O
@@ -238,11 +84,8 @@ G = (2\ket{u}\bra{u} - I)O
   </span>
 </div>
 
-
-Se han descrito los pasos fundamentales que constituyen al algoritmo de Grover. Se presentará posteriormente un análisis que evaluará el comportamiento 
-de dicho procedimiento, su eficiencia y su precisión.
-
 ### Análisis 
+
 
 {/*
 Solutions and non-solutions
@@ -450,7 +293,9 @@ Grover iterations, the state vector gets close to \ket{A_1}, at which point an o
 outputs a solution to the search problem with high probability. 
 */}
 
-Para evaluar el algoritmo se definirán a continuación dos conjuntos de cadenas.
+#### Comportamiento
+
+Para evaluar el comportamiento del algoritmo se definirán dos conjuntos de cadenas.
 
 ```math 
 A_0 = \{x \in \Sigma^n: f(x) = 0\}\\
@@ -480,13 +325,9 @@ Esto puede representarse también como:
 \ket{u} = \sqrt{\frac{|A_0|}{N}} \ket{A_0} + \sqrt{\frac{|A_1|}{N}} \ket{A_1}
 ```
 
-Recordar que también se cumple $\ket{u} = H^{\otimes n}\ket{0^n}$, de manera que $\ket{u}$ representa el estado del registro $Q$ tras realizar el paso inicial 
-del algoritmo de Grover. Esto implica que justo antes de alcanzar el paso 1 de $G$ (es decir, la iteración de Grover), el estado de $Q$ se encuentra contenido 
-en un espacio vectorial de dos dimensiones abarcado por $\ket{A_0}$ y $\ket{A_1}$, y los coeficientes de ambos vectores son números reales. 
-Cabe destacar que el estado de $Q$ siempre tendrá estas propiedades luego de cualquier cantidad de iteraciones de $G$ en su segundo paso.
+Recordar que también se cumple $\ket{u} = H^{\otimes n}\ket{0^n}$, de manera que $\ket{u}$ representa el estado del registro $Q$ tras realizar la etapa de **preparación** del algoritmo de Grover. Esto implica que justo antes de alcanzar la etapa de **selección**, el estado de $Q$ se encuentra contenido en un espacio vectorial de dos dimensiones abarcado por $\ket{A_0}$ y $\ket{A_1}$, y los coeficientes de ambos vectores son números reales. Notar que $Q$ siempre tendrá esta propiedad luego de cualquier cantidad de iteraciones de $G$ en el primer paso de la etapa de **reflexión**.
 
-Otro punto importante a considerar es que el algoritmo de Grover no se preocupa sobre cuáles cadenas son soluciones, solamente debe ser capaz de distinguirlas 
-respecto de aquellas cadenas que no lo son.
+Otro punto importante a considerar es que el algoritmo de Grover no se preocupa sobre cuáles cadenas son soluciones, solamente debe ser capaz de distinguirlas respecto de aquellas cadenas que no lo son.
 
 Al aplicar $G$ sobre $\ket{A_0}$ se obtiene:
 
@@ -604,10 +445,7 @@ G^k\ket{u} = cos((2k+1)\theta) \ket{A_0} + sin((2k+1)\theta) \ket{A_1}
 La idea es que la iteración de Grover rote el estado vectorial hacia $\ket{A_1}$. Cuando esto ocurre, una medición del estado produce con alta probabilidad 
 una de las salidas superpuestas en $\ket{A_1}$, es decir, una solución al problema.
 
-Inicialmente el estado vectorial es ortogonal respecto de $\ket{A_1}$. Partiendo de este punto, la operación del oráculo $O$ refleja 
-el estado en torno a $\ket{A_0}$, y luego la operación $2\ket{u}\bra{u} - I$ lo refleja en torno a $\ket{u}$. Dado que dos reflexiones producen una rotación,
-el vector de estado se acerca hacia $\ket{A_1}$, y luego de reiteradas rotaciones es posible obtener una solución con alta probabilidad
-mediante una observación en la base computacional.
+Inicialmente el estado vectorial es ortogonal respecto de $\ket{A_1}$. Partiendo de este punto, la operación del oráculo $O$ refleja el estado en torno a $\ket{A_0}$, y luego la operación $2\ket{u}\bra{u} - I$ lo refleja en torno a $\ket{u}$. Dado que dos reflexiones producen una rotación, el vector de estado se acerca hacia $\ket{A_1}$, y luego de reiteradas rotaciones es posible obtener una solución con alta probabilidad mediante una observación en la base computacional.
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -641,7 +479,7 @@ mediante una observación en la base computacional.
     height='700'
   />
   <span style='width:455px; padding:10px 40px'>
-    **Figura (5):** Rotación obtenido como producto de haber realizado ambas reflexiones, provocando un acercamiento hacia $\ket{A_1}$.
+    **Figura (5):** Rotación obtenida como producto de haber realizado ambas reflexiones, provocando un acercamiento hacia $\ket{A_1}$.
   </span>
 </div>
 
