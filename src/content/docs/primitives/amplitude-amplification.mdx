@@ -7,7 +7,7 @@ head:
     attrs:
       {
         property: 'og:image',
-        content: /qudos/amplitude-amplification-structure.png,
+        content: /qudos/amplitude-amplification/structure.png,
       }
   - tag: meta
     attrs:
@@ -25,17 +25,18 @@ import Circle from '@components/CircleNotation.astro'
 import BibItem from '@components/BibItem.astro'
 import Recommendations from '@components/Recommendations.astro'
 import ResourceDivider from '@components/ResourceDivider.astro'
+import Collapsible from '@components/Collapsible.astro'
 import {
   flip_3_example,
   qiskit_flip_3_example_result,
   qiskit_flip_3_example,
 } from '@code-snippets/amplitude-amplification'
 
-La amplificación de amplitudes se puede tomar como una primitiva cuántica, es decir como un algoritmo que se abstrae de la implementación y es reutilizable en otros algoritmos. Por ejemplo el algoritmo de <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>Grover</a> utiliza una versión del mismo para destacar y magnificar la amplitud de la respuesta correcta.
+La amplificación de amplitudes puede interpretarse como una primitiva cuántica, es decir como un algoritmo que se abstrae de la implementación y es reutilizable en otros algoritmos. Por ejemplo el <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>algoritmo de Grover</a> lo utiliza para un problema de búsqueda en particular. 
 
 ## Objetivo
 
-La amplificación de amplitudes tiene como objetivo convertir información inaccesible de diferencias de _fases_ a diferencias de _magnitudes_ que es un tipo de información accesible mediante lecturas.
+La amplificación de amplitudes busca generalizar el <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>algoritmo de Grover</a>, preservando la mejora cuadrática y permitiendo la búsqueda sobre un conjunto de elementos no estructurado sin las restricciones impuestas por el mismo. De esta manera, no necesariamente los elementos deben disponerse en una superposición uniforme, y puede haber ninguna, una o varias soluciones. Además, la amplificación de amplitudes pretende funcionar correctamente incluso cuando se desconoce la cantidad de soluciones de antemano. 
 
 ## Solución
 
@@ -43,7 +44,7 @@ El algoritmo de amplificación de amplitudes se divide en tres partes: la **prep
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
-    src={`${import.meta.env.BASE_URL}/amplitude-amplification-structure.png`}
+    src={`${import.meta.env.BASE_URL}/amplitude-amplification/structure.png`}
     alt='Estructura de la primitiva de amplificación de amplitudes (AA) con tres secciones distintivas, una para la preparación otra para la selección y otra para el reflejo.'
     width='637'
     height='290'
@@ -56,46 +57,243 @@ El algoritmo de amplificación de amplitudes se divide en tres partes: la **prep
 
 ### Preparación
 
-La etapa de **preparación** denota una precondición del algoritmo, que el estado cuántico se encuentre en un estado de superposición.
+La etapa de **preparación** denota una precondición del algoritmo: que el estado cuántico se encuentre en un estado de superposición. La forma en la que será implementada dependerá del problema en cuestión. Genéricamente, se habla de un algoritmo cuántico $\mathcal{A}$ que no realiza mediciones durante su ejecución, y el resultado de aplicar dicho algoritmo sobre el estado inicial es el siguiente:
+
+```math
+\ket{\Psi} = \mathcal{A}\ket{0} 
+```
 
 ### Selección
 
-Le sigue la etapa de **selección**, donde se provee un circuito que marque o distinga los estados cuánticos a buscar. Esto se hace mediante la modificación de la fase de aquellos cubits que se buscan, lo cual puede ser implementado de diferentes maneras.
+Le sigue la etapa de **selección**, donde se provee un circuito que marque o distinga los estados cuánticos a buscar. Esto se hace mediante la modificación de la fase de aquellos estados ``buenos'' (se llama así a los estados que conforman una solución), lo cual puede ser implementado de diferentes maneras.
 
-En el ejemplo provisto de la figura 1 se lo implementa con una puerta CZ, marcando el numero 3 ($\ket{0011}$, leyendo de abajo hacia arriba), es decir que solo invertirá la fase cuando el estado cuántico es 3. Esto hace parecer que se anula el propósito del algoritmo (buscar), pero solo se utiliza como ejemplo, siendo que en los algoritmos reales se utilizan subrutinas más complejas para invertir las fases. Por ejemplo en ciertos algoritmos esta etapa se implementa utilizando un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>, como es el caso del algoritmo de <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>Grover</a>, siendo distinguidos si cumplen con la función, es decir si $f(x)=1$.
+En el ejemplo provisto de la figura 1 se lo implementa con una puerta CZ, marcando el numero 3 ($\ket{0011}$, leyendo de abajo hacia arriba), es decir que solo invertirá la fase cuando el estado cuántico es 3. Esto hace parecer que se anula el propósito del algoritmo (buscar), pero se trata de un mero ejemplo, ya que en los algoritmos reales se utilizan subrutinas más complejas para invertir las fases. Por ejemplo, en ciertos algoritmos esta etapa se implementa utilizando un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>, como ocurre en el <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>algoritmo de Grover</a>, donde se distingue el elemento que satisface $\chi(x)=1$.
+
+Si el espacio de búsqueda posee $N$ elementos, es posible poner el foco sobre su índice, el cual puede enumerarse desde $0$ hasta $N - 1$. Así, se asume la igualdad $N = 2^n$ de manera que el índice pueda ser almacenado en $n$ bits. A su vez, el problema puede tener $M$ soluciones, con $0 \leq M \leq N$. 
 
 ### Reflejo
 
-Finaliza con la etapa de **reflejo**, que en ciertas bibliografías se lo llama como el _operador de difusión_ (Grover) o como la _inversión sobre la media_ (Nielsen y Chuang). En esta etapa se **convierten** las diferencias de fases en contrastes de magnitud y se **deselecciona** los cubits marcados en el paso previo.
-Esta etapa consta de los siguientes pasos:
-- Aplicar la transformación de Hadamard $H^{\otimes n}$
-- Realizar un cambio de fase condicional, con todos los estados a excepción de $\ket{0}$ recibiendo un cambio de fase con valor $-1$,
+Finaliza con la etapa de **reflejo**, que en ciertas bibliografías se lo llama _operador de difusión_ (Grover) o _inversión sobre la media_ (Nielsen y Chuang). Se **convierten** las diferencias de fases en contrastes de magnitud y se **deselecciona** los estados marcados en el paso previo.
+
+### Iteración
+
+El proceso de amplificación se realiza mediante la aplicación repetida de las etapas de **selección** y **reflejo** sobre el estado resultante de la etapa de **preparación**. Cada iteración comprende la aplicación del siguiente operador unitario:
+
 ```math
-\ket{x} \rightarrow -(-1)^{\delta_{x0}} \ket{x}
+Q = Q(\mathcal{A}, \chi) = -\mathcal{A} S_0 \mathcal{A}^\dag S_{\chi}
 ```
-- Aplicar la transformación de Hadamard $H^{\otimes n}$
 
-*Nota: el operador unitario correspondiente al cambio de fase es $2\ket{0}\bra{0} - I$.*
+Donde $S_{\chi}$ cambia condicionalmente el signo de las amplitudes de los estados buenos, $S_{0}$ cambia el signo de la amplitud si y sólo si el estado es $\ket{0}$, y $\mathcal{A}$ representa un algoritmo cuántico que no realiza mediciones durante su ejecución y, por lo tanto, posee inversa. 
 
-El efecto de la etapa de **reflejo** se encuentra desarrollado a continuación.
+## Visión geométrica
 
+Para evaluar el comportamiento del algoritmo se definen dos conjuntos de cadenas.
+
+```math 
+X_0 = \{x \in \Sigma^n: \chi(x) = 0\}\\
+X_1 = \{x \in \Sigma^n: \chi(x) = 1\}
+```
+
+El conjunto $X_1$ contiene todas las soluciones del problema de búsqueda, mientras que $X_0$ contiene aquellas cadenas que no son soluciones.
+Ambos conjuntos satisfacen $X_0 \cap X_1 = \varnothing$ y $X_0 \cup X_1 = \Sigma^n$, lo cual significa que $X_0$ y $X_1$ constituyen una bipartición de $\Sigma^n$.
+
+Además, se definen dos vectores unitarios que representan los estados de superposición sobre los conjuntos previamente tratados.
+
+```math 
+\ket{\Psi_0} = \sum_{x:\chi(x)=0} a_x \ket{x}\\
+\ket{\Psi_1} = \sum_{x:\chi(x)=1} a_x \ket{x}
+```
+
+Donde $\ket{\Psi_0}$ equivale al estado de superposición de aquellas cadenas que no son soluciones, mientras que $\ket{\Psi_1}$ constituye la superposición de las cadenas que sí lo son. Estos vectores se encuentran definidos únicamente cuando ninguno de los conjuntos es vacío. 
+
+Además, $a = \bra{\Psi_1}\ket{\Psi_1} \ll 1$ es la probabilidad de que la medición de $\ket{\Psi}$ produzca un estado bueno. Así, $1-a = \bra{\Psi_0}\ket{\Psi_0}$ es la probabilidad de que la misma medición produzca un estado malo.
+
+Dado que $\ket{\Psi}$ contiene el estado de superposición inicial sobre todos los estadostodas las cadenas, se cumple la siguiente igualdad:
+
+```math 
+\ket{\Psi} = \mathcal{A}\ket{0} = \ket{\Psi_0} + \ket{\Psi_1}
+```
+
+Por lo tanto, $\ket{\Psi}$ representa el estado del programa tras la acción de la etapa de **preparación**. Esto implica que justo antes de alcanzar la etapa de **selección**, dicho estado se encuentra contenido en un espacio vectorial abarcado por $\ket{\Psi_0}$ y $\ket{\Psi_1}$. Siempre se tendrá esta propiedad luego de cualquier cantidad de iteraciones al encontrarse en el primer paso de la etapa de **reflejo**.
+
+También considerar que la Amplificación de Amplitudes no se preocupa sobre cuáles cadenas son soluciones, solamente debe ser capaz de distinguirlas respecto de aquellas cadenas que no lo son.
+
+El operador $Q$ definido previamente puede reescribirse como $Q = U_{\Psi} U_{\Psi_0}$, tales que $U_{\Psi} = 2\ket{\Psi}\bra{\Psi} - I$ y $U_{\Psi_0} = \frac{2}{1-a}\ket{\Psi_0}\bra{\Psi_0} - I$, donde $U_{\Psi_0}$ aplica un reflejo en relación al vector de las no soluciones $\ket{\Psi_0}$ y $U_{\Psi}$ refleja respecto del vector $\ket{\Psi}$.
+
+## Visión matricial
+
+Al aplicar $Q$ sobre $\ket{\Psi_0}$ se obtiene $2(1-a)\ket{\Psi_1} + (1 - 2a)\ket{\Psi_0}$.
+
+<Collapsible title="Demostración" level="h6" startOpen="true">
 ```math
 \begin{align}
-H^{\otimes n}(2\ket{0}\bra{0} - I)H^{\otimes n}&=\\
-2(H^{\otimes n}\ket{0}\bra{0}H^{\otimes n}) - I&=\\
-2\ket{u}\bra{u} - I
+Q\ket{\Psi_0}&=U_{\Psi} \ket{\Psi_0}\\
+&= (2\ket{\Psi}\bra{\Psi} - I) \ket{\Psi_0}\\
+&= 2\ket{\Psi}\bra{\Psi}\ket{\Psi_0} - \ket{\Psi_0}\\
+&= 2(1-a)\ket{\Psi} - \ket{\Psi_0}\\
+&= 2(1-a)(\ket{\Psi_0} + \ket{\Psi_1}) - \ket{\Psi_0}\\
+&= 2(1-a)\ket{\Psi_1} + (1 - 2a)\ket{\Psi_0}\\
 \end{align}
 ```
 
-Debido a que aplicar $H^{\otimes n}$ da como resultado una superposición uniforme $u$.
+<Aside>
+El producto interno $\bra{\Psi}\ket{\Psi_0}$ da como resultado la probabilidad de obtener una no solución, es decir, $1-a$.
+</Aside>
+</Collapsible>
 
-Las últimas dos etapas pueden **repetirse** un mayor número de veces para obtener un mejor resultado, el número de iteraciones depende de la cantidad de soluciones posibles y del tamaño de la entrada. La fórmula óptima para obtener la cantidad de iteraciones es la siguiente:
 
+Al aplicar $Q$ sobre $\ket{\Psi_1}$ se obtiene $(1-2a)\ket{\Psi_1} -2a\ket{\Psi_0}$.
+
+<Collapsible title="Demostración" level="h6">
 ```math
-N_{iteraciones}=\left\lfloor \frac{\pi}{4}\sqrt{\frac{2^n}{s}} \right\rfloor
+\begin{align}
+Q\ket{\Psi_1}&=U_{\Psi} U_{\Psi_0} \ket{\Psi_1}\\
+&= U_{\Psi} \left(\frac{2}{1-a} \ket{\Psi_0}\bra{\Psi_0} - I \right) \ket{\Psi_1}\\
+&= U_{\Psi} \left(\frac{2}{1-a} \ket{\Psi_0}\bra{\Psi_0}\ket{\Psi_1} - \ket{\Psi_1} \right)\\
+&= U_{\Psi} \left(0 - \ket{\Psi_1} \right)\\
+&= -U_{\Psi} \ket{\Psi_1}\\
+&= -(2\ket{\Psi}\bra{\Psi} - I) \ket{\Psi_1}\\
+&= (-2\ket{\Psi}\bra{\Psi} + I) \ket{\Psi_1}\\
+&= -2\ket{\Psi}\bra{\Psi}\ket{\Psi_1} + \ket{\Psi_1}\\
+&= -2a\ket{\Psi} + \ket{\Psi_1}\\
+&= -2a(\ket{\Psi_0} + \ket{\Psi_1}) + \ket{\Psi_1}\\
+&= (1-2a)\ket{\Psi_1} -2a\ket{\Psi_0}\\ 
+\end{align}
 ```
 
-Donde $n$ es la cantidad de cubits y $s$ es la cantidad de soluciones posibles.
+<Aside>
+El producto interno $\bra{\Psi_0}\ket{\Psi_1}$ da 0 porque son estados ortogonales, mientras que $\bra{\Psi}\ket{\Psi_1}$ da como resultado la probabilidad de obtener una solución, es decir, $a$.
+</Aside>
+</Collapsible>
+
+
+Por conveniencia, se expresará la acción de $Q$ en un espacio de dos dimensiones como una matriz.
+
+```math 
+M = 
+\begin{pmatrix}
+1-2a&-2a\\
+2(1-a)&1-2a\\
+\end{pmatrix}
+```
+
+donde la primera y segunda fila/columna corresponden a $\ket{\Psi_0}$ y $\ket{\Psi_1}$ respectivamente. Dicha matriz $M$ se obtiene al multiplicar por sí misma una matriz más simple.
+
+```math
+M = 
+\begin{pmatrix}
+\sqrt{1-a}&-\sqrt{a}\\
+\sqrt{a}&\sqrt{1-a}\\
+\end{pmatrix}^2
+```
+
+Además, la matriz 
+
+```math
+\begin{pmatrix}
+\sqrt{1-a}&-\sqrt{a}\\
+\sqrt{a}&\sqrt{1-a}\\
+\end{pmatrix}
+```
+
+es de rotación, la cual puede expresarse como 
+
+```math
+\begin{pmatrix}
+cos(\theta_a)&-sen(\theta_a)\\
+sen(\theta_a)&cos(\theta_a)\\
+\end{pmatrix}
+```
+
+para $\theta_a = sen^{-1}\left(\sqrt{a}\right) = cos^{-1}\left(\sqrt{1-a}\right)$. Utilizando esta nueva expresión para $M$:
+
+```math
+\begin{align}
+  M =& 
+  \begin{pmatrix}
+    cos(\theta_a)&-sen(\theta_a)\\
+    sen(\theta_a)&cos(\theta_a)\\
+  \end{pmatrix}^2\\
+
+  =& 
+  \begin{pmatrix}
+    cos^2(\theta_a)-sen^2(\theta_a)&-cos(\theta_a)sen(\theta_a) - cos(\theta_a)sen(\theta_a)\\
+    cos(\theta_a)sen(\theta_a) + cos(\theta_a)sen(\theta_a)&cos^2(\theta_a) - sen^2(\theta_a)\\
+  \end{pmatrix}^2\\
+
+  =& 
+  \begin{pmatrix}
+    cos^2(\theta_a)-sen^2(\theta_a)&-2cos(\theta_a)sen(\theta_a)\\ 
+    2cos(\theta_a)sen(\theta_a)&cos^2(\theta_a) - sen^2(\theta_a)\\
+  \end{pmatrix}^2
+\end{align}
+```
+
+Otra igualdad que se puede alcanzar sin hacer cálculos es
+
+```math
+M = 
+\begin{pmatrix}
+  cos(\theta_a)&-sen(\theta_a)\\
+  sen(\theta_a)&cos(\theta_a)
+\end{pmatrix}^2 = 
+\begin{pmatrix}
+  cos(2\theta_a)&-sen(2\theta_a)\\
+  sen(2\theta_a)&cos(2\theta_a)
+\end{pmatrix} 
+```
+
+ya que rotar por el ángulo $\theta_a$ dos veces es equivalente a rotar por el ángulo $2\theta_a$.
+
+Retomando, el estado del programa al comienzo de la primera iteración, tras la etapa de **preparación** es:
+
+```math 
+\ket{\Psi} = \sqrt{1-a} \ket{\Psi_0} + \sqrt{a} \ket{\Psi_1} = cos(\theta_a) \ket{\Psi_0} + sin(\theta_a) \ket{\Psi_1}
+```
+
+y el efecto de aplicar Q sobre dicho estado consiste en aplicar una rotación por el ángulo $2\theta_a$ dentro del espacio abarcado por $\ket{\Psi_0}$ y $\ket{\Psi_1}$.
+
+Por ejemplo: 
+
+```math 
+Q^1\ket{\Psi} = cos(3\theta_a) \ket{\Psi_0} + sen(3\theta_a) \ket{\Psi_1}\\
+Q^2\ket{\Psi} = cos(5\theta_a) \ket{\Psi_0} + sen(5\theta_a) \ket{\Psi_1}\\
+Q^3\ket{\Psi} = cos(7\theta_a) \ket{\Psi_0} + sen(7\theta_a) \ket{\Psi_1}
+```
+
+Regla general:
+
+```math 
+Q^k\ket{\Psi} = cos((2k+1)\theta_a) \ket{\Psi_0} + sen((2k+1)\theta_a) \ket{\Psi_1}
+```
+
+La idea es que las iteraciones roten el estado vectorial hacia $\ket{\Psi_1}$. Cuando esto ocurre, una medición del estado produce con alta probabilidad una de las salidas superpuestas en $\ket{\Psi_1}$, es decir, una solución al problema.
+
+Inicialmente el estado vectorial es ortogonal respecto de $\ket{A_1}$. Partiendo de este punto, la operación $U_{\Psi_0}$ refleja el estado en torno a $\ket{\Psi_0}$, y luego la operación $U_{\Psi}$ lo refleja en torno a $\ket{\Psi}$. Dado que dos reflexiones producen una rotación, el vector de estado se acerca hacia $\ket{\Psi_1}$, y luego de reiteradas rotaciones es posible obtener una solución con alta probabilidad mediante una observación en la base computacional.
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/amplitude-amplification/geom.jpg`}
+    alt='Reflexión realizada al aplicar el oráculo O respecto del estado ortogonal $\ket{A_0}$.'
+    width='700'
+    height='700'
+  />
+  <span style='width:455px; padding:10px 40px'>
+    **Figura (2):** Rotación realizada por el operador $O$ como composición de dos reflexiones. Fuente: https://alexandre01.github.io/projects/quantum_ampl_estimation/
+  </span>
+</div>
+
+## Complejidad
+
+Sea $a$ la probabilidad inicial de alcanzar un estado bueno a partir de $\mathcal{A}$ (es decir, de que obtenga una solución al problema). Asumiendo $a > 0$, y definiendo $t = \lfloor \frac{\pi}{4\theta_a} \rfloor$, donde $\theta_a$ se define tal que $sen^2(\theta_a) = a$ y $0 \lt \theta_a \leq \frac{\pi}{2}$. Entonces, si se computa $Q^t \mathcal{A} \ket{0}$ (se aplica el operador $Q$ $t$ veces) y se realiza una medición, la salida será buena con probabilidad de al menos $max(1 - a, a)$, definida como el valor más grande entre $1 - a$ y $a$.
+
+De esta manera, el número óptimo de iteraciones es el siguiente:
+
+```math
+N_{iteraciones}= \left\lfloor \frac{\pi}{4}\sqrt{\frac{1}{a}} \right\rfloor = \left\lfloor \frac{\pi}{4}\sqrt{\frac{2^n}{s}} \right\rfloor
+```
+
+Donde $n$ es la cantidad de cubits y $s$ es la cantidad de soluciones posibles. En caso de que $a$ se desconozca, es posible recurrir a algunas técnicas para resolver el problema conservando la aceleración cuadrática.
 
 <Aside>
   Realizar más iteraciones de las necesarias puede resultar contraproducente ya
@@ -103,6 +301,150 @@ Donde $n$ es la cantidad de cubits y $s$ es la cantidad de soluciones posibles.
   +1\right)$, el estado cúantico permanecerá seleccionado haciendo que la
   operación de selección funcione de manera insensata.{' '}
 </Aside>
+
+<Collapsible title="Demostración" level="h6">
+
+Dado que el estado del programa luego de $t$ iteraciones de $Q$ es 
+
+```math 
+Q^t\ket{\Psi} = cos((2t+1)\theta_a) \ket{\Psi_0} + sen((2t+1)\theta_a) \ket{\Psi_1}
+````
+
+debe elegirse $t$ tal que  
+
+```math 
+\bra{\Psi_1}Q^t\ket{\Psi} = sen((2t+1)\theta_a)
+````
+
+sea tan cerca de 1 como sea posible (en valor absoluto), para maximizar la probabilidad de obtener $x \in X_1$ en la medición. También es deseable que $t$ sea lo más pequeño posible, ya que $t$ aplicaciones de la operación $Q$ requieren $t$ consultas a la función $\Chi$, cuya ejecución se busca minimizar. Una forma de lograr que $sen((2t+1)\theta_a)$ sea cercano a 1 en valor absoluto consiste en elegir $t$ tal que:
+
+```math 
+(2t+1)\theta_a \approx \frac{\pi}{2}
+````
+
+Debido al comportamiento de la función seno. 
+
+<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
+  <Image
+    src={`${import.meta.env.BASE_URL}/grover/sin_function.png`}
+    alt='Comportamiento de la función seno. Probabilidad de leer una solución contra el número de iteraciones.'
+    width='700'
+    height='700'
+  />
+  <span style='width:455px; padding:10px 40px'>
+    **Figura (6):** Comportamiento de la función seno. Probabilidad de leer una solución contra el número de iteraciones.
+  </span>
+</div>
+
+<Aside>
+Existen infinitos valores $t$ tal que $sen(t) \approx |1|$. Además, la oscilación de dicha función permite estimar la probabilidad de éxito a la hora de encontrar una solución, basándose en la cantidad de iteraciones elegida. En este contexto, se buscará alcanzar el valor positivo $t$ cercano a $|1|$ más pequeño, con el objetivo de realizar la menor cantidad de iteraciones posible y disminuir al mínimo la probabilidad de error durante la ejecución del algoritmo.
+</Aside>
+
+Despejando $t$ y redondeando a un valor entero mayor que 0, de la ecuación anterior se obtiene:
+
+```math
+t = \left\lfloor\frac{\pi}{4\theta_a}\right\rfloor
+```
+
+Ahora debe reemplazarse el valor $\theta_a$. Dado que el valor de dicho ángulo está definido por la fórmula $\theta_a = sen^{-1}\left(\sqrt{a}\right)$, dependiente de $a$, la estimación de $t$ se encuentra ligada a la cantidad de soluciones y la cantidad total de elementos presentes en el espacio de búsqueda. 
+
+</Collapsible>
+
+#### Solución única
+
+Se harán los cálculos necesarios para el caso en el que solamente hay una cadena $x$ tal que $\chi(x) = 1$. Esto quiere decir que $s = 1$.
+
+```math
+a = \frac{s}{N} = \frac{1}{N}\\
+\theta_a = sen^{-1}\left(\sqrt{a}\right) = sen^{-1}\left(\sqrt{\frac{1}{N}}\right)
+```
+
+Cuyo valor puede aproximarse a $\sqrt{\frac{1}{N}}$ cuando $N$ es un valor grande. 
+
+Sustituyendo el valor $\theta_a = \sqrt{\frac{1}{N}}$ en la expresión $t = \left\lfloor\frac{\pi}{4\theta_a}\right\rfloor$ se obtiene 
+
+```math
+t = \left\lfloor\frac{\pi}{4\theta_a}\right\rfloor = \left\lfloor\frac{\pi}{4N^{-1/2}}\right\rfloor = \left\lfloor\frac{\pi}{4}\sqrt{N}\right\rfloor
+```
+
+En base al resultado obtenido en $t$, este caso requiere a lo sumo $O(\sqrt{N})$ consultas para encontrar la solución. La probabilidad de que la medición final resulte en la solución puede expresarse como 
+
+```math
+p(N,1)=sen^2((2t+1)θ))
+```
+
+Y en general se cumple 
+
+```math
+p(N,1) >= 1 - \frac{1}{N}
+```
+
+para todo $N$, por lo que la probabilidad de éxito tiende a 1 a medida que $N$ crece.
+
+#### Múltiples soluciones
+
+Se harán los cálculos necesarios para el caso en el que hayan distintas cadenas $x_i$ tal que $\chi(x_i) = 1$.
+
+A medida que la cantidad de elementos en $X_1$ varía, también lo hace el ángulo $\theta_a$, lo cual puede repercutir en gran medida en la probabilidad de éxito del algoritmo. Teniendo $s$ soluciones, habrá que usar el siguiente ángulo:
+
+```math
+\theta_a=sen^{−1}\left(\sqrt{\frac{s}{N}}\right)
+```
+
+y $p(N,s)$ denota la probabilidad del algoritmo para que en $t$ iteraciones encuentre una de las $s$ soluciones dentro de $N$ posibilidades. Puede probarse que 
+
+```math
+p(N,s)\geq 1−\frac{s}{N}
+```
+
+y también que 
+
+```math
+p(N,s)\geq \frac{s}{N}
+```
+
+Para todo valor $\alpha \in \{0,1\}$ se cumple que $sen^{-1}(\alpha)\geq\alpha$, por lo que puede afirmarse la siguiente inecuación:
+
+```math
+\theta_a = sen^{-1}(\sqrt{a}) = sen^{-1}\left(\sqrt{\frac{s}{N}}\right) \geq \sqrt{\frac{s}{N}}
+```
+
+lo cual implica que 
+
+```math
+t \leq \frac{\pi}{4\theta_a} \leq \frac{\pi}{4} \sqrt{\frac{N}{s}}
+```
+
+Por lo tanto, se reduce la cantidad de consultas requeridas a la función $\chi$ a medida que $s$ aumenta. El número de consultas requeridas es de $O\left(\sqrt{\frac{N}{s}}\right)$.
+
+#### Número desconocido de soluciones
+
+Si el número de soluciones $s = |X_1|$ se desconoce debe implementarse una estrategia para encontrar soluciones con alta probabilidad. Existen diferentes alternativas que serán mencionadas a continuación. 
+
+La primera opción consiste en elegir un valor aleatorio de $t$ ubicado entre 1 y $\left\lfloor\frac{\pi}{4}\sqrt{N}\right\rfloor$. De esta manera es posible encontrar una solución (asumiendo que al menos una existe) con una probabilidad mayor al 40\%. Si bien esta probabilidad es baja, repitiendo este procedimiento y verificando el resultado puede alcanzarse una solución con una probabilidad muy cercana a 1. 
+
+Por otro lado, existe un método que encuentra una solución cuando al menos una existe realizando $O\left(\sqrt{\frac{N}{s}}\right)$ consultas, incluso cuando el número de soluciones de $s$ no es conocido. Cabe destacar que se requieren $O\left(\sqrt{N}\right)$ consultas para determinar que no hay soluciones cuando $s=0$. La idea consiste en elegir $t$ de manera uniforme y aleatoria dentro del conjunto $\{1,...,T\}$ iterativamente, incrementando el valor de $T$. Una estrategia válida es comenzar con $T=1$ e incrementar dicho valor exponencialmente, siempre terminando este proceso tan pronto como una solución sea encontrada y dejando de incrementar $T$ para no desperdiciar consultas cuando ya se sabe que no existe una solución. Este procedimiento tiene la ventaja de que requiere menos consultas cuando hay más soluciones. No obstante, debe tenerse cuidado a la hora de elegir la tasa de crecimiento de $T$: está comprobado que utilizar $T \leftarrow \left\lceil \frac{5}{4}T \right\rceil$ funciona correctamente, pero duplicar $T$ en cada iteración es demasiado agresivo y genera incrementos demasiado rápidos. 
+
+#### Casos triviales
+
+Si todas las cadenas $x \in \Sigma^n$ son una solución, entonces cualquier medición reflejará una solución; y cuando no haya soluciones, ninguna medición obtendrá una solución. El hecho de que $X_0$ o $X_1$ sean vacíos implica que $\chi$ es una función constante: $X_1$ es vacío cuando $\chi(x) = 0$ para todo $x \in \Sigma^n$ y $X_0$ es vacío cuando $\chi(x) = 1$ para todo $x \in \Sigma^n$. 
+
+Lo anterior implica que 
+
+```math 
+S_{\chi}\ket{\Psi} = \pm\ket{\Psi}
+```
+
+y por lo tanto 
+
+```math 
+Q\ket{\Psi}=(2\ket{\Psi}\bra{\Psi}-I)S_{\chi}\ket{\Psi}=\pm(2\ket{\Psi}\bra{\Psi}-I)\ket{\Psi}=\pm\ket{\Psi}
+```
+
+En conclusión, sin importar la cantidad de iteraciones $t$ que se realicen en estos casos, las mediciones siempre reflejarán una cadena aleatoria $x\in\Sigma^n$.
+
+
+## Ejemplos
 
 <Tabs>
   <TabItem label='Círculos'>
