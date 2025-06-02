@@ -13,14 +13,16 @@ head:
 
 import { Image } from 'astro:assets'
 import { Aside, Card, Code, Tabs, TabItem } from '@astrojs/starlight/components'
+import Box from '@components/Box.astro'
+import Circle from '@components/CircleNotation.astro'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
 import BibItem from '@components/BibItem.astro'
 import Recommendations from '@components/Recommendations.astro'
-import Box from '@components/Box.astro'
+import ResourceDivider from '@components/ResourceDivider.astro'
 import {
-  solution_grover,
-  results_11_grover,
-  grover_example
+  quirk_example,
+  qiskit_example,
+  qiskit_example_result
 } from '@code-snippets/grover'
 
 
@@ -30,27 +32,45 @@ El algoritmo de Grover es el algoritmo de búsqueda cuántico por excelencia, ya
 
 Dada una base de datos no ordenada de $N$ elementos, de la cual sólo uno de ellos satisface una propiedad en particular, se quiere encontrar dicho elemento. El mejor algoritmo clásico conocido realiza esta tarea en $O(N)$ pasos, mientras que este algoritmo puede resolverlo en $O(\sqrt{N})$ pasos.
 
-## Metodología 
-
-Se emplea el algoritmo de búsqueda en términos de un oráculo. Esto permite presentar una descripción general del proceso de búsqueda, junto con un punto de vista geométrico para ver cómo funciona. Además, facilita el análisis de complejidad, poniendo bajo consideración únicamente la cantidad de consultas realizadas al oráculo durante la ejecución del algoritmo.
-
-### Oráculo 
+## Oráculo 
 
 Se desea buscar sobre un espacio de búsqueda de $N$ elementos. En lugar de buscar dichos elementos directamente, se pondrá el foco sobre su índice,
 el cual puede enumerarse desde $0$ hasta $N - 1$. Se asumirá $N = 2^n$, de manera que el índice pueda ser almacenado en $n$ bits, y el problema tendrá exactamente 
-$1$ solución. Una instancia del problema de búsqueda puede ser representada por una función $f$, que toma un entero $x$ como entrada dentro 
-del rango que va desde $0$ a $N - 1$. Por definición, $f(x) = 1$ si $x$ es la solución del problema, y $f(x) = 0$ en caso contrario.
+$1$ solución. Una instancia del problema de búsqueda puede ser representada por una función $\chi$, que toma un entero $x$ como entrada dentro 
+del rango que va desde $0$ hasta $N - 1$. Por definición, $\chi(x) = 1$ si $x$ es la solución del problema, y $\chi(x) = 0$ en caso contrario.
 
-La función $f$ antes definida se asume implementada por medio de un oráculo cuántico con la habilidad para reconocer soluciones al problema de búsqueda. 
-Precisamente, se trata de un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#oráculo-de-fase`}>oráculo de fase</a>, encargado de marcar las soluciones del problema de búsqueda, modificando su fase.
+La función $\chi$ antes definida se asume implementada por medio de un oráculo cuántico con la habilidad para reconocer soluciones al problema de búsqueda. 
+Precisamente, se trata de un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#oráculo-de-fase`}>oráculo de fase</a>, encargado de marcar las soluciones del problema de búsqueda, modificando su fase. En este artículo se llamará $O$ a la aplicación de dicho oráculo.
 
-### Procedimiento 
+## Solución
 
-Los pasos llevados a cabo en este algoritmo se corresponden con la metodología general de la <a href={`${import.meta.env.BASE_URL}/primitives/amplitude-amplification`}>amplificación de amplitudes (AA)</a>, implementada de manera específica para el problema planteado en este artículo.
+Los pasos llevados a cabo en este algoritmo se corresponden con la metodología general de la <a href={`${import.meta.env.BASE_URL}/primitives/amplitude-amplification`}>amplificación de amplitudes (AA)</a>, implementada de manera específica para el problema planteado en este artículo. Se recomienda ver la explicación completa de dicha primitiva y luego volver para comprender su aplicación sobre el algoritmo de Grover. Cabe aclarar que, a diferencia de lo expuesto en AA, el circuito utilizará un cubit auxiliar adicional para implementar el oráculo de fase.
 
-El oráculo antes definido se llamará $O$, mientras que se denominará $Q$ al registro asociado a los $n$ cubits que codifican la información de la base de búsqueda, excluyendo así a los cubits adicionales que serán utilizados para la ejecución del oráculo.
+### Preparación
 
-El algoritmo comienza en el estado $\ket{0}^{\otimes n}$. Así, se introduce la etapa de **preparación**, aplicando la transformación de Hadamard para alcanzar un estado de superposición uniforme $\frac{1}{\sqrt N} \sum_{0}^{N - 1}\ket{x}$ sobre todas las soluciones en el espacio de búsqueda. 
+El programa comienza en el estado $\ket{0}^{\otimes n}$ (ignorando cubits auxiliares). El algoritmo de Grover recurre a la superposición $\mathcal{A} = H$, aplicando la transformación de Hadamard para alcanzar un estado de superposición uniforme sobre todas las soluciones en el espacio de búsqueda. 
+
+```math
+\ket{\Psi} = \mathcal{A}\ket{0} = H\ket{0} = \frac{1}{\sqrt N} \sum_{0}^{N - 1}\ket{x}
+```
+
+### Selección 
+
+Para seleccionar el único estado bueno y negar su fase se utiliza el oráculo $O$, que tiene la capacidad de reconocer la solución al problema. En términos de <a href={`${import.meta.env.BASE_URL}/primitives/amplitude-amplification#selección`}>AA</a>, $S_{\chi} = O$.
+
+### Reflejo
+
+Se produce a efectos de la puerta Hadamard ya que se trabaja con superposiciones uniformes.
+
+### Iteración 
+
+Las iteraciones de Grover son comprendidas por las etapas de **selección** y **reflejo**. Sea $S_{\chi} = O$, $\mathcal{A} = H$ y $\mathcal{A}^\dag = H$ debido a que la transformación de Hadamard es su propia inversa. En términos de <a href={`${import.meta.env.BASE_URL}/primitives/amplitude-amplification#selección`}>AA</a>, las iteraciones de Grover constituyen la aplicación del siguiente operador $Q$:
+
+```math
+Q = -H S_0 H O
+```
+
+{/*
 
 A continuación, el algoritmo de búsqueda consiste en la aplicación reiterada de una subrutina cuántica, conocida como iteración de Grover, que es representada mediante la letra $G$ y consta de los siguientes pasos:
 
@@ -89,17 +109,23 @@ En términos de la <a href={`${import.meta.env.BASE_URL}/primitives/amplitude-am
 Q = -HS_0HO
 ```
 
-Dado que la probabilidad inicial de éxito $a$ es exactamente $\frac{1}{N}$ (existe una única solución al problema), si se mide luego de $m = \left\lfloor \frac{\pi}{4\theta_a} \right\rfloor$ iteraciones de $Q$, la probabilidad de encontrar la solución tiene una cota inferior de $1 - \frac{1}{N}$.
+*/}
+
+## Complejidad
+
+Dado que la probabilidad inicial de éxito $a$ es exactamente $\frac{1}{N}$ (existe una única solución al problema), si se mide luego de $m = \left\lfloor \frac{\pi}{4} \sqrt{N} \right\rfloor$ iteraciones de $Q$, la probabilidad de encontrar la solución tiene una cota inferior de $1 - \frac{1}{N}$. Ver detalles en <a href={`${import.meta.env.BASE_URL}/primitives/amplitude-amplification#complejidad#solución-única`}>AA</a>.
+
+## Circuito
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/grover/grover-algorithm.png`}
     alt='Algoritmo de Grover en un circuito cuántico utilizando la iteración de Grover G.'
-    width='500'
-    height='500'
+    width='750'
+    height='300'
   />
-  <span style='width:455px; padding:10px 40px'>
-    **Figura (1):** Algoritmo de Grover en un circuito cuántico utilizando la iteración de Grover G.
+  <span style='width:700px; padding:10px 40px'>
+    **Figura (1):** Algoritmo de Grover en un circuito cuántico utilizando la iteración de Grover $Q$.
   </span>
 </div>
 
@@ -107,16 +133,15 @@ Dado que la probabilidad inicial de éxito $a$ es exactamente $\frac{1}{N}$ (exi
   <Image
     src={`${import.meta.env.BASE_URL}/grover/grover-iteration.png`}
     alt='Iteración de Grover G en un circuito cuántico.'
-    width='500'
-    height='500'
+    width='600'
+    height='200'
   />
-  <span style='width:455px; padding:10px 40px'>
-    **Figura (2):** Iteración de Grover G en un circuito cuántico.
+  <span style='width:700px; padding:10px 40px'>
+    **Figura (2):** Iteración de Grover Q en un circuito cuántico. "In" representa el estado del registro de búsqueda, mientras que "aux" es el cubit auxiliar usado por el oráculo de fase.
   </span>
 </div>
 
-### Análisis 
-
+{/*
 #### Comportamiento
 
 Para evaluar el comportamiento del algoritmo se definirán dos conjuntos de cadenas.
@@ -307,184 +332,356 @@ Inicialmente el estado vectorial es ortogonal respecto de $\ket{A_1}$. Partiendo
   </span>
 </div>
 
-#### Número de iteraciones
+*/}
 
-En este apartado se evaluará la cantidad de iteraciones necesarias para hallar una solución utilizando el algoritmo de Grover. 
+## Ejemplos
 
-El objetivo consiste en encontrar un elemento $x \in A_1$, y esto se cumplirá cuando se obtenga el estado $\ket{A_1}$, el cual nos garantizará que 
-se obtendrá un valor $x \in A_1$ como resultado de la medición.
-
-Dado que el estado $Q$ luego de $t$ iteraciones de $G$ es 
-
-```math 
-G^t\ket{u} = cos((2t+1)\theta) \ket{A_0} + sin((2t+1)\theta) \ket{A_1}
-````
-
-debe elegirse $t$ tal que  
-
-```math 
-\bra{A_1}G^t\ket{u} = sin((2t+1)\theta)
-````
-
-sea tan cerca de 1 como sea posible (en valor absoluto), para maximizar la probabilidad de obtener $x \in A_1$ en la medición. También es deseable que 
-$t$ sea lo más pequeño posible, ya que $t$ aplicaciones de la operación $G$ requieren $t$ consultas a la función $f$, cuya ejecución se busca minimizar 
-tanto como sea posible. Una forma de lograr que $sin((2t+1)\theta)$ sea cercano a 1 en valor absoluto consiste en elegir $t$ tal que 
-
-```math 
-(2t+1)\theta \approx \frac{\pi}{2}
-````
-
-Debido al comportamiento de la función seno. 
-
-<div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
-  <Image
-    src={`${import.meta.env.BASE_URL}/grover/sin_function.png`}
-    alt='Comportamiento de la función seno. Probabilidad de leer una solución contra el número de iteraciones.'
-    width='700'
-    height='700'
-  />
-  <span style='width:455px; padding:10px 40px'>
-    **Figura (6):** Comportamiento de la función seno. Probabilidad de leer una solución contra el número de iteraciones.
-  </span>
-</div>
-
-Nota: existen infinitos valores $t$ tal que $sin(t) \approx |1|$. Además, la oscilación de dicha función permite estimar la probabilidad de éxito a la hora 
-de encontrar una solución, basándose en la cantidad de iteraciones elegida. En este contexto, se buscará alcanzar el valor positivo $t$ cercano a $|1|$ más pequeño, 
-con el objetivo de realizar la menor cantidad de iteraciones posible y disminuir al mínimo la probabilidad de error durante la ejecución del algoritmo.
-
-Despejando $t$ y redondeando a un valor entero mayor que 0, de la ecuación anterior se obtiene:
-
-```math
-t = \left\lfloor\frac{\pi}{4\theta}\right\rfloor
-```
-
-Ahora debe reemplazarse el valor $\theta$. Recordando que el valor de dicho ángulo está dado por la fórmula $\theta = sin^{-1}\left(\sqrt{\frac{|A_1|}{N}}\right)$, 
-puede verse fácilmente que la estimación de $t$ desarrollada previamente depende del número de cadenas presentes en $A_1$. Esto puede presentar un 
-desafío si no se sabe cuántas soluciones tiene el problema.
-
-
-##### Solución única
-
-Se harán los cálculos necesarios para el caso en el que solamente hay una cadena $x$ tal que $f(x) = 1$.
-
-```math
-t = sin^{-1}\left(\sqrt{\frac{|A_1|}{N}}\right) = sin^{-1}\left(\sqrt{\frac{1}{N}}\right)
-```
-
-Cuyo valor puede aproximarse a $\sqrt{\frac{1}{N}}$ cuando $N$ es un valor grande. 
-
-Sustituyendo el valor $\theta = \sqrt{\frac{1}{N}}$ en la expresión $t = \left\lfloor\frac{\pi}{4\theta}\right\rfloor$ se obtiene 
-
-```math
-t = \left\lfloor\frac{\pi}{4\theta}\right\rfloor = \left\lfloor\frac{\pi}{4N^{-1/2}}\right\rfloor = \left\lfloor\frac{\pi}{4}\sqrt{N}\right\rfloor
-```
-
-En base al resultado obtenido en $t$, notar que el algoritmo de Grover requiere a lo sumo $O(\sqrt{N})$ consultas para encontrar la solución.
-La probabilidad de que la medición final resulte en la solución puede expresarse como 
-
-```math
-p(N,1)=sin^2((2t+1)θ))
-```
-
-Y en general se cumple 
-
-```math
-p(N,1) >= 1 - \frac{1}{N}
-```
-
-para todo $N$, por lo que la probabilidad de éxito tiende a 1 a medida que $N$ crece.
-
-
-##### Múltiples soluciones
-
-Se harán los cálculos necesarios para el caso en el que hayan distintas cadenas $x_i$ tal que $f(x_i) = 1$.
-
-A medida que la cantidad de elementos en $A_1$ varía, también lo hace el ángulo $\theta$, lo cual puede repercutir en gran medida en la probabilidad de éxito 
-del algoritmo. Teniendo $s$ soluciones, habrá que usar el siguiente ángulo:
-
-```math
-\theta=sin^{−1}\left(\sqrt{\frac{s}{N}}\right)
-```
-
-y $p(N,s)$ denota la probabilidad del algoritmo para que en $t$ iteraciones encuentre una de las $s$ soluciones dentro de $N$ posibilidades. Puede probarse que 
-
-```math
-p(N,s)\geq 1−\frac{s}{N}
-```
-
-y también que 
-
-```math
-p(N,s)\geq \frac{s}{N}
-```
-
-Para todo valor $\alpha \in \{0,1\}$ se cumple que $sin^{-1}(\alpha)\geq\alpha$, por lo que puede afirmarse la siguiente inecuación:
-
-```math
-\theta = sin^{-1}\left(\sqrt{\frac{s}{N}}\right) \geq \sqrt{\frac{s}{N}}
-```
-
-lo cual implica que 
-
-```math
-t \leq \frac{\pi}{4\theta} \leq \frac{\pi}{4} \sqrt{\frac{N}{s}}
-```
-
-Por lo tanto, se reduce la cantidad de consultas requeridas a la función $f$ a medida que $s$ aumenta. El número de consultas requeridas es de $O\left(\sqrt{\frac{N}{s}}\right)$.
-
-##### Número desconocido de soluciones 
-
-Si el número de soluciones $s = |A_1|$ se desconoce debe implementarse una estrategia para encontrar soluciones con alta probabilidad. Existen diferentes alternativas
-que serán mencionadas a continuación. 
-
-La primera opción consiste en elegir un valor aleatorio de $t$ ubicado entre 1 y $\left\lfloor\frac{\pi}{4}\sqrt{N}\right\rfloor$. De esta manera es posible encontrar 
-una solución (asumiendo que al menos una existe) con una probabilidad mayor al 40\%. Si bien esta probabilidad es baja, repitiendo este procedimiento y verificando el 
-resultado puede alcanzarse una solución con una probabilidad muy cercana a 1. 
-
-Por otro lado, existe un método que encuentra una solución cuando al menos una existe realizando $O\left(\sqrt{\frac{N}{s}}\right)$ consultas, incluso cuando el número de 
-soluciones de $s$ no es conocido. Cabe destacar que se requieren $O\left(\sqrt{N}\right)$ consultas para determinar que no hay soluciones cuando $s=0$. La idea consiste en 
-elegir $t$ de manera uniforme y aleatoria dentro del conjunto $\{1,...,T\}$ iterativamente, incrementando el valor de $T$. Una estrategia válida es comenzar 
-con $T=1$ e incrementar dicho valor exponencialmente, siempre terminando este proceso tan pronto como una solución sea encontrada y dejando de incrementar $T$ para 
-no desperdiciar consultas cuando ya se sabe que no existe una solución. Este procedimiento tiene la ventaja de que requiere menos consultas cuando hay más soluciones.
-No obstante, debe tenerse cuidado a la hora de elegir la tasa de crecimiento de $T$: está comprobado que utilizar $T \leftarrow \left\lceil \frac{5}{4}T \right\rceil$ 
-funciona correctamente, pero duplicar $T$ en cada iteración es demasiado agresivo y genera incrementos demasiado rápidos. 
-
-##### Casos triviales
-
-Hasta este punto se ha asumido que el número de soluciones es distinto de cero. Además, se ha dejado en claro que tanto $A_0$ como $A_1$ eran conjuntos no vacíos. 
-En este apartado se explicará qué ocurre cuando alguno de ambos conjuntos se encuentra vacío. 
-
-Si todas las cadenas $x \in \Sigma^n$ son una solución, entonces cualquier medición reflejará una solución; y cuando no haya soluciones, ninguna medición obtendrá 
-una solución. El hecho de que $A_0$ o $A_1$ sean vacíos implica que $f$ es una función constante: $A_1$ es vacío cuando $f(x) = 0$ para todo $x \in \Sigma^n$ y 
-$A_0$ es vacío cuando $f(x) = 1$ para todo $x \in \Sigma^n$. 
-
-Lo anterior implica que 
-
-```math 
-O\ket{u} = \pm\ket{u}
-```
-
-y por lo tanto 
-
-```math 
-G\ket{u}=(2\ket{u}\bra{u}-I)O\ket{u}=\pm(2\ket{u}\bra{u}-I)\ket{u}=\pm\ket{u}
-```
-
-En conclusión, sin importar la cantidad de iteraciones $t$ que se realicen en estos casos, las mediciones siempre reflejarán una cadena 
-uniforme aleatoria $x\in\Sigma^n$.
-
-### Ejemplos
-
-Sea $s=11$ la solución única al problema se modifica el oráculo con una función que toma valor 1 únicamente con dicha cadena. Utilizaremos una puerta <a href={`${import.meta.env.BASE_URL}/gates/cz`}>CZ</a> para que el oráculo detecte la solución única.
+Sea $x=0011$ la solución única al problema, se modifica el oráculo con una función que toma valor 1 únicamente con dicha cadena. Se sabe de antemano que el problema tiene una solución.
 
 <Tabs>
+  <TabItem label='Círculos'>
+    <Box>
+      Se analizan los pasos del algoritmo donde:
+      - $\Gamma_0$ es el estado inicial $\ket{0}$
+      - $\Gamma_1$ se corresponde con la preparación del estado cuántico que resulta en $\ket{\Psi}$
+      - $\sigma$ representa el resultado de aplicar la operación de selección  
+      - $\lambda$ es el efecto de la etapa de reflejo
+
+      En $\sigma$ y $\lambda$ se utilizará como subíndice el número de iteración.
+
+       La cantidad óptima de iteraciones es:
+       ```math
+        N_{iteraciones}=\left\lfloor \frac{\pi}{4}\sqrt{\frac{2^4}{1}} \right\rfloor=\lfloor \pi \rfloor = 3
+       ```
+       <div style='margin-top:30px'>
+         <ResourceDivider icon='pencil' text='\(\Gamma_0\)' />
+       </div>
+       <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+        El estado inicial del algoritmo $\ket{0}^{\otimes 4}$
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
+            </div>
+         </section>
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
+            </div>
+         </section>
+       </div>
+       <ResourceDivider icon='pencil' text='\(\Gamma_1\)' />
+       <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+         Estado cuántico luego de la preparación (aplicación del algoritmo $\mathcal{A} = H$)
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0011}'} />
+              </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0111}'} />
+            </div>
+         </section>
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1111}'} />
+            </div>
+         </section>
+       </div>
+       <ResourceDivider icon='pencil' text='\(\sigma_1\)' />
+       <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+           Notar que $\ket{0011}$ tiene invertida la fase
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0111}'} />
+          </div>
+         </section>
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1111}'} />
+            </div>
+         </section>
+       </div>
+       <ResourceDivider icon='pencil' text='\(\lambda_1\)' />
+       <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+         Notar la "deselección" de $\ket{0011}$
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.472656} label={'\\ket{0011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0111}'} />
+         </div>
+         </section>
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1111}'} />
+            </div>
+         </section>
+       </div>
+       <ResourceDivider icon='pencil' text='\(\sigma_2\)' />
+       <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.472656} label={'\\ket{0011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0111}'} />
+            </div>
+         </section>
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1111}'} />
+            </div>
+         </section>
+       </div>
+       <ResourceDivider icon='pencil' text='\(\lambda_2\)' />
+       <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.908447} label={'\\ket{0011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0111}'} />
+            </div>
+         </section>
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1111}'} />
+            </div>
+         </section>
+       </div>
+       <ResourceDivider icon='pencil' text='\(\sigma_3\)' />
+       <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.908447} label={'\\ket{0011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0111}'} />
+            </div>
+         </section>
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1111}'} />
+            </div>
+         </section>
+       </div>
+       <ResourceDivider icon='pencil' text='\(\lambda_3\)' />
+       <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+         Notar que no "deselecciona" ya que alcanzó la cantidad óptima de iteraciones.
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.961319} label={'\\ket{0011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0111}'} />
+            </div>
+         </section>
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1111}'} />
+            </div>
+         </section>
+       </div>
+       Llegados a este punto, el problema se encuentra **resuelto** con una probabilidad de 96.1319\%. Se realiza una cuarta iteración para mostrar el decremento de la probabilidad al exceder la cantidad óptima de iteraciones.
+       <div style='margin-top:30px'>
+       <ResourceDivider icon='pencil' text='\(\sigma_4\)' />
+       </div>
+       <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+         Notar que la operación de "selección" no logró distinguir al estado bueno.
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.961319} label={'\\ket{0011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0111}'} />
+            </div>
+         </section>
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1111}'} />
+            </div>
+         </section>
+       </div>
+       <ResourceDivider icon='pencil' text='\(\lambda_4\)' />
+       <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.581704} label={'\\ket{0011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{0111}'} />
+            </div>
+         </section>
+         <section class="responsive-circles">
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1011}'} />
+            </div>
+            <div class="quadrant-circles">
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1111}'} />
+            </div>
+         </section>
+       </div>
+       Por lo que en una cuarta iteración se disminuyen las probabilidades de encontrar el número buscado.
+    </Box>
+  </TabItem>
   <TabItem label='Quirk'>
     <Box>
-      <QuantumCircuit src={grover_example} />
+      <QuantumCircuit src={quirk_example} />
       <Aside>
-        El resultado de la medición representa con valores **"On"** aquellos
-        valores que son $1$ y los que son **"Off"** los valores que son $0$,
-        formando la cadena $111$ si se lee de arriba hacia abajo.
+        El cubit más significativo (desde abajo hacia arriba en el circuito) es el auxiliar utilizado por el oráculo **O**, el cual permite seleccionar la solución $x$. Mientras tanto, **mirror** está diagramada como la etapa de reflejo de la Figura (1) del artículo de <a href={`${import.meta.env.BASE_URL}/primitives/amplitude-amplification`}>AA</a>.
       </Aside>
     </Box>
   </TabItem>
@@ -492,13 +689,13 @@ Sea $s=11$ la solución única al problema se modifica el oráculo con una funci
     <Box>
       <Tabs>
         <TabItem label='Código'>
-          <Code code={solution_grover} lang='py' />
+          <Code code={qiskit_example} lang='py' />
         </TabItem>
         <TabItem label='Resultado'>
           <Code
             mark={[`{'11': 1024}`]}
             lang='text'
-            code={results_11_grover}
+            code={qiskit_example_result}
           />
           <Aside>
             El orden de la evaluación (la última linea) es de abajo hacia

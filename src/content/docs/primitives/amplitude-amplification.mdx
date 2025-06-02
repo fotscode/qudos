@@ -27,9 +27,9 @@ import Recommendations from '@components/Recommendations.astro'
 import ResourceDivider from '@components/ResourceDivider.astro'
 import Collapsible from '@components/Collapsible.astro'
 import {
-  flip_3_example,
-  qiskit_flip_3_example_result,
-  qiskit_flip_3_example,
+  quirk_example,
+  qiskit_example,
+  qiskit_example_result,
 } from '@code-snippets/amplitude-amplification'
 
 La amplificación de amplitudes puede interpretarse como una primitiva cuántica, es decir como un algoritmo que se abstrae de la implementación y es reutilizable en otros algoritmos. Por ejemplo el <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>algoritmo de Grover</a> lo utiliza para un problema de búsqueda en particular. 
@@ -45,13 +45,12 @@ El algoritmo de amplificación de amplitudes se divide en tres partes: la **prep
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/amplitude-amplification/structure.png`}
-    alt='Estructura de la primitiva de amplificación de amplitudes (AA) con tres secciones distintivas, una para la preparación otra para la selección y otra para el reflejo.'
+    alt='Estructura de la primitiva de amplificación de amplitudes (AA) con tres secciones distintivas, una para la preparación, otra para la selección y otra para el reflejo.'
     width='637'
     height='290'
   />
   <span style='max-width:637px; padding:10px 40px'>
-    **Figura (1):** Estructura de la primitiva de amplificación de amplitudes
-    (AA), seleccionando el número "3".
+    **Figura (1):** Estructura de la primitiva de amplificación de amplitudes (AA), con superposición uniforme y que selecciona al estado $\ket{0011}$.
   </span>
 </div>
 
@@ -67,7 +66,7 @@ La etapa de **preparación** denota una precondición del algoritmo: que el esta
 
 Le sigue la etapa de **selección**, donde se provee un circuito que marque o distinga los estados cuánticos a buscar. Esto se hace mediante la modificación de la fase de aquellos estados ``buenos'' (se llama así a los estados que conforman una solución), lo cual puede ser implementado de diferentes maneras.
 
-En el ejemplo provisto de la figura 1 se lo implementa con una puerta CZ, marcando el numero 3 ($\ket{0011}$, leyendo de abajo hacia arriba), es decir que solo invertirá la fase cuando el estado cuántico es 3. Esto hace parecer que se anula el propósito del algoritmo (buscar), pero se trata de un mero ejemplo, ya que en los algoritmos reales se utilizan subrutinas más complejas para invertir las fases. Por ejemplo, en ciertos algoritmos esta etapa se implementa utilizando un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>, como ocurre en el <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>algoritmo de Grover</a>, donde se distingue el elemento que satisface $\chi(x)=1$.
+En el ejemplo provisto de la figura 1 se lo implementa con una puerta CZ, marcando el estado $\ket{0011}$, leyendo de abajo hacia arriba, es decir que solo invertirá la fase cuando el estado cuántico es $\ket{0011}$. Esto hace parecer que se anula el propósito del algoritmo (buscar), pero se trata de un mero ejemplo, ya que en los algoritmos reales se utilizan subrutinas más complejas para invertir las fases. Por ejemplo, en ciertos algoritmos esta etapa se implementa utilizando un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>, como ocurre en el <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>algoritmo de Grover</a>, donde se distingue el elemento que satisface $\chi(x)=1$.
 
 Si el espacio de búsqueda posee $N$ elementos, es posible poner el foco sobre su índice, el cual puede enumerarse desde $0$ hasta $N - 1$. Así, se asume la igualdad $N = 2^n$ de manera que el índice pueda ser almacenado en $n$ bits. A su vez, el problema puede tener $M$ soluciones, con $0 \leq M \leq N$. 
 
@@ -124,7 +123,7 @@ El operador $Q$ definido previamente puede reescribirse como $Q = U_{\Psi} U_{\P
 
 Al aplicar $Q$ sobre $\ket{\Psi_0}$ se obtiene $2(1-a)\ket{\Psi_1} + (1 - 2a)\ket{\Psi_0}$.
 
-<Collapsible title="Demostración" level="h6" startOpen="true">
+<Collapsible title="Demostración" level="h6">
 ```math
 \begin{align}
 Q\ket{\Psi_0}&=U_{\Psi} \ket{\Psi_0}\\
@@ -205,31 +204,7 @@ sen(\theta_a)&cos(\theta_a)\\
 \end{pmatrix}
 ```
 
-para $\theta_a = sen^{-1}\left(\sqrt{a}\right) = cos^{-1}\left(\sqrt{1-a}\right)$. Utilizando esta nueva expresión para $M$:
-
-```math
-\begin{align}
-  M =& 
-  \begin{pmatrix}
-    cos(\theta_a)&-sen(\theta_a)\\
-    sen(\theta_a)&cos(\theta_a)\\
-  \end{pmatrix}^2\\
-
-  =& 
-  \begin{pmatrix}
-    cos^2(\theta_a)-sen^2(\theta_a)&-cos(\theta_a)sen(\theta_a) - cos(\theta_a)sen(\theta_a)\\
-    cos(\theta_a)sen(\theta_a) + cos(\theta_a)sen(\theta_a)&cos^2(\theta_a) - sen^2(\theta_a)\\
-  \end{pmatrix}^2\\
-
-  =& 
-  \begin{pmatrix}
-    cos^2(\theta_a)-sen^2(\theta_a)&-2cos(\theta_a)sen(\theta_a)\\ 
-    2cos(\theta_a)sen(\theta_a)&cos^2(\theta_a) - sen^2(\theta_a)\\
-  \end{pmatrix}^2
-\end{align}
-```
-
-Otra igualdad que se puede alcanzar sin hacer cálculos es
+para $\theta_a = sen^{-1}\left(\sqrt{a}\right) = cos^{-1}\left(\sqrt{1-a}\right)$. Utilizando esta nueva expresión:
 
 ```math
 M = 
@@ -278,8 +253,8 @@ Inicialmente el estado vectorial es ortogonal respecto de $\ket{A_1}$. Partiendo
     width='700'
     height='700'
   />
-  <span style='width:455px; padding:10px 40px'>
-    **Figura (2):** Rotación realizada por el operador $O$ como composición de dos reflexiones. Fuente: https://alexandre01.github.io/projects/quantum_ampl_estimation/
+  <span style='width:650px; padding:10px 40px'>
+    **Figura (2):** Rotación realizada por el operador $Q$ como composición de dos reflexiones. Fuente: https://alexandre01.github.io/projects/quantum_ampl_estimation/
   </span>
 </div>
 
@@ -350,7 +325,7 @@ Ahora debe reemplazarse el valor $\theta_a$. Dado que el valor de dicho ángulo 
 
 </Collapsible>
 
-#### Solución única
+### Solución única
 
 Se harán los cálculos necesarios para el caso en el que solamente hay una cadena $x$ tal que $\chi(x) = 1$. Esto quiere decir que $s = 1$.
 
@@ -381,7 +356,7 @@ p(N,1) >= 1 - \frac{1}{N}
 
 para todo $N$, por lo que la probabilidad de éxito tiende a 1 a medida que $N$ crece.
 
-#### Múltiples soluciones
+### Múltiples soluciones
 
 Se harán los cálculos necesarios para el caso en el que hayan distintas cadenas $x_i$ tal que $\chi(x_i) = 1$.
 
@@ -417,7 +392,7 @@ t \leq \frac{\pi}{4\theta_a} \leq \frac{\pi}{4} \sqrt{\frac{N}{s}}
 
 Por lo tanto, se reduce la cantidad de consultas requeridas a la función $\chi$ a medida que $s$ aumenta. El número de consultas requeridas es de $O\left(\sqrt{\frac{N}{s}}\right)$.
 
-#### Número desconocido de soluciones
+### Número desconocido de soluciones
 
 Si el número de soluciones $s = |X_1|$ se desconoce debe implementarse una estrategia para encontrar soluciones con alta probabilidad. Existen diferentes alternativas que serán mencionadas a continuación. 
 
@@ -425,7 +400,7 @@ La primera opción consiste en elegir un valor aleatorio de $t$ ubicado entre 1 
 
 Por otro lado, existe un método que encuentra una solución cuando al menos una existe realizando $O\left(\sqrt{\frac{N}{s}}\right)$ consultas, incluso cuando el número de soluciones de $s$ no es conocido. Cabe destacar que se requieren $O\left(\sqrt{N}\right)$ consultas para determinar que no hay soluciones cuando $s=0$. La idea consiste en elegir $t$ de manera uniforme y aleatoria dentro del conjunto $\{1,...,T\}$ iterativamente, incrementando el valor de $T$. Una estrategia válida es comenzar con $T=1$ e incrementar dicho valor exponencialmente, siempre terminando este proceso tan pronto como una solución sea encontrada y dejando de incrementar $T$ para no desperdiciar consultas cuando ya se sabe que no existe una solución. Este procedimiento tiene la ventaja de que requiere menos consultas cuando hay más soluciones. No obstante, debe tenerse cuidado a la hora de elegir la tasa de crecimiento de $T$: está comprobado que utilizar $T \leftarrow \left\lceil \frac{5}{4}T \right\rceil$ funciona correctamente, pero duplicar $T$ en cada iteración es demasiado agresivo y genera incrementos demasiado rápidos. 
 
-#### Casos triviales
+### Casos triviales
 
 Si todas las cadenas $x \in \Sigma^n$ son una solución, entonces cualquier medición reflejará una solución; y cuando no haya soluciones, ninguna medición obtendrá una solución. El hecho de que $X_0$ o $X_1$ sean vacíos implica que $\chi$ es una función constante: $X_1$ es vacío cuando $\chi(x) = 0$ para todo $x \in \Sigma^n$ y $X_0$ es vacío cuando $\chi(x) = 1$ para todo $x \in \Sigma^n$. 
 
@@ -446,22 +421,31 @@ En conclusión, sin importar la cantidad de iteraciones $t$ que se realicen en e
 
 ## Ejemplos
 
+Sean $x_1=0001$ y $x_2=0011$ las soluciones a un problema que recurre a la superposición uniforme $\mathcal{A} = H$, se prepara el circuito para distinguir ambas soluciones en la fase de selección. Se sabe de antemano que el problema tiene dos soluciones.
+
 <Tabs>
   <TabItem label='Círculos'>
     <Box>
-       Se analizan los pasos del algoritmo donde $\Gamma_0$ es el estado cuántico inicial, $\Gamma_1$ corresponde con la preparación del estado cuántico, $\sigma$ representa el estado luego de la operación de selección, $\lambda$ luego de la operación de reflexión, como subfijo se utilizará el número de la iteración.
+      Se analizan los pasos del algoritmo donde:
+      - $\Gamma_0$ es el estado inicial $\ket{0}$
+      - $\Gamma_1$ se corresponde con la preparación del estado cuántico que resulta en $\ket{\Psi}$
+      - $\sigma$ representa el resultado de aplicar la operación de selección  
+      - $\lambda$ es el efecto de la etapa de reflejo
+
+      En $\sigma$ y $\lambda$ se utilizará como subíndice el número de iteración.
+
        La cantidad óptima de iteraciones es:
        ```math
-        N_{iteraciones}=\left\lfloor \frac{\pi}{4}\sqrt{\frac{2^4}{1}} \right\rfloor=\lfloor \pi \rfloor = 3
+        N_{iteraciones}=\left\lfloor \frac{\pi}{4}\sqrt{\frac{2^4}{2}} \right\rfloor=\left\lfloor \frac{\pi}{4}\sqrt{8} \right\rfloor = 2
        ```
        <div style='margin-top:30px'>
          <ResourceDivider icon='pencil' text='\(\Gamma_0\)' />
        </div>
        <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-        El estado inicial del algoritmo
+        El estado inicial del algoritmo $\ket{0}^{\otimes 4}$
          <section class="responsive-circles">
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{0000}'} />
               <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
               <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0010}'} />
               <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
@@ -490,7 +474,7 @@ En conclusión, sin importar la cantidad de iteraciones $t$ que se realicen en e
        </div>
        <ResourceDivider icon='pencil' text='\(\Gamma_1\)' />
        <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-         Estado cuántico luego de la preparación (aplicación de Hadamard's)
+         Estado cuántico luego de la preparación (aplicación del algoritmo $\mathcal{A} = H$)
          <section class="responsive-circles">
             <div class="quadrant-circles">
               <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0000}'} />
@@ -522,11 +506,11 @@ En conclusión, sin importar la cantidad de iteraciones $t$ que se realicen en e
        </div>
        <ResourceDivider icon='pencil' text='\(\sigma_1\)' />
        <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-           Notar que $\ket{0011}$ tiene invertida la fase
+           Notar que $\ket{x_1}$ y $\ket{x_2}$ tienen invertida la fase
          <section class="responsive-circles">
             <div class="quadrant-circles">
               <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0001}'} />
               <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0010}'} />
               <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0011}'} />
             </div>
@@ -554,33 +538,33 @@ En conclusión, sin importar la cantidad de iteraciones $t$ que se realicen en e
        </div>
        <ResourceDivider icon='pencil' text='\(\lambda_1\)' />
        <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-         Notar la "deselección" de $\ket{0011}$
+         Notar la "deselección" de $\ket{0011}$ y $\ket{0001}$
          <section class="responsive-circles">
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'180'} prob={0.472656} label={'\\ket{0011}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.390625} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.390625} label={'\\ket{0011}'} />
             </div>
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0111}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{0111}'} />
          </div>
          </section>
          <section class="responsive-circles">
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1011}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1011}'} />
             </div>
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1111}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1111}'} />
             </div>
          </section>
        </div>
@@ -588,203 +572,136 @@ En conclusión, sin importar la cantidad de iteraciones $t$ que se realicen en e
        <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
          <section class="responsive-circles">
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'0'} prob={0.472656} label={'\\ket{0011}'} />
-            </div>
-            <div class="quadrant-circles">
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{0111}'} />
-            </div>
-         </section>
-         <section class="responsive-circles">
-            <div class="quadrant-circles">
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1011}'} />
-            </div>
-            <div class="quadrant-circles">
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'180'} prob={0.035156} label={'\\ket{1111}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.390625} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.390625} label={'\\ket{0011}'} />
+            </div>                                             
+            <div class="quadrant-circles">                     
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{0111}'} />
+            </div>                                             
+         </section>                                            
+         <section class="responsive-circles">                  
+            <div class="quadrant-circles">                     
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1011}'} />
+            </div>                                             
+            <div class="quadrant-circles">                     
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.015625} label={'\\ket{1111}'} />
             </div>
          </section>
        </div>
        <ResourceDivider icon='pencil' text='\(\lambda_2\)' />
        <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+         Notar que no "deselecciona" ya que alcanzó la cantidad óptima de iteraciones.
          <section class="responsive-circles">
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'0'} prob={0.908447} label={'\\ket{0011}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.472656} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.472656} label={'\\ket{0011}'} />
             </div>
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0111}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{0111}'} />
             </div>
          </section>
          <section class="responsive-circles">
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1011}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1011}'} />
             </div>
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1111}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1111}'} />
             </div>
          </section>
        </div>
+       Llegados a este punto, el problema se encuentra **resuelto** con una probabilidad de 96.875\%, ya que las probabilidades individuales de obtener $\ket{x_1}$ o $\ket{x_2}$ son de 47.2656\%, y sumadas dan la probabilidad total de llegar a una solución. Se realiza una tercera iteración para mostrar el decremento de la probabilidad al exceder la cantidad óptima de iteraciones.
        <ResourceDivider icon='pencil' text='\(\sigma_3\)' />
        <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
          <section class="responsive-circles">
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'180'} prob={0.908447} label={'\\ket{0011}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.472656} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.472656} label={'\\ket{0011}'} />
             </div>
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{0111}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{0111}'} />
             </div>
          </section>
          <section class="responsive-circles">
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1011}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1011}'} />
             </div>
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'0'} prob={0.006104} label={'\\ket{1111}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'180'} prob={0.003906} label={'\\ket{1111}'} />
             </div>
          </section>
        </div>
        <ResourceDivider icon='pencil' text='\(\lambda_3\)' />
        <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-         Notar que no "deselecciona" ya que se llego a la cantidad óptima de iteraciones.
          <section class="responsive-circles">
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'180'} prob={0.961319} label={'\\ket{0011}'} />
+              <Circle width={'80'} phase={'0'} prob={0.047852} label={'\\ket{0000}'} />
+              <Circle width={'80'} phase={'180'} prob={0.165039} label={'\\ket{0001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.047852} label={'\\ket{0010}'} />
+              <Circle width={'80'} phase={'180'} prob={0.165039} label={'\\ket{0011}'} />
             </div>
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0111}'} />
+              <Circle width={'80'} phase={'0'} prob={0.047852} label={'\\ket{0100}'} />
+              <Circle width={'80'} phase={'0'} prob={0.047852} label={'\\ket{0101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.047852} label={'\\ket{0110}'} />
+              <Circle width={'80'} phase={'0'} prob={0.047852} label={'\\ket{0111}'} />
             </div>
          </section>
          <section class="responsive-circles">
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1011}'} />
+              <Circle width={'80'} phase={'0'} prob={0.047852} label={'\\ket{1000}'} />
+              <Circle width={'80'} phase={'0'} prob={0.047852} label={'\\ket{1001}'} />
+              <Circle width={'80'} phase={'0'} prob={0.047852} label={'\\ket{1010}'} />
+              <Circle width={'80'} phase={'0'} prob={0.047852} label={'\\ket{1011}'} />
             </div>
             <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1111}'} />
-            </div>
-         </section>
-       </div>
-       Llegados a este punto, el problema se encuentra **resuelto** con una probabilidad de 96.1319\% de que sea 3. Se realiza una cuarta iteración para denotar el decremento de la probabilidad al sobrepasar la cantidad óptima de iteraciones.
-       <div style='margin-top:30px'>
-       <ResourceDivider icon='pencil' text='\(\sigma_4\)' />
-       </div>
-       <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-         Notar que la operación de "selección" no cometió su objetivo, es decir, no lo distingue.
-         <section class="responsive-circles">
-            <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'0'} prob={0.961319} label={'\\ket{0011}'} />
-            </div>
-            <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{0111}'} />
-            </div>
-         </section>
-         <section class="responsive-circles">
-            <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1011}'} />
-            </div>
-            <div class="quadrant-circles">
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'0'} prob={0.002579} label={'\\ket{1111}'} />
+              <Circle width={'80'} phase={'0'} prob={0.047852} label={'\\ket{1100}'} />
+              <Circle width={'80'} phase={'0'} prob={0.047852} label={'\\ket{1101}'} />
+              <Circle width={'80'} phase={'0'} prob={0.047852} label={'\\ket{1110}'} />
+              <Circle width={'80'} phase={'0'} prob={0.047852} label={'\\ket{1111}'} />
             </div>
          </section>
        </div>
-       <ResourceDivider icon='pencil' text='\(\lambda_4\)' />
-       <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-         <section class="responsive-circles">
-            <div class="quadrant-circles">
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{0000}'} />
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{0001}'} />
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{0010}'} />
-              <Circle width={'80'} phase={'0'} prob={0.581704} label={'\\ket{0011}'} />
-            </div>
-            <div class="quadrant-circles">
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{0100}'} />
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{0101}'} />
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{0110}'} />
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{0111}'} />
-            </div>
-         </section>
-         <section class="responsive-circles">
-            <div class="quadrant-circles">
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1000}'} />
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1001}'} />
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1010}'} />
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1011}'} />
-            </div>
-            <div class="quadrant-circles">
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1100}'} />
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1101}'} />
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1110}'} />
-              <Circle width={'80'} phase={'180'} prob={0.027886} label={'\\ket{1111}'} />
-            </div>
-         </section>
-       </div>
-       Por lo que en una cuarta iteración se disminuyen las probabilidades de encontrar el número a buscar.
+       Por lo que en una tercera iteración se disminuyen las probabilidades de encontrar una de las soluciones.
     </Box>
   </TabItem>
   <TabItem label='Quirk'>
     <Box>
       <Tabs>
-        <TabItem label='Ejemplo de la Figura (1) con tres iteraciones'>
-          <QuantumCircuit src={flip_3_example} />
-          <Aside>La puerta **flip_3** y **mirror** se implementan como fueron diagramadas en la Figura (1) las etapas de selección y de reflejo respectivamente.</Aside>
-        </TabItem>
+        <QuantumCircuit src={quirk_example}/>
+        <Aside>La puerta **flip_x1/x2** permite seleccionar las soluciones $x_1$ y $x_2$. Es implementada de forma similar a lo diagramado en la Figura (1) durante la etapa de selección, en la cual únicamente se distingue $x_2$. Mientras tanto, **mirror** es exactamente igual a la etapa de reflejo de dicha figura.</Aside>
       </Tabs>
     </Box>
   </TabItem>
@@ -792,10 +709,10 @@ En conclusión, sin importar la cantidad de iteraciones $t$ que se realicen en e
     <Box>
       <Tabs>
         <TabItem label='Código'>
-          <Code code={qiskit_flip_3_example} lang='py' />
+          <Code code={qiskit_example} lang='py' />
         </TabItem>
         <TabItem label='Resultado'>
-          <Code code={qiskit_flip_3_example_result} lang='text' />
+          <Code code={qiskit_example_result} lang='text' />
         </TabItem>
       </Tabs>
     </Box>
