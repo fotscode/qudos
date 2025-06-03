@@ -32,13 +32,15 @@ import {
   qiskit_example_result,
 } from '@code-snippets/amplitude-amplification'
 
-La amplificación de amplitudes puede interpretarse como una primitiva cuántica, es decir como un algoritmo que se abstrae de la implementación y es reutilizable en otros algoritmos. Por ejemplo el <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>algoritmo de Grover</a> lo utiliza para un problema de búsqueda en particular. 
+La amplificación de amplitudes puede interpretarse como una primitiva cuántica, es decir como un algoritmo que se abstrae de la implementación y que es reutilizable en otros algoritmos. Por ejemplo, el <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>algoritmo de Grover</a> lo utiliza para un problema de búsqueda en particular. 
 
 ## Objetivo
 
 La amplificación de amplitudes busca generalizar el <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>algoritmo de Grover</a>, preservando la mejora cuadrática y permitiendo la búsqueda sobre un conjunto de elementos no estructurado sin las restricciones impuestas por el mismo. De esta manera, no necesariamente los elementos deben disponerse en una superposición uniforme, y puede haber ninguna, una o varias soluciones. Además, la amplificación de amplitudes pretende funcionar correctamente incluso cuando se desconoce la cantidad de soluciones de antemano. 
 
 ## Solución
+
+Si el espacio de búsqueda posee $N$ elementos, es posible poner el foco sobre su índice, el cual puede enumerarse desde $0$ hasta $N - 1$. Así, se asume la igualdad $N = 2^n$ de manera que el índice pueda ser almacenado en $n$ bits. A su vez, el problema puede tener $M$ soluciones, con $0 \leq M \leq N$. Una instancia del problema de búsqueda puede ser representada por una función $\chi$, que toma un entero $x$ como entrada dentro del rango que va desde $0$ hasta $N - 1$. Por definición, $\chi(x) = 1$ si $x$ es la solución del problema, y $\chi(x) = 0$ en caso contrario.
 
 El algoritmo de amplificación de amplitudes se divide en tres partes: la **preparación**, la **selección** y el **reflejo**.
 
@@ -56,7 +58,7 @@ El algoritmo de amplificación de amplitudes se divide en tres partes: la **prep
 
 ### Preparación
 
-La etapa de **preparación** denota una precondición del algoritmo: que el estado cuántico se encuentre en un estado de superposición. La forma en la que será implementada dependerá del problema en cuestión. Genéricamente, se habla de un algoritmo cuántico $\mathcal{A}$ que no realiza mediciones durante su ejecución, y el resultado de aplicar dicho algoritmo sobre el estado inicial es el siguiente:
+La etapa de **preparación** denota una precondición del algoritmo: que el estado cuántico se encuentre en superposición. La forma en la que será implementada dependerá del problema en cuestión. Generalmente, se habla de un algoritmo cuántico $\mathcal{A}$ que no realiza mediciones durante su ejecución, y el resultado de aplicar dicho algoritmo sobre el estado inicial es el siguiente:
 
 ```math
 \ket{\Psi} = \mathcal{A}\ket{0} 
@@ -64,11 +66,10 @@ La etapa de **preparación** denota una precondición del algoritmo: que el esta
 
 ### Selección
 
-Le sigue la etapa de **selección**, donde se provee un circuito que marque o distinga los estados cuánticos a buscar. Esto se hace mediante la modificación de la fase de aquellos estados ``buenos'' (se llama así a los estados que conforman una solución), lo cual puede ser implementado de diferentes maneras.
+En la etapa de **selección**, se provee un circuito que distingue los estados cuánticos a buscar. Esto se hace mediante la modificación de la fase de los estados ``buenos'', es decir, que conforman una solución. Para ello, se acude a la función $\chi$ antes definida.
 
-En el ejemplo provisto de la figura 1 se lo implementa con una puerta CZ, marcando el estado $\ket{0011}$, leyendo de abajo hacia arriba, es decir que solo invertirá la fase cuando el estado cuántico es $\ket{0011}$. Esto hace parecer que se anula el propósito del algoritmo (buscar), pero se trata de un mero ejemplo, ya que en los algoritmos reales se utilizan subrutinas más complejas para invertir las fases. Por ejemplo, en ciertos algoritmos esta etapa se implementa utilizando un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>, como ocurre en el <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>algoritmo de Grover</a>, donde se distingue el elemento que satisface $\chi(x)=1$.
+En el ejemplo provisto en la figura 1, se implementa con una puerta CZ, marcando el estado $\ket{0011}$, por lo que solo se invertirá la fase para dicho estado. Normalmente se utilizan subrutinas más complejas para invertir las fases. Por ejemplo, en ciertos algoritmos esta etapa se implementa utilizando un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>, como ocurre en el <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>algoritmo de Grover</a>.
 
-Si el espacio de búsqueda posee $N$ elementos, es posible poner el foco sobre su índice, el cual puede enumerarse desde $0$ hasta $N - 1$. Así, se asume la igualdad $N = 2^n$ de manera que el índice pueda ser almacenado en $n$ bits. A su vez, el problema puede tener $M$ soluciones, con $0 \leq M \leq N$. 
 
 ### Reflejo
 
@@ -84,7 +85,7 @@ Q = Q(\mathcal{A}, \chi) = -\mathcal{A} S_0 \mathcal{A}^\dag S_{\chi}
 
 Donde $S_{\chi}$ cambia condicionalmente el signo de las amplitudes de los estados buenos, $S_{0}$ cambia el signo de la amplitud si y sólo si el estado es $\ket{0}$, y $\mathcal{A}$ representa un algoritmo cuántico que no realiza mediciones durante su ejecución y, por lo tanto, posee inversa. 
 
-## Visión geométrica
+## Análisis
 
 Para evaluar el comportamiento del algoritmo se definen dos conjuntos de cadenas.
 
@@ -94,7 +95,7 @@ X_1 = \{x \in \Sigma^n: \chi(x) = 1\}
 ```
 
 El conjunto $X_1$ contiene todas las soluciones del problema de búsqueda, mientras que $X_0$ contiene aquellas cadenas que no son soluciones.
-Ambos conjuntos satisfacen $X_0 \cap X_1 = \varnothing$ y $X_0 \cup X_1 = \Sigma^n$, lo cual significa que $X_0$ y $X_1$ constituyen una bipartición de $\Sigma^n$.
+Ambos conjuntos satisfacen $X_0 \cap X_1 = \varnothing$ y $X_0 \cup X_1 = \Sigma^n$, lo cual significa que $X_0$ y $X_1$ constituyen una bipartición de $\Sigma^n$ (todas las cadenas de bits de longitud $n$).
 
 Además, se definen dos vectores unitarios que representan los estados de superposición sobre los conjuntos previamente tratados.
 
@@ -107,7 +108,7 @@ Donde $\ket{\Psi_0}$ equivale al estado de superposición de aquellas cadenas qu
 
 Además, $a = \bra{\Psi_1}\ket{\Psi_1} \ll 1$ es la probabilidad de que la medición de $\ket{\Psi}$ produzca un estado bueno. Así, $1-a = \bra{\Psi_0}\ket{\Psi_0}$ es la probabilidad de que la misma medición produzca un estado malo.
 
-Dado que $\ket{\Psi}$ contiene el estado de superposición inicial sobre todos los estadostodas las cadenas, se cumple la siguiente igualdad:
+Dado que $\ket{\Psi}$ contiene el estado de superposición inicial sobre todas las cadenas, se cumple la siguiente igualdad:
 
 ```math 
 \ket{\Psi} = \mathcal{A}\ket{0} = \ket{\Psi_0} + \ket{\Psi_1}
@@ -119,64 +120,77 @@ También considerar que la Amplificación de Amplitudes no se preocupa sobre cu�
 
 El operador $Q$ definido previamente puede reescribirse como $Q = U_{\Psi} U_{\Psi_0}$, tales que $U_{\Psi} = 2\ket{\Psi}\bra{\Psi} - I$ y $U_{\Psi_0} = \frac{2}{1-a}\ket{\Psi_0}\bra{\Psi_0} - I$, donde $U_{\Psi_0}$ aplica un reflejo en relación al vector de las no soluciones $\ket{\Psi_0}$ y $U_{\Psi}$ refleja respecto del vector $\ket{\Psi}$.
 
-## Visión matricial
+### Visión matricial
 
-Al aplicar $Q$ sobre $\ket{\Psi_0}$ se obtiene $2(1-a)\ket{\Psi_1} + (1 - 2a)\ket{\Psi_0}$.
+Se aplicará $Q$ sobre la base ortonormalizada $\left\{\ket{\psi_0}, \ket{\psi_1}\right\}$ tal que:
 
-<Collapsible title="Demostración" level="h6">
+```math 
+\ket{\psi_0} = \frac{\ket{\Psi_0}}{\sqrt{1-a}}, \ket{\psi_1} = \frac{\ket{\Psi_1}}{\sqrt{a}}
+```
+
+Notar que se cumple la siguiente igualdad:
+
+```math 
+\ket{\Psi} = \ket{\Psi_0} + \ket{\Psi_1} = \sqrt{1-a} \ket{\psi_0} + \sqrt{a} \ket{\psi_1}
+```
+
+Al aplicar $Q$ sobre $\ket{\psi_0}$ se obtiene $(1-2a)\ket{\psi_0} + 2\sqrt{a(1-a)} \ket{\psi_1}$.
+
+<Collapsible title="Cálculo" level="h6">
 ```math
 \begin{align}
-Q\ket{\Psi_0}&=U_{\Psi} \ket{\Psi_0}\\
-&= (2\ket{\Psi}\bra{\Psi} - I) \ket{\Psi_0}\\
-&= 2\ket{\Psi}\bra{\Psi}\ket{\Psi_0} - \ket{\Psi_0}\\
-&= 2(1-a)\ket{\Psi} - \ket{\Psi_0}\\
-&= 2(1-a)(\ket{\Psi_0} + \ket{\Psi_1}) - \ket{\Psi_0}\\
-&= 2(1-a)\ket{\Psi_1} + (1 - 2a)\ket{\Psi_0}\\
+Q\ket{\psi_0}&=U_{\Psi}U_{\Psi_0} \ket{\psi_0}\\
+&= U_{\Psi} \ket{\psi_0}\\
+&= (2\ket{\Psi}\bra{\Psi} - I) \ket{\psi_0}\\
+&= 2\ket{\Psi}\bra{\Psi}\ket{\psi_0} - \ket{\psi_0}\\
+&= 2\sqrt{1-a}\ket{\Psi} - \ket{\psi_0}\\
+&= 2\sqrt{1-a}\left(\sqrt{1-a} \ket{\psi_0} + \sqrt{a} \ket{\psi_1}\right) - \ket{\psi_0}\\
+&= 2(1-a)\ket{\psi_0} + 2\sqrt{a(1-a)} \ket{\psi_1} - \ket{\psi_0}\\
+&= (1-2a)\ket{\psi_0} + 2\sqrt{a(1-a)} \ket{\psi_1}
 \end{align}
 ```
 
 <Aside>
-El producto interno $\bra{\Psi}\ket{\Psi_0}$ da como resultado la probabilidad de obtener una no solución, es decir, $1-a$.
+El producto interno $\bra{\Psi}\ket{\psi_0}$ da como resultado la amplitud del estado de las no soluciones en la base ortonormalizada $\left\{\ket{\psi_0}, \ket{\psi_1}\right\}$, es decir, $\sqrt{1-a}$.
 </Aside>
 </Collapsible>
 
+Al aplicar $Q$ sobre $\ket{\psi_1}$ se obtiene $-2\sqrt{a(1-a)}\ket{\psi_0} + (1-2a)\ket{\psi_1}$.
 
-Al aplicar $Q$ sobre $\ket{\Psi_1}$ se obtiene $(1-2a)\ket{\Psi_1} -2a\ket{\Psi_0}$.
-
-<Collapsible title="Demostración" level="h6">
+<Collapsible title="Cálculo" level="h6">
 ```math
 \begin{align}
-Q\ket{\Psi_1}&=U_{\Psi} U_{\Psi_0} \ket{\Psi_1}\\
-&= U_{\Psi} \left(\frac{2}{1-a} \ket{\Psi_0}\bra{\Psi_0} - I \right) \ket{\Psi_1}\\
-&= U_{\Psi} \left(\frac{2}{1-a} \ket{\Psi_0}\bra{\Psi_0}\ket{\Psi_1} - \ket{\Psi_1} \right)\\
-&= U_{\Psi} \left(0 - \ket{\Psi_1} \right)\\
-&= -U_{\Psi} \ket{\Psi_1}\\
-&= -(2\ket{\Psi}\bra{\Psi} - I) \ket{\Psi_1}\\
-&= (-2\ket{\Psi}\bra{\Psi} + I) \ket{\Psi_1}\\
-&= -2\ket{\Psi}\bra{\Psi}\ket{\Psi_1} + \ket{\Psi_1}\\
-&= -2a\ket{\Psi} + \ket{\Psi_1}\\
-&= -2a(\ket{\Psi_0} + \ket{\Psi_1}) + \ket{\Psi_1}\\
-&= (1-2a)\ket{\Psi_1} -2a\ket{\Psi_0}\\ 
+Q\ket{\psi_1}&=U_{\Psi}U_{\Psi_0} \ket{\psi_1}\\
+&= U_{\Psi} \left(\frac{2}{1-a} \ket{\Psi_0}\bra{\Psi_0} - I \right) \ket{\psi_1}\\
+&= U_{\Psi} \left(\frac{2}{1-a} \ket{\Psi_0}\bra{\Psi_0}\ket{\psi_1} - \ket{\psi_1} \right)\\
+&= U_{\Psi} \left(0 - \ket{\psi_1} \right)\\
+&= -U_{\Psi} \ket{\psi_1}\\
+&= -(2\ket{\Psi}\bra{\Psi} - I) \ket{\psi_1}\\
+&= (-2\ket{\Psi}\bra{\Psi} + I) \ket{\psi_1}\\
+&= -2\ket{\Psi}\bra{\Psi}\ket{\psi_1} + \ket{\psi_1}\\
+&= -2\sqrt{a}\ket{\Psi} + \ket{\psi_1}\\
+&= -2\sqrt{a}\left(\sqrt{1-a} \ket{\psi_0} + \sqrt{a} \ket{\psi_1}\right) + \ket{\psi_1}\\
+&= -2\sqrt{a(1-a)}\ket{\psi_0} + -2a\ket{\psi_1} + \ket{\psi_1}\\
+&= -2\sqrt{a(1-a)}\ket{\psi_0} + (1-2a)\ket{\psi_1} 
 \end{align}
 ```
 
 <Aside>
-El producto interno $\bra{\Psi_0}\ket{\Psi_1}$ da 0 porque son estados ortogonales, mientras que $\bra{\Psi}\ket{\Psi_1}$ da como resultado la probabilidad de obtener una solución, es decir, $a$.
+El producto interno $\bra{\Psi_0}\ket{\psi_1}$ da 0 porque son estados ortogonales, mientras que $\bra{\Psi}\ket{\psi_1}$ da como resultado la amplitud del estado de las soluciones en la base ortonormalizada $\left\{\ket{\psi_0}, \ket{\psi_1}\right\}$, es decir, $\sqrt{a}$.
 </Aside>
 </Collapsible>
-
 
 Por conveniencia, se expresará la acción de $Q$ en un espacio de dos dimensiones como una matriz.
 
 ```math 
 M = 
 \begin{pmatrix}
-1-2a&-2a\\
-2(1-a)&1-2a\\
+1-2a&-2\sqrt{a(1-a)}\\
+2\sqrt{a(1-a)}&1-2a\\
 \end{pmatrix}
 ```
 
-donde la primera y segunda fila/columna corresponden a $\ket{\Psi_0}$ y $\ket{\Psi_1}$ respectivamente. Dicha matriz $M$ se obtiene al multiplicar por sí misma una matriz más simple.
+donde la primera y segunda fila corresponden a $\ket{\psi_0}$ y $\ket{\psi_1}$ respectivamente. Dicha matriz $M$ se obtiene al multiplicar por sí misma una matriz más simple.
 
 ```math
 M = 
@@ -185,6 +199,33 @@ M =
 \sqrt{a}&\sqrt{1-a}\\
 \end{pmatrix}^2
 ```
+
+<Collapsible title="Cálculo" level="h6">
+```math
+\begin{align}
+M&=\begin{pmatrix}
+\sqrt{1-a}&-\sqrt{a}\\
+\sqrt{a}&\sqrt{1-a}\\
+\end{pmatrix}^2\\
+&=\begin{pmatrix}
+\sqrt{1-a}&-\sqrt{a}\\
+\sqrt{a}&\sqrt{1-a}\\
+\end{pmatrix}
+\begin{pmatrix}
+\sqrt{1-a}&-\sqrt{a}\\
+\sqrt{a}&\sqrt{1-a}\\
+\end{pmatrix}\\
+&=\begin{pmatrix}
+\sqrt{1-a}^2 - \sqrt{a}^2&-\sqrt{a(1-a)} - \sqrt{a(1-a)}\\
+\sqrt{a(1-a)} + \sqrt{a(1-a)}&-\sqrt{a}^2 + \sqrt{1-a}^2\\
+\end{pmatrix}\\
+&=\begin{pmatrix}
+1-2a&-2\sqrt{a(1-a)}\\
+2\sqrt{a(1-a)}&1-2a\\
+\end{pmatrix}\\
+\end{align}
+```
+</Collapsible>
 
 Además, la matriz 
 
@@ -220,31 +261,33 @@ M =
 
 ya que rotar por el ángulo $\theta_a$ dos veces es equivalente a rotar por el ángulo $2\theta_a$.
 
-Retomando, el estado del programa al comienzo de la primera iteración, tras la etapa de **preparación** es:
+### Visión geométrica
+
+El estado del programa al comienzo de la primera iteración, tras la etapa de **preparación** es:
 
 ```math 
-\ket{\Psi} = \sqrt{1-a} \ket{\Psi_0} + \sqrt{a} \ket{\Psi_1} = cos(\theta_a) \ket{\Psi_0} + sin(\theta_a) \ket{\Psi_1}
+\ket{\Psi} = \sqrt{1-a} \ket{\psi_0} + \sqrt{a} \ket{\psi_1} = cos(\theta_a) \ket{\psi_0} + sin(\theta_a) \ket{\psi_1}
 ```
 
-y el efecto de aplicar Q sobre dicho estado consiste en aplicar una rotación por el ángulo $2\theta_a$ dentro del espacio abarcado por $\ket{\Psi_0}$ y $\ket{\Psi_1}$.
+y el efecto de aplicar $Q$ sobre dicho estado consiste en aplicar una rotación por el ángulo $2\theta_a$ dentro del espacio abarcado por $\ket{\psi_0}$ y $\ket{\psi_1}$.
 
 Por ejemplo: 
 
 ```math 
-Q^1\ket{\Psi} = cos(3\theta_a) \ket{\Psi_0} + sen(3\theta_a) \ket{\Psi_1}\\
-Q^2\ket{\Psi} = cos(5\theta_a) \ket{\Psi_0} + sen(5\theta_a) \ket{\Psi_1}\\
-Q^3\ket{\Psi} = cos(7\theta_a) \ket{\Psi_0} + sen(7\theta_a) \ket{\Psi_1}
+Q^1\ket{\Psi} = cos(3\theta_a) \ket{\psi_0} + sen(3\theta_a) \ket{\psi_1}\\
+Q^2\ket{\Psi} = cos(5\theta_a) \ket{\psi_0} + sen(5\theta_a) \ket{\psi_1}\\
+Q^3\ket{\Psi} = cos(7\theta_a) \ket{\psi_0} + sen(7\theta_a) \ket{\psi_1}
 ```
 
 Regla general:
 
 ```math 
-Q^k\ket{\Psi} = cos((2k+1)\theta_a) \ket{\Psi_0} + sen((2k+1)\theta_a) \ket{\Psi_1}
+Q^k\ket{\Psi} = cos((2k+1)\theta_a) \ket{\psi_0} + sen((2k+1)\theta_a) \ket{\psi_1}
 ```
 
-La idea es que las iteraciones roten el estado vectorial hacia $\ket{\Psi_1}$. Cuando esto ocurre, una medición del estado produce con alta probabilidad una de las salidas superpuestas en $\ket{\Psi_1}$, es decir, una solución al problema.
+La idea es que las iteraciones roten el estado vectorial hacia $\ket{\psi_1}$. Cuando esto ocurre, una medición del estado produce con alta probabilidad una de las salidas superpuestas en $\ket{\psi_1}$, es decir, una solución al problema.
 
-Inicialmente el estado vectorial es ortogonal respecto de $\ket{A_1}$. Partiendo de este punto, la operación $U_{\Psi_0}$ refleja el estado en torno a $\ket{\Psi_0}$, y luego la operación $U_{\Psi}$ lo refleja en torno a $\ket{\Psi}$. Dado que dos reflexiones producen una rotación, el vector de estado se acerca hacia $\ket{\Psi_1}$, y luego de reiteradas rotaciones es posible obtener una solución con alta probabilidad mediante una observación en la base computacional.
+Inicialmente el estado vectorial es ortogonal respecto de $\ket{\psi_1}$. Partiendo de este punto, la operación $U_{\Psi_0}$ refleja el estado en torno a $\ket{\psi_0}$, y luego la operación $U_{\Psi}$ lo refleja en torno a $\ket{\Psi}$. Dado que dos reflexiones producen una rotación, el vector de estado se acerca hacia $\ket{\psi_1}$, y luego de reiteradas rotaciones es posible obtener una solución con alta probabilidad mediante una observación en la base computacional.
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -260,7 +303,7 @@ Inicialmente el estado vectorial es ortogonal respecto de $\ket{A_1}$. Partiendo
 
 ## Complejidad
 
-Sea $a$ la probabilidad inicial de alcanzar un estado bueno a partir de $\mathcal{A}$ (es decir, de que obtenga una solución al problema). Asumiendo $a > 0$, y definiendo $t = \lfloor \frac{\pi}{4\theta_a} \rfloor$, donde $\theta_a$ se define tal que $sen^2(\theta_a) = a$ y $0 \lt \theta_a \leq \frac{\pi}{2}$. Entonces, si se computa $Q^t \mathcal{A} \ket{0}$ (se aplica el operador $Q$ $t$ veces) y se realiza una medición, la salida será buena con probabilidad de al menos $max(1 - a, a)$, definida como el valor más grande entre $1 - a$ y $a$.
+Sea $a$ la probabilidad inicial de alcanzar una solución a partir de $\mathcal{A}$. Asumiendo $a > 0$ (existe al menos una solución), y definiendo $t = \left\lfloor \frac{\pi}{4\theta_a} \right\rfloor$, donde $\theta_a$ se define tal que $sen^2(\theta_a) = a$ y $0 \lt \theta_a \leq \frac{\pi}{2}$. Entonces, si se computa $Q^t \mathcal{A} \ket{0}$ (se aplica el operador $Q$ $t$ veces) y se realiza una medición, la salida será buena con probabilidad de al menos $max(1 - a, a)$, definida como el valor más grande entre $1 - a$ y $a$.
 
 De esta manera, el número óptimo de iteraciones es el siguiente:
 
@@ -282,16 +325,16 @@ Donde $n$ es la cantidad de cubits y $s$ es la cantidad de soluciones posibles. 
 Dado que el estado del programa luego de $t$ iteraciones de $Q$ es 
 
 ```math 
-Q^t\ket{\Psi} = cos((2t+1)\theta_a) \ket{\Psi_0} + sen((2t+1)\theta_a) \ket{\Psi_1}
+Q^t\ket{\Psi} = cos((2t+1)\theta_a) \ket{\psi_0} + sen((2t+1)\theta_a) \ket{\psi_1}
 ````
 
 debe elegirse $t$ tal que  
 
 ```math 
-\bra{\Psi_1}Q^t\ket{\Psi} = sen((2t+1)\theta_a)
+\bra{\psi_1}Q^t\ket{\Psi} = sen((2t+1)\theta_a)
 ````
 
-sea tan cerca de 1 como sea posible (en valor absoluto), para maximizar la probabilidad de obtener $x \in X_1$ en la medición. También es deseable que $t$ sea lo más pequeño posible, ya que $t$ aplicaciones de la operación $Q$ requieren $t$ consultas a la función $\Chi$, cuya ejecución se busca minimizar. Una forma de lograr que $sen((2t+1)\theta_a)$ sea cercano a 1 en valor absoluto consiste en elegir $t$ tal que:
+sea tan cerca de 1 como sea posible (en valor absoluto), para maximizar la probabilidad de obtener $x \in X_1$ en la medición. También es deseable que $t$ sea lo más pequeño posible, ya que $t$ aplicaciones de la operación $Q$ requieren $t$ consultas a la función $\chi$, cuya ejecución se busca minimizar. Una forma de lograr que $sen((2t+1)\theta_a)$ sea cercano a 1 en valor absoluto consiste en elegir $t$ tal que:
 
 ```math 
 (2t+1)\theta_a \approx \frac{\pi}{2}
@@ -307,12 +350,12 @@ Debido al comportamiento de la función seno.
     height='700'
   />
   <span style='width:455px; padding:10px 40px'>
-    **Figura (6):** Comportamiento de la función seno. Probabilidad de leer una solución contra el número de iteraciones.
+    **Figura (3):** Comportamiento de la función seno. Probabilidad de leer una solución contra el número de iteraciones.
   </span>
 </div>
 
 <Aside>
-Existen infinitos valores $t$ tal que $sen(t) \approx |1|$. Además, la oscilación de dicha función permite estimar la probabilidad de éxito a la hora de encontrar una solución, basándose en la cantidad de iteraciones elegida. En este contexto, se buscará alcanzar el valor positivo $t$ cercano a $|1|$ más pequeño, con el objetivo de realizar la menor cantidad de iteraciones posible y disminuir al mínimo la probabilidad de error durante la ejecución del algoritmo.
+Existen infinitos valores $t$ tal que $sen(t) \approx |1|$. Además, la oscilación de dicha función permite estimar la probabilidad de éxito a la hora de encontrar una solución, basándose en la cantidad de iteraciones elegida. En este contexto, se buscará alcanzar el valor positivo $t$ cercano a $|1|$ más pequeño, con el objetivo de realizar la menor cantidad de iteraciones posible y disminuir al máximo la probabilidad de error durante la ejecución del algoritmo.
 </Aside>
 
 Despejando $t$ y redondeando a un valor entero mayor que 0, de la ecuación anterior se obtiene:
