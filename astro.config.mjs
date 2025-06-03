@@ -184,10 +184,6 @@ export default defineConfig({
                             slug: 'proofs/deutsch-jozsa',
                         },
                         {
-                            label: 'Grover',
-                            slug: 'proofs/grover',
-                        },
-                        {
                             label: 'Shor',
                             slug: 'proofs/shor',
                         },
