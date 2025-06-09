@@ -96,6 +96,10 @@ export default defineConfig({
                     label: 'Puertas',
                     items: [
                         {
+                            label: 'Introducción',
+                            slug: 'gates/introduction',
+                        },
+                        {
                             label: 'Eje X',
                             slug: 'gates/x-axis',
                         },
