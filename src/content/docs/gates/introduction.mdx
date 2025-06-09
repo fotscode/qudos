@@ -1,0 +1,122 @@
+---
+layout: '@layouts/math.astro'
+title: Puertas cuánticas
+description: Introducción a las puertas cuánticas. 
+---
+
+import { Image } from 'astro:assets'
+import { Aside } from '@astrojs/starlight/components'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
+
+Así como las computadoras clásicas están compuestas por circuitos eléctricos que contienen cables y puertas lógicas, una computadora cuántica se construye como un circuito cuántico que contiene cables y puertas cuánticas elementales para trasladar y manipular la información cuántica. Las puertas cuánticas actúan sobre los cubits para transformar su estado en otros estados, y suelen representarse por medio de la letra $U$.
+
+Ejemplo: 
+
+```math 
+U\ket{0} = \frac{\ket{0} + \ket{1}}{\sqrt{2}}\\
+U\ket{1} = \frac{\ket{0} - \ket{1}}{\sqrt{2}}
+```
+
+<Aside> 
+Este ejemplo se corresponde con la <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>puerta Hadamard</a>. Podés ver las puertas cuánticas más famosas en la sección lateral llamada ``Puertas''.
+</Aside>
+
+## Linealidad 
+
+Las puertas cuánticas deben ser lineales para poder distribuirlas sobre superposiciones. 
+
+```math 
+\begin{align}
+U(\alpha\ket{0} + \beta\ket{1})&=U\alpha\ket{0} + U\beta\ket{1}\\
+&=\alpha\frac{\ket{0}+\ket{1}}{\sqrt{2}} + \beta\frac{\ket{0}-\ket{1}}{\sqrt{2}}\\
+&=\frac{\alpha+\beta}{\sqrt{2}}\ket{0} + \frac{\alpha-\beta}{\sqrt{2}}\ket{1} 
+\end{align}
+```
+
+Para que esto sea válido, la probabilidad total debe permanecer en $1$. Asumiendo que el estado original se encuentra normalizado ($|\alpha|^2 + |\beta|^2 = 1$), la probabilidad total puede calcularse sumando el cuadrado de la norma de cada amplitud para verificar si se mantiene en $1$.
+
+```math 
+\begin{align}
+&\left|\frac{\alpha+\beta}{\sqrt{2}}\right|^2 + \left|\frac{\alpha-\beta}{\sqrt{2}}\right|^2\\
+&=\left(\frac{\alpha+\beta}{\sqrt{2}}\right) \left(\frac{\alpha^*+\beta^*}{\sqrt{2}}\right) + \left(\frac{\alpha-\beta}{\sqrt{2}}\right) \left(\frac{\alpha^*-\beta^*}{\sqrt{2}}\right)\\
+&=\frac{|\alpha|^2}{2} + \frac{\alpha\beta^*}{2} + \frac{\beta\alpha^*}{2} + \frac{|\beta|^2}{2} + \frac{|\alpha|^2}{2} - \frac{\alpha\beta^*}{2} - \frac{\beta\alpha^*}{2} + \frac{|\beta|^2}{2}\\
+&=|\alpha|^2 + |\beta|^2\\
+&=1
+\end{align}
+```
+
+Por lo tanto, $U$ es una puerta válida. Así, las puertas cuánticas son transformaciones lineales que preservan la normalización de los estados cuánticos originales.
+
+## Puertas cuánticas como matrices
+
+La aplicación de $U$ antes definida sobre los estados en base *z* produce los siguientes vectores:
+
+```math 
+U\ket{0} = \frac{\ket{0} + \ket{1}}{\sqrt{2}} = \frac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix}\\
+U\ket{1} = \frac{\ket{0} - \ket{1}}{\sqrt{2}} = \frac{1}{\sqrt{2}}\begin{bmatrix}1\\-1\end{bmatrix}\\
+```
+
+Ordenando las amplitudes resultantes se obtiene una matriz como una tabla rectangular de números:
+
+```math 
+U = \begin{bmatrix} 
+\frac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix}
+\frac{1}{\sqrt{2}}\begin{bmatrix}1\\-1\end{bmatrix}
+ \end{bmatrix} = \frac{1}{\sqrt{2}} \begin{bmatrix}1&1\\1&-1\end{bmatrix}
+```
+
+Esto es una matriz de $2 \times 2$ porque tiene dos filas y columnas. Conectando esta matriz a $U\ket{0}$ y $U\ket{1}$, y recurriendo a la forma vectorial de los estados base $\ket{0}$ y $\ket{1}$, se obtiene: 
+
+```math 
+U \ket{0} = \frac{1}{\sqrt{2}} \begin{bmatrix}1&1\\1&-1\end{bmatrix} \begin{bmatrix}1\\0\end{bmatrix} = \frac{1}{\sqrt{2}} \begin{bmatrix}1\\1\end{bmatrix}\\
+U \ket{1} = \frac{1}{\sqrt{2}} \begin{bmatrix}1&1\\1&-1\end{bmatrix} \begin{bmatrix}0\\1\end{bmatrix} = \frac{1}{\sqrt{2}} \begin{bmatrix}1\\-1\end{bmatrix}\\
+```
+
+Por lo tanto, las puertas cuánticas también son matrices que mantienen la probabilidad total en $1$. Además, se puede probar que son matrices unitarias, y toda matriz unitaria es una puerta cuántica. Esta propiedad es fundamental para permitir la reversibilidad.
+
+### Reversibilidad 
+
+Una matriz $M$ es reversible si existe una matriz $M^{-1}$ tal que 
+
+```math 
+M^{-1}M = MM^{-1} = I
+```
+
+Por lo tanto, si se multiplica un vector por una matriz y su inversa, el vector no sufre cambios porque es lo mismo que multiplicarlo por la matriz identidad. Dado que una puerta $U$ debe ser unitaria, satisface 
+
+```math 
+U^{\dag}U = UU^{\dag} = I
+```
+
+Donde la inversa de $U$ es $U^{\dag}$ (su conjugada traspuesta), así que $U^{-1} = U^{\dag}$. Por lo tanto, una puerta cuántica siempre es reversible, y su inversa es su conjugada transpuesta.
+
+```math 
+U = 
+\begin{bmatrix}
+u_{11}&u_{12}\\
+u_{21}&u_{22}
+\end{bmatrix},
+U^{\dag} = 
+\begin{bmatrix}
+u_{11}^*&u_{21}^*\\
+u_{12}^*&u_{22}^*
+swap\end{bmatrix}
+```
+
+Así, si se tiene un cubit al que se le aplica $U$, pueden deshacerse sus efectos aplicando $U^{\dag}$:
+
+```math 
+U^{\dag}U\ket{\psi} = I\ket{\psi} = \ket{\psi}
+```
+
+## Siguiente paso 
+
+Los algoritmos cuánticos recurren a las puertas cuánticas para funcionar. Todas ellas comparten las bases y propiedades expuestas en este artículo. No obstante, se observa el uso recurrente de una serie de puertas cuánticas, de tal manera que se han adoptado nombres para identificarlas. Entre ellas, se encuentran las puertas <a href={`${import.meta.env.BASE_URL}/gates/x-axis#pauli-x`}>Pauli-X</a>, <a href={`${import.meta.env.BASE_URL}/gates/y-axis#pauli-y`}>Pauli-Y</a>, <a href={`${import.meta.env.BASE_URL}/gates/z-axis#pauli-z`}>Pauli-Z</a>, <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a>, <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a>, <a href={`${import.meta.env.BASE_URL}/gates/swap`}>Swap</a>, etc. En la sección ``Puertas'' tendrás acceso a una serie de artículos que desarrollan las mencionadas anteriormente y algunas otras, cuyo uso es primordial en la operatoria de diversos programas cuánticos.
+
+## Mas información
+
+<Recommendations />
+<BibItem id="wong" rate="r" prefix="Capítulos 2 y 3, " />
+<BibItem id="nielsen" rate="a" prefix="Capítulos 1 y 4, " />
+<BibItem id="oreilly" rate="o" prefix="Capítulos 2 y 3, " />
