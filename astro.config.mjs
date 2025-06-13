@@ -153,6 +153,7 @@ export default defineConfig({
                 {
                     label: 'Algoritmos',
                     items: [
+                        { label: 'Introducción', slug: 'algorithms/introduction' },
                         { label: 'Deutsch-Jozsa', slug: 'algorithms/deutsch-jozsa' },
                         { label: 'Bernstein-Vazirani', slug: 'algorithms/bernstein-vazirani' },
                         { label: 'Grover', slug: 'algorithms/grover' },
