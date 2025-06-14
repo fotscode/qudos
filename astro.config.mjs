@@ -64,16 +64,12 @@ export default defineConfig({
                     label: 'Conceptos clave',
                     items: [
                         {
+                            label: 'Introducción',
+                            slug: 'concepts/introduction',
+                        },
+                        {
                             label: 'El Cubit',
                             slug: 'concepts/qubit',
-                        },
-                        {
-                            label:'Retroceso de fase',
-                            slug:'concepts/phase-kickback'
-                        },
-                        {
-                            label: 'Oráculos',
-                            slug: 'concepts/oracles',
                         },
                         {
                             label: 'Entrelazamiento',
@@ -84,8 +80,12 @@ export default defineConfig({
                             slug:'concepts/no-cloning-theorem'
                         },
                         {
-                            label:'Descomputación',
-                            slug:'concepts/uncomputation'
+                            label: 'Oráculos',
+                            slug: 'concepts/oracles',
+                        },
+                        {
+                            label:'Retroceso de fase',
+                            slug:'concepts/phase-kickback'
                         },
                     ],
                     translations: {
@@ -135,6 +135,10 @@ export default defineConfig({
                         {
                             label:'Teleportación cuántica',
                             slug:'primitives/teleportation'
+                        },
+                        {
+                            label:'Descomputación',
+                            slug:'primitives/uncomputation'
                         },
                         {   label: 'Amplificación de amplitudes', 
                             slug: 'primitives/amplitude-amplification' 

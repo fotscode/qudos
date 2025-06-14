@@ -1,0 +1,22 @@
+---
+layout: '@layouts/math.astro'
+title: Conceptos clave
+description: Introducción a los conceptos clave de la computación cuántica.
+---
+
+import { Image } from 'astro:assets'
+import { Aside } from '@astrojs/starlight/components'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
+
+A modo de comenzar a incursionar en la computación cuántica, es fundamental conocer los fundamentos que rigen al <a href={`${import.meta.env.BASE_URL}/concepts/qubit`}>cubit</a>, ya que se trata de la unidad mínima de información sobre la cual se trabaja en esta disciplina. Tales fundamentos abarcan su concepción matemática, sus diferentes formas de representarlo y sus características, entre ellas la superposición cuántica, medición y colapso. Además, es importante comprender la manera en que los cubits se comportan al vincularse con otros en sistemas de mayor complejidad, donde toman fuerza nuevas propiedades cuánticas como el <a href={`${import.meta.env.BASE_URL}/concepts/entanglement`}>entrelazamiento</a>. Dicho fenómeno es importante principalmente en la implementación de protocolos de comunicación cuánticos, como la <a href={`${import.meta.env.BASE_URL}/primitives/superdense-coding`}>codificación superdensa</a> y <a href={`${import.meta.env.BASE_URL}/primitives/teleportation`}>teleportación cuántica</a>. Este último surge como una solución interesante para trasladar estados cuánticos, respetando las limitaciones provistas por el <a href={`${import.meta.env.BASE_URL}/concepts/no-cloning-theorem`}>teorema de no clonación</a>, que establece que no se puede clonar un estado cuántico desconocido utilizando puertas cuánticas. Por otra parte, se explican los conceptos de oráculo y retroceso de fase. El primero es de gran utilidad a la hora de desarrollar diferentes algoritmos cuánticos, ya que permite encapsular el comportamiento de una función en un circuito cuya estructura pasa a segundo plano. Así, uno puede enfocarse en el núcleo central del algoritmo, y medir su complejidad teniendo en cuenta la cantidad de consultas realizadas a dicho oráculo. El segundo es un fenómeno que se produce al trabajar sobre ciertos estados cuánticos, donde la acción de un algoritmo no produce cambios medibles sobre su estado, sino que únicamente se produce un cambio en la fase global. Dicho fenómeno es utilizado en muchos algoritmos, como el <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa#deutsch` }>algoritmo de Deutsch</a> y el <a href={`${import.meta.env.BASE_URL}/algorithms/grover` }>algoritmo de Grover</a>.
+
+
+## Mas información
+
+<Recommendations />
+<BibItem id="qubitWiki" rate="r" prefix="" />
+<BibItem id="entanglementWiki" rate="r" prefix="" />
+<BibItem id="noCloningWiki" rate="r" prefix="" />
+<BibItem id="oraclesWiki" rate="r" prefix="" />
+<BibItem id="phaseKickbackWiki" rate="r" prefix="" />
