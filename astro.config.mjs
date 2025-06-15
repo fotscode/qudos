@@ -129,6 +129,10 @@ export default defineConfig({
                     label: 'Primitivas',
                     items: [
                         {
+                            label: 'Introducción', 
+                            slug: 'primitives/introduction' 
+                        },
+                        {
                             label: 'Codificación superdensa', 
                             slug: 'primitives/superdense-coding' 
                         },
