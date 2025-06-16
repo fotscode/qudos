@@ -37,9 +37,9 @@ export default defineConfig({
             editLink: {
                 baseUrl: 'https://github.com/fotscode/qudos/edit/main/',
             },
-            social: {
-                github: 'https://github.com/fotscode/qudos',
-            },
+            social: [
+                { icon: 'github', label: 'GitHub', href: 'https://github.com/fotscode/qudos'},
+            ],
             defaultLocale: 'root',
             locales: {
                 root: {
@@ -57,6 +57,10 @@ export default defineConfig({
                         {
                             label: 'Hoja de ruta',
                             slug: 'roadmap',
+                        },
+                        {
+                            label: 'Guía de lectura',
+                            slug: 'summary',
                         }
                     ]
                 },

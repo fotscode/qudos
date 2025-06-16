@@ -1,0 +1,24 @@
+---
+layout: '@layouts/math.astro'
+title: Guía de lectura 
+description: Guía para la hoja de ruta en el aprendizaje de computación cuántica.
+---
+
+import { Image } from 'astro:assets'
+import { Aside } from '@astrojs/starlight/components'
+
+A continuación se desarrolla el alcance de Qudos y la forma en la que se sugiere recorrer el sitio.
+
+## Contenido
+
+Qudos reúne contenido que busca comprender una base introductoria en la computación cuántica, desde una perspectiva puramente teórica. Así, no se focaliza en aspectos de hardware cuántico, técnicas de corrección de errores, lenguajes y frameworks para el desarrollo de programas, ni consideraciones de verificación formal y complejidad computacional. Por su parte, se enfatiza el entendimiento de los conceptos básicos que rigen al cubit, protocolos, algoritmos y propiedades cuánticas, principalmente. 
+
+Se introducen nociones del cubit como su definición, propiedades y notaciones. Luego se extrapolan a sistemas de múltiples cubits, agregando nuevas propiedades como el entrelazamiento cuántico y la notación de circuitos cuánticos para representar algoritmos. Además, se introducen las puertas cuánticas más conocidas, junto con pruebas matemáticas que reflejan su funcionamiento, acudiendo a su notación matricial. En base al conocimiento introducido sobre las puertas y los estados cuánticos, se presentan los algoritmos más famosos. El <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa#deutsch`}>algoritmo de Deutsch</a> resuelve el problema de paridad, y es un gran ejemplo que muestra una mejora respecto de la mejor solución clásica. El <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa#deutsch-jozsa`}>algoritmo de Deutsch-Jozsa</a> generaliza la solución para determinar en orden constante si una función es constante o balanceada, y el <a href={`${import.meta.env.BASE_URL}/algorithms/bernstein-vazirani`}>algoritmo de Bernstein-Vazirani</a> usa el mismo circuito pero con distinto oráculo para resolver un problema diferente, lo cual muestra la posibilidad de reusar circuitos cuánticos. También se desarrolla el <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>algoritmo de Grover</a> debido a que ofrece una mejora cuadrática en la búsqueda de elementos sobre un espacio no estructurado. Por último, se explica el <a href={`${import.meta.env.BASE_URL}/algorithms/shor`}>algoritmo de Shor</a> por su gran relevancia en el mundo de la computación cuántica. A su vez, se ofrece un conjunto de primitivas que se pretende sean reusables para los desarrolladores cuánticos. Entre ellas, la <a href={`${import.meta.env.BASE_URL}/primitives/superdense-coding`}>codificación superdensa</a>, <a href={`${import.meta.env.BASE_URL}/primitives/teleportation`}>teleportación cuántica</a>, <a href={`${import.meta.env.BASE_URL}/primitives/uncomputation`}>descomputación</a>, <a href={`${import.meta.env.BASE_URL}/primitives/amplitude-amplification`}>amplificación de amplitudes</a>, <a href={`${import.meta.env.BASE_URL}/primitives/fourier-transform`}>transformada de Fourier</a> y <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fase</a>.
+
+## Recorrido 
+
+En primer lugar, uno accede a la <a href={`${import.meta.env.BASE_URL}/roadmap`}>hoja de ruta</a>. A la derecha de la página se ve el camino de aprendizaje sugerido, separado en etapas y con explicaciones generales. Mientras tanto, a la izquierda se desarrollan extensiones de distintos apartados inherentes a la computación cuántica (conceptos clave, puertas cuánticas, primitivas y algoritmos). La idea consiste en observar el camino de aprendizaje provisto y seguirlo en ese orden. Dentro de cada estación, se observarán referencias a artículos internos de Qudos donde se explican los temas correspondientes. En caso de que el lector quiera profundizar tales temas, puede acudir a las fuentes externas referenciadas dentro de los artículos. Notará que todos los artículos internos expuestos en la hoja de ruta se encuentran dentro de alguna de las secciones ubicadas en la barra lateral izquierda, a modo de organizar el sitio y agilizar el acceso a las distintos recursos de Qudos.
+
+<Aside>
+Qudos posee una interfaz responsiva, por lo que la barra lateral permanece oculta en dispositivos móviles. Para verla, debe presionar el botón ubicado en la esquina superior derecha de la pantalla.
+</Aside>
