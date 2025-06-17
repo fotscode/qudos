@@ -1,5 +1,7 @@
 ---
 // src/components/Collapsible.astro
+import { Icon } from '@astrojs/starlight/components';
+
 export interface Props {
   title?: string; // El texto que se mostrará como título clickeable
   level?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6'; // Nivel del encabezado (opcional)
@@ -21,7 +23,7 @@ const uniqueId = `collapsible-${Math.random().toString(36).substring(2, 9)}`;
 <div class="collapsible" data-astro-component>
   <HeadingTag class="collapsible-header" id={`${uniqueId}-header`} aria-expanded={startOpen ? 'true' : 'false'} aria-controls={`${uniqueId}-content`} tabindex="0">
     {title}
-    <span class="collapsible-arrow" aria-hidden="true">▶</span>
+    <span class="collapsible-arrow" aria-hidden="true"><Icon name="right-caret"/></span>
   </HeadingTag>
 
   <div class="collapsible-content" id={`${uniqueId}-content`} hidden={!startOpen}>

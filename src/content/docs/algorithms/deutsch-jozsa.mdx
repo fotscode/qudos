@@ -43,7 +43,7 @@ Por otra parte la función es balanceada cuando retorna mitad de veces una salid
 
 El **algoritmo clásico**, implica recorrer, en el peor de los casos, al menos mitad de las salidas posibles ($2^{n-1}+1$). El **algoritmo cuántico** realiza esta operación en **una** sola pasada.
 
-## Deutsch-Jozsa reducido
+## Deutsch
 
 Se plantea en un principio una versión reducida del problema, llamado el problema de Deutsch, donde la función que se evalúa posee una única entrada:
 
@@ -240,7 +240,7 @@ Esto determina que, para este ejemplo de función balanceada, se deriva al resul
 
 La función descrita previamente era balanceada retornando el mismo valor que el input (función identidad). Otro ejemplo de función balanceada es aquella que siempre retorna el opuesto de la entrada como salida (función de opuesto), esta se puede implementar, por ejemplo, aplicando una puerta Pauli-X a la salida luego de haber aplicado un CNOT.
 
-## Deutsch-Jozsa completo
+## Deutsch-Jozsa 
 
 El problema que resuelve el algoritmo de Deutsch-Jozsa es la generalización del algoritmo previo para funciones con $n$ entradas:
 

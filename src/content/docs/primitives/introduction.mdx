@@ -1,0 +1,27 @@
+---
+layout: '@layouts/math.astro'
+title: Primitivas 
+description: Introducción a las primitivas de programación en computación cuántica.
+---
+
+import { Image } from 'astro:assets'
+import { Aside } from '@astrojs/starlight/components'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
+
+En la programación tradicional, cuando se realizan operaciones como la suma de enteros o la concatenación de strings por medio de las instrucciones disponibles en un lenguaje de alto nivel, se efectúa una serie de pasos que es transparente al programador, lo que facilita su trabajo en el desarrollo. Tales pasos seguramente comprenden la acción de numerosas instrucciones de bajo nivel y son simplificadas por lenguajes de alto nivel, a modo de proveer un conjunto de herramientas que le resulte práctico al desarrollador de software. Así, se habla de **primitivas** de programación, a partir de las cuales se pueden construir estructuras y operaciones más complejas. 
+
+El objetivo de esta sección consiste en aportar un conjunto de primitivas que sirvan en la computación cuántica. La idea consiste en fomentar el reuso de componentes cuyo comportamiento se asume entendido, para luego utilizarlos como herramientas de ``caja negra'' que nos proveen soluciones inmediatas sobre problemas concretos. Esto servirá para que los desarrolladores de software cuántico dispongan de un kit de elementos que los ayude en su tarea, donde se proveen técnicas y circuitos reusables, logrando así un mayor nivel de abstracción en el desarrollo.
+
+La <a href={`${import.meta.env.BASE_URL}/primitives/superdense-coding`}>codificación superdensa</a> y <a href={`${import.meta.env.BASE_URL}/primitives/teleportation`}>teleportación cuántica</a> son protocolos de comunicación a los cuales se puede acudir para transferir información clásica y cuántica. Para limpiar los estados cuánticos, de manera que cubits auxiliares queden en el estado $\ket{0}$ y no ensucien la medición final de todos los cubits, se puede utilizar la técnica de la <a href={`${import.meta.env.BASE_URL}/primitives/uncomputation`}>descomputación</a>. Cuando se necesite realizar una búsqueda eficiente sobre un espacio no estructurado, se puede recurrir a la <a href={`${import.meta.env.BASE_URL}/primitives/amplitude-amplification`}>amplificación de amplitudes</a> teniendo bajo consideración la especificación del oráculo, el tamaño del espacio de búsqueda y, de ser posible, la cantidad de soluciones existentes. La <a href={`${import.meta.env.BASE_URL}/primitives/fourier-transform`}>transformada de Fourier cuántica</a> es útil para casos en los que se necesite aplicar la transformada de Fourier sobre algoritmos cuánticos. Por ejemplo, para la implementación del <a href={`${import.meta.env.BASE_URL}/algorithms/shor`}>algoritmo de Shor</a>. Finalmente, la <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fase</a> permite observar la fase de un estado cuántico con $m$ bits de precisión.
+
+
+## Mas información
+
+<Recommendations />
+<BibItem id="superdenseWiki" rate="r" prefix="" />
+<BibItem id="teleportationWiki" rate="r" prefix="" />
+<BibItem id="uncomputationWiki" rate="r" prefix="" />
+<BibItem id="amplitudeAmplificationWiki" rate="r" prefix="" />
+<BibItem id="fourierTransformWiki" rate="r" prefix="" />
+<BibItem id="phaseEstimationWiki" rate="r" prefix="" />

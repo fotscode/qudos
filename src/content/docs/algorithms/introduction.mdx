@@ -1,0 +1,23 @@
+---
+layout: '@layouts/math.astro'
+title: Algoritmos cuánticos
+description: Introducción a los algoritmos cuánticos.
+---
+
+import { Image } from 'astro:assets'
+import { Aside } from '@astrojs/starlight/components'
+import BibItem from '@components/BibItem.astro'
+import Recommendations from '@components/Recommendations.astro'
+
+El primer concepto que uno aprende cuando comienza sus estudios en la informática es el de **algoritmo**. En un principio suena como una palabra compleja que implica procedimientos difíciles de comprender e implementar. Sin embargo, uno termina descubriendo que un algoritmo no es más que una secuencia finita de pasos para resolver un problema. Como es de esperarse, los primeros algoritmos aprendidos desde una perspectiva de la computación tradicional abarcan problemas típicos, tales como la búsqueda de valores máximos y mínimos, ordenamiento de arreglos, recorridos de listas, etc. Análogamente, en la computación cuántica existe una serie de algoritmos a partir de los cuales se considera apropiado comenzar. Dado que la naturaleza de este paradigma no suele ir de la mano con la intuición, es normal que su complejidad sea mayor. Además, suelen tenerse en consideración principalmente aquellos algoritmos cuánticos que resuelven problemas más rápidamente que la mejor variante clásica conocida. Así, con el paso del tiempo se ha consolidado este conjunto de algoritmos debido a su impacto en la informática en general. 
+
+El <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa#deutsch` }>algoritmo de Deutsch</a> sirve como primer acercamiento sobre un problema sencillo donde se observa una mejora respecto de su contraparte clásica. A fines prácticos resulta de poca utilidad, pero es muy interesante para introducirse en los efectos producidos por la superposición e interferencia en los estados cuánticos, y para observar el fenómeno de <a href={`${import.meta.env.BASE_URL}/concepts/phase-kickback`}>retroceso de fase</a>. Luego, el <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa#deutsch-jozsa` }>algoritmo de Deutsch-Jozsa</a> presenta una versión general que permite observar tales efectos sobre sistemas de mayor complejidad. El <a href={`${import.meta.env.BASE_URL}/algorithms/bernstein-vazirani` }>algoritmo de Bernstein-Vazirani</a> ilustra cómo un mismo circuito puede ser reutilizado para resolver problemas diferentes, únicamente modificando la acción del oráculo. Por otro lado, el <a href={`${import.meta.env.BASE_URL}/algorithms/grover` }>algoritmo de Grover</a> presenta una mejora cuadrática en la resolución de problemas de búsqueda, recurriendo a la <a href={`${import.meta.env.BASE_URL}/primitives/amplitude-amplification` }>amplificación de amplitudes</a>. Por último, vale la pena mencionar el <a href={`${import.meta.env.BASE_URL}/algorithms/shor` }>algoritmo de Shor</a>, probablemente el más conocido de todos los anteriores. Su fama se debe a la mejora exponencial en la factorización de números primos, conformando una de las principales motivaciones en la investigación y desarrollo de la computación cuántica.
+
+
+## Mas información
+
+<Recommendations />
+<BibItem id="deutschWiki" rate="r" prefix="" />
+<BibItem id="bernsteinVaziraniWiki" rate="r" prefix="" />
+<BibItem id="groverWiki" rate="r" prefix="" />
+<BibItem id="shorWiki" rate="r" prefix="" />

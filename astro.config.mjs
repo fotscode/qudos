@@ -37,9 +37,9 @@ export default defineConfig({
             editLink: {
                 baseUrl: 'https://github.com/fotscode/qudos/edit/main/',
             },
-            social: {
-                github: 'https://github.com/fotscode/qudos',
-            },
+            social: [
+                { icon: 'github', label: 'GitHub', href: 'https://github.com/fotscode/qudos'},
+            ],
             defaultLocale: 'root',
             locales: {
                 root: {
@@ -57,6 +57,14 @@ export default defineConfig({
                         {
                             label: 'Hoja de ruta',
                             slug: 'roadmap',
+                        },
+                        {
+                            label: 'Guía de lectura',
+                            slug: 'summary',
+                        },
+                        {
+                            label: 'Índice',
+                            slug: 'table-of-contents',
                         }
                     ]
                 },
@@ -64,16 +72,12 @@ export default defineConfig({
                     label: 'Conceptos clave',
                     items: [
                         {
+                            label: 'Introducción',
+                            slug: 'concepts/introduction',
+                        },
+                        {
                             label: 'El Cubit',
                             slug: 'concepts/qubit',
-                        },
-                        {
-                            label:'Retroceso de fase',
-                            slug:'concepts/phase-kickback'
-                        },
-                        {
-                            label: 'Oráculos',
-                            slug: 'concepts/oracles',
                         },
                         {
                             label: 'Entrelazamiento',
@@ -84,8 +88,12 @@ export default defineConfig({
                             slug:'concepts/no-cloning-theorem'
                         },
                         {
-                            label:'Descomputación',
-                            slug:'concepts/uncomputation'
+                            label: 'Oráculos',
+                            slug: 'concepts/oracles',
+                        },
+                        {
+                            label:'Retroceso de fase',
+                            slug:'concepts/phase-kickback'
                         },
                     ],
                     translations: {
@@ -129,12 +137,20 @@ export default defineConfig({
                     label: 'Primitivas',
                     items: [
                         {
+                            label: 'Introducción', 
+                            slug: 'primitives/introduction' 
+                        },
+                        {
                             label: 'Codificación superdensa', 
                             slug: 'primitives/superdense-coding' 
                         },
                         {
                             label:'Teleportación cuántica',
                             slug:'primitives/teleportation'
+                        },
+                        {
+                            label:'Descomputación',
+                            slug:'primitives/uncomputation'
                         },
                         {   label: 'Amplificación de amplitudes', 
                             slug: 'primitives/amplitude-amplification' 
@@ -153,6 +169,7 @@ export default defineConfig({
                 {
                     label: 'Algoritmos',
                     items: [
+                        { label: 'Introducción', slug: 'algorithms/introduction' },
                         { label: 'Deutsch-Jozsa', slug: 'algorithms/deutsch-jozsa' },
                         { label: 'Bernstein-Vazirani', slug: 'algorithms/bernstein-vazirani' },
                         { label: 'Grover', slug: 'algorithms/grover' },
