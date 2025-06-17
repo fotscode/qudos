@@ -61,6 +61,10 @@ export default defineConfig({
                         {
                             label: 'Guía de lectura',
                             slug: 'summary',
+                        },
+                        {
+                            label: 'Índice',
+                            slug: 'table-of-contents',
                         }
                     ]
                 },
