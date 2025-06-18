@@ -3,53 +3,73 @@
 import { Icon } from '@astrojs/starlight/components';
 
 export interface Props {
-  title?: string; // El texto que se mostrará como título clickeable
-  level?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6'; // Nivel del encabezado (opcional)
-  startOpen?: boolean; // Para que comience abierto (opcional)
+  title?: string;
+  level?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  startOpen?: boolean;
 }
 
 const {
-  title = 'Ver Detalles', // Texto por defecto para el título
-  level = 'h3', // Nivel de encabezado por defecto
+  title = 'Ver Detalles',
+  level = 'h3',
   startOpen = false,
 } = Astro.props;
 
-const HeadingTag = level; // Determina qué etiqueta de encabezado usar (h2, h3, etc.)
-
-// Generate a unique ID for each collapsible instance
+const HeadingTag = level;
 const uniqueId = `collapsible-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
-<div class="collapsible" data-astro-component>
-  <HeadingTag class="collapsible-header" id={`${uniqueId}-header`} aria-expanded={startOpen ? 'true' : 'false'} aria-controls={`${uniqueId}-content`} tabindex="0">
-    {title}
-    <span class="collapsible-arrow" aria-hidden="true"><Icon name="right-caret"/></span>
+<div class="collapsible-container">
+  <HeadingTag
+    class="collapsible-header"
+    id=`${uniqueId}-header`
+    aria-expanded={startOpen}
+    aria-controls=`${uniqueId}-content`
+    tabindex="0"
+  >
+    <span>{title}</span>
+    <span class="collapsible-arrow" aria-hidden="true">
+      <Icon name="right-caret" size="1.2em" />
+    </span>
   </HeadingTag>
 
-  <div class="collapsible-content" id={`${uniqueId}-content`} hidden={!startOpen}>
-    <slot />
+  <div
+    class="collapsible-content"
+    id=`${uniqueId}-content`
+    hidden={!startOpen}
+  >
+    <div class="collapsible-content-inner">
+      <slot />
+    </div>
   </div>
 </div>
 
 <style>
+  .collapsible-container {
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.375rem;
+    background-color: var(--sl-color-bg-inset);
+    margin-block: 1rem;
+  }
+
   .collapsible-header {
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-weight: bold; /* Example styling */
-
+    gap: 1rem;
     width: 100%;
-    padding: 0.75rem 1rem; /* Ajusta el padding según necesites */
-    background-color: var(--sl-color-bg-inset); /* Un fondo sutil, similar a Starlight */
-    border: 1px solid var(--sl-color-gray-5);
-    border-radius: 0.375rem;
+    padding: 0.75rem 1rem;
     transition: background-color 0.2s ease-in-out;
-    position: relative; /* Para control de z-index si es necesario */
   }
-  
+
   .collapsible-header:hover {
-    background-color: var(--sl-color-gray-6); /* Un poco más oscuro al pasar el mouse */
+    background-color: var(--sl-color-gray-6);
+  }
+
+  .collapsible-header:focus-visible {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
   }
 
   .collapsible-header[aria-expanded="true"] .collapsible-arrow {
@@ -57,76 +77,44 @@ const uniqueId = `collapsible-${Math.random().toString(36).substring(2, 9)}`;
   }
 
   .collapsible-arrow {
-    transform-origin: center center;
-    display: inline-block; /* Helps with transform-origin and consistent spacing */
-    text-align: center; /* Center the arrow within its fixed width */
-    transition: transform 0.2s ease-in-out;
+    transform-origin: center;
     color: var(--sl-color-text-accent);
+    flex-shrink: 0;
+    /* --- FIX: Added transition for the transform property --- */
+    transition: transform 0.2s ease-in-out;
   }
 
-  /* You might want to add max-height and overflow hidden for smooth transitions */
   .collapsible-content {
-    /* Initially hidden or collapsed */
-    max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Smooth transition */
-    padding: 0 0.5rem;
   }
 
-  .collapsible-content[hidden] {
-    display: none; /* Fallback for no JS or initial state */
-  }
-
-  /* When expanded */
-  .collapsible-content[aria-expanded="true"] {
-    max-height: 0; /* Adjust this to a value larger than your expected content */
-    padding-top: 0.5em; /* Example padding */
-    padding-bottom: 0.5em; /* Example padding */
+  .collapsible-content-inner {
+    padding: 0.5rem 1rem 1rem;
+    overflow-x: auto;
   }
 </style>
 
-<script is:inline define:vars={{ startOpen, uniqueId }}>
+<script define:vars={{ uniqueId }}>
   const header = document.getElementById(`${uniqueId}-header`);
   const content = document.getElementById(`${uniqueId}-content`);
 
-  // Set initial state based on startOpen prop
-  if (startOpen) {
-    header.setAttribute('aria-expanded', 'true');
-    content.removeAttribute('hidden');
-    content.setAttribute('aria-expanded', 'true'); // Add for consistency
-    content.style.maxHeight = content.scrollHeight + 'px'; // Set initial max-height for smooth transition
-  } else {
-    content.style.maxHeight = '0';
-  }
-
   header.addEventListener('click', () => {
     const isExpanded = header.getAttribute('aria-expanded') === 'true';
-
+    
+    // Toggle the state
     if (isExpanded) {
+      content.setAttribute('hidden', '');
       header.setAttribute('aria-expanded', 'false');
-      content.setAttribute('aria-expanded', 'false');
-      content.style.maxHeight = '0';
-      content.addEventListener('transitionend', function handler() {
-        content.setAttribute('hidden', '');
-        content.removeEventListener('transitionend', handler);
-      }, { once: true });
     } else {
-      header.setAttribute('aria-expanded', 'true');
       content.removeAttribute('hidden');
-      content.setAttribute('aria-expanded', 'true');
-      content.style.maxHeight = content.scrollHeight + 'px'; // Set max-height to content's scrollHeight
-      content.addEventListener('transitionend', function handler() {
-        content.style.maxHeight = 'auto'; // Remove max-height for dynamic content if needed, but keep overflow hidden
-        content.removeEventListener('transitionend', handler);
-      }, { once: true });
+      header.setAttribute('aria-expanded', 'true');
     }
   });
 
-  // Handle keyboard accessibility (Enter/Space on header)
   header.addEventListener('keydown', (event) => {
     if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault(); // Prevent default scroll for spacebar
-      header.click(); // Simulate a click
+      event.preventDefault();
+      header.click();
     }
   });
 </script>
