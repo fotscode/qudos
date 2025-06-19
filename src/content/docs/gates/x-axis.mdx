@@ -10,6 +10,7 @@ import Box from '@components/Box.astro'
 import BibItem from '@components/BibItem.astro'
 import Recommendations from '@components/Recommendations.astro'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
+import Collapsible from '@components/Collapsible.astro'
 import {
   pauli_x_example_quirk,
   pauli_x_qiskit_code,
@@ -74,6 +75,142 @@ La versión general de la aplicación de la puerta es la siguiente:
 
 Por lo que intercambia las amplitudes entre los estados base $\ket{0}$ y $\ket{1}$.
 
+<Collapsible title="Conversiones de estados comunes" level="h6">
+
+Recordando los valores de los Cubits en sus estados comunes (o bases), a continuacion se detallarán las pruebas matemáticas de las conversiones de un estado común a otro utilizando la puerta NOT cuantica.
+
+#### $\ket{0} \overset{X}{\rightarrow} \ket{1}$
+
+```math
+\begin{align}
+X\ket{0}&=\begin{bmatrix}
+0&1\\
+1&0
+\end{bmatrix}\begin{bmatrix}
+1\\
+0
+\end{bmatrix}\\
+&=\begin{bmatrix}
+0\\
+1
+\end{bmatrix}=\ket{1}
+\end{align}
+```
+
+#### $\ket{1} \overset{X}{\rightarrow} \ket{0}$
+
+```math
+\begin{align}
+X\ket{1}&=\begin{bmatrix}
+0&1\\
+1&0
+\end{bmatrix}\begin{bmatrix}
+0\\
+1
+\end{bmatrix}\\
+&=\begin{bmatrix}
+1\\
+0
+\end{bmatrix}=\ket{0}
+\end{align}
+```
+
+#### $\ket{+} \overset{X}{\rightarrow} \ket{+}$
+
+```math
+\begin{align}
+X\ket{+}&=\begin{bmatrix}
+0&1\\
+1&0
+\end{bmatrix}
+\frac{1}{\sqrt{2}}\left(\begin{bmatrix}
+1\\
+0
+\end{bmatrix}+\begin{bmatrix}
+0\\
+1
+\end{bmatrix}\right)\\
+&=
+\frac{1}{\sqrt{2}}\left(\begin{bmatrix}
+0&1\\
+1&0
+\end{bmatrix}\begin{bmatrix}
+1\\
+0
+\end{bmatrix}+\begin{bmatrix}
+0&1\\
+1&0
+\end{bmatrix}\begin{bmatrix}
+0\\
+1
+\end{bmatrix}\right)\\
+&=
+\frac{1}{\sqrt{2}}\left(\begin{bmatrix}
+0\\
+1
+\end{bmatrix}+
+\begin{bmatrix}
+1\\
+0
+\end{bmatrix}\right)\\
+&=
+\frac{1}{\sqrt{2}}(\ket{1}+\ket{0})\\
+&=
+\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})=\ket{+}
+\end{align}
+```
+
+#### $\ket{-} \overset{X}{\rightarrow} \ket{-}$
+
+```math
+\begin{align}
+X\ket{-}&=\begin{bmatrix}
+0&1\\
+1&0
+\end{bmatrix}
+\frac{1}{\sqrt{2}}\left(\begin{bmatrix}
+1\\
+0
+\end{bmatrix}-\begin{bmatrix}
+0\\
+1
+\end{bmatrix}\right)\\
+&=
+\frac{1}{\sqrt{2}}\left(\begin{bmatrix}
+0&1\\
+1&0
+\end{bmatrix}\begin{bmatrix}
+1\\
+0
+\end{bmatrix}-\begin{bmatrix}
+0&1\\
+1&0
+\end{bmatrix}\begin{bmatrix}
+0\\
+1
+\end{bmatrix}\right)\\
+&=
+\frac{1}{\sqrt{2}}\left(\begin{bmatrix}
+0\\
+1
+\end{bmatrix}-
+\begin{bmatrix}
+1\\
+0
+\end{bmatrix}\right)\\
+&=
+\frac{1}{\sqrt{2}}(\ket{1}-\ket{0})\\
+&=
+\frac{1}{\sqrt{2}}(-\ket{0}+\ket{1})\\
+&=
+\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})=\ket{-}
+\end{align}
+```
+
+El paso del 14 al 15 se cumple por quitar como factor el negativo y obviando la fase global.
+
+</Collapsible>
+
 <Tabs>
   <TabItem label='Quirk'>
     <Box>
@@ -83,7 +220,8 @@ Por lo que intercambia las amplitudes entre los estados base $\ket{0}$ y $\ket{1
   </TabItem>
   <TabItem label="Dirac">
     <Box>
-        Las operaciones comunes son las siguientes, las pruebas de estas operaciones se pueden encontrar con mayor detalle en las <a href={`${import.meta.env.BASE_URL}/proofs/x-axis#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>:
+        Como resultado de las conversiones de estados comunes.
+
         ```math
         X\ket{0}=\ket{1}\\
         X\ket{1}=\ket{0}\\

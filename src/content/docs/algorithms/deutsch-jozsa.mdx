@@ -16,6 +16,7 @@ import { Aside, Code, Tabs, TabItem } from '@astrojs/starlight/components'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
 import BibItem from '@components/BibItem.astro'
 import Recommendations from '@components/Recommendations.astro'
+import Collapsible from '@components/Collapsible.astro'
 import Box from '@components/Box.astro'
 
 import {
@@ -88,9 +89,58 @@ H\ket{-}=\ket{1} & \text{si \(f(0) \neq f(1)\)}
 \end{align}
 ```
 
-Un desarrollo elaborado se puede observar dentro de las <a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#desarrollo-elaborado-de-la-versión-reducida`}>pruebas matemáticas</a>.
-
 La idea básica del algoritmo es poder reemplazar $U_f$ con un circuito, si este circuito representa una función constante, la salida del primer Cubit va a ser $\ket{0}$. Por otra parte, en caso de que el circuito represente una función balanceada, retornará $\ket{1}$.
+
+<Collapsible title="Desarrollo elaborado" level="h6">
+
+De forma detallada el estado de los cubits según los separadores provistos en la Figura 1, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
+
+
+```math
+\begin{align}
+\psi_0=&\ket{00}\\
+\psi_1=&\ket{01}\\
+\psi_2=&\ket{+-}\\
+=&\frac{1}{\sqrt{2}}(\ket{0}\ket{-}+\ket{1}\ket{-})\\
+\psi_3=&U_f\frac{1}{\sqrt{2}}(\ket{0}\ket{-}+\ket{1}\ket{-})\\
+=&\frac{1}{\sqrt{2}}(U_f\ket{0}\ket{-}+U_f\ket{1}\ket{-})\\
+=&\frac{1}{\sqrt{2}}((-1)^{f(0)}\ket{0}\ket{-}+(-1)^{f(1)}\ket{1}\ket{-})\\
+=&\frac{1}{\sqrt{2}}((-1)^{f(0)}\ket{0}+(-1)^{f(1)}\ket{1})\\
+\end{align}
+```
+
+Notar que en $(7)$ se elimina el cubit \\(\ket{'-'}\\), esto se debe a que el segundo cubit, no se mide, ni se utiliza más en el circuito, por lo que solo estorbaría y por ende se puede prescindir del mismo.
+
+Se analizan los casos posibles, primero en caso de que \\(f\\) sea constante, y luego en caso de que \\(f\\) sea balanceada.
+
+```math
+\begin{align}
+=&\begin{cases}
+\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})=\ket{+} & \text{si \(f(0)=f(1)=0\)}\\
+\frac{1}{\sqrt{2}}(-\ket{0}-\ket{1})=\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})=\ket{+} & \text{si \(f(0)=f(1)=1\)}
+\end{cases}\\
+=&\begin{cases}
+\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})=\ket{-} & \text{si \(f(0)=0, f(1)=1\)}\\
+\frac{1}{\sqrt{2}}(-\ket{0}+\ket{1})=\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})=\ket{-} & \text{si \(f(0)=1, f(1)=0\)}
+\end{cases}
+\end{align}
+```
+
+A su vez en $(9)$ y en $(10)$ se factoriza el $-1$ y, como actúa de fase global, se puede prescindir de la misma.
+
+Finalmente aplicar el ultimo paso del circuito es simple
+
+```math
+\begin{align}
+\psi_4=
+\begin{cases}
+H\ket{+}=\ket{0} & \text{si \(f(0)=f(1)\)}\\
+H\ket{-}=\ket{1} & \text{si \(f(0) \neq f(1)\)}
+\end{cases}
+\end{align}
+```
+
+</Collapsible>
 
 ### Ejemplos
 
@@ -217,7 +267,7 @@ Nuevamente desarrollando paso a paso los estados de los cubits en cada separador
 \end{align}
 ```
 
-Una derivación del paso $\psi_3$ se puede encontrar en las <a href={`${import.meta.env.BASE_URL}/proofs/cnot`}>pruebas matemáticas de CNOT</a>. De la misma manera se elimina el $\ket{-}$ ya que no se utiliza en la medición.
+Una derivación del paso $\psi_3$ se puede encontrar en el artículo de <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a>. De la misma manera se elimina el $\ket{-}$ ya que no se utiliza en la medición.
 
 Esto determina que, para este ejemplo de función balanceada, se deriva al resultado correcto, es decir que el circuito con <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> deriva en el resultado $\ket{1}$.
 
@@ -287,7 +337,111 @@ Analizaremos paso a paso el estado de los cubits segun los separadores provistos
 \end{align}
 ```
 
-Un desarrollo elaborado de los pasos se puede observar dentro de las <a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#desarrollo-elaborado-de-la-versión-completa`}>pruebas matemáticas</a>. Finalmente si medimos la amplitud del estado $\psi_3$ donde $\ket{z}$ es $\ket{0}^{\otimes{n}}$ (<a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#mediciones`}>ver desarrollo</a>):
+<Collapsible title="Desarrollo elaborado" level="h6">
+
+### Pasos 0 y 1
+
+```math
+\begin{align}
+\psi_0=&\ket{0}^{\otimes n}\ket{-}\\
+\psi_1=&H^{\otimes n}\ket{0}^{\otimes n}\ket{-}\\
+=&\underbrace{H\ket{0}H\ket{0}\ldots H\ket{0}}_{n\text{ veces}}\ket{-}\\
+=&\underbrace{\ket{++\ldots +}}_{n\text{ veces}}\ket{-}\\
+=&\underbrace{\frac{\ket{0}+\ket{1}}{\sqrt{2}}\frac{\ket{0}+\ket{1}}{\sqrt{2}}\ldots\frac{\ket{0}+\ket{1}}{\sqrt{2}}}_{n\text{ veces}}\ket{-}\\
+\end{align}
+```
+Para obtener una versión genérica de $\psi_1$ encontramos la secuencia utilizando ejemplos, por ejemplo el valor de $\psi_1$ en caso de que $n=2$:
+```math
+\begin{align}
+H^{\otimes 2}\ket{0}^{\otimes 2}=&\frac{\ket{0}+\ket{1}}{\sqrt{2}}\frac{\ket{0}+\ket{1}}{\sqrt{2}}\ket{-}\\
+=&\frac{1}{\sqrt{2^2}}(\ket{0}+\ket{1})\otimes(\ket{0}+\ket{1})\\
+=&\frac{1}{\sqrt{2^2}}(\ket{00}+\ket{01}+\ket{10}+\ket{11})\\
+=&\frac{1}{\sqrt{2^2}}\sum_{x \in \{0,1\}^2} \ket{x}
+\end{align}
+```
+Notar que en este caso $\sum_{x \in \{0,1\}^2} \ket{x}$ denota la suma de todas las combinaciones de largo $2$, por lo que el caso general (cuando es $n$) es el siguiente:
+```math
+H^{\otimes n}\ket{0}^{\otimes n}=\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n}\ket{x}
+```
+Finalmente $\psi_1$ toma el valor:
+```math
+\psi_1=\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n}\ket{x}\ket{-}
+```
+### Paso 2
+```math
+\begin{align}
+\psi_2=&U_f\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} U_f\ket{x}\ket{-}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\ket{-}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
+\end{align}
+```
+En el último paso eliminamos $\ket{-}$ para simplificar los cálculos ya que no se utiliza en la medición y no interfiere con el resto del algoritmo.
+### Paso 3
+
+```math
+\begin{align}
+\psi_3=&H^{\otimes n}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}H^{\otimes n}\ket{x}\\
+\end{align}
+```
+
+Notar que $H^{\otimes n}\ket{x}$ es diferente a $H^{\otimes n}\ket{0}$ definido previamente, este se puede entender como:
+```math
+\begin{align}
+H^{\otimes n}\ket{x}&=H\ket{x_0x_1x_2 \ldots x_{n-1}}\\
+&=H\ket{x_0}H\ket{x_1} \ldots H\ket{x_{n-1}}\\
+H\ket{x_i}&=\frac{1}{\sqrt{2}}(\ket{0}+(-1)^{x_i}\ket{1})\quad\text{donde }x_i\in\{0,1\}
+\end{align}
+```
+Analogamente a $\psi_1$ para encontrar una versión genérica de $\psi_3$ encontramos la secuencia utilizando un ejemplo, por ejemplo si $n=2$:
+```math
+\begin{align}
+H^{\otimes 2}\ket{x}&=H\ket{x_0}H\ket{x_1}\\
+&=\frac{1}{\sqrt{2}}(\ket{0}+(-1)^{x_0}\ket{1})\frac{1}{\sqrt{2}}(\ket{0}+(-1)^{x_1}\ket{1})\\
+&=\frac{1}{\sqrt{2^2}}(\ket{0}+(-1)^{x_0}\ket{1})(\ket{0}+(-1)^{x_1}\ket{1})\\
+&=\frac{1}{\sqrt{2^2}}(\ket{00}+(-1)^{x_1}\ket{01}+(-1)^{x_0}\ket{10}+(-1)^{x_0}(-1)^{x_1}\ket{11})\\
+&=\frac{1}{\sqrt{2^2}}(\ket{00}+(-1)^{x_1}\ket{01}+(-1)^{x_0}\ket{10}+(-1)^{x_0+x_1}\ket{11})\\
+&=\frac{1}{\sqrt{2^2}}(\ket{00}+(-1)^{x\cdot01}\ket{01}+(-1)^{x\cdot 10}\ket{10}+(-1)^{x\cdot 11}\ket{11})\\
+&=\frac{1}{\sqrt{2^2}}\sum_{z\in\{0,1\}^2} (-1)^{x\cdot z} \ket{z}
+\end{align}
+```
+Notar que se convierte $x_1$ al producto escalar $x \cdot 01$, esto se hace para simplificar la ecuación y dado que la operacion $x\cdot 01$ equivale a lo siguiente:
+```math
+x \cdot 01 = x_0x_1 \cdot 01 = x_0(0) + x_1(1) = x_1
+```
+Generalizando la ecuación para $n$:
+```math
+H^{\otimes n}\ket{x}=\frac{1}{\sqrt{2^n}}\sum_{z\in\{0,1\}^n} (-1)^{x\cdot z} \ket{z}
+```
+Finalmente reemplazando en $\psi_3$:
+```math
+\begin{align}
+\psi_3=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}H^{\otimes n}\ket{x}\\
+=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\left[\frac{1}{\sqrt{2^n}}\sum_{z\in\{0,1\}^n} (-1)^{x\cdot z} \ket{z}\right]\\
+=&\sum_{x\in\{0,1\}^n}\frac{1}{2^n} (-1)^{f(x)}\left[\sum_{z\in\{0,1\}^n} (-1)^{x\cdot z} \ket{z}\right]\\
+=&\sum_{x\in\{0,1\}^n}\frac{1}{2^n} \sum_{z\in\{0,1\}^n} (-1)^{f(x)}(-1)^{x\cdot z} \ket{z}\\
+=&\sum_{x\in\{0,1\}^n}\frac{1}{2^n} \sum_{z\in\{0,1\}^n} (-1)^{f(x)+x\cdot z} \ket{z}\\
+=&\sum_{z\in\{0,1\}^n} \left(\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot z}\right) \ket{z}\\
+\end{align}
+```
+
+<Aside>
+    La identidad definida previamente $H^{\otimes n}\ket{0}^{\otimes n}$, se puede generalizar utilizando la identidad definida con $H^{\otimes n}\ket{x}$ donde $\ket{x}=\ket{0}^{\otimes n}$:
+    ```math
+    \begin{align}
+    H^{\otimes n}\ket{0}^{\otimes n}&=H^{\otimes n}\ket{00\ldots 0}\\
+    H^{\otimes n}\ket{00\ldots 0}&=\frac{1}{\sqrt{2^n}}\sum_{z\in\{0,1\}^n}(-1)^{00\ldots 0\cdot z} \ket{z}\\
+    &=\frac{1}{\sqrt{2^n}}\sum_{z\in\{0,1\}^n}(-1)^0 \ket{z}\\
+    &=\frac{1}{\sqrt{2^n}}\sum_{z\in\{0,1\}^n}\ket{z}
+    \end{align}
+    ```
+</Aside>
+
+</Collapsible>
+
+
+Finalmente si medimos la amplitud del estado $\psi_3$ donde $\ket{z}$ es $\ket{0}^{\otimes{n}}$ 
 
 ```math
 \begin{gather}
@@ -295,7 +449,21 @@ Un desarrollo elaborado de los pasos se puede observar dentro de las <a href={`$
 \end{gather}
 ```
 
-Estas amplitudes convergen en diferentes resultados según si $f$ es constante o balanceada, por un lado si es **_constante_** (<a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#función-constante`}>ver prueba completa</a>):
+<Collapsible title="Cálculo" level="h6">
+
+Al medir la amplitud de $\psi_3$ donde $\ket{z}$ es $\ket{0}^{\otimes n}$:
+```math
+\begin{align}
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot 00\ldots 0}\right|^2&=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x_0x_1\ldots x_n\cdot 00\ldots 0}\right|^2\\
+&=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x_0(0)+x_1(0)\ldots x_n(0)}\right|^2\\
+&=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+0}\right|^2\\
+&=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2\\
+\end{align}
+```
+
+</Collapsible>
+
+Estas amplitudes convergen en diferentes resultados según si $f$ es constante o balanceada, por un lado si es **_constante_**: 
 
 ```math
 \begin{align}
@@ -303,13 +471,49 @@ Estas amplitudes convergen en diferentes resultados según si $f$ es constante o
 \end{align}
 ```
 
-Por otro lado si es **_balanceada_** (<a href={`${import.meta.env.BASE_URL}/proofs/deutsch-jozsa#función-balanceada`}>ver prueba completa</a>):
+<Collapsible title="Cálculo" level="h6">
+
+```math
+\begin{align}
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2&=
+\begin{cases}
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{0}\right|^2 & \text{si }f(x)=0\\
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{1}\right|^2 & \text{si }f(x)=1\\
+\end{cases}
+\\
+&=\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} \pm 1 \right|^2\\
+&=|\pm\left(\frac{1}{2^n}2^n\right)|^2 \\
+&=|\pm\left(\frac{1}{1}\right)|^2 \\
+&=|\pm 1|^2\\
+&=1\\
+\end{align}
+```
+
+</Collapsible>
+
+Por otro lado si es **_balanceada_**:
 
 ```math
 \begin{align}
 \left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2=0
 \end{align}
 ```
+
+<Collapsible title="Cálculo" level="h6">
+
+```math
+\begin{align}
+\left|\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\right|^2&=\left|\frac{1}{2^n}\overbrace{\left((-1)^{f(x)}+(-1)^{f(x)}+\ldots+(-1)^{f(x)}\right)}^{2^n\text{ veces}}\right|^2\\
+&=\left|\frac{1}{2^n}\left(\overbrace{(-1)^0+\ldots+(-1)^0}^{k\text{ veces}}+\overbrace{(-1)^1+\ldots+(-1)^1}^{k\text{ veces}}\right)\right|^2\\
+&=\left|\frac{1}{2^n}\left((-1)^0k+(-1)^1k\right)\right| \\
+&=\left|\frac{1}{2^n}(k-k)\right| \\
+&=\left|\frac{1}{2^n}0\right|^2\\
+&=0
+\end{align}
+```
+Notar que $k=2^{n-1}$, esto representa que la mitad de las salidas ($total=2^n, k=2^n/2$) es $0$ y la otra mitad es $1$, esto es la definición de función balanceada.
+
+</Collapsible>
 
 Ahora, a diferencia del algoritmo previo, se puede reemplazar $U_f$ con un circuito que represente una función constante o una función balanceada con $n$ entradas, en caso de ser del primer tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $1$, y en caso de ser del segundo tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $0$.
 
