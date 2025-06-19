@@ -9,6 +9,7 @@ import { Code, Tabs, TabItem } from '@astrojs/starlight/components'
 import Box from '@components/Box.astro'
 import BibItem from '@components/BibItem.astro'
 import Recommendations from '@components/Recommendations.astro'
+import Collapsible from '@components/Collapsible.astro'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
 import {
   cnot_quirk_example,
@@ -33,6 +34,76 @@ CNOT=\begin{bmatrix}
 \end{bmatrix}
 ```
 
+<Collapsible title="Conversiones de estados comunes" level="h6">
+
+Se desarrollan pruebas matematicas de la aplicación de la puerta CNOT en cubits en estado de superposición.
+
+#### $\ket{++} \overset{CNOT}{\rightarrow} \ket{++}$
+
+```math
+\begin{align}
+CNOT\ket{++}=& CNOT\frac{1}{2}\left((\ket{0}+\ket{1})\otimes(\ket{0}+\ket{1})\right)\\
+=& CNOT\frac{1}{2}\left(\ket{00}+\ket{01}+\ket{10}+\ket{11}\right)\\
+=&\frac{1}{2}\left(CNOT\ket{00}+CNOT\ket{01}+CNOT\ket{10}+CNOT\ket{11}\right)\\
+=&\frac{1}{2}\left(\ket{00}+\ket{01}+\ket{11}+\ket{10}\right)\\
+=&\frac{1}{2}\left(\ket{00}+\ket{01}+\ket{10}+\ket{11}\right)\\
+=&\frac{1}{2}\left((\ket{0}+\ket{1})\otimes(\ket{0}+\ket{1})\right)\\
+=&\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\\
+=&\ket{+}\otimes\ket{+}\\
+=&\ket{++}
+\end{align}
+```
+
+#### $\ket{+-} \overset{CNOT}{\rightarrow} \ket{--}$
+
+```math
+\begin{align}
+CNOT\ket{+-}=& CNOT\frac{1}{2}\left((\ket{0}+\ket{1})\otimes(\ket{0}-\ket{1})\right)\\
+=& CNOT\frac{1}{2}\left(\ket{00}-\ket{01}+\ket{10}-\ket{11}\right)\\
+=&\frac{1}{2}\left(CNOT\ket{00}-CNOT\ket{01}+CNOT\ket{10}-CNOT\ket{11}\right)\\
+=&\frac{1}{2}\left(\ket{00}-\ket{01}+\ket{11}-\ket{10}\right)\\
+=&\frac{1}{2}\left(\ket{00}-\ket{01}-\ket{10}+\ket{11}\right)\\
+=&\frac{1}{2}\left((\ket{0}-\ket{1})\otimes(\ket{0}-\ket{1})\right)\\
+=&\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\\
+=&\ket{-}\otimes\ket{-}\\
+=&\ket{--}
+\end{align}
+```
+
+#### $\ket{-+} \overset{CNOT}{\rightarrow} \ket{-+}$
+
+```math
+\begin{align}
+CNOT\ket{-+}=& CNOT\frac{1}{2}\left((\ket{0}-\ket{1})\otimes(\ket{0}+\ket{1})\right)\\
+=& CNOT\frac{1}{2}\left(\ket{00}+\ket{01}-\ket{10}-\ket{11}\right)\\
+=&\frac{1}{2}\left(CNOT\ket{00}+CNOT\ket{01}-CNOT\ket{10}-CNOT\ket{11}\right)\\
+=&\frac{1}{2}\left(\ket{00}+\ket{01}-\ket{11}-\ket{10}\right)\\
+=&\frac{1}{2}\left(\ket{00}+\ket{01}-\ket{10}-\ket{11}\right)\\
+=&\frac{1}{2}\left((\ket{0}-\ket{1})\otimes(\ket{0}+\ket{1})\right)\\
+=&\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\\
+=&\ket{-}\otimes\ket{+}\\
+=&\ket{-+}
+\end{align}
+```
+
+#### $\ket{--} \overset{CNOT}{\rightarrow} \ket{+-}$
+
+```math
+\begin{align}
+CNOT\ket{--}=& CNOT\frac{1}{2}\left((\ket{0}-\ket{1})\otimes(\ket{0}-\ket{1})\right)\\
+=& CNOT\frac{1}{2}\left(\ket{00}-\ket{01}-\ket{10}+\ket{11}\right)\\
+=&\frac{1}{2}\left(CNOT\ket{00}-CNOT\ket{01}-CNOT\ket{10}+CNOT\ket{11}\right)\\
+=&\frac{1}{2}\left(\ket{00}-\ket{01}-\ket{11}+\ket{10}\right)\\
+=&\frac{1}{2}\left(\ket{00}-\ket{01}+\ket{10}-\ket{11}\right)\\
+=&\frac{1}{2}\left((\ket{0}+\ket{1})\otimes(\ket{0}-\ket{1})\right)\\
+=&\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\\
+=&\ket{+}\otimes\ket{-}\\
+=&\ket{+-}
+\end{align}
+```
+
+</Collapsible>
+
 <Tabs>
   <TabItem label='Quirk'>
     <Box>
@@ -42,7 +113,7 @@ CNOT=\begin{bmatrix}
   </TabItem>
   <TabItem label="Dirac">
     <Box>
-        Pruebas desarrolladas de estos casos se pueden encontrar en las <a href={`${import.meta.env.BASE_URL}/proofs/cnot#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>.
+        Como resultado de las conversiones de estados comunes.
         ```math
         CNOT\ket{00}=\ket{00}\\
         CNOT\ket{01}=\ket{01}\\

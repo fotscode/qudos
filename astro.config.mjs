@@ -179,40 +179,6 @@ export default defineConfig({
                         en: 'Algorithms',
                     },
                 },
-                {
-                    label: 'Pruebas matemáticas',
-                    collapsed: true,
-                    items: [
-                        {
-                            label: 'Eje X',
-                            slug: 'proofs/x-axis',
-                        },
-                        {
-                            label: 'Eje Y',
-                            slug: 'proofs/y-axis',
-                        },
-                        {
-                            label: 'Eje Z',
-                            slug: 'proofs/z-axis',
-                        },
-                        { label: 'Hadamard', slug: 'proofs/hadamard' },
-                        {
-                            label: 'CNOT',
-                            slug: 'proofs/cnot',
-                        },
-                        {
-                            label: 'Deutsch-Jozsa',
-                            slug: 'proofs/deutsch-jozsa',
-                        },
-                        {
-                            label: 'Shor',
-                            slug: 'proofs/shor',
-                        },
-                    ],
-                    translations: {
-                        en: 'Math proofs',
-                    },
-                },
             ],
             customCss: [ './src/styles/global.css' ]
         }),

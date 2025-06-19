@@ -15,6 +15,7 @@ import { Code, Tabs, TabItem } from '@astrojs/starlight/components'
 import Box from '@components/Box.astro'
 import BibItem from '@components/BibItem.astro'
 import Recommendations from '@components/Recommendations.astro'
+import Collapsible from '@components/Collapsible.astro'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
 import {
   pauli_y_quirk_example,
@@ -62,6 +63,127 @@ i\alpha
 
 Por lo que intercambia las amplitudes entre los estados base $\ket{0}$ y $\ket{1}$ y le aplica un cambio a la fase relativa de $\pi$ radianes. Es decir, es equivalente a aplicar en conjunto <a href={`${import.meta.env.BASE_URL}/gates/x-axis#pauli-x`}>Pauli-X</a> seguido por <a href={`${import.meta.env.BASE_URL}/gates/z-axis#pauli-z`}>Pauli-Z</a> ,o al revés.
 
+<Collapsible title="Conversiones de estados comunes" level="h6">
+
+Recordando los valores de los Cubits en sus estados comunes (o bases), a continuacion se detallaran las pruebas matematicas de las conversiones de un estado comun a otro utilizando la puerta Pauli-Y.
+
+#### $\ket{0} \overset{Y}{\rightarrow} \ket{1}$
+
+```math
+\begin{align}
+Y\ket{0}&=\begin{bmatrix}
+0&-i\\
+i&0
+\end{bmatrix}\begin{bmatrix}
+1\\
+0
+\end{bmatrix}\\
+&=\begin{bmatrix}
+0\\
+i
+\end{bmatrix}\\
+&=i\ket{1}=\ket{1}
+\end{align}
+```
+
+#### $\ket{1} \overset{Y}{\rightarrow} \ket{0}$
+
+```math
+\begin{align}
+Y\ket{1}&=\begin{bmatrix}
+0&-i\\
+i&0
+\end{bmatrix}\begin{bmatrix}
+0\\
+1
+\end{bmatrix}\\
+&=\begin{bmatrix}
+-i\\
+0
+\end{bmatrix}\\
+&=-i\ket{0}=\ket{0}
+\end{align}
+```
+
+#### $\ket{+} \overset{Y}{\rightarrow} \ket{-}$
+
+```math
+\begin{align}
+Y\ket{+}&=\begin{bmatrix}
+0&-i\\
+i&0
+\end{bmatrix}
+\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+1\\
+1
+\end{bmatrix}\\
+&=
+\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+0&-i\\
+i&0
+\end{bmatrix}
+\begin{bmatrix}
+1\\
+1
+\end{bmatrix}\\
+&=
+\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+-i\\
+i
+\end{bmatrix}\\
+&=
+(-i)\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+1\\
+-1
+\end{bmatrix}\\
+&=-i\ket{-}=\ket{-}
+\end{align}
+```
+#### $\ket{-} \overset{Y}{\rightarrow} \ket{+}$
+
+```math
+\begin{align}
+Y\ket{-}&=\begin{bmatrix}
+0&-i\\
+i&0
+\end{bmatrix}
+\frac{1}{\sqrt{2}}\begin{bmatrix}
+1\\
+-1
+\end{bmatrix}\\
+&=
+\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+0&-i\\
+i&0
+\end{bmatrix}
+\begin{bmatrix}
+1\\
+-1
+\end{bmatrix}\\
+&=
+\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+i\\
+i
+\end{bmatrix}\\
+&=
+(i)\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+1\\1
+\end{bmatrix}\\
+&=i\ket{+}=\ket{+}
+\end{align}
+```
+Notar que en todas estas ocasiones se elimina $i$ e $-i$ respectivamente ya que aplican una fase global que no es medible al leer el estado.
+
+</Collapsible>
+
+
 <Tabs>
   <TabItem label='Quirk'>
     <Box>
@@ -71,7 +193,8 @@ Por lo que intercambia las amplitudes entre los estados base $\ket{0}$ y $\ket{1
   </TabItem>
   <TabItem label="Dirac">
     <Box>
-        Las operaciones comunes son las siguientes, las pruebas de estas operaciones se pueden encontrar con mayor detalle en las <a href={`${import.meta.env.BASE_URL}/proofs/y-axis#conversiones-de-estados-comunes`}>pruebas desarrolladas</a>:
+        Como resultado de las conversiones de estados comunes.
+
         ```math
         Y\ket{0}=i\ket{1}\\
         Y\ket{1}=-i\ket{0}\\
