@@ -124,6 +124,9 @@ primeros dos bits, $x_1 \land x_2$:
     width='300'
     height='150'
   />
+  <span style='max-width:300px; padding:10px 40px'>
+    **Figura (1):** Operación AND sobre $x_1$ y $x_2$ usando puertas Toffoli
+  </span>
 </div>
 
 Luego se usaría otra puerta Toffoli para aplicar la operación AND entre el resultado de la operación previa y $x_3$:
@@ -135,6 +138,9 @@ Luego se usaría otra puerta Toffoli para aplicar la operación AND entre el res
     width='300'
     height='200'
   />
+  <span style='max-width:300px; padding:10px 40px'>
+    **Figura (2):** Operación AND entre el resultado previo y $x_3$ usando puertas Toffoli 
+  </span>
 </div>
 
 Hasta este punto se ha computado $s(x) = x_1 \land x_2 \land x_3$, pero durante el proceso se ha generado también un cubit intermedio en el estado $\ket{x_1 \land x_2}$. Este estado 
@@ -161,6 +167,9 @@ Esto puede evitarse fácilmente aplicando descomputación. Siguiendo los pasos m
     width='400'
     height='400'
   />
+  <span style='max-width:400px; padding:10px 40px'>
+    **Figura (3):** Aplicación de descomputación sobre la operación $x_1$ AND $x_2$ AND $x_3$ usando puertas Toffoli 
+  </span>
 </div>
 
 El costo de aplicar descomputación es lineal en relación a los números de cubits involucrados en el circuito, ya que deben aplicarse las operaciones inversas a las utilizadas 

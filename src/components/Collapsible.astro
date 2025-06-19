@@ -94,7 +94,7 @@ const uniqueId = `collapsible-${Math.random().toString(36).substring(2, 9)}`;
   }
 </style>
 
-<script define:vars={{ uniqueId }}>
+<script is:inline define:vars={{ uniqueId }}>
   const header = document.getElementById(`${uniqueId}-header`);
   const content = document.getElementById(`${uniqueId}-content`);
 
