@@ -55,16 +55,16 @@ export default defineConfig({
                     },
                     items: [
                         {
-                            label: 'Hoja de ruta',
-                            slug: 'roadmap',
+                            label: 'Primeros pasos',
+                            slug: 'introduction/first-steps',
                         },
                         {
-                            label: 'Guía de lectura',
-                            slug: 'summary',
+                            label: 'Hoja de ruta',
+                            slug: 'introduction/roadmap',
                         },
                         {
                             label: 'Índice',
-                            slug: 'table-of-contents',
+                            slug: 'introduction/table-of-contents',
                         }
                     ]
                 },
