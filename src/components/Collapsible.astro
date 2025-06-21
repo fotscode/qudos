@@ -95,6 +95,36 @@ const uniqueId = `collapsible-${Math.random().toString(36).substring(2, 9)}`;
 </style>
 
 <script is:inline define:vars={{ uniqueId }}>
+  function adjustTag() {
+    var body = document.querySelector("body") || document.documentElement;
+    var browserWidth = body.clientWidth;
+    var eqnWidth = 0;
+    var tagWidth = 0;
+  
+    let tags = document.querySelectorAll(".katex-html .tag");
+  
+    for (let i = 0; i < tags.length; i++) {
+      let parent = tags[i].parentNode;
+      let base;
+      if (parent) {
+        base = parent.querySelector(".base");
+      }
+      eqnWidth = base ? base.clientWidth : 0;
+      tagWidth = tags[i].clientWidth;
+  
+      tags[i].style.border = "";
+  
+      if (1.1 * eqnWidth + 2 * tagWidth > browserWidth) {
+        tags[i].style.display = "inline-block";
+        tags[i].style.marginLeft = "8px";
+        tags[i].style.position = "static";
+      } else {
+        tags[i].style.background = "";
+        tags[i].style.position = "absolute";
+        tags[i].style.right = "2px";
+      }
+    }
+  }
   const header = document.getElementById(`${uniqueId}-header`);
   const content = document.getElementById(`${uniqueId}-content`);
 
@@ -108,6 +138,7 @@ const uniqueId = `collapsible-${Math.random().toString(36).substring(2, 9)}`;
     } else {
       content.removeAttribute('hidden');
       header.setAttribute('aria-expanded', 'true');
+      adjustTag();
     }
   });
 
