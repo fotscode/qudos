@@ -115,36 +115,36 @@ Por lo que al aplicar las puertas controladas de $U$ al estado superpuesto de $\
 \ket{\sigma_3}&=2^{-t/2}(\ket{0}+e^{i \theta 2^{t}}\ket{1})(\ket{0}+e^{i \theta 2^{t-1}}\ket{1})\ldots(\ket{0}+e^{i \theta 2^{0}}\ket{1})\ket{\psi}
 \end{align}
 ```
-Es util reescribir $\theta=2\pi j$, donde $j=0.j_0j_1\ldots j_{t-1}$ siendo $j$ una fracción en binario, para obtener un formato similar al de $QFT$:
+Es útil reescribir $\theta=2\pi j$, donde $j=0.j_{t-1}j_{t-2}\ldots j_0$ siendo $j$ una fracción en binario, para obtener un formato similar al de $QFT$:
 ```math
 \begin{align}
-\ket{\sigma_3}&=2^{-t/2}(\ket{0}+e^{2\pi i 2^{t}(0.j_0j_1\ldots j_{t-1})}\ket{1})(\ket{0}+e^{2\pi i 2^{t-1}(0.j_0j_1\ldots j_{t-1}) }\ket{1})\\&
-\ldots(\ket{0}+e^{2\pi i 2^{0}(0.j_0j_1\ldots j_{t-1})}\ket{1})\ket{\psi}
+\ket{\sigma_3}&=2^{-t/2}(\ket{0}+e^{2\pi i 2^{t}(0.j_{t-1}j_{t-2}\ldots j_0)}\ket{1})(\ket{0}+e^{2\pi i 2^{t-1}(0.j_{t-1}j_{t-2}\ldots j_0) }\ket{1})\\&
+\ldots(\ket{0}+e^{2\pi i 2^{0}(0.j_{t-1}j_{t-2}\ldots j_0)}\ket{1})\ket{\psi}
 \end{align}
 ```
-Aplicar la operación $2^h(0.j_0j_1\ldots j_{t-1})$ implica realizar un desplazamiento binario (shift) de $h$ posiciones. 
+Aplicar la operación $2^h(0.j_{t-1}j_{t-2}\ldots j_0)$ implica realizar un desplazamiento binario (shift) de $h$ posiciones. 
 
 Aplicar un desplazamiento a una fracción binaria puede incrementar la parte entera del número. Por ejemplo si se desplaza la fracción binaria $0.11$ ($0.75$ en decimal) por una posición se obtiene $1.10$ ($2.5$ en decimal).
 
 Debido a que multiplicar enteros por $2\pi$ es redundante, se puede simplificar de la siguiente manera:
 ```math
 \begin{align}
-\ket{\sigma_3}&=2^{-t/2}(\ket{0}+e^{2\pi i (0.j_{t-1})}\ket{1})(\ket{0}+e^{2\pi i (0.j_{t-2} j_{t-1}) }\ket{1})\\&
-\ldots(\ket{0}+e^{2\pi i (0.j_0j_1\ldots j_{t-1})}\ket{1})\ket{\psi}
+\ket{\sigma_3}&=2^{-t/2}(\ket{0}+e^{2\pi i (0.j_0)}\ket{1})(\ket{0}+e^{2\pi i (0.j_1j_0) }\ket{1})\\&
+\ldots(\ket{0}+e^{2\pi i (0.j_{t-1}j_{t-2}\ldots j_0)}\ket{1})\ket{\psi}
 \end{align}
 ```
 El resultado de esta simplificación es idéntico al estado cuántico luego de aplicar $QFT$ sobre el estado $\ket{j}$. Por lo que aplicar $QFT^\dag$ resulta en $\ket{j}$:
 ```math
 \begin{align}
-\ket{\sigma_4}&=QFT^\dag(2^{-t/2}(\ket{0}+e^{2\pi i (0.j_{t-1})}\ket{1})(\ket{0}+e^{2\pi i (0.j_{t-2} j_{t-1}) }\ket{1})\\&
-\ldots(\ket{0}+e^{2\pi i (0.j_0j_1\ldots j_{t-1})}\ket{1})\ket{\psi})\\
+\ket{\sigma_4}&=QFT^\dag(2^{-t/2}(\ket{0}+e^{2\pi i (0.j_0)}\ket{1})(\ket{0}+e^{2\pi i (0.j_1j_0) }\ket{1})\\&
+\ldots(\ket{0}+e^{2\pi i (0.j_{t-1}j_{t-2}\ldots j_0)}\ket{1})\ket{\psi})\\
 &=\ket{j}
 \end{align}
 ```
 Finalmente al medir la respuesta obtenemos una estimación de $j$. A partir de este $j$ podemos obtener el angulo $\theta$ y finalmente su autovalor:
 ```math
 \begin{align}
-\theta&=2\pi j=2\pi0.j_0j_1\ldots j_{t-1}\\
+\theta&=2\pi j=2\pi0.j_{t-1}j_{t-2}\ldots j_0\\
 autovalor &= e^{i \theta}
 \end{align}
 ```
