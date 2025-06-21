@@ -15,77 +15,6 @@ import { Image } from 'astro:assets'
 import BibItem from '@components/BibItem.astro'
 import Recommendations from '@components/Recommendations.astro'
 
-{/*
-
-Unfortunately, this computation
-produces unwanted garbage bits. With some modifications it turns out to be possible
-to perform the computation so that any garbage bits produced are in a standard state.
-
-This construction is crucial for quantum computation, because garbage bits whose value
-depends upon x will in general destroy the interference properties crucial to quantum
-computation. 
-
-The idea of uncomputing is to reverse the operations that entangled the scratch cubit, return‐
-ing it to its initial, disentangled ∣0⟩ state.
-
-The idea known as uncomputation to be used to get rid of the garbage bits, for a
-small cost in the running time of the computation
-
-It involves three steps. The first is more or less what you’d expect, but the second and third are quite clever:
-
-Compute ∣x⟩∣0⟩∣0⟩→∣x⟩∣s(x)⟩∣w(x)⟩, using the standard approach of converting classical AND gates to Toffoli gates, and classical NOT gates to quantum NOT gates.
-Add on an extra cubit in the ∣0⟩∣0⟩ state, and do a CNOT with ∣s(x)⟩∣s(x)⟩ as the control. This effectively copies the result, and we obtain: ∣x⟩∣s(x)⟩∣w(x)⟩∣s(x)⟩∣x⟩∣s(x)⟩∣w(x)⟩∣s(x)⟩.
-Now apply all the gates from step 1, but in reverse order, and applying at each step the inverse gate. The result is to undo or uncompute what happened in step 1, resulting in ∣x⟩∣0⟩∣0⟩∣s(x)⟩∣x⟩∣0⟩∣0⟩∣s(x)⟩.
-
-At the end, we can ignore the ∣0⟩∣0⟩∣0⟩∣0⟩ state, which isn’t changed at all by the entire process. And so the net result of these steps is the desired transformation, ∣x⟩∣0⟩→∣x⟩∣s(x)⟩∣x⟩∣0⟩→∣x⟩∣s(x)⟩.
-
-Summing up, if we have a classical circuit to compute a function s(⋅), you can think of the three stages in the corresponding clean quantum circuit as: compute s(⋅), by converting classical gates to quantum; copy the answer using a CNOT; uncompute, by reversing the gates and inverting them.
-
-Example: 
-
-suppose you’re trying to compute s(x)=x1∧x2∧x3s(x)=x1∧x2∧x3, that is, the AND of three bits (corresponding to a search solution s=111s=111, in binary). 
-To do this, we’d start by using a Toffoli gate to compute the AND of the first two bits, x1∧x2x1∧x2:
-
-Imagen 
-
-Then we’d use another Toffoli gate to AND the result with x3:
-
-Imagen
-
-So we’ve indeed computed s(x)=x1∧x2∧x3s(x)=x1∧x2∧x3, but along the way we’ve also generated an intermediate working cubit in the state ∣x1∧x2⟩∣x1∧x2⟩. That working state wasn’t part of our original specification. 
-Put another way, we wanted to compute
-
-∣x1,x2,x3⟩∣0⟩→∣x1,x2,x3⟩∣x1∧x2∧x3⟩,
-
-and instead we ended up computing
-
-∣x1,x2,x3⟩∣0⟩∣0⟩→∣x1,x2,x3⟩∣x1∧x2⟩∣x1∧x2∧x3⟩.∣x1,x2,x3⟩∣0⟩∣0⟩→∣x1,x2,x3⟩∣x1∧x2⟩∣x1∧x2∧x3⟩.
-
-So, for instance, it’s easy to convert a computation of s(x)=x1∧x2∧x3s(x)=x1​∧x2​∧x3​ into the clean form using uncomputation. We just literally follow the steps above, and remember that the inverse of a Toffoli gate is a Toffoli gate:
-
-Imagen
-
-
-----
-
-What resource overhead is involved in doing reversible computation? To analyze this
-question, we need to count the number of extra ancilla bits needed in a reversible circuit,
-and compare the gate counts with classical models. 
-
-It ought to be clear that the number of
-gates in a reversible circuit is the same as in an irreversible circuit to within the constant
-factor which represents the number of Fredkin gates needed to simulate a single element
-of the irreversible circuit, and an additional factor of two for uncomputation, with an
-overhead for the extra operations used in reversible computation which is linear in
-the number of bits involved in the circuit. Similarly, the number of ancilla bits required
-scales at most linearly with the number of gates in the irreversible circuit, since each
-element in the irreversible circuit can be simulated using a constant number of ancilla
-bits. As a result, natural complexity classes such as P and NP are the same no matter
-whether a reversible or irreversible model of computation is used. 
-
-
-*/}
-
 Existen ocasiones en las que el procesamiento cuántico produce cubits "basura". Esto puede afectar a los resultados de cómputo debido a que 
 los bits basura, cuyo valor dependen del estado de entrada, generalmente destruirán las propiedades de interferencia que son tan importantes 
 para la computación cuántica. Por ejemplo, podría requerirse trabajar con el entrelazamiento y el mismo se efectuaría con cubits que se encuentran en estados inservibles.
@@ -97,25 +26,23 @@ A continuación se explicará el funcionamiento de esta técnica, aplicada sobre
 
 El proceso de descomputación involucra tres pasos:
 
-- Computar $\ket{x}\ket{0}\ket{0} \rightarrow \ket{x}\ket{s(x)}\ket{w(x)}$, donde $x$ es el estado inicial, $s(x)$ el resultado de aplicar una operación sobre $x$ y 
+- Computar $\ket{0}\ket{0}\ket{x} \rightarrow \ket{w(x)}\ket{s(x)}\ket{x}$, donde $x$ es el estado inicial, $s(x)$ el resultado de aplicar una operación sobre $x$ y 
 $w(x)$ el estado "basura" resultante tras haber ejecutado $s(x)$. Se utiliza el enfoque estándar que consiste en convertir puertas clásicas AND y NOT en puertas cuánticas 
 Toffoli y NOT, respectivamente
 - Agregar un cubit extra en el estado $\ket{0}$, y aplicar la puerta CNOT sobre $\ket{s(x)}$ como el control. Esto permitirá copiar el resultado y se obtendrá:
-$\ket{x}\ket{s(x)}\ket{w(x)}\ket{s(x)}$
+$\ket{s(x)}\ket{w(x)}\ket{s(x)}\ket{x}$
 - Ahora aplicar todas las puertas del primer paso pero en orden inverso, y aplicando en cada paso la puerta inversa. El resultado deshará lo ocurrido en el paso 1, 
-resultando en $\ket{x}\ket{0}\ket{0}\ket{s(x)}$
+resultando en $\ket{s(x)}\ket{0}\ket{0}\ket{x}$
 
 Se puede ignorar el estado $\ket{0}\ket{0}$, el cual no es modificado durante todo el proceso. Así, el resultado de estos pasos es la transformación deseada: 
 
 ```math
-\ket{x}\ket{0} \rightarrow \ket{x}\ket{s(x)}
+\ket{0}\ket{x} \rightarrow \ket{s(x)}\ket{x}
 ```
 
-Resumiendo, si se tiene un circuito clásico para computar una función $s(\cdot)$, se puede pensar en las tres etapas del circuito cuántico limpio como: computar $s(\cdot)$, 
-convirtiendo puertas clásicas en cuánticas; copiar la respuesta usando CNOT; y finalmente aplicar uncomputing, revirtiendo las puertas e invirtiéndolas.
+Resumiendo, si se tiene un circuito clásico para computar una función $s(\cdot)$, se puede pensar en las tres etapas del circuito cuántico limpio como: computar $s(\cdot)$, convirtiendo puertas clásicas en cuánticas; copiar la respuesta usando CNOT; y finalmente aplicar uncomputing, revirtiendo las puertas e invirtiéndolas.
 
-Suponiendo que se intenta computar $s(x) = x_1 \land x_2 \land x_3$, es decir, la operación AND de tres bits, se usará una puerta Toffoli para computar el AND de los 
-primeros dos bits, $x_1 \land x_2$:
+Suponiendo que se intenta computar $s(x) = x_1 \land x_2 \land x_3$, es decir, la operación AND de tres bits, se usará una puerta Toffoli para computar el AND de los primeros dos bits, $x_1 \land x_2$:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -149,13 +76,13 @@ no era parte de la especificación original.
 Se quería computar 
 
 ```math
-\ket{x_1, x_2, x_3}\ket{0} \rightarrow \ket{x_1, x_2, x_3}\ket{x_1 \land x_2 \land x_3}
+\ket{0}\ket{x_3, x_2, x_1} \rightarrow \ket{x_1 \land x_2 \land x_3}\ket{x_3, x_2, x_1}
 ```
 
 pero se terminó computando 
 
 ```math
-\ket{x_1, x_2, x_3}\ket{0} \rightarrow \ket{x_1, x_2, x_3}\ket{x_1 \land x_2}\ket{x_1 \land x_2 \land x_3}
+\ket{0}\ket{0}\ket{x_3, x_2, x_1} \rightarrow \ket{x_1 \land x_2 \land x_3}\ket{x_1 \land x_2}\ket{x_3, x_2, x_1}
 ```
 
 Esto puede evitarse fácilmente aplicando descomputación. Siguiendo los pasos mencionados previamente, y recordando que la puerta Toffoli es inversa de sí misma:
@@ -172,9 +99,7 @@ Esto puede evitarse fácilmente aplicando descomputación. Siguiendo los pasos m
   </span>
 </div>
 
-El costo de aplicar descomputación es lineal en relación a los números de cubits involucrados en el circuito, ya que deben aplicarse las operaciones inversas a las utilizadas 
-inicialmente. Además, el número de cubits auxiliares escala a lo sumo linealmente para guardar los resultados de las operaciones intermedias. Por lo tanto, puede afirmarse que 
-es posible aplicar descomputación sobre los circuitos de forma eficiente, utilizando dicha práctica cuando sea requerida con el objetivo de mantener estados de cómputo limpios.
+El costo de aplicar descomputación es lineal en relación a los números de cubits involucrados en el circuito, ya que deben aplicarse las operaciones inversas a las utilizadas inicialmente. Además, el número de cubits auxiliares escala a lo sumo linealmente para guardar los resultados de las operaciones intermedias. Por lo tanto, es posible aplicar descomputación sobre los circuitos de forma eficiente, utilizando dicha práctica cuando sea requerida con el objetivo de mantener estados de cómputo limpios.
 
 ## Mas información
 

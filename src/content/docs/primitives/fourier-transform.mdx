@@ -43,7 +43,7 @@ Por ejemplo el algoritmo de <a href={`${import.meta.env.BASE_URL}/algorithms/sho
 La primitiva QFT permite obtener información acerca de las **frecuencias** de repetición de las fases relativas en un estado cuántico. A su vez existe su operación inversa, esta permite convertir una frecuencia en diferencias de **fases relativas** de un estado cuántico.
 
 Ciertas bibliografías expresan este objetivo en transformar la base computacional a base de Fourier:
-- La **base computacional** es una forma de expresar números mediante el comportamiento del eje $X$ en un estado cuántico (magnitud), se asemeja a su contraparte clásica. Por ejemplo cuando decimos $\ket{5}$, en verdad decimos $\ket{101}$.
+- La **base computacional** es la <a href={`${import.meta.env.BASE_URL}/concepts/qubit/#mediciones-en-otras-bases`}>base Z</a>.
 - La **base de Fourier** es otra forma de expresar números pero mediante el comportamiento del eje $Z$ en un estado cuántico (fase relativa).
 
 <Box>
@@ -97,20 +97,20 @@ Con esto en condiseración el algoritmo $QFT_n$ sigue una estructura facilmente 
   </span>
 </div>
 
-En este caso se utiliza $j_0, j_1, \ldots, j_{n-1}$ para representar los cubits de entrada que conforman el estado cuántico $j$:
+En este caso se utiliza $j_{n-1}, j_{n-2}, \ldots, j_0$ para representar los cubits de entrada que conforman el estado cuántico $j$:
 ```math
-j=j_0j_1\ldots j_{n-1}
+j=j_{n-1}j_{n-2}\ldots j_0
 ```
-Por otra parte se utiliza $0.j_lj_{l+1}\ldots j_m$ para denotar fracciones usando binarias, cuyo valor en decimal es el siguiente:
+Por otra parte se utiliza $0.j_mj_{m-1}\ldots j_l$ para denotar fracciones usando binarios, cuyo valor en decimal es el siguiente:
 ```math
-0.j_lj_{l+1}\ldots j_{m}=j_l/2+j_{l+1}/4+\ldots+j_m/2^{m-l+1}
+0.j_mj_{m-1}\ldots j_{l}=j_m/2+j_{m-1}/4+\ldots+j_l/2^{m-l+1}
 ```
 Finalmente definimos *QFT* en notación bra-ket como:
 ```math
 \begin{align}
 QFT\ket{j}=&\frac{1}{2^{n/2}}\sum_{k=0}^{2^n-1}e^{2\pi i j k /2^n}\ket{k}\\
-=&\frac{1}{2^{n/2}}(\ket{0}+e^{2\pi i 0.j_{n-1}}\ket{1})(\ket{0}+e^{2\pi i 0.j_{n-2}j_{n-1}}\ket{1})\\
-&\ldots(\ket{0}+e^{2\pi i 0.j_0j_1\ldots j_{n-1}}\ket{1})\notag
+=&\frac{1}{2^{n/2}}(\ket{0}+e^{2\pi i 0.j_0}\ket{1})(\ket{0}+e^{2\pi i 0.j_1j_0}\ket{1})\\
+&\ldots(\ket{0}+e^{2\pi i 0.j_{n-1}j_{n-2}\ldots j_0}\ket{1})\notag
 \end{align}
 ```
 

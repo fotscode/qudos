@@ -4,9 +4,9 @@ title: Oráculos
 description: Definición de oráculos cuánticos, su utilidad en algoritmos y ejemplos de implementación.
 ---
 
-import { Aside } from '@astrojs/starlight/components'
 import BibItem from '@components/BibItem.astro'
 import Recommendations from '@components/Recommendations.astro'
+import Collapsible from '@components/Collapsible.astro'
 
 Los oráculos son operaciones abstractas que generalmente son definidas utilizando la notación de funciones binarias clásicas:
 
@@ -28,8 +28,7 @@ Donde \\(x\\) es la entrada e \\(y\\) un registro que se utilizará como salida.
 
 Vale por construcción que \\(U_f=U_f^\dag\\), permitiendo que para obtener el valor de entrada solo se deba aplicar nuevamente la operación.
 
-<Aside>
-Demostración de \\(U_f=U_f^\dag\\):
+<Collapsible title="Cálculo" level="h6">
 ```math
 \begin{align}
     U_f(\ket{x} \otimes \ket{y}) &= \ket{x} \otimes \ket{y \oplus f(x)} \quad \text{def. \(U_f\)}\\
@@ -38,7 +37,7 @@ Demostración de \\(U_f=U_f^\dag\\):
 \end{align}
 ```
 En (1) se aplica normalmente el oráculo, en (2) se vuelve a aplicar el oráculo al resultado de (1), finalmente en (3) obtenemos la misma entrada de (1) y por lo tanto \\(U_f=U_f^\dag\\).
-</Aside>
+</Collapsible>
 
 ## Uso de oráculos
 
