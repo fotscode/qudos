@@ -14,9 +14,9 @@ Los oráculos son operaciones abstractas que generalmente son definidas utilizan
 f: \{0,1\}^n \rightarrow \{0,1\}^m
 ```
 
-Los oráculos actuan como cajas negras abstraen su implementación que varian segun el contexto, notar que si no se pueden encontrar circuitos reales (con puertas) para representar la funcionalidad el oráculo carece de uso práctico.
+Los oráculos actúan como cajas negras y abstraen su implementación, que varía segun el contexto. Notar que si no se pueden encontrar circuitos reales (con puertas) para representar la funcionalidad el oráculo carece de uso práctico.
 
-Estos oráculos se utilizan por ejemplo en los algoritmos <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa`}>Deutsch-Jozsa</a> y <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>Grover</a>. En el primero se utiliza para abstraer la función a determinar si es constante o balanceada, y en el segundo caso se utiliza para abstraer el suscinto sobre el cual buscar.
+Los oráculos se utilizan, por ejemplo, en los algoritmos <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa`}>Deutsch-Jozsa</a> y <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>Grover</a>. En el primero se usa para abstraer la función a determinar si es constante o balanceada, y en el segundo caso se utiliza para abstraer el suscinto sobre el cual buscar.
 
 Estos se definen de forma general de la siguiente manera:
 
@@ -24,7 +24,7 @@ Estos se definen de forma general de la siguiente manera:
 U_f(\ket{x} \otimes \ket{y}) = \ket{x} \otimes \ket{y \oplus f(x)}
 ```
 
-Donde \\(x\\) es la entrada e \\(y\\) un registro que se utilizará como salida. La razon de la creación de un nuevo registro para salida es para permitir que la operación sea reversible, es decir que dada la salida se pueda saber cual fue la entrada.
+Donde \\(x\\) es la entrada e \\(y\\) un registro que se utilizará como salida. La razon de la creación de un nuevo registro para salida es para permitir que la operación sea reversible, es decir que a partir de la salida se pueda saber cuál fue la entrada.
 
 Vale por construcción que \\(U_f=U_f^\dag\\), permitiendo que para obtener el valor de entrada solo se deba aplicar nuevamente la operación.
 
@@ -36,19 +36,12 @@ Vale por construcción que \\(U_f=U_f^\dag\\), permitiendo que para obtener el v
     U_f(\ket{x} \otimes \ket{y \oplus f(x)})&=\ket{x} \otimes \ket{y} \quad \text{\(z \oplus z = 0\)} \\
 \end{align}
 ```
-En (1) se aplica normalmente el oráculo, en (2) se vuelve a aplicar el oráculo al resultado de (1), finalmente en (3) obtenemos la misma entrada de (1) y por lo tanto \\(U_f=U_f^\dag\\).
+En (1) se aplica normalmente el oráculo, en (2) se vuelve a aplicar el oráculo al resultado de (1), y en (3) se obtiene la misma entrada de (1). Por lo tanto \\(U_f=U_f^\dag\\).
 </Collapsible>
 
 ## Uso de oráculos
 
-Los oráculos son utilizados para verificar el resultado de una entrada, o para poder distinguir (aplicando una fase) a aquellos valores que pertenecen a la solución del problema.
-Dada la definicion previamente de un oráculo:
-
-```math
-U_f(\ket{x} \otimes \ket{y}) = \ket{x} \otimes \ket{y \oplus f(x)}
-```
-
-Se puede **verificar** que la entrada $x$ sea una solución de $f$ reemplazando $y$ con "$0$" de la siguiente manera:
+Los oráculos son utilizados para verificar el resultado de una entrada, o para poder distinguir (aplicando una fase) aquellos valores que pertenecen a la solución del problema. Utilizando la definicion matemática de oráculo, se puede **verificar** que la entrada $x$ sea una solución de $f$ reemplazando $y$ con "$0$" de la siguiente manera:
 
 ```math
 \begin{align}
@@ -59,7 +52,7 @@ U_f(\ket{x} \otimes \ket{0}) =& \ket{x} \otimes \ket{0 \oplus f(x)}\\
 
 Al leer el segundo cubit se puede verificar si $x$ es solución o no de $f$.
 
-De forma análoga si se reemplaza $y$ con "$1$" se obtiene el complemento de $f(x)$ en el segundo cubit:
+De forma análoga, si se reemplaza $y$ con "$1$" se obtiene el complemento de $f(x)$ en el segundo cubit:
 
 ```math
 \begin{align}
@@ -70,7 +63,7 @@ U_f(\ket{x} \otimes \ket{1}) =& \ket{x} \otimes \ket{1 \oplus f(x)}\\
 
 ### Oráculo de Fase
 
-Por otra parte se suele utilizar el valor "$-$" en lugar de $y$ para **distinguir** aquellos valores que pertenecen a la solución del problema, con la precondición de que $m=1$, es decir que haya un solo bit de solución:
+Se suele utilizar el valor "$-$" en lugar de $y$ para **distinguir** aquellos valores que pertenecen a la solución del problema, con la precondición $m=1$, es decir que haya un solo bit de solución:
 
 ```math
 \begin{align}
@@ -89,15 +82,52 @@ U_f(\ket{x} \otimes \ket{-}) =& U_f\left(\ket{x} \otimes \frac{\ket{0}-\ket{1}}{
 \end{align}
 ```
 
-Este oráculo es conocido como oráculo de fase, el último cubit no cambia nunca por lo que ciertas bibliografías simplifican enunciandolo de la siguiente manera:
+Este oráculo es conocido como oráculo de fase. El último cubit no cambia nunca por lo que ciertas bibliografías simplifican enunciándolo de la siguiente manera:
 
 ```math
 P_f\ket{x}=(-1)^{f(x)}\ket{x}
 ```
 
-En ciertas ocasiones se utiliza combinado con el operador de difusión (e.g **_Operador de Grover_**), ya que si pertenece al problema (cuando $f(x)=1$) invertira su fase y amplificará su amplitud en consecuencia.
+<Collapsible title="Detalles adicionales" level="h6">
 
-Por otra parte, en el algoritmo de **_Deutsch-Jozsa_** se utiliza para identificar si la función es balanceada o consistente.
+La siguiente fórmula funciona para todas las combinaciones de bits $b,c \in \Sigma$. 
+
+```math
+\ket{b \oplus c} = X^c \ket{b}
+```
+
+Esto puede comprobarse verificando para los dos posibles valores $c=0$ y $c=1$:
+
+```math
+\ket{b \oplus 0} = \ket{b} = 1\ket{b} = X^0\ket{b}\\
+\ket{b \oplus 1} = \neg\ket{b} = X\ket{b} = X^1\ket{b}\\
+```
+
+Utilizando dicha fórmula sobre el oráculo de fase,
+
+```math 
+U_f(\ket{b}\ket{a})=\ket{b\oplus f(a)}\ket{a}=(X^{f(a)}\ket{b})\ket{a}
+```
+
+para toda combinación de bits $a,b \in \Sigma$. Dado que la fórmula se mantiene verdadera para $b=0$ y $b=1$, por linealidad se llega a que 
+
+```math 
+U_f(\ket{\psi}\ket{a}) = (X^{f(a)}\ket{\psi})\ket{a}
+```
+
+para todo estado posible $\ket{\psi}$, y en consecuencia
+
+```math 
+U_f(\ket{-}\ket{a}) = (X^{f(a)}\ket{-})\ket{a} = (-1)^{f(a)}\ket{-}\ket{a}
+```
+
+La clave que permite que esto funcione está en que $X\ket{-} = -\ket{-}$. En términos matemáticos, el vector $\ket{-}$ es un autovector de la matriz $X$ con autovalor $-1$.
+
+</Collapsible>
+
+En ciertas ocasiones se utiliza combinado con el operador de difusión (por ejemplo el **_Operador de Grover_**), ya que permite seleccionar la solución al problema (cuando $f(x)=1$) invirtiendo su fase, para luego amplificar su amplitud.
+
+Por otra parte, en el algoritmo de **_Deutsch-Jozsa_** se utiliza para identificar si la función es balanceada o constante.
 
 ## Mas información
 
