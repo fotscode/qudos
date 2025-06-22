@@ -58,7 +58,9 @@ El algoritmo de amplificación de amplitudes se divide en tres partes: la **prep
 
 ### Preparación
 
-La etapa de **preparación** denota una precondición del algoritmo: que el estado cuántico se encuentre en superposición. La forma en la que será implementada dependerá del problema en cuestión. Generalmente, se habla de un algoritmo cuántico $\mathcal{A}$ que no realiza mediciones durante su ejecución, y el resultado de aplicar dicho algoritmo sobre el estado inicial es el siguiente:
+La etapa de **preparación** denota una precondición del algoritmo: que el estado cuántico se encuentre en superposición. La forma en la que será implementada dependerá del problema en cuestión. Generalmente, se habla de un algoritmo cuántico $\mathcal{A}$ que no realiza mediciones durante su ejecución.
+
+El resultado de aplicar dicho algoritmo sobre el estado inicial es el siguiente:
 
 ```math
 \ket{\Psi} = \mathcal{A}\ket{0} 
@@ -314,10 +316,7 @@ N_{iteraciones}= \left\lfloor \frac{\pi}{4}\sqrt{\frac{1}{a}} \right\rfloor = \l
 Donde $n$ es la cantidad de cubits y $s$ es la cantidad de soluciones posibles. En caso de que $a$ se desconozca, es posible recurrir a algunas técnicas para resolver el problema conservando la aceleración cuadrática.
 
 <Aside>
-  Realizar más iteraciones de las necesarias puede resultar contraproducente ya
-  que, si se pasa del número óptimo de iteraciones $\left(N_{iteraciones}
-  +1\right)$, el estado cúantico permanecerá seleccionado haciendo que la
-  operación de selección funcione de manera insensata.{' '}
+  Realizar más iteraciones de las necesarias puede resultar contraproducente ya que, si se excede el número óptimo de iteraciones $\left(N_{iteraciones} +1\right)$, el estado cúantico permanecerá seleccionado haciendo que la operación de selección funcione de manera insensata.{' '}
 </Aside>
 
 <Collapsible title="Demostración" level="h6">

@@ -4,7 +4,7 @@ title: 'Puertas en Eje Y'
 description: Descripción de la puerta Pauli-Y, su generalización RotY y su variante condicional CY, con ejemplos y aplicaciones.
 ---
 
-Este artículo se centra en un conjunto específico de puertas que actúan sobre el eje Y. 
+Este artículo se centra en un conjunto específico de puertas que actúan sobre el eje $Y$. 
 
 Primero se explorará la puerta **Pauli-Y**, luego la puerta **RotY** que la generaliza y, por último, se hace mención a su **variante condicional**.
 
@@ -27,7 +27,7 @@ import {
   cy_qiskit_example_result,
 } from '@code-snippets/y-axis'
 
-La puerta **Pauli-Y** (o simplemente **Y**) nombrada por el físico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a> , al aplicarse, realiza una rotación de $\pi$ radianes (o 180 grados) a traves del eje $y$ de la esfera de Bloch.
+La puerta **Pauli-Y** (o simplemente **Y**) nombrada por el físico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a>, al aplicarse, realiza una rotación de $\pi$ radianes (o 180 grados) a través del eje $y$ de la esfera de Bloch.
 
 En forma de matriz se ve de la siguiente manera:
 
@@ -61,11 +61,11 @@ i\alpha
 \end{bmatrix}
 ```
 
-Por lo que intercambia las amplitudes entre los estados base $\ket{0}$ y $\ket{1}$ y le aplica un cambio a la fase relativa de $\pi$ radianes. Es decir, es equivalente a aplicar en conjunto <a href={`${import.meta.env.BASE_URL}/gates/x-axis#pauli-x`}>Pauli-X</a> seguido por <a href={`${import.meta.env.BASE_URL}/gates/z-axis#pauli-z`}>Pauli-Z</a> ,o al revés.
+Por lo que intercambia las amplitudes entre los estados base $\ket{0}$ y $\ket{1}$ y le aplica un cambio a la fase relativa de $\pi$ radianes. Es decir, es equivalente a aplicar en conjunto <a href={`${import.meta.env.BASE_URL}/gates/x-axis#pauli-x`}>Pauli-X</a> seguido por <a href={`${import.meta.env.BASE_URL}/gates/z-axis#pauli-z`}>Pauli-Z</a>, o al revés.
 
-<Collapsible title="Conversiones de estados comunes" level="h6">
+<Collapsible title="Conversiones de estados base" level="h6">
 
-Recordando los valores de los Cubits en sus estados comunes (o bases), a continuacion se detallaran las pruebas matematicas de las conversiones de un estado comun a otro utilizando la puerta Pauli-Y.
+A continuacion se detallarán las pruebas matemáticas de las conversiones de un estado base a otro utilizando la puerta Pauli-Y.
 
 #### $\ket{0} \overset{Y}{\rightarrow} \ket{1}$
 
@@ -179,7 +179,7 @@ i
 &=i\ket{+}=\ket{+}
 \end{align}
 ```
-Notar que en todas estas ocasiones se elimina $i$ e $-i$ respectivamente ya que aplican una fase global que no es medible al leer el estado.
+Notar que en todas estas ocasiones se elimina $i$ e $-i$ respectivamente, ya que aplican una fase global que no es medible al leer el estado.
 
 </Collapsible>
 
@@ -193,7 +193,7 @@ Notar que en todas estas ocasiones se elimina $i$ e $-i$ respectivamente ya que 
   </TabItem>
   <TabItem label="Dirac">
     <Box>
-        Como resultado de las conversiones de estados comunes.
+        Como resultado de las conversiones de estados base.
 
         ```math
         Y\ket{0}=i\ket{1}\\
@@ -251,7 +251,7 @@ Notar que en todas estas ocasiones se elimina $i$ e $-i$ respectivamente ya que 
 
 ## RotY
 
-Es la generalización de la puerta anterior. Aplica una rotación en el eje $y$ de la esfera de Bloch pero con la rotación especificada. Imitar el comportamiento de la puerta Pauli-Y implica aplicar una RotY con $\pi$ radianes de rotación.
+Es la generalización de la puerta anterior. Aplica una rotación en el eje $Y$ de la esfera de Bloch pero con la rotación especificada. Imitar el comportamiento de la puerta Pauli-Y implica aplicar una RotY con $\pi$ radianes de rotación.
 
 Esta puerta permite abstraerse de ángulos fijos, permitiendo una mayor libertad de aplicación.
 
@@ -280,7 +280,7 @@ sin\left(\frac{\theta}{2}\right)&cos\left(\frac{\theta}{2}\right)
 
 ## Variante condicional
 
-La variante condicional es conocida como **CY**, los puntos negros representan que la puerta **Y** se activa con $1$, mientras que los puntos blancos o sin relleno implican que la puerta **Y** se activa con $0$.
+La variante condicional es conocida como **CY**. Los puntos negros representan que la puerta **Y** se activa con $1$, mientras que los puntos blancos o sin relleno implican que la puerta **Y** se activa con $0$.
 
 <Tabs>
   <TabItem label='Quirk'>

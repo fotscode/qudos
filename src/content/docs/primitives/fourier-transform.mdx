@@ -1,7 +1,7 @@
 ---
 layout: '@layouts/math.astro'
 title: Transformada de Fourier cuántica
-description: Una primitiva cuántica esencial que transforma estados cuánticos de la base computacional a la base de Fourier, revelando patrones de frecuencias ocultos y utilizada en algoritmos como el de Shor y la estimación de fases.
+description: Una primitiva cuántica esencial que transforma estados cuánticos de la base computacional a la base de Fourier, revelando patrónes de frecuencias ocultos y utilizada en algoritmos como el de Shor y la estimación de fases.
 head:
   - tag: meta
     attrs:
@@ -33,14 +33,14 @@ import {
 } from '@code-snippets/fourier-transform'
 
 
-La **transformada de Fourier cuántica (QFT)**, es una primitiva cuántica, que se asemeja al algoritmo clásico (transformada de Fourier discreta o DFT) la cual es utilizada en distintos algoritmos cuánticos. 
+La **transformada de Fourier cuántica (QFT)** es una solución cuántica similar a su variante clásica (transformada de Fourier discreta o DFT), que es utilizada en distintos algoritmos cuánticos. 
 
-Por ejemplo el algoritmo de <a href={`${import.meta.env.BASE_URL}/algorithms/shor`}>Shor</a> y la primitiva de <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fases</a> utilizan esta primitiva.
+Por ejemplo, el <a href={`${import.meta.env.BASE_URL}/algorithms/shor`}>algoritmo de Shor</a> y la <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fases</a> utilizan esta primitiva.
 
 
 ## Objetivo 
 
-La primitiva QFT permite obtener información acerca de las **frecuencias** de repetición de las fases relativas en un estado cuántico. A su vez existe su operación inversa, esta permite convertir una frecuencia en diferencias de **fases relativas** de un estado cuántico.
+La primitiva QFT permite obtener información acerca de las **frecuencias** de repetición de las fases relativas en un estado cuántico. También existe su operación inversa, que permite convertir una frecuencia en diferencias de **fases relativas** de un estado cuántico.
 
 Ciertas bibliografías expresan este objetivo en transformar la base computacional a base de Fourier:
 - La **base computacional** es la <a href={`${import.meta.env.BASE_URL}/concepts/qubit/#mediciones-en-otras-bases`}>base Z</a>.
@@ -69,7 +69,7 @@ F_N=\frac{1}{\sqrt{N}}
 
 Donde $\omega_N=e^{\frac{2\pi i}{N}}$
 
-Un circuito de QFT es posible definirlo utilizando puertas <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a>, puertas de fase controladas $R_r$, y puertas <a href={`${import.meta.env.BASE_URL}/gates/swap`}>Swap</a>.
+Es posible definir un circuito de QFT utilizando puertas <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a>, puertas de fase controladas $R_r$, y puertas <a href={`${import.meta.env.BASE_URL}/gates/swap`}>Swap</a>.
 
 La puerta $R_r$ es una abreviación de <a href={`${import.meta.env.BASE_URL}/gates/z-axis`}>RotZ</a> y se define de la siguiente manera:
 ```math
@@ -83,7 +83,7 @@ R_r=RotZ(e^{2\pi i/2^r})=\begin{bmatrix}
 \end{bmatrix}
 ```
 
-Con esto en condiseración el algoritmo $QFT_n$ sigue una estructura facilmente generalizable, donde $n$ es la cantidad de cubits presentes.
+Con esto en consideración, el algoritmo $QFT_n$ sigue una estructura fácilmente generalizable, donde $n$ es la cantidad de cubits presentes.
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -101,7 +101,7 @@ En este caso se utiliza $j_{n-1}, j_{n-2}, \ldots, j_0$ para representar los cub
 ```math
 j=j_{n-1}j_{n-2}\ldots j_0
 ```
-Por otra parte se utiliza $0.j_mj_{m-1}\ldots j_l$ para denotar fracciones usando binarios, cuyo valor en decimal es el siguiente:
+Por otra parte, se utiliza $0.j_mj_{m-1}\ldots j_l$ para denotar fracciones usando binarios, cuyo valor en decimal es el siguiente:
 ```math
 0.j_mj_{m-1}\ldots j_{l}=j_m/2+j_{m-1}/4+\ldots+j_l/2^{m-l+1}
 ```
@@ -114,11 +114,9 @@ QFT\ket{j}=&\frac{1}{2^{n/2}}\sum_{k=0}^{2^n-1}e^{2\pi i j k /2^n}\ket{k}\\
 \end{align}
 ```
 
-
 Se encuentran $n$ puertas Hadamard y $(n)(n+1)/2$ puertas de rotación, por lo que el orden del algoritmo es $O(n^2)=O((log_2 N)^2)$, ya que $N=2^n$.
 
-
-Por otra parte, como el algoritmo de QFT es conformado por puertas unitarias, para implementar la **inversa de QFT (invQFT)** basta con aplicar las operaciones conjugadas transpuestas en el orden inverso.
+Por otra parte, como el algoritmo de QFT es conformado por puertas unitarias. Para implementar la **inversa de QFT (invQFT)** basta con aplicar las operaciones conjugadas transpuestas en el orden inverso.
 
 <Tabs>
   <TabItem label='Quirk'>
@@ -165,9 +163,9 @@ En esta sección se elaboran distintos ejemplos que permitan demostrar el funcio
 
 ### Usando QFT
 
-Se presentan tres ejemplos, en estos ejemplos se obtiene la frecuencia del patron de fases a partir de un estado cuántico dado. 
+Se presentan tres ejemplos. En estos ejemplos se obtiene la frecuencia del patrón de fases a partir de un estado cuántico dado. 
 
-En el primer ejemplo el patron se repite 8 veces, en el segundo 4 veces y en el tercero se repite 2 veces pero en formato de señales cuadradas.
+En el primer ejemplo el patrón se repite 8 veces, en el segundo 4 veces y en el tercero se repite 2 veces, pero en formato de señales cuadradas.
 
 <Tabs>
   <TabItem label='Círculos'>
@@ -175,7 +173,7 @@ En el primer ejemplo el patron se repite 8 veces, en el segundo 4 veces y en el 
       <Tabs>
         <TabItem label='Ejemplo 1'>
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-            Estado inicial del algoritmo, se repite ocho veces el patron de fases.
+            Estado inicial del algoritmo, se repite ocho veces el patrón de fases.
             <section class="responsive-circles">
               <div class="quadrant-circles">
                 <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0000}'} />
@@ -240,7 +238,7 @@ En el primer ejemplo el patron se repite 8 veces, en el segundo 4 veces y en el 
         </TabItem>
         <TabItem label='Ejemplo 2'>
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-           Estado inicial del algoritmo, se repite cuatro veces el patron de fases.
+           Estado inicial del algoritmo. Se repite cuatro veces el patrón de fases.
             <section class="responsive-circles">
               <div class="quadrant-circles">
                 <Circle width={'80'} phase={'0'}   prob={0.0625} label={'\\ket{0000}'} />
@@ -305,7 +303,7 @@ En el primer ejemplo el patron se repite 8 veces, en el segundo 4 veces y en el 
         </TabItem>
         <TabItem label='Ejemplo 3'>
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-           Estado inicial del algoritmo, se repite dos veces el patron de fases, pero representan señales "cuadradas".
+           Estado inicial del algoritmo, se repite dos veces el patrón de fases, pero representan señales "cuadradas".
             <section class="responsive-circles">
               <div class="quadrant-circles">
                 <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0000}'} />
@@ -367,7 +365,7 @@ En el primer ejemplo el patron se repite 8 veces, en el segundo 4 veces y en el 
               </div>
             </section>
           </div>
-          <Aside>En estos casos como utilizamos señales reales y no complejas, es útil descartar aquellos valores mayores a la mitad de los valores posibles, es decir tomar los primeros 16/2+1=9 valores, ya que el resto solo representa un espejo de la frecuencia de la señal.</Aside>
+          <Aside>En estos casos, como utilizamos señales reales y no complejas, es útil descartar aquellos valores mayores a la mitad de los valores posibles. Es decir, se toman los primeros 16/2+1=9 valores, ya que el resto solo representa un espejo de la frecuencia de la señal.</Aside>
         </TabItem>
       </Tabs>
     </Box>
@@ -383,7 +381,7 @@ En el primer ejemplo el patron se repite 8 veces, en el segundo 4 veces y en el 
         </TabItem>
         <TabItem label='Ejemplo 3'>
           <QuantumCircuit src={qft_quirk_example_extra_3} />
-          <Aside>En estos casos como utilizamos señales reales y no complejas, es útil descartar aquellos valores mayores a la mitad de los valores posibles, es decir tomar los primeros 16/2+1=9 valores, ya que el resto solo representa un espejo de la frecuencia de la señal.</Aside>
+          <Aside>En estos casos, como utilizamos señales reales y no complejas, es útil descartar aquellos valores mayores a la mitad de los valores posibles. Es decir, se toman los primeros 16/2+1=9 valores, ya que el resto solo representa un espejo de la frecuencia de la señal.</Aside>
         </TabItem>
       </Tabs>
     </Box>
@@ -392,7 +390,7 @@ En el primer ejemplo el patron se repite 8 veces, en el segundo 4 veces y en el 
 
 ### Usando invQFT
 
-En el formato contrario a la sección anterior, se presentaran ejemplos de frecuencias y se convertirán a patrones de fases relativas utilizando invQFT.
+En el formato contrario a la sección anterior, se presentarán ejemplos de frecuencias y se convertirán a patrónes de fases relativas utilizando invQFT.
 
 En el primer ejemplo se obtendrá la señal con frecuencia 2, y en el segundo ejemplo la señal con frecuencia 1.
 
@@ -402,7 +400,7 @@ En el primer ejemplo se obtendrá la señal con frecuencia 2, y en el segundo ej
       <Tabs>
         <TabItem label='Ejemplo 1'>
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-           Estado inicial del algoritmo, se marca como frecuencia el numero "2".
+           Estado inicial del algoritmo, se marca como frecuencia el número "2".
             <section class="responsive-circles">
               <div class="quadrant-circles">
                 <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
@@ -434,7 +432,7 @@ En el primer ejemplo se obtendrá la señal con frecuencia 2, y en el segundo ej
           </div>
           <ResourceDivider icon='pencil' text='invQFT' />
           <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-            Luego de aplicar la inversa de QFT se genera la señal con frecuencia 2.
+            Luego de aplicar la inversa de QFT, se genera la señal con frecuencia 2.
             <section class="responsive-circles">
               <div class="quadrant-circles">
                 <Circle width={'80'} phase={'0 '}  prob={0.0625} label={'\\ket{0000}'} />
@@ -549,7 +547,7 @@ En el primer ejemplo se obtendrá la señal con frecuencia 2, y en el segundo ej
 
 ## Consideraciones
 
-La implementación de QFT varía según la bibliografía, se pueden presentar con diferentes puertas, o en diferente orden, o con/sin puertas de intercambio.
+La implementación de QFT varía según la bibliografía. Puede presentarse con diferentes puertas, o en diferente orden, o con/sin puertas de intercambio.
 
 A su vez, existen casos donde se interpreta QFT con la misma definición que DFT y en otros casos como su inversa (ángulos opuestos).
 
