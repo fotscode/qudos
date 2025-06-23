@@ -16,8 +16,10 @@ import { Aside, Code, Tabs, TabItem } from '@astrojs/starlight/components'
 import QuantumCircuit from '@components/QuantumCircuit.astro'
 import BibItem from '@components/BibItem.astro'
 import Recommendations from '@components/Recommendations.astro'
+import ResourceDivider from '@components/ResourceDivider.astro'
 import Collapsible from '@components/Collapsible.astro'
 import Box from '@components/Box.astro'
+import Circle from '@components/CircleNotation.astro'
 
 import {
   deutsch_none_url,
@@ -183,16 +185,87 @@ Desarrollando paso a paso el estado de los cubits según los separadores provist
 ```math
 \begin{align}
 \psi_0=&\ket{00}\\
-\psi_1=&\ket{01}\\
-\psi_2=&\ket{+-}\\
-\psi_3=&\ket{0-}\\
+\psi_1=&\ket{10}\\
+\psi_2=&\ket{-+}\\
+\psi_3=&\ket{-0}\\
 =&\ket{0}\\
 \end{align}
 ```
 
-Se elimina el $\ket{-}$ ya que no es utilizado en la medición. Con este resultado se llega rápidamente a que, utilizando una función constante, se deriva correctamente al resultado de $\ket{0}$.
+Se elimina el $\ket{-}$ ya que no es utilizado en la medición. Con este resultado se llega rápidamente a que, utilizando una función constante, se deriva correctamente al resultado $\ket{0}$.
 
 <Tabs>
+  <TabItem label='Círculos'>
+    <Box>
+      <div style='margin-top:30px'>
+       <ResourceDivider icon='pencil' text='\(\psi_0\)' />
+      </div>
+      <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+      El estado inicial del algoritmo $\ket{00}$
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{00}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{01}'} />
+          </div>
+       </section>
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{10}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{11}'} />
+          </div>
+       </section>
+      </div>
+      <ResourceDivider icon='pencil' text='\(\psi_1\)' />
+      <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+      Aplicación de $X$ sobre el cubit del oráculo.
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{00}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{01}'} />
+          </div>
+       </section>
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{10}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{11}'} />
+          </div>
+       </section>
+      </div>
+      <ResourceDivider icon='pencil' text='\(\psi_2\)' />
+      <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+      Aplicación de puertas Hadamard sobre ambos cubits. Recordar que en este ejemplo el oráculo para $f(x)=0$ es un circuito sin puertas cuánticas.
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0.25} label={'\\ket{00}'} />
+            <Circle width={'80'} phase={'0'} prob={0.25} label={'\\ket{01}'} />
+          </div>
+       </section>
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'180'} prob={0.25} label={'\\ket{10}'} />
+            <Circle width={'80'} phase={'180'} prob={0.25} label={'\\ket{11}'} />
+          </div>
+       </section>
+      </div>
+      <ResourceDivider icon='pencil' text='\(\psi_3\)' />
+      <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+      Se aplica Hadamard sobre el cubit menos significativo para obtener la respuesta final.
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0.5} label={'\\ket{00}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{01}'} />
+          </div>
+       </section>
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'180'} prob={0.5} label={'\\ket{10}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{11}'} />
+          </div>
+       </section>
+      </div>
+      Ignorando el estado del cubit del oráculo (el cubit más significativo), la probabilidad de obtener $\ket{0}$ es del $100\%$.
+    </Box>
+  </TabItem>
   <TabItem label='Quirk'>
     <Box>
       <QuantumCircuit src={deutsch_none_url} />
@@ -244,11 +317,11 @@ Desarrollando paso a paso los estados de los cubits en cada separador se obtiene
 ```math
 \begin{align}
 \psi_0=&\ket{00}\\
-\psi_1=&\ket{01}\\
-\psi_2=&\ket{+-}\\
-\psi_3=&CNOT\ket{+-}\\
+\psi_1=&\ket{10}\\
+\psi_2=&\ket{-+}\\
+\psi_3=&CNOT\ket{-+}\\
       =&\ket{--}\\
-\psi_4=&\ket{1-}\\
+\psi_4=&\ket{-1}\\
 =&\ket{1}
 \end{align}
 ```
@@ -258,6 +331,93 @@ Una derivación del paso $\psi_3$ se puede encontrar en el artículo <a href={`$
 Esto determina que, para una función balanceada, se deriva al resultado correcto. La medición resulta en $\ket{1}$.
 
 <Tabs>
+  <TabItem label='Círculos'>
+    <Box>
+      <div style='margin-top:30px'>
+       <ResourceDivider icon='pencil' text='\(\psi_0\)' />
+      </div>
+      <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+      El estado inicial del algoritmo $\ket{00}$
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{00}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{01}'} />
+          </div>
+       </section>
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{10}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{11}'} />
+          </div>
+       </section>
+      </div>
+      <ResourceDivider icon='pencil' text='\(\psi_1\)' />
+      <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+      Aplicación de $X$ sobre el cubit del oráculo.
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{00}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{01}'} />
+          </div>
+       </section>
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={1} label={'\\ket{10}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{11}'} />
+          </div>
+       </section>
+      </div>
+      <ResourceDivider icon='pencil' text='\(\psi_2\)' />
+      <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+      Aplicación de puertas Hadamard sobre ambos cubits. Recordar que en este ejemplo el oráculo para $f(x)=1$ es un circuito con la puerta $CNOT$, con el cubit menos significativo como control y el más significativo como objetivo.
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0.25} label={'\\ket{00}'} />
+            <Circle width={'80'} phase={'0'} prob={0.25} label={'\\ket{01}'} />
+          </div>
+       </section>
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'180'} prob={0.25} label={'\\ket{10}'} />
+            <Circle width={'80'} phase={'180'} prob={0.25} label={'\\ket{11}'} />
+          </div>
+       </section>
+      </div>
+      <ResourceDivider icon='pencil' text='\(\psi_3\)' />
+      <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+      Retroceso de fase mediante la aplicación del oráculo.
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0.25} label={'\\ket{00}'} />
+            <Circle width={'80'} phase={'180'} prob={0.25} label={'\\ket{01}'} />
+          </div>
+       </section>
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'180'} prob={0.25} label={'\\ket{10}'} />
+            <Circle width={'80'} phase={'0'} prob={0.25} label={'\\ket{11}'} />
+          </div>
+       </section>
+      </div>
+      <ResourceDivider icon='pencil' text='\(\psi_4\)' />
+      <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+      Se aplica Hadamard sobre el cubit menos significativo para obtener la respuesta final.
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{00}'} />
+            <Circle width={'80'} phase={'0'} prob={0.5} label={'\\ket{01}'} />
+          </div>
+       </section>
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{10}'} />
+            <Circle width={'80'} phase={'180'} prob={0.5} label={'\\ket{11}'} />
+          </div>
+       </section>
+      </div>
+      Ignorando el estado del cubit del oráculo (el cubit más significativo), la probabilidad de obtener $\ket{1}$ es del $100\%$.
+    </Box>
+  </TabItem>
   <TabItem label='Quirk'>
     <Box>
       <QuantumCircuit src={deutsch_cx_url} />
