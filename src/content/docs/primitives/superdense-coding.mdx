@@ -88,9 +88,7 @@ Ahora Bob posee ambos cubits, los cuales pueden estar en uno de los siguientes c
 \ket{\Psi^-} = \frac{1}{\sqrt{2}}(\ket{01} - \ket{10})
 ```
 
-Dado que estos estados son ortonormales, forman una base de medición llamada **base de Bell**. Bob puede 
-medir los dos cubits en la base de Bell para distinguirlos, y por lo tanto determinar qué envió Alice. 
-Este proceso se conoce como **medición de Bell**. 
+Dado que estos estados son ortonormales, forman una base de medición llamada <a href={`${import.meta.env.BASE_URL}/concepts/entanglement/#entrelazamiento-maximal`}>base de Bell</a>. Bob puede medir los dos cubits en la base de Bell para distinguirlos, y por lo tanto determinar qué envió Alice. Este proceso se conoce como **medición de Bell**. 
 
 Otra forma de entender la medición de Bell consiste en aplicar $CNOT$ y luego $H \otimes I$, para finalmente medir 
 en la *base Z*. Esto es, 
@@ -137,12 +135,12 @@ A continuación se elaborará un paso a paso de la aplicación del protocolo.
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
     src={`${import.meta.env.BASE_URL}/superdense-coding/circuit-with-slices.png`}
-    alt='Protocolo de codificación superdensa, con cortes ante la aplicación de cada puerta.'
+    alt='Protocolo de codificación superdensa, con separadores ante la aplicación de cada puerta.'
     width='700'
     height='300'
   />
   <span style='max-width:620px; padding:10px 40px'>
-    **Figura (2):** Protocolo de codificación superdensa, con cortes ante la aplicación de cada puerta.
+    **Figura (2):** Protocolo de codificación superdensa, con separadores ante la aplicación de cada puerta.
   </span>
 </div>
 
@@ -170,7 +168,7 @@ A continuación se elaborará un paso a paso de la aplicación del protocolo.
             
             <ResourceDivider icon='pencil' text='\(\phi_1\)' />
             <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-                Se aplica una puerta Controlled-Z sobre el primer cubit con el valor del bit más significativo $d$ como bit de control,
+                Se aplica una puerta $CZ$ sobre el primer cubit con el valor del bit más significativo $d$ como bit de control,
                 cuyo valor es 1, por lo que se aplica un cambio de fase en 180º sobre dicho cubit. 
                 Se alcanza el estado $\ket{\Phi^-} = \frac{1}{\sqrt{2}}(\ket{00} - \ket{11})$.
                 
@@ -186,7 +184,7 @@ A continuación se elaborará un paso a paso de la aplicación del protocolo.
             
             <ResourceDivider icon="pencil" text="\(\phi_2\)" />
             <div style="display: flex; flex-direction:column; align-items:center; margin-bottom:60px">
-                Se aplica una puerta CNOT sobre el primer cubit con el valor del bit menos significativo $c$ como bit de control, cuyo 
+                Se aplica una puerta $CNOT$ sobre el primer cubit con el valor del bit menos significativo $c$ como bit de control, cuyo 
                 valor es 1, por lo que se aplica NOT sobre dicho cubit. 
                 Se alcanza el estado $\frac{1}{\sqrt{2}}(-\ket{01} + \ket{10})$, que convenientemente es equivalente a 
                 $-\frac{1}{\sqrt{2}}(\ket{01} - \ket{10})$, aplicando una fase global $-1$.
@@ -203,7 +201,7 @@ A continuación se elaborará un paso a paso de la aplicación del protocolo.
             
             <ResourceDivider icon='pencil' text='\(\phi_3\)' />
             <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
-                Se opera con la puerta CNOT con el primer cubit como control y el segundo cubit como target.
+                Se opera con la puerta $CNOT$ con el primer cubit como control y el segundo cubit como target.
                 Se alcanza el estado $-\frac{1}{\sqrt{2}}(\ket{01} - \ket{11})$.
 
                 <div style="display: flex; justify-content:center; align-items:center;flex-direction:row">
@@ -249,7 +247,7 @@ A continuación se elaborará un paso a paso de la aplicación del protocolo.
                 valores que son $1$ y los que son **"Off"** los valores que son $0$.
                 
                 **Aclaración**: se usan los primeros dos cubits en representación de los dos bits clásicos a transferir; el tercer 
-                y último cubits son entrelazados utilizando las puertas H y CNOT; los cubits intermedios simulan el envío del 
+                y último cubits son entrelazados utilizando las puertas $H$ y $CNOT$; los cubits intermedios simulan el envío del 
                 cubit desde el emisor hacia el receptor (notar el aviso 'Send' acompañado de la puerta SWAP para intercambiar 
                 los estados cuánticos entre el cubit del emisor y un cubit que a modo de ejemplo le llega al receptor). Finalmente, 
                 la medición de los cubits en la quinta y sexta posición representan la lectura final de los dos bits recibidos.
@@ -269,139 +267,6 @@ A continuación se elaborará un paso a paso de la aplicación del protocolo.
         </Box>
     </TabItem>
 </Tabs>
-
-{/*
-
-
-Thomas Wong (6.4):
-
-Alice wants to send classical information to Bob, say one of four possible restaurant
-options: American, Chinese, Italian, or Mexican. She can either send her preference
-using classical bits or cubits, and we will see that if Alice and Bob share entangle-
-ment, Alice only needs to send half the number of cubits as she would bits.
-
-Classically, Alice would have to send two bits to Bob, since two bits have four
-possible states 00, 01, 10, or 11. One bit would not suffice, since it only has two
-states 0 or 1
-
-Quantumly, Alice can send just one cubit, but it needs to be entangled with a second
-cubit that Bob already has. Say Alice and Bob share a pair of entangled cubits in
-the |Φ^+⟩ state:
-
-```math 
-\ket{\Phi^+} = \frac{1}{\sqrt{2}}(\ket{00} + \ket{11})
-```
-
-Depending on which of the four options Alice wants to communicate to Bob, she
-can apply quantum gates to her cubit, then send her one cubit to Bob so that Bob
-ends up with both cubits
-
-- If Alice wants to send 00, she does nothing to her cubit, and sends it to Bob so
-that he has both cubits.
-- If Alice wants to send 01, she applies the X gate to her cubit, which transforms
-|Φ+⟩ to
-
-```math 
-\ket{\Psi^+} = \frac{1}{\sqrt{2}}(\ket{10} + \ket{01})
-```
-
-Then she sends her cubit to Bob, so that he has both cubits.
-
-- If Alice wants to send 10, she applies the Z gate to her cubit, which transforms
-|Φ+⟩ to
-
-```math 
-\ket{\Phi^-} = \frac{1}{\sqrt{2}}(\ket{00} - \ket{11})
-```
-
-Then she sends her cubit to Bob, so that he has both cubits.
-
-- Finally, if Alice wants to send 11, she applies both X and Z to her cubit. Apply-
-ing X transforms |Φ+⟩ to |Ψ +⟩, and appling Z transforms |Ψ +⟩ to
-
-```math 
-\ket{\Psi^-} = \frac{1}{\sqrt{2}}(\ket{01} - \ket{10})
-```
-
-Then Alice sends her cubit to Bob, so that he has both cubits.
-
-Now Bob has both cubits, and they are in one of four states:
-
-
-```math 
-\ket{\Phi^+} = \frac{1}{\sqrt{2}}(\ket{00} + \ket{11})\\
-\ket{\Psi^+} = \frac{1}{\sqrt{2}}(\ket{10} + \ket{01})\\
-\ket{\Phi^-} = \frac{1}{\sqrt{2}}(\ket{00} - \ket{11})\\
-\ket{\Psi^-} = \frac{1}{\sqrt{2}}(\ket{01} - \ket{10})
-```
-
-Since these four states are orthonormal, they form a measurement basis called the
-Bell basis. Bob can measure the two cubits this Bell basis to distinguish them, thus
-determining what Alice wanted to send. This is called a Bell measurement.
-Another way to understand the Bell measurement is to apply CNOT and then
-H ⊗ I, then measuring in the Z-basis. That is,
-
-```math 
-\begin{align}
-\ket{\Phi^+}&\overset{CNOT}{\longrightarrow}\frac{1}{\sqrt{2}}(\ket{00} + \ket{10})=\ket{+}\ket{0}&\overset{H\otimes I}{\longrightarrow}=\ket{00},\\
-\ket{\Psi^+}&\overset{CNOT}{\longrightarrow}\frac{1}{\sqrt{2}}(\ket{01} + \ket{11})=\ket{+}\ket{1}&\overset{H\otimes I}{\longrightarrow}=\ket{01},\\
-\ket{\Phi^-}&\overset{CNOT}{\longrightarrow}\frac{1}{\sqrt{2}}(\ket{00} - \ket{10})=\ket{-}\ket{0}&\overset{H\otimes I}{\longrightarrow}=\ket{10},\\
-\ket{\Psi^-}&\overset{CNOT}{\longrightarrow}\frac{1}{\sqrt{2}}(\ket{01} - \ket{11})=\ket{-}\ket{1}&\overset{H\otimes I}{\longrightarrow}=\ket{11}.
-\end{align}
-```
-
-Computationally, this protocol still requires two cubits, as it must because
-Holevo’s theorem says that n cubits can only store n bits of classical information.
-Yet as a communication protocol, it only requires one cubit to be sent.
-Generalizing this, if Alice and Bob share n pairs of entangled cubits (so there are
-2n cubits total), then Alice can measure each of her n cubits or not depending on
-what she wants to send, then send them to Bob.
-
-
-Nielsen (2.3):
-
-Superdense coding is a simple yet surprising application of elementary quantum mechan-
-ics. It combines in a concrete, non-trivial way all the basic ideas of elementary quantum
-mechanics, as covered in the previous sections, and is therefore an ideal example of the
-information processing tasks that can be accomplished using quantum mechanics.
-Superdense coding involves two parties, conventionally known as ‘Alice’ and ‘Bob’,
-who are a long way away from one another. Their goal is to transmit some classical
-information from Alice to Bob. Suppose Alice is in possession of two classical bits of
-information which she wishes to send Bob, but is only allowed to send a single cubit to
-Bob. Can she achieve her goal?
-
-Superdense coding tells us that the answer to this question is yes.
-Suppose Alice and Bob initially share a pair of cubits in the entangled state
-
-Alice is initially in possession of the first cubit, while Bob has possession of the second
-cubit, as illustrated in Figure 2.3. Note that |ψ〉 is a fixed state; there is no need for Alice
-to have sent Bob any cubits in order to prepare this state. Instead, some third party may
-prepare the entangled state ahead of time, sending one of the cubits to Alice, and the
-other to Bob.
-
-
-IBM:
-
-Superdense coding is a protocol that, in some sense, achieves a complementary aim to teleportation. 
-Rather than allowing for the transmission of one cubit using two classical bits of communication 
-(at the cost of one e-bit of entanglement), it allows for the transmission of two classical bits using 
-one cubit of quantum communication (again, at the cost of one e-bit of entanglement).
-
-In greater detail, we have a sender (Alice) and a receiver (Bob) that share one e-bit of entanglement. 
-According to the conventions in place for the lesson, this means that Alice holds a cubit A, Bob holds a cubit B, 
-and together the pair (A,B)(A,B) is in the state ∣ϕ+⟩.∣ϕ+⟩. Alice wishes to transmit two classical bits to Bob, 
-which we'll denoted by cc and d,d, and she will accomplish this by sending him one cubit.
-
-Fitting the theme of the lesson, one reason why superdense coding is interesting is that it demonstrates a concrete and 
-(in the context of information theory) rather striking use of entanglement. A famous theorem in quantum information theory, 
-known as Holevo's theorem, implies that without the use of a shared entangled state, it is impossible to communicate more than 
-one bit of classical information by sending a single cubit. (Holevo's theorem is more general than this. Its precise statement 
-is technical and requires explanation, but this is one consequence of it.) So, through superdense coding, shared entanglement 
-effectively allows for the doubling of the classical information-carrying capacity of sending cubits.
-
-
-
-*/}
 
 ## Más información
 

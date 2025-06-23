@@ -26,25 +26,25 @@ import {
   qiskit_phase_estimation_hadamard_result,
 } from '@code-snippets/phase-estimation'
 
-La **estimatición de fase (EF)**, es una primitiva cuántica que es utilizada en distintos algoritmos, permite extraer información legible de superposiciones. 
+La **estimación de fase (EF)** es una primitiva cuántica que es utilizada en distintos algoritmos. Permite extraer información legible de superposiciones. 
 
-Por ejemplo es utilizada en el algoritmo de <a href={`${import.meta.env.BASE_URL}/algorithms/shor`}>Shor</a>, el algoritmo de HHL, entre otros. Internamente esta primitiva utiliza la <a href={`${import.meta.env.BASE_URL}/primitives/fourier-transform`}>transformada de Fourier</a> inversa.
+Por ejemplo, es utilizada en el <a href={`${import.meta.env.BASE_URL}/algorithms/shor`}>algoritmo de Shor</a>, HHL, entre otros. Internamente, esta primitiva utiliza la <a href={`${import.meta.env.BASE_URL}/primitives/fourier-transform`}>transformada de Fourier</a> inversa.
 
 ## Objetivo
 
 El objetivo de la primitiva es obtener una estimación de la fase global o autovalor (eigenvalue) de una operación aplicada a un estado cuántico que es autovector (eigenvector).
 
-Para entender mejor que valor es el que obtiene la primitiva se propone el siguiente ejemplo:
+Para entender mejor qué valor es el que obtiene la primitiva se propone el siguiente ejemplo:
 
 <Box>
-   Supongamos el estado inicial $\ket{\psi}$, el cual es un autovector de la operación $U$, al ser un autovector de $U$ se cumple que $U\ket{\psi}=e^{i \theta}\ket{\psi}$, siendo $e^{i\theta}$ el autovalor.
+   Supóngase el estado inicial $\ket{\psi}$, el cual es un autovector de la operación $U$. Al ser un autovector de $U$, se cumple $U\ket{\psi}=e^{i \theta}\ket{\psi}$, siendo $e^{i\theta}$ el autovalor.
 
-    Ejemplificando, supongamos que existe un estado cuántico que es autovector de $U$ con el siguiente valor:
+    Por ejemplo, suponiendo que existe un estado cuántico que es autovector de $U$ con el siguiente valor:
     <div style='display: flex; justify-content:center; align-items:center;flex-direction:row; margin-bottom:40px'>
       <Circle width={'80'} phase={'180'} prob={0.1464} label={'\\ket{0}'} />
       <Circle width={'80'} phase={'0'} prob={0.8535} label={'\\ket{1}'} />
     </div>
-    y que al aplicar la operación $U$, obtenemos el siguiente estado:
+    y que al aplicar la operación $U$, se obtiene el siguiente estado:
     <div style='display: flex; justify-content:center; align-items:center;flex-direction:row; margin-bottom:40px'>
       <Circle width={'80'} phase={'180'} prob={0.1464} label={'\\ket{0}'} />
       <Circle width={'80'} phase={'0'} prob={0.8535} label={'\\ket{1}'} />
@@ -52,7 +52,7 @@ Para entender mejor que valor es el que obtiene la primitiva se propone el sigui
       <Circle width={'80'} phase={'0'} prob={0.1464} label={'\\ket{0}'} />
       <Circle width={'80'} phase={'180'} prob={0.8535} label={'\\ket{1}'} />
     </div>
-    Notar que las magnitudes no cambiaron, ni la fase relativa cambió, y por ende se obtuvo el mismo estado cuántico pero con un autovalor de $e^{\pi i}$ ($180^\circ$).
+    Notar que las magnitudes no cambiaron, ni la fase relativa cambió, y por ende se obtuvo el mismo estado cuántico pero con un autovalor $e^{\pi i}$ ($180^\circ$).
 
     El algoritmo de EF nos permite obtener una estimación sobre este autovalor.
 
@@ -62,7 +62,7 @@ Aunque parezca que esta información obtenida es arbitraria y que no sea practic
 
 ## Solución
 
-El algoritmo de estimación de fase se puede dividir en cuatro secciones: **inicialización**, **superposición**, aplicación de **puertas controladas** y uso de la **transformada cuántica inversa**. 
+El algoritmo de estimación de fase se puede dividir en cuatro secciones: **inicialización**, **superposición**, aplicación de **puertas controladas** y uso de la **transformada de Fourier cuántica inversa**. 
 
 En el siguiente gráfico se dividen las etapas utilizando $\ket{\sigma_i}$ para representar el estado cuántico en cada sección.
 
@@ -74,17 +74,17 @@ En el siguiente gráfico se dividen las etapas utilizando $\ket{\sigma_i}$ para 
     height='580'
   />
   <span style='max-width:1221px; padding:10px 40px'>
-    **Figura (1):** Estructura de la primitiva EF de forma general, con cuatro señalizadores indicando las distintas secciones del algoritmo. En ciertas bibliografías se aplican las puertas U controladas con el orden inverso.
+    **Figura (1):** Estructura de la primitiva EF de forma general, con cuatro señalizadores indicando las distintas secciones del algoritmo. En ciertas bibliografías se aplican las puertas **U** controladas con el orden inverso.
   </span>
 </div>
 
-El algoritmo recibe tres parametros como **entrada**:
+El algoritmo recibe tres parámetros como **entrada**:
 
 - $q_{salida}$ el cual es un registro inicializado en $0$ sobre el cual se dejará el resultado. Llamaremos $t$ al tamaño en cubits de $q_{salida}$.
 - $q_{entrada}$ es el autovector del cual se quiere obtener el autovalor. 
-- La puerta controlada de $U$.
+- La puerta controlada de **U**.
 
-La notación $U^{2^g}$ implica que se realizan $2^g$ operaciones sucesivas de $U$, esto conlleva un **gran costo computacional**, por lo que se busca poder crear una puerta que cumpla el mismo funcionamiento que $U^{2^g}$ de una forma más eficiente que simplemente repetir la operación original.
+La notación $U^{2^g}$ implica que se realizan $2^g$ operaciones sucesivas de **U**. Esto conlleva un **gran costo computacional**, por lo que se busca poder crear una puerta que cumpla el mismo funcionamiento que $U^{2^g}$ de una forma más eficiente que simplemente repetir la operación original.
 
 En la **primer etapa** $\ket{\sigma_1}$ se inicializan los estados cuánticos, el registro de $q_{salida}$ con 0 y el registro $q_{entrada}$ con el autovector.
 ```math
@@ -100,7 +100,7 @@ Luego en la **segunda etapa** se crea una superposición de $q_{salida}$:
 &=2^{-t/2}(\ket{0}+\ket{1})(\ket{0}+\ket{1})\ldots(\ket{0}+\ket{1})\ket{\psi}
 \end{align}
 ```
-En la **tercer etapa** se aplican las puertas controladas de $U$, aplicandose el fenómeno de retroceso de fase, por lo que aplicar la puerta $U^{2^h}$ puede generalizarse de la siguiente manera:
+En la **tercer etapa** se aplican las puertas controladas de **U**. Así, ocurre el fenómeno de <a href={`${import.meta.env.BASE_URL}/concepts/phase-kickback`}>retroceso de fase</a>, por lo que aplicar la puerta $U^{2^h}$ puede generalizarse de la siguiente manera:
 ```math
 \begin{align}
 U^{2^h}\ket{\gamma}&=U^{2^{h-1}}U\ket{\gamma}\\
@@ -109,7 +109,7 @@ U^{2^h}\ket{\gamma}&=U^{2^{h-1}}U\ket{\gamma}\\
 \end{align}
 ```
 
-Por lo que al aplicar las puertas controladas de $U$ al estado superpuesto de $\ket{\sigma_2}$ se obtiene:
+Por lo tanto, al aplicar las puertas controladas de **U** al estado superpuesto de $\ket{\sigma_2}$ se obtiene:
 ```math
 \begin{align}
 \ket{\sigma_3}&=2^{-t/2}(\ket{0}+e^{i \theta 2^{t}}\ket{1})(\ket{0}+e^{i \theta 2^{t-1}}\ket{1})\ldots(\ket{0}+e^{i \theta 2^{0}}\ket{1})\ket{\psi}
@@ -124,7 +124,7 @@ Es útil reescribir $\theta=2\pi j$, donde $j=0.j_{t-1}j_{t-2}\ldots j_0$ siendo
 ```
 Aplicar la operación $2^h(0.j_{t-1}j_{t-2}\ldots j_0)$ implica realizar un desplazamiento binario (shift) de $h$ posiciones. 
 
-Aplicar un desplazamiento a una fracción binaria puede incrementar la parte entera del número. Por ejemplo si se desplaza la fracción binaria $0.11$ ($0.75$ en decimal) por una posición se obtiene $1.10$ ($2.5$ en decimal).
+Hacer un desplazamiento a una fracción binaria puede incrementar la parte entera del número. Por ejemplo, si se desplaza la fracción binaria $0.11$ ($0.75$ en decimal) por una posición se obtiene $1.10$ ($2.5$ en decimal).
 
 Debido a que multiplicar enteros por $2\pi$ es redundante, se puede simplificar de la siguiente manera:
 ```math
@@ -141,7 +141,7 @@ El resultado de esta simplificación es idéntico al estado cuántico luego de a
 &=\ket{j}
 \end{align}
 ```
-Finalmente al medir la respuesta obtenemos una estimación de $j$. A partir de este $j$ podemos obtener el angulo $\theta$ y finalmente su autovalor:
+Finalmente, al medir la respuesta se obtiene una estimación de $j$. A partir de $j$ se puede obtener el ángulo $\theta$ y su autovalor:
 ```math
 \begin{align}
 \theta&=2\pi j=2\pi0.j_{t-1}j_{t-2}\ldots j_0\\
@@ -152,20 +152,20 @@ autovalor &= e^{i \theta}
 
 ## Ejemplos
 
-Para este ejemplo utilizaremos la operación <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> con su versión controlada. 
+Para este ejemplo se utilizará la operación <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> con su versión controlada. 
 
-El autovector del cual se va a obtener el autovalor es $\ket{\psi}=0.38268\ket{0}-0.92388\ket{1}$, que se puede construir aplicandole a un cubit inicializado en $\ket{0}$ la puerta <a href={`${import.meta.env.BASE_URL}/gates/x-axis`}>Pauli-X</a> seguida por una rotación en el eje $y$, usando <a href={`${import.meta.env.BASE_URL}/gates/y-axis`}>RotY</a>, de $\pi/4$ radianes ($45^\circ$ grados).
+El autovector del cual se va a obtener el autovalor es $\ket{\psi}=0.38268\ket{0}-0.92388\ket{1}$, que se puede construir aplicándole a un cubit inicializado en $\ket{0}$ la puerta <a href={`${import.meta.env.BASE_URL}/gates/x-axis`}>Pauli-X</a>, seguida por una rotación en el eje $Y$, usando <a href={`${import.meta.env.BASE_URL}/gates/y-axis`}>RotY</a> de $\pi/4$ radianes ($45^\circ$ grados).
 
-El autovector que se eligió coincide con el estado cuántico de la sección de "Objetivo", su autovalor es a su vez el de $e^{\pi i}$ ($180^\circ$).
+El autovector que se eligió coincide con el estado cuántico de la sección <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation/#objetivo`}>"Objetivo"</a>. Su autovalor es $e^{\pi i}$ ($180^\circ$).
 
-Notar que se aplica una sola vez la puerta Hadamard controlada. Esto se debe a que la puerta controlada de Hadamard es Hermitiana, cumpliendo la cierta propiedad:
+Notar que se aplica una sola vez la puerta Hadamard controlada. Esto se debe a que la puerta controlada de Hadamard es Hermitiana, cumpliendo la propiedad:
 ```math
 \begin{cases}
 H^{2^i}=H& \text{si }i = 0\\
 H^{2^i}=\mathbb{I}& \text{si }i > 0\\
 \end{cases}
 ```
-Por lo que solo es necesario aplicarla donde el numero de ocurrencias no es par (solo el primer cubit).
+Por lo que solo es necesario aplicarla donde el número de ocurrencias no es par (solo el primer cubit).
 
 <Tabs>
   <TabItem label='Quirk'>
@@ -190,11 +190,11 @@ Por lo que solo es necesario aplicarla donde el numero de ocurrencias no es par 
     </Box>
   </TabItem>
 </Tabs>
-Interpretando el resultado, obtenemos $\ket{1000}$ como lectura para los primeros 4 cubits. Esto implica haber leido el número $0.1000_2$=$0.5_{10}$, para obtener el *autovalor* se inserta este valor en el exponencial:
+Interpretando el resultado, se obtiene $\ket{1000}$ como medición para los primeros 4 cubits. Esto implica haber leído el número $0.1000_2$=$0.5_{10}$. Para obtener el *autovalor*, se inserta este valor en el exponencial:
 ```math
 e^{2\pi i 0.5}=e^{\pi i}= 180^\circ
 ```
-De esta manera obtenemos el autovalor del autovector con la operación Hadamard.
+De esta manera se obtiene el autovalor del autovector con la operación Hadamard.
 
 ## Más información
 <Recommendations />

@@ -24,7 +24,7 @@ import {
   bv_example
 } from '@code-snippets/bernstein-vazirani'
 
-El algoritmo de Bernstein-Vazirani es un algoritmo basado en el de <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa`}>Deutsch-Jozsa</a> en el cual se resuelve un problema diferente llamado el problema de **_Bernstein-Vazirani_** ó **_Fourier sampling problem_** (el problema de muestreo de Fourier), el cual presenta una base de un problema más grande, presentado por los mismos autores, llamado **_recursive Fourier sampling problem_** (el problema de muestreo de Fourier recursivo).
+El algoritmo de Bernstein-Vazirani es un algoritmo basado en el de <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa`}>Deutsch-Jozsa</a> en el cual se resuelve un problema diferente, llamado problema de **_Bernstein-Vazirani_** ó **_Fourier sampling problem_** (problema de muestreo de Fourier). Dicho problema presenta una base de un problema más grande, presentado por los mismos autores, llamado **_recursive Fourier sampling problem_** (problema de muestreo de Fourier recursivo).
 
 ## El Problema de Bernstein-Vazirani
 
@@ -42,7 +42,7 @@ Como **salida** se debe obtener la cadena $s$.
 
 ### Solución
 
-Utiliza el circuito de Deutsch-Jozsa, varía en su procesamiento desde la etapa $\psi_3$ donde se mide el resultado.
+Utiliza el circuito de Deutsch-Jozsa. Varía en su procesamiento desde la etapa $\psi_3$ donde se mide el resultado.
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -52,12 +52,11 @@ Utiliza el circuito de Deutsch-Jozsa, varía en su procesamiento desde la etapa 
     height='182'
   />
   <span style='max-width:455px; padding:10px 40px'>
-    **Figura (1):** Circuito de Deutsch-Jozsa que resuelve el problema de
-    Bernstein-Vazirani con separadores ante la aplicación de cada puerta.
+    **Figura (1):** Circuito de Deutsch-Jozsa que resuelve el problema de Bernstein-Vazirani con separadores ante la aplicación de cada puerta.
   </span>
 </div>
 
-Analizaremos paso a paso el estado de los cubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=3\\):
+A continuación se analiza paso a paso el estado de los cubits según los separadores provistos en el gráfico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=3\\):
 
 ```math
 \begin{align}
@@ -71,7 +70,7 @@ Analizaremos paso a paso el estado de los cubits segun los separadores provistos
 \end{align}
 ```
 
-Un desarrollo elaborado de los pasos se puede observar dentro de la <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa/#deutsch-jozsa`}>explicación paso a paso de Deutsch-Jozsa</a>. Hasta este punto no existen variaciones con el algoritmo previamente mencionado, ahora reemplazamos $f(x)$ con la precondición dada:
+Un desarrollo elaborado de los pasos se puede observar dentro de la <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa/#deutsch-jozsa`}>explicación paso a paso del algoritmo de Deutsch-Jozsa</a>. Hasta este punto no existen variaciones con el algoritmo previamente mencionado. Luego se reemplaza $f(x)$ con la precondición dada:
 
 ```math
 \begin{align}
@@ -81,7 +80,7 @@ Un desarrollo elaborado de los pasos se puede observar dentro de la <a href={`${
 \end{align}
 ```
 
-Ahora si medimos la amplitud del estado $\psi_3$ en caso donde $\ket{z}$ es $\ket{s}$:
+Ahora, se mide la amplitud del estado $\psi_3$, donde $\ket{z}$ es $\ket{s}$:
 
 ```math
 \begin{align}
@@ -94,20 +93,18 @@ Ahora si medimos la amplitud del estado $\psi_3$ en caso donde $\ket{z}$ es $\ke
 \end{align}
 ```
 
-Por lo que finalmente el estado final del algoritmo (luego de la medición) es $\ket{s}$, ya que el resto de estados tendrán amplitud 0.
+Así, el estado final del algoritmo (luego de la medición) es $\ket{s}$, ya que el resto de estados tendrán amplitud 0.
 
 ### Ejemplos
 
-Sea $s=1010$ la cadena a codificar se modifica el oráculo con una función que codifica este valor oculto, utilizaremos puertas <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> para codificar la cadena oculta.
+Sea $s=1010$ la cadena a codificar, se modifica el oráculo con una función que codifica este valor oculto. Se utilizan puertas <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> para codificar la cadena oculta.
 
 <Tabs>
   <TabItem label='Quirk'>
     <Box>
       <QuantumCircuit src={bv_example} />
       <Aside>
-        El resultado de la medición representa con valores **"On"** aquellos
-        valores que son $1$ y los que son **"Off"** los valores que son $0$,
-        formando la cadena $1010$ si se lee de arriba hacia abajo.
+        El resultado de la medición representa con valores **"On"** aquellos valores que son $1$ y los que son **"Off"** los valores que son $0$, formando la cadena $1010$ si se lee de arriba hacia abajo.
       </Aside>
     </Box>
   </TabItem>
@@ -123,10 +120,6 @@ Sea $s=1010$ la cadena a codificar se modifica el oráculo con una función que 
             lang='text'
             code={results_1010_bernstein_vazirani}
           />
-          <Aside>
-            El orden de la evaluación (la última linea) es de abajo hacia
-            arriba, por lo que el último bit representa el de arriba.
-          </Aside>
         </TabItem>
         <TabItem label='Librería común'>
           <Code lang='py' code={common_deutsch_lib} />

@@ -19,7 +19,7 @@ import {
 } from '@code-snippets/x-axis'
 
 
-Este artículo se centra en un conjunto específico de puertas que actúan sobre el eje X.
+Este artículo se centra en un conjunto específico de puertas que actúan sobre el eje $X$.
 
 Primero se explorará la puerta **Pauli-X**, luego la puerta **RotX** que la generaliza y, por último, se hace mención a su **variante condicional**.
 
@@ -27,7 +27,7 @@ Primero se explorará la puerta **Pauli-X**, luego la puerta **RotX** que la gen
 
 La puerta **NOT** cuántica, tambien conocida como **Pauli-X** (o simplemente **X**) nombrada por el físico <a href="https://en.wikipedia.org/wiki/Wolfgang_Pauli" target="_blank">Wolfgang Pauli</a>, funciona como la puerta NOT lógica en los casos de que los cubits sean 0 o 1, pero difiere en estados de superposición.
 
-El nombre $X$ deriva de la funcionalidad de la misma, ya que la aplicación de la puerta implica una rotación de $\pi$ radianes (o 180 grados) a traves del eje $x$ de la esfera de Bloch.
+El nombre $X$ deriva de la funcionalidad de la misma, ya que la aplicación de la puerta implica una rotación de $\pi$ radianes (o 180 grados) a través del eje $x$ de la esfera de Bloch.
 
 En forma de matriz se ve de la siguiente manera:
 ```math
@@ -75,9 +75,9 @@ La versión general de la aplicación de la puerta es la siguiente:
 
 Por lo que intercambia las amplitudes entre los estados base $\ket{0}$ y $\ket{1}$.
 
-<Collapsible title="Conversiones de estados comunes" level="h6">
+<Collapsible title="Conversiones de estados base" level="h6">
 
-Recordando los valores de los Cubits en sus estados comunes (o bases), a continuacion se detallarán las pruebas matemáticas de las conversiones de un estado común a otro utilizando la puerta NOT cuantica.
+A continuación se detallarán las pruebas matemáticas de las conversiones de un estado base a otro utilizando la puerta NOT cuántica.
 
 #### $\ket{0} \overset{X}{\rightarrow} \ket{1}$
 
@@ -215,12 +215,12 @@ Los últimos dos pasos se cumplen por quitar como factor el negativo y obviando 
   <TabItem label='Quirk'>
     <Box>
         <QuantumCircuit src={pauli_x_example_quirk} />
-        La puerta $r^t$ genera un estado aleatorio que cambia según el tiempo, el resultado de aplicar la puerta $X$ es el intercambio de amplitudes.
+        La puerta $r^t$ genera un estado aleatorio que cambia según el tiempo. El resultado de aplicar la puerta $X$ es el intercambio de amplitudes.
     </Box>
   </TabItem>
   <TabItem label="Dirac">
     <Box>
-        Como resultado de las conversiones de estados comunes.
+        Como resultado de las conversiones de estados base.
 
         ```math
         X\ket{0}=\ket{1}\\
@@ -270,7 +270,7 @@ Los últimos dos pasos se cumplen por quitar como factor el negativo y obviando 
 
 ## RotX
 
-Es la generalización de la puerta anterior. Aplica una rotación en el eje $x$ de la esfera de Bloch pero con la rotación especificada. Imitar el comportamiento de la puerta Pauli-X implica aplicar una RotX con $\pi$ radianes de rotación.
+Es la generalización de la puerta anterior. Aplica una rotación en el eje $X$ de la esfera de Bloch pero con la rotación especificada. Imitar el comportamiento de la puerta Pauli-X implica aplicar una RotX con $\pi$ radianes de rotación.
 
 Esta puerta permite abstraerse de ángulos fijos, permitiendo una mayor libertad de aplicación.
 
