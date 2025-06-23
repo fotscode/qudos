@@ -33,30 +33,27 @@ import {
   deutsch_jozsa_result_balanced,
 } from '@code-snippets/deutsch-jozsa'
 
-El algoritmo de Deutsch-Jozsa es uno de los algoritmos más conocidos en la rama cuántica, es uno de los primeros algoritmos cuánticos que es exponencialmente más rapido que su alternativa clásica. Este mismo, motivó a los algoritmos más famosos como el de Shor o el de Grover, entre muchos más.
+El algoritmo de Deutsch-Jozsa es uno de los algoritmos más conocidos en la rama cuántica. Es uno de los primeros algoritmos cuánticos que surgieron, y baja notablemente la cota temporal respecto de la mejor alternativa clásica conocida. Este mismo motivó a la creación de los algoritmos más famosos como el de Shor o el de Grover, entre muchos más.
 
 ## Objetivo
 
-Este algoritmo resuelve el problema de búsqueda de que una función \\(f\\) sea
-**constante** o **balanceada**. Una función es constante cuando \\(f\\) ante cualquier
-entrada retorna siempre la misma salida, es decir siempre retorna \\(0\\) o siempre retorna \\(1\\).
-Por otra parte la función es balanceada cuando retorna mitad de veces una salida y mitad de veces otra, es decir retorna \\(n/2\\) veces \\(0\\) y \\(1\\) respectivamente.
+El algoritmo permite determinar si una función \\(f\\) es **constante** o **balanceada**. Una función es constante cuando \\(f\\) ante cualquier entrada retorna siempre la misma salida, es decir siempre retorna \\(0\\) o siempre retorna \\(1\\). Por otra parte la función es balanceada cuando retorna mitad de veces una salida y mitad de veces otra, es decir retorna \\(n/2\\) veces \\(0\\) y \\(1\\) respectivamente.
 
 El **algoritmo clásico**, implica recorrer, en el peor de los casos, al menos mitad de las salidas posibles ($2^{n-1}+1$). El **algoritmo cuántico** realiza esta operación en **una** sola pasada.
 
 ## Deutsch
 
-Se plantea en un principio una versión reducida del problema, llamado el problema de Deutsch, donde la función que se evalúa posee una única entrada:
+Se plantea en un principio una versión reducida del problema, llamado problema de Deutsch, donde la función que se evalúa es binaria:
 
 ```math
 f: \{0,1\} \rightarrow \{0,1\}
 ```
 
-Esto permite simplificar el algoritmo en su unidad más básica, favoreciendo a que se comprenda el problema que resuelve el algoritmo. Posteriormente se explicará la versión completa del algoritmo de Deutsch-Jozsa para una función con $n$ entradas.
+Esto permite simplificar el algoritmo en su unidad más básica, permitiendo que se comprenda el problema que el algoritmo resuelve. Posteriormente se explicará la versión completa del algoritmo de Deutsch-Jozsa para una función de mayor complejidad.
 
 ### Solución
 
-Una solución posible al problema reducido definido previamente puede ser el siguiente circuito:
+El siguiente circuito resuelve el problema de Deutsch para una función binaria:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -66,14 +63,13 @@ Una solución posible al problema reducido definido previamente puede ser el sig
     height='220'
   />
   <span style='max-width:455px; padding:10px 40px'>
-    **Figura (1):** Algoritmo Deutsch en un circuito con separadores ante la
-    aplicación de cada puerta.
+    **Figura (1):** Algoritmo de Deutsch en un circuito con separadores ante la aplicación de cada puerta.
   </span>
 </div>
 
-En este circuito cuántico se utilizan las puertas <a href={`${import.meta.env.BASE_URL}/gates/x-axis`}>Pauli X</a>, <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> y un oráculo \\(U_f\\) que es un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>. Notar que el oráculo de fase se encuentra asociado a \\(f\\), que es la función que estamos analizando si es constante/balanceada.
+En este circuito cuántico se utilizan las puertas <a href={`${import.meta.env.BASE_URL}/gates/x-axis`}>Pauli X</a>, <a href={`${import.meta.env.BASE_URL}/gates/hadamard`}>Hadamard</a> y un oráculo \\(U_f\\) que es un <a href={`${import.meta.env.BASE_URL}/concepts/oracles#or%C3%A1culo-de-fase`}>oráculo de fase</a>. Notar que el oráculo de fase se encuentra asociado a \\(f\\), que es la función que se quiere determinar si es constante o balanceada.
 
-Analizaremos paso a paso el estado de los cubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
+A continuación se analiza paso a paso el estado de los cubits según los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=4\\):
 
 ```math
 \begin{align}
@@ -89,7 +85,7 @@ H\ket{-}=\ket{1} & \text{si \(f(0) \neq f(1)\)}
 \end{align}
 ```
 
-La idea básica del algoritmo es poder reemplazar $U_f$ con un circuito, si este circuito representa una función constante, la salida del primer Cubit va a ser $\ket{0}$. Por otra parte, en caso de que el circuito represente una función balanceada, retornará $\ket{1}$.
+La idea básica del algoritmo es poder reemplazar $U_f$ con un circuito. Si este circuito representa una función constante, la salida del primer cubit será $\ket{0}$. En caso de que el circuito represente una función balanceada, retornará $\ket{1}$.
 
 <Collapsible title="Desarrollo elaborado" level="h6">
 
@@ -109,9 +105,9 @@ De forma detallada el estado de los cubits según los separadores provistos en l
 \end{align}
 ```
 
-Notar que se elimina el cubit \\(\ket{'-'}\\), esto se debe a que el segundo cubit, no se mide, ni se utiliza más en el circuito, por lo que solo estorbaría y por ende se puede prescindir del mismo.
+Notar que se elimina el cubit \\(\ket{'-'}\\). Esto se debe a que el segundo cubit no se mide ni se utiliza más en el circuito, por lo que solo estorbaría y por ende se puede omitir.
 
-Se analizan los casos posibles, primero en caso de que \\(f\\) sea constante, y luego en caso de que \\(f\\) sea balanceada.
+Se analizan los casos posibles. Primero en caso de que \\(f\\) sea constante, y luego en caso de que \\(f\\) sea balanceada.
 
 ```math
 \begin{align}
@@ -126,9 +122,9 @@ Se analizan los casos posibles, primero en caso de que \\(f\\) sea constante, y 
 \end{align}
 ```
 
-A su vez se factoriza el $-1$ y, como actúa de fase global, se puede prescindir de la misma.
+A su vez se factoriza el $-1$ que, como actúa de fase global, se puede descartar.
 
-Finalmente aplicar el ultimo paso del circuito es simple
+Finalmente, aplicar el último paso del circuito es simple.
 
 ```math
 \begin{align}
@@ -147,14 +143,12 @@ H\ket{-}=\ket{1} & \text{si \(f(0) \neq f(1)\)}
 En estos ejemplos se definirán circuitos que representan tanto funciones constantes como balanceadas. Estos circuitos reemplazarán el oráculo definido previamente que abstraía la función a analizar.
 
 <Aside>
-  Estos ejemplos tienen como objetivo definir una función para demostrar que el
-  algoritmo funciona para un caso, mientras que la versión genérica abarca todos
-  los casos.
+  Estos ejemplos tienen como objetivo definir una función para demostrar que el algoritmo funciona para un caso, mientras que la versión genérica abarca todos los casos.
 </Aside>
 
 #### Funciones Constantes
 
-Sea $f$ una función constante, un circuito posible que actue como función constante es no hacer nada.
+Un circuito que no posee puertas cuánticas permite representar una función constante $f$, cuya definición se corresponde con $f(x)=0$ para cualquier valor recibido como entrada (en este caso, $0$ o $1$).
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -164,15 +158,13 @@ Sea $f$ una función constante, un circuito posible que actue como función cons
     height='109'
   />
   <span style='max-width:504px; padding:10px 40px'>
-    **Figura (2):** Circuito con dos cubits, siendo el primero la entrada de la
-    función y el segundo su correspondiente salida. Denota una función constante
-    donde $f(x)=0$.
+    **Figura (2):** Circuito con dos cubits, siendo el primero la entrada de la función y el segundo su correspondiente salida. Denota una función constante donde $f(x)=0$.
   </span>
 </div>
 
 Notar que si $x=0$ (primer cubit en el circuito de la izquierda), el resultado de la función $f(x)$ (segundo cubit) es $0$, y de la misma manera si $x=1$ (circuito de la derecha) la salida de $f(x)$ sigue siendo $0$, es decir que $f(0)=f(1)=0$.
 
-Por lo que si introducimos esta función/circuito dentro del algoritmo de Deutsch la salida debe ser $\ket{0}$, gráficamente se observaría de la siguiente manera:
+Si se introduce esta función/circuito dentro del algoritmo de Deutsch, la salida debe ser $\ket{0}$. Gráficamente se observaría de la siguiente manera:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -182,9 +174,7 @@ Por lo que si introducimos esta función/circuito dentro del algoritmo de Deutsc
     height='220'
   />
   <span style='max-width:504px; padding:10px 40px'>
-    **Figura (3):** Algoritmo Deutsch en un gráfico con separadores ante la
-    aplicación de cada puerta, utilizando la función constante en vez del
-    oráculo.
+    **Figura (3):** Algoritmo Deutsch en un gráfico con separadores ante la aplicación de cada puerta, utilizando la función constante en vez del oráculo.
   </span>
 </div>
 
@@ -200,7 +190,7 @@ Desarrollando paso a paso el estado de los cubits según los separadores provist
 \end{align}
 ```
 
-Se elimina el $\ket{-}$ ya que no es utilizado en la medición. Con este resultado llegamos rapidamente a que, con este ejemplo de función constante, se deriva correctamente al resultado de $\ket{0}$.
+Se elimina el $\ket{-}$ ya que no es utilizado en la medición. Con este resultado se llega rápidamente a que, utilizando una función constante, se deriva correctamente al resultado de $\ket{0}$.
 
 <Tabs>
   <TabItem label='Quirk'>
@@ -215,11 +205,11 @@ Se elimina el $\ket{-}$ ya que no es utilizado en la medición. Con este resulta
   </TabItem>
 </Tabs>
 
-La función descrita previamente era constante y retornaba 0 ante cualquier input. Otro ejemplo de función constante es aquella que siempre retorna 1 como salida, esta se puede implementar por ejemplo aplicando una puerta Pauli-X a la salida.
+La función descrita previamente es constante y retorna 0 ante cualquier entrada. Otro ejemplo de función constante es aquella que siempre retorna 1 como salida, la cual puede implementarse aplicando una puerta Pauli-X a la salida.
 
 #### Funciones Balanceadas
 
-Sea $f$ una función balanceada, un circuito posible que representa una función balanceada es utilizando una puerta CNOT.
+Puede implementarse un circuito que represente una función balanceada mediante la aplicación de una puerta $CNOT$.
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -229,15 +219,13 @@ Sea $f$ una función balanceada, un circuito posible que representa una función
     height='109'
   />
   <span style='max-width:504px; padding:10px 40px'>
-    **Figura (4):** Circuito con dos cubits, siendo el primero la entrada de la
-    función y el segundo su correspondiente salida. Denota una función
-    balanceada.
+    **Figura (4):** Circuito con dos cubits, siendo el primero la entrada de la función y el segundo su correspondiente salida. Denota una función balanceada.
   </span>
 </div>
 
 Notar que si $x=0$ (primer cubit en el circuito de la izquierda), el resultado de la función $f(x)$ (segundo cubit) es $0$, y si $x=1$ (circuito de la derecha) la salida de $f(x)$ es $1$, es decir que $f(0)\neq f(1)$.
 
-Si introducimos esta función/circuito dentro del algoritmo de Deutsch la salida, a diferencia del previo, debe ser $\ket{1}$, gráficamente se observaria de la siguiente manera:
+Si se introduce esta función/circuito dentro del algoritmo de Deutsch, la salida, a diferencia del previo, debe ser $\ket{1}$. Gráficamente se observaria de la siguiente manera:
 
 <div style='display:flex; justify-content:center; align-items:center; flex-direction:column'>
   <Image
@@ -247,13 +235,11 @@ Si introducimos esta función/circuito dentro del algoritmo de Deutsch la salida
     height='220'
   />
   <span style='max-width:504px; padding:10px 40px'>
-    **Figura (5):** Algoritmo Deutsch en un gráfico con separadores ante la
-    aplicación de cada puerta, utilizando la función balanceada en vez del
-    oráculo.
+    **Figura (5):** Algoritmo Deutsch en un gráfico con separadores ante la aplicación de cada puerta, utilizando la función balanceada en vez del oráculo.
   </span>
 </div>
 
-Nuevamente desarrollando paso a paso los estados de los cubits en cada separador obtenemos:
+Desarrollando paso a paso los estados de los cubits en cada separador se obtiene:
 
 ```math
 \begin{align}
@@ -267,17 +253,16 @@ Nuevamente desarrollando paso a paso los estados de los cubits en cada separador
 \end{align}
 ```
 
-Una derivación del paso $\psi_3$ se puede encontrar en el artículo de <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a>. De la misma manera se elimina el $\ket{-}$ ya que no se utiliza en la medición.
+Una derivación del paso $\psi_3$ se puede encontrar en el artículo <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a>. Nuevamente se omite el cubit en estado $\ket{-}$ porque no se utiliza en la medición.
 
-Esto determina que, para este ejemplo de función balanceada, se deriva al resultado correcto, es decir que el circuito con <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> deriva en el resultado $\ket{1}$.
+Esto determina que, para una función balanceada, se deriva al resultado correcto. La medición resulta en $\ket{1}$.
 
 <Tabs>
   <TabItem label='Quirk'>
     <Box>
       <QuantumCircuit src={deutsch_cx_url} />
       <Aside>
-        A diferencia del ejemplo previo de función constante, en este, cambió el
-        estado de ***"Off"*** a ***"On"***.
+        A diferencia del ejemplo previo de función constante, el estado cambió de ***"Off"*** a ***"On"***.
       </Aside>
     </Box>
   </TabItem>
@@ -288,11 +273,11 @@ Esto determina que, para este ejemplo de función balanceada, se deriva al resul
   </TabItem>
 </Tabs>
 
-La función descrita previamente era balanceada retornando el mismo valor que el input (función identidad). Otro ejemplo de función balanceada es aquella que siempre retorna el opuesto de la entrada como salida (función de opuesto), esta se puede implementar, por ejemplo, aplicando una puerta Pauli-X a la salida luego de haber aplicado un CNOT.
+La función descrita previamente es balanceada, retornando el mismo valor que la entrada (función identidad). Otro ejemplo de función balanceada es aquella que siempre retorna el opuesto de la entrada como salida (función de opuesto). Esta puede implementarse, por ejemplo, aplicando una puerta Pauli-X a la salida luego de haber aplicado $CNOT$.
 
 ## Deutsch-Jozsa 
 
-El problema que resuelve el algoritmo de Deutsch-Jozsa es la generalización del algoritmo previo para funciones con $n$ entradas:
+El problema que resuelve el algoritmo de Deutsch-Jozsa es la generalización del algoritmo previo para funciones con $n$ entradas de tamaño $n$.
 
 ```math
 f: \{0,1\}^n \rightarrow \{0,1\}
@@ -310,20 +295,19 @@ El algoritmo de Deutsch-Jozsa se describe de forma genérica con el siguiente ci
     height='182'
   />
   <span style='max-width:455px; padding:10px 40px'>
-    **Figura (6):** Algoritmo Deutsch-Jozsa en un circuito con separadores ante
-    la aplicación de cada puerta.
+    **Figura (6):** Algoritmo Deutsch-Jozsa en un circuito con separadores ante la aplicación de cada puerta.
   </span>
 </div>
 
-Este mantiene una estructura similar al algoritmo de Deutsch planteado en la figura 1 pero con algunos cambios:
+Este mantiene una estructura similar al algoritmo de Deutsch planteado en la figura 1, pero con algunos cambios:
 
-- Se reemplaza el segundo cubit de $\ket{0}$ a $\ket{-}$, esto es equivalente a aplicar una puerta Pauli-X y Hadamard pero se evitó para tener una mayor legibilidad.
+- Se reemplaza el segundo cubit de $\ket{0}$ a $\ket{-}$. Esto es equivalente a aplicar una puerta Pauli-X y Hadamard, pero se evitó para mejorar la legibilidad.
 
-- Se generaliza el cubit de entrada a $n$ cubits que representan los valores de entrada, esto esta representado por el símbolo / $^n$ previo a $\psi_0$.
+- Se generaliza el cubit de entrada a $n$ cubits que representan los valores de entrada. Esto está representado por el símbolo / $^n$ previo a $\psi_0$.
 
-- Se aplican las puertas Hadamard a los $n$ cubits de entrada y el oráculo es aplicado a los $n$ cubits de entrada y al cubit que representa la salida de la función.
+- Se aplican las puertas Hadamard a los $n$ cubits de entrada, y el oráculo es aplicado a los $n$ cubits de entrada y al cubit que de salida de la función.
 
-Analizaremos paso a paso el estado de los cubits segun los separadores provistos en el grafico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=3\\):
+A continuación se analiza paso a paso el estado de los cubits según los separadores provistos en el gráfico, donde \\(\psi_i\\) es el estado en el paso \\(i\\), empezando con \\(i=0\\) y finalizando con \\(i=3\\):
 
 ```math
 \begin{align}
@@ -350,7 +334,7 @@ Analizaremos paso a paso el estado de los cubits segun los separadores provistos
 =&\underbrace{\frac{\ket{0}+\ket{1}}{\sqrt{2}}\frac{\ket{0}+\ket{1}}{\sqrt{2}}\ldots\frac{\ket{0}+\ket{1}}{\sqrt{2}}}_{n\text{ veces}}\ket{-}\\
 \end{align}
 ```
-Para obtener una versión genérica de $\psi_1$ encontramos la secuencia utilizando ejemplos, por ejemplo el valor de $\psi_1$ en caso de que $n=2$:
+Valor de $\psi_1$ en caso de que $n=2$:
 ```math
 \begin{align}
 H^{\otimes 2}\ket{0}^{\otimes 2}=&\frac{\ket{0}+\ket{1}}{\sqrt{2}}\frac{\ket{0}+\ket{1}}{\sqrt{2}}\ket{-}\\
@@ -359,7 +343,7 @@ H^{\otimes 2}\ket{0}^{\otimes 2}=&\frac{\ket{0}+\ket{1}}{\sqrt{2}}\frac{\ket{0}+
 =&\frac{1}{\sqrt{2^2}}\sum_{x \in \{0,1\}^2} \ket{x}
 \end{align}
 ```
-Notar que en este caso $\sum_{x \in \{0,1\}^2} \ket{x}$ denota la suma de todas las combinaciones de largo $2$, por lo que el caso general (cuando es $n$) es el siguiente:
+Notar que en este caso $\sum_{x \in \{0,1\}^2} \ket{x}$ denota la suma de todas las combinaciones de largo $2$, por lo que el caso general (para $n$ entradas) es el siguiente:
 ```math
 H^{\otimes n}\ket{0}^{\otimes n}=\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n}\ket{x}
 ```
@@ -376,7 +360,7 @@ Finalmente $\psi_1$ toma el valor:
 =&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
 \end{align}
 ```
-En el último paso eliminamos $\ket{-}$ para simplificar los cálculos ya que no se utiliza en la medición y no interfiere con el resto del algoritmo.
+En el último paso se omite $\ket{-}$ para simplificar los cálculos, ya que no se utiliza en la medición y no interfiere con el resto del algoritmo.
 ### Paso 3
 
 ```math
@@ -386,7 +370,7 @@ En el último paso eliminamos $\ket{-}$ para simplificar los cálculos ya que no
 \end{align}
 ```
 
-Notar que $H^{\otimes n}\ket{x}$ es diferente a $H^{\otimes n}\ket{0}$ definido previamente, este se puede entender como:
+Notar que $H^{\otimes n}\ket{x}$ es diferente a $H^{\otimes n}\ket{0}$ definido previamente. Este puede entenderse como:
 ```math
 \begin{align}
 H^{\otimes n}\ket{x}&=H\ket{x_0x_1x_2 \ldots x_{n-1}}\\
@@ -394,7 +378,7 @@ H^{\otimes n}\ket{x}&=H\ket{x_0x_1x_2 \ldots x_{n-1}}\\
 H\ket{x_i}&=\frac{1}{\sqrt{2}}(\ket{0}+(-1)^{x_i}\ket{1})\quad\text{donde }x_i\in\{0,1\}
 \end{align}
 ```
-Analogamente a $\psi_1$ para encontrar una versión genérica de $\psi_3$ encontramos la secuencia utilizando un ejemplo, por ejemplo si $n=2$:
+$\psi_3$ cuando $n=2$:
 ```math
 \begin{align}
 H^{\otimes 2}\ket{x}&=H\ket{x_0}H\ket{x_1}\\
@@ -406,11 +390,11 @@ H^{\otimes 2}\ket{x}&=H\ket{x_0}H\ket{x_1}\\
 &=\frac{1}{\sqrt{2^2}}\sum_{z\in\{0,1\}^2} (-1)^{x\cdot z} \ket{z}
 \end{align}
 ```
-Notar que se convierte $x_1$ al producto escalar $x \cdot 01$, esto se hace para simplificar la ecuación y dado que la operacion $x\cdot 01$ equivale a lo siguiente:
+Notar que se convierte $x_1$ al producto escalar $x \cdot 01$ para simplificar la ecuación. Dado que la operación $x\cdot 01$ equivale a lo siguiente:
 ```math
 x \cdot 01 = x_0x_1 \cdot 01 = x_0(0) + x_1(1) = x_1
 ```
-Generalizando la ecuación para $n$:
+Se puede generalizar la ecuación para $n$:
 ```math
 H^{\otimes n}\ket{x}=\frac{1}{\sqrt{2^n}}\sum_{z\in\{0,1\}^n} (-1)^{x\cdot z} \ket{z}
 ```
@@ -427,7 +411,7 @@ Finalmente reemplazando en $\psi_3$:
 ```
 
 <Aside>
-    La identidad definida previamente $H^{\otimes n}\ket{0}^{\otimes n}$, se puede generalizar utilizando la identidad definida con $H^{\otimes n}\ket{x}$ donde $\ket{x}=\ket{0}^{\otimes n}$:
+    La identidad definida previamente $H^{\otimes n}\ket{0}^{\otimes n}$ se puede generalizar utilizando la identidad definida con $H^{\otimes n}\ket{x}$, donde $\ket{x}=\ket{0}^{\otimes n}$:
     ```math
     \begin{align}
     H^{\otimes n}\ket{0}^{\otimes n}&=H^{\otimes n}\ket{00\ldots 0}\\
@@ -441,7 +425,7 @@ Finalmente reemplazando en $\psi_3$:
 </Collapsible>
 
 
-Finalmente si medimos la amplitud del estado $\psi_3$ donde $\ket{z}$ es $\ket{0}^{\otimes{n}}$ 
+Finalmente si se mide la amplitud del estado $\psi_3$ donde $\ket{z}$ es $\ket{0}^{\otimes{n}}$ 
 
 ```math
 \begin{gather}
@@ -463,7 +447,7 @@ Al medir la amplitud de $\psi_3$ donde $\ket{z}$ es $\ket{0}^{\otimes n}$:
 
 </Collapsible>
 
-Estas amplitudes convergen en diferentes resultados según si $f$ es constante o balanceada, por un lado si es **_constante_**: 
+Estas amplitudes convergen en diferentes resultados según si $f$ es constante o balanceada. Por un lado, si es **_constante_**: 
 
 ```math
 \begin{align}
@@ -491,7 +475,7 @@ Estas amplitudes convergen en diferentes resultados según si $f$ es constante o
 
 </Collapsible>
 
-Por otro lado si es **_balanceada_**:
+Por otro lado, si es **_balanceada_**:
 
 ```math
 \begin{align}
@@ -511,15 +495,15 @@ Por otro lado si es **_balanceada_**:
 &=0
 \end{align}
 ```
-Notar que $k=2^{n-1}$, esto representa que la mitad de las salidas ($total=2^n, k=2^n/2$) es $0$ y la otra mitad es $1$, esto es la definición de función balanceada.
+Notar que $k=2^{n-1}$. Esto representa que la mitad de las salidas ($total=2^n, k=2^n/2$) es $0$ y la otra mitad es $1$, lo cual condice con la definición de función balanceada.
 
 </Collapsible>
 
-Ahora, a diferencia del algoritmo previo, se puede reemplazar $U_f$ con un circuito que represente una función constante o una función balanceada con $n$ entradas, en caso de ser del primer tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $1$, y en caso de ser del segundo tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $0$.
+Ahora, a diferencia del algoritmo previo, se puede reemplazar $U_f$ con un circuito que represente una función constante o una función balanceada con $n$ entradas. En caso de ser del primer tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $1$, y en caso de ser del segundo tipo la probabilidad de medir $\ket{0}^{\otimes n}$ es $0$.
 
 ### Ejemplos
 
-Sea $f$ una función con 3 entradas y una salida, se debe codificar este oráculo en el circuito de Deutsch-Jozsa.
+Sea $f$ una función con 3 entradas y una salida, se debe codificar este oráculo en el circuito del algoritmo de Deutsch-Jozsa.
 
 <Tabs>
   <TabItem label='Quirk'>
