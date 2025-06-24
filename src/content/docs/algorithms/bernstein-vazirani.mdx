@@ -17,6 +17,8 @@ import QuantumCircuit from '@components/QuantumCircuit.astro'
 import BibItem from '@components/BibItem.astro'
 import Recommendations from '@components/Recommendations.astro'
 import Box from '@components/Box.astro'
+import Circle from '@components/CircleNotation.astro'
+import ResourceDivider from '@components/ResourceDivider.astro'
 import { common_deutsch_lib } from '@code-snippets/deutsch-jozsa'
 import {
   solution_bernstein_vazirani,
@@ -60,10 +62,10 @@ A continuación se analiza paso a paso el estado de los cubits según los separa
 
 ```math
 \begin{align}
-\psi_0=&\ket{0}^{\otimes n}\ket{-}\\
-\psi_1=&H^{\otimes n}\ket{0}^{\otimes n}\ket{-}\\
-=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
-\psi_2=&U_f\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
+\psi_0=&\ket{-}\ket{0}^{\otimes n}\\
+\psi_1=&\ket{-}H^{\otimes n}\ket{0}^{\otimes n}\\
+=&\ket{-}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\\
+\psi_2=&\ket{-}U_f\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\\
 =&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
 \psi_3=&H^{\otimes n}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
 =&\sum_{z\in\{0,1\}^n} \left(\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot z}\right) \ket{z}\\
@@ -100,6 +102,144 @@ Así, el estado final del algoritmo (luego de la medición) es $\ket{s}$, ya que
 Sea $s=1010$ la cadena a codificar, se modifica el oráculo con una función que codifica este valor oculto. Se utilizan puertas <a href={`${import.meta.env.BASE_URL}/gates/cnot`}>CNOT</a> para codificar la cadena oculta.
 
 <Tabs>
+  <TabItem label='Círculos'>
+    <Box>
+      <Aside>
+        Por cuestiones de legibilidad, para la notación de círculos se buscará la cadena $s=101$ sobre un espacio de búsqueda de tres cubits, sumados al cubit del oráculo.
+      </Aside>
+      <div style='margin-top:30px'>
+       <ResourceDivider icon='pencil' text='\(\psi_0\)' />
+      </div>
+      <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+      Estado inicial del algoritmo $\ket{-000}$
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0.5} label={'\\ket{0000}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0010}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
+          </div>
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0101}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
+          </div>
+       </section>
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'180'} prob={0.5} label={'\\ket{1000}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
+          </div>
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1101}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
+          </div>
+       </section>
+      </div>
+      <ResourceDivider icon='pencil' text='\(\psi_1\)' />
+      <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+      Aplicación de puertas Hadamard sobre los tres cubits menos significativos. 
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0000}'} />
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0001}'} />
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0010}'} />
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0011}'} />
+          </div>
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0100}'} />
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0101}'} />
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0110}'} />
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0111}'} />
+          </div>
+       </section>
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1000}'} />
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1001}'} />
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1010}'} />
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1011}'} />
+          </div>
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1100}'} />
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1101}'} />
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1110}'} />
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1111}'} />
+          </div>
+       </section>
+      </div>
+      <ResourceDivider icon='pencil' text='\(\psi_2\)' />
+      <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+      Aplicación del oráculo. En este ejemplo, el oráculo está implementado con dos puertas $CNOT$. La primera tiene al cubit menos significativo como control y la segunda al tercer cubit menos significativo. En ambos casos, el cubit objetivo es el del oráculo (el más significativo).
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0000}'} />
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0001}'} />
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0010}'} />
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0011}'} />
+          </div>
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0100}'} />
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0101}'} />
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{0110}'} />
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{0111}'} />
+          </div>
+       </section>
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1000}'} />
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1001}'} />
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1010}'} />
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1011}'} />
+          </div>
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1100}'} />
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1101}'} />
+            <Circle width={'80'} phase={'0'} prob={0.0625} label={'\\ket{1110}'} />
+            <Circle width={'80'} phase={'180'} prob={0.0625} label={'\\ket{1111}'} />
+          </div>
+       </section>
+      </div>
+      <ResourceDivider icon='pencil' text='\(\psi_3\)' />
+      <div style='display: flex; flex-direction:column; align-items:center; margin-bottom:60px'>
+      Se aplica Hadamard sobre los cubits que no son del oráculo (todos excepto el más significativo). Así se obtiene la respuesta final.
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0000}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0001}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0010}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0011}'} />
+          </div>
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0100}'} />
+            <Circle width={'80'} phase={'0'} prob={0.5} label={'\\ket{0101}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0110}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{0111}'} />
+          </div>
+       </section>
+       <section class="responsive-circles">
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1000}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1001}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1010}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1011}'} />
+          </div>
+          <div class="quadrant-circles">
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1100}'} />
+            <Circle width={'80'} phase={'180'} prob={0.5} label={'\\ket{1101}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1110}'} />
+            <Circle width={'80'} phase={'0'} prob={0} label={'\\ket{1111}'} />
+          </div>
+       </section>
+      </div>
+      Ignorando el estado del cubit del oráculo (el cubit más significativo), la probabilidad de obtener $\ket{s} = \ket{101}$ es del $100\%$.
+    </Box>
+  </TabItem>
   <TabItem label='Quirk'>
     <Box>
       <QuantumCircuit src={bv_example} />
