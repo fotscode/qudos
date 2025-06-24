@@ -76,8 +76,8 @@ A continuación se analiza paso a paso el estado de los cubits según los separa
 ```math
 \begin{align}
 \psi_0=&\ket{00}\\
-\psi_1=&\ket{01}\\
-\psi_2=&\ket{+-}\\
+\psi_1=&\ket{10}\\
+\psi_2=&\ket{-+}\\
 \psi_3=&\frac{1}{\sqrt{2}}((-1)^{f(0)}\ket{0}+(-1)^{f(1)}\ket{1})\\
 \psi_4=&
 \begin{cases}
@@ -97,12 +97,12 @@ De forma detallada el estado de los cubits según los separadores provistos en l
 ```math
 \begin{align}
 \psi_0=&\ket{00}\\
-\psi_1=&\ket{01}\\
-\psi_2=&\ket{+-}\\
-=&\frac{1}{\sqrt{2}}(\ket{0}\ket{-}+\ket{1}\ket{-})\\
-\psi_3=&U_f\frac{1}{\sqrt{2}}(\ket{0}\ket{-}+\ket{1}\ket{-})\\
-=&\frac{1}{\sqrt{2}}(U_f\ket{0}\ket{-}+U_f\ket{1}\ket{-})\\
-=&\frac{1}{\sqrt{2}}((-1)^{f(0)}\ket{0}\ket{-}+(-1)^{f(1)}\ket{1}\ket{-})\\
+\psi_1=&\ket{10}\\
+\psi_2=&\ket{-+}\\
+=&\frac{1}{\sqrt{2}}(\ket{-}\ket{0}+\ket{-}\ket{1})\\
+\psi_3=&U_f\frac{1}{\sqrt{2}}(\ket{-}\ket{0}+\ket{-}\ket{1})\\
+=&\frac{1}{\sqrt{2}}(U_f\ket{-}\ket{0}+U_f\ket{-}\ket{1})\\
+=&\frac{1}{\sqrt{2}}((-1)^{f(0)}\ket{-}\ket{0}+(-1)^{f(1)}\ket{-}\ket{1})\\
 =&\frac{1}{\sqrt{2}}((-1)^{f(0)}\ket{0}+(-1)^{f(1)}\ket{1})\\
 \end{align}
 ```
@@ -471,10 +471,10 @@ A continuación se analiza paso a paso el estado de los cubits según los separa
 
 ```math
 \begin{align}
-\psi_0=&\ket{0}^{\otimes n}\ket{-}\\
-\psi_1=&H^{\otimes n}\ket{0}^{\otimes n}\ket{-}\\
-=&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
-\psi_2=&U_f\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\ket{-}\\
+\psi_0=&\ket{-}\ket{0}^{\otimes n}\\
+\psi_1=&\ket{-}H^{\otimes n}\ket{0}^{\otimes n}\\
+=&\ket{-}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\\
+\psi_2=&U_f\ket{-}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\\
 =&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
 \psi_3=&H^{\otimes n}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
 =&\sum_{z\in\{0,1\}^n} \left(\frac{1}{2^n}\sum_{x\in\{0,1\}^n} (-1)^{f(x)+x\cdot z}\right) \ket{z}\\
@@ -514,7 +514,7 @@ Finalmente $\psi_1$ toma el valor:
 ### Paso 2
 ```math
 \begin{align}
-\psi_2=\ket{-}&U_f\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\\
+\psi_2=&U_f\ket{-}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} \ket{x}\\
 =&\ket{-}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} U_f\ket{x}\\
 =&\ket{-}\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
 =&\frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n} (-1)^{f(x)}\ket{x}\\
