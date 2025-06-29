@@ -34,75 +34,7 @@ CNOT=\begin{bmatrix}
 \end{bmatrix}
 ```
 
-<Collapsible title="Conversiones de estados base" level="h6">
-
-Se desarrollan pruebas matemáticas de la aplicación de la puerta CNOT en cubits en estado de superposición.
-
-#### $\ket{++} \overset{CNOT}{\rightarrow} \ket{++}$
-
-```math
-\begin{align}
-CNOT\ket{++}=& CNOT\frac{1}{2}\left((\ket{0}+\ket{1})\otimes(\ket{0}+\ket{1})\right)\\
-=& CNOT\frac{1}{2}\left(\ket{00}+\ket{01}+\ket{10}+\ket{11}\right)\\
-=&\frac{1}{2}\left(CNOT\ket{00}+CNOT\ket{01}+CNOT\ket{10}+CNOT\ket{11}\right)\\
-=&\frac{1}{2}\left(\ket{00}+\ket{01}+\ket{11}+\ket{10}\right)\\
-=&\frac{1}{2}\left(\ket{00}+\ket{01}+\ket{10}+\ket{11}\right)\\
-=&\frac{1}{2}\left((\ket{0}+\ket{1})\otimes(\ket{0}+\ket{1})\right)\\
-=&\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\\
-=&\ket{+}\otimes\ket{+}\\
-=&\ket{++}
-\end{align}
-```
-
-#### $\ket{+-} \overset{CNOT}{\rightarrow} \ket{--}$
-
-```math
-\begin{align}
-CNOT\ket{+-}=& CNOT\frac{1}{2}\left((\ket{0}+\ket{1})\otimes(\ket{0}-\ket{1})\right)\\
-=& CNOT\frac{1}{2}\left(\ket{00}-\ket{01}+\ket{10}-\ket{11}\right)\\
-=&\frac{1}{2}\left(CNOT\ket{00}-CNOT\ket{01}+CNOT\ket{10}-CNOT\ket{11}\right)\\
-=&\frac{1}{2}\left(\ket{00}-\ket{01}+\ket{11}-\ket{10}\right)\\
-=&\frac{1}{2}\left(\ket{00}-\ket{01}-\ket{10}+\ket{11}\right)\\
-=&\frac{1}{2}\left((\ket{0}-\ket{1})\otimes(\ket{0}-\ket{1})\right)\\
-=&\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\\
-=&\ket{-}\otimes\ket{-}\\
-=&\ket{--}
-\end{align}
-```
-
-#### $\ket{-+} \overset{CNOT}{\rightarrow} \ket{-+}$
-
-```math
-\begin{align}
-CNOT\ket{-+}=& CNOT\frac{1}{2}\left((\ket{0}-\ket{1})\otimes(\ket{0}+\ket{1})\right)\\
-=& CNOT\frac{1}{2}\left(\ket{00}+\ket{01}-\ket{10}-\ket{11}\right)\\
-=&\frac{1}{2}\left(CNOT\ket{00}+CNOT\ket{01}-CNOT\ket{10}-CNOT\ket{11}\right)\\
-=&\frac{1}{2}\left(\ket{00}+\ket{01}-\ket{11}-\ket{10}\right)\\
-=&\frac{1}{2}\left(\ket{00}+\ket{01}-\ket{10}-\ket{11}\right)\\
-=&\frac{1}{2}\left((\ket{0}-\ket{1})\otimes(\ket{0}+\ket{1})\right)\\
-=&\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\\
-=&\ket{-}\otimes\ket{+}\\
-=&\ket{-+}
-\end{align}
-```
-
-#### $\ket{--} \overset{CNOT}{\rightarrow} \ket{+-}$
-
-```math
-\begin{align}
-CNOT\ket{--}=& CNOT\frac{1}{2}\left((\ket{0}-\ket{1})\otimes(\ket{0}-\ket{1})\right)\\
-=& CNOT\frac{1}{2}\left(\ket{00}-\ket{01}-\ket{10}+\ket{11}\right)\\
-=&\frac{1}{2}\left(CNOT\ket{00}-CNOT\ket{01}-CNOT\ket{10}+CNOT\ket{11}\right)\\
-=&\frac{1}{2}\left(\ket{00}-\ket{01}-\ket{11}+\ket{10}\right)\\
-=&\frac{1}{2}\left(\ket{00}-\ket{01}+\ket{10}-\ket{11}\right)\\
-=&\frac{1}{2}\left((\ket{0}+\ket{1})\otimes(\ket{0}-\ket{1})\right)\\
-=&\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\\
-=&\ket{+}\otimes\ket{-}\\
-=&\ket{+-}
-\end{align}
-```
-
-</Collapsible>
+## Ejemplos
 
 <Tabs>
   <TabItem label='Quirk'>
@@ -113,17 +45,71 @@ CNOT\ket{--}=& CNOT\frac{1}{2}\left((\ket{0}-\ket{1})\otimes(\ket{0}-\ket{1})\ri
   </TabItem>
   <TabItem label="Dirac">
     <Box>
-        Como resultado de las conversiones de estados base.
-        ```math
-        CNOT\ket{00}=\ket{00}\\
-        CNOT\ket{01}=\ket{01}\\
-        CNOT\ket{10}=\ket{11}\\
-        CNOT\ket{11}=\ket{10}\\
-        CNOT\ket{++}=\ket{++}\\
-        CNOT\ket{+-}=\ket{--}\\
-        CNOT\ket{-+}=\ket{-+}\\
-        CNOT\ket{--}=\ket{+-}\\
-        ```
+      Se desarrollan pruebas matemáticas de la aplicación de la puerta CNOT en cubits en estado de superposición.
+
+      #### $\ket{++} \overset{CNOT}{\rightarrow} \ket{++}$
+
+      ```math
+      \begin{align}
+      CNOT\ket{++}=& CNOT\frac{1}{2}\left((\ket{0}+\ket{1})\otimes(\ket{0}+\ket{1})\right)\\
+      =& CNOT\frac{1}{2}\left(\ket{00}+\ket{01}+\ket{10}+\ket{11}\right)\\
+      =&\frac{1}{2}\left(CNOT\ket{00}+CNOT\ket{01}+CNOT\ket{10}+CNOT\ket{11}\right)\\
+      =&\frac{1}{2}\left(\ket{00}+\ket{01}+\ket{11}+\ket{10}\right)\\
+      =&\frac{1}{2}\left(\ket{00}+\ket{01}+\ket{10}+\ket{11}\right)\\
+      =&\frac{1}{2}\left((\ket{0}+\ket{1})\otimes(\ket{0}+\ket{1})\right)\\
+      =&\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\\
+      =&\ket{+}\otimes\ket{+}\\
+      =&\ket{++}
+      \end{align}
+      ```
+
+      #### $\ket{+-} \overset{CNOT}{\rightarrow} \ket{--}$
+
+      ```math
+      \begin{align}
+      CNOT\ket{+-}=& CNOT\frac{1}{2}\left((\ket{0}+\ket{1})\otimes(\ket{0}-\ket{1})\right)\\
+      =& CNOT\frac{1}{2}\left(\ket{00}-\ket{01}+\ket{10}-\ket{11}\right)\\
+      =&\frac{1}{2}\left(CNOT\ket{00}-CNOT\ket{01}+CNOT\ket{10}-CNOT\ket{11}\right)\\
+      =&\frac{1}{2}\left(\ket{00}-\ket{01}+\ket{11}-\ket{10}\right)\\
+      =&\frac{1}{2}\left(\ket{00}-\ket{01}-\ket{10}+\ket{11}\right)\\
+      =&\frac{1}{2}\left((\ket{0}-\ket{1})\otimes(\ket{0}-\ket{1})\right)\\
+      =&\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\\
+      =&\ket{-}\otimes\ket{-}\\
+      =&\ket{--}
+      \end{align}
+      ```
+
+      #### $\ket{-+} \overset{CNOT}{\rightarrow} \ket{-+}$
+
+      ```math
+      \begin{align}
+      CNOT\ket{-+}=& CNOT\frac{1}{2}\left((\ket{0}-\ket{1})\otimes(\ket{0}+\ket{1})\right)\\
+      =& CNOT\frac{1}{2}\left(\ket{00}+\ket{01}-\ket{10}-\ket{11}\right)\\
+      =&\frac{1}{2}\left(CNOT\ket{00}+CNOT\ket{01}-CNOT\ket{10}-CNOT\ket{11}\right)\\
+      =&\frac{1}{2}\left(\ket{00}+\ket{01}-\ket{11}-\ket{10}\right)\\
+      =&\frac{1}{2}\left(\ket{00}+\ket{01}-\ket{10}-\ket{11}\right)\\
+      =&\frac{1}{2}\left((\ket{0}-\ket{1})\otimes(\ket{0}+\ket{1})\right)\\
+      =&\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\\
+      =&\ket{-}\otimes\ket{+}\\
+      =&\ket{-+}
+      \end{align}
+      ```
+
+      #### $\ket{--} \overset{CNOT}{\rightarrow} \ket{+-}$
+
+      ```math
+      \begin{align}
+      CNOT\ket{--}=& CNOT\frac{1}{2}\left((\ket{0}-\ket{1})\otimes(\ket{0}-\ket{1})\right)\\
+      =& CNOT\frac{1}{2}\left(\ket{00}-\ket{01}-\ket{10}+\ket{11}\right)\\
+      =&\frac{1}{2}\left(CNOT\ket{00}-CNOT\ket{01}-CNOT\ket{10}+CNOT\ket{11}\right)\\
+      =&\frac{1}{2}\left(\ket{00}-\ket{01}-\ket{11}+\ket{10}\right)\\
+      =&\frac{1}{2}\left(\ket{00}-\ket{01}+\ket{10}-\ket{11}\right)\\
+      =&\frac{1}{2}\left((\ket{0}+\ket{1})\otimes(\ket{0}-\ket{1})\right)\\
+      =&\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})\\
+      =&\ket{+}\otimes\ket{-}\\
+      =&\ket{+-}
+      \end{align}
+      ```
     </Box>
   </TabItem>
   <TabItem label='Qiskit'>
@@ -160,6 +146,8 @@ Toffoli=\begin{bmatrix}
 La puerta Toffoli puede ser generalizada para múltiples cubits de control y múltiples cubits objetivo. En este caso, la puerta aplica un NOT a el/los cubit/s objetivo solo si todos los cubits de control están en el estado $\ket{1}$. 
 
 Los puntos negros representan que la puerta se activa con 1, mientras que los puntos blancos o sin relleno implican que la puerta se activa con 0.
+
+### Ejemplos
 
 <Tabs>
   <TabItem label='Quirk'>

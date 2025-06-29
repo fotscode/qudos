@@ -51,223 +51,7 @@ donde $\alpha$ y $\beta$ son las amplitudes y $\varphi$ la rotación relativa de
 
 Un aspecto a tener en cuenta es que la inversa de la puerta Hadamard es la propia Hadamard. Esto implica que aplicar dos veces Hadamard resultaría en una identidad.
 
-<Collapsible title="Conversiones de estados base" level="h6">
-
-A continuación se detallarán las pruebas matemáticas de las conversiones de un estado base a otro utilizando la puerta Hadamard.
-
-#### $\ket{0} \overset{H}{\rightarrow} \ket{+}$
-
-**Prueba:**
-
-```math
-\begin{align}
-H\ket{0} = &
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1&1\\
-1&-1
-\end{bmatrix}
-\begin{bmatrix}
-1\\
-0
-\end{bmatrix}\\
-=&
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1\\
-1
-\end{bmatrix}\\
-=&
-\frac{1}{\sqrt{2}}
-\left(\begin{bmatrix}
-1\\
-0
-\end{bmatrix}+
-\begin{bmatrix}
-0\\
-1
-\end{bmatrix}\right)\\
-=&
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1\\
-0
-\end{bmatrix}+
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-0\\
-1
-\end{bmatrix}\\
-=&
-\frac{1}{\sqrt{2}}\ket{0}+
-\frac{1}{\sqrt{2}}\ket{1}\\
-=&\ket{+}
-\end{align}
-```
-
-#### $\ket{1} \overset{H}{\rightarrow} \ket{-}$
-
-**Prueba:**
-
-```math
-\begin{align}
-H\ket{1} = &
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1&1\\
-1&-1
-\end{bmatrix}
-\begin{bmatrix}
-0\\
-1
-\end{bmatrix}\\
-=&
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1\\
--1
-\end{bmatrix}\\
-=&
-\frac{1}{\sqrt{2}}
-\left(\begin{bmatrix}
-1\\
-0
-\end{bmatrix}-
-\begin{bmatrix}
-0\\
-1
-\end{bmatrix}\right)\\
-=&
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1\\
-0
-\end{bmatrix}-
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-0\\
-1
-\end{bmatrix}\\
-=&
-\frac{1}{\sqrt{2}}\ket{0}-
-\frac{1}{\sqrt{2}}\ket{1}\\
-=&\ket{-}
-\end{align}
-```
-
-#### $\ket{+} \overset{H}{\rightarrow} \ket{0}$
-
-**Prueba:**
-
-```math
-\begin{align}
-H\ket{+}=&
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1&1\\
-1&-1
-\end{bmatrix}\left(
-\frac{1}{\sqrt{2}}\ket{0}+
-\frac{1}{\sqrt{2}}\ket{1}
-\right)\\
-=&
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1&1\\
-1&-1
-\end{bmatrix}\frac{1}{\sqrt{2}}\left(
-\begin{bmatrix}
-1\\
-0
-\end{bmatrix}+
-
-\begin{bmatrix}
-0\\
-1
-\end{bmatrix}
-\right)\\
-=&
-\frac{1}{2}
-\begin{bmatrix}
-1&1\\
-1&-1
-\end{bmatrix}
-\begin{bmatrix}
-1\\
-1
-\end{bmatrix}\\
-=&
-\frac{1}{2}
-\begin{bmatrix}
-2\\
-0
-\end{bmatrix}\\
-=&
-\begin{bmatrix}
-1\\
-0
-\end{bmatrix}\\
-=&\ket{0}
-\end{align}
-```
-
-#### $\ket{-} \overset{H}{\rightarrow} \ket{1}$
-
-**Prueba:**
-
-```math
-\begin{align}
-H\ket{-}=&
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1&1\\
-1&-1
-\end{bmatrix}\left(
-\frac{1}{\sqrt{2}}\ket{0}-
-\frac{1}{\sqrt{2}}\ket{1}
-\right)\\
-=&
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1&1\\
-1&-1
-\end{bmatrix}\frac{1}{\sqrt{2}}\left(
-\begin{bmatrix}
-1\\
-0
-\end{bmatrix}-
-
-\begin{bmatrix}
-0\\
-1
-\end{bmatrix}
-\right)\\
-=&
-\frac{1}{2}
-\begin{bmatrix}
-1&1\\
-1&-1
-\end{bmatrix}
-\begin{bmatrix}
-1\\
--1
-\end{bmatrix}\\
-=&
-\frac{1}{2}
-\begin{bmatrix}
-0\\
-2
-\end{bmatrix}\\
-=&
-\begin{bmatrix}
-0\\
-1
-\end{bmatrix}\\
-=&\ket{1}
-\end{align}
-```
-
-</Collapsible>
+## Ejemplos
 
 <Tabs>
   <TabItem label='Quirk'>
@@ -277,13 +61,218 @@ H\ket{-}=&
   </TabItem>
   <TabItem label='Dirac'>
     <Box>
-        Como resultado de las conversiones de estados base.
-        
+        A continuación se detallarán las pruebas matemáticas de las conversiones de un estado base a otro utilizando la puerta Hadamard.
+
+        #### $\ket{0} \overset{H}{\rightarrow} \ket{+}$
+
+        **Prueba:**
+
         ```math
-        H\ket{0}=\ket{+}\\
-        H\ket{+}=\ket{0}\\
-        H\ket{1}=\ket{-}\\
-        H\ket{-}=\ket{1}\\
+        \begin{align}
+        H\ket{0} = &
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1&1\\
+        1&-1
+        \end{bmatrix}
+        \begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}\\
+        =&
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1\\
+        1
+        \end{bmatrix}\\
+        =&
+        \frac{1}{\sqrt{2}}
+        \left(\begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}+
+        \begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}\right)\\
+        =&
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}+
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}\\
+        =&
+        \frac{1}{\sqrt{2}}\ket{0}+
+        \frac{1}{\sqrt{2}}\ket{1}\\
+        =&\ket{+}
+        \end{align}
+        ```
+
+        #### $\ket{1} \overset{H}{\rightarrow} \ket{-}$
+
+        **Prueba:**
+
+        ```math
+        \begin{align}
+        H\ket{1} = &
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1&1\\
+        1&-1
+        \end{bmatrix}
+        \begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}\\
+        =&
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1\\
+        -1
+        \end{bmatrix}\\
+        =&
+        \frac{1}{\sqrt{2}}
+        \left(\begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}-
+        \begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}\right)\\
+        =&
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}-
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}\\
+        =&
+        \frac{1}{\sqrt{2}}\ket{0}-
+        \frac{1}{\sqrt{2}}\ket{1}\\
+        =&\ket{-}
+        \end{align}
+        ```
+
+        #### $\ket{+} \overset{H}{\rightarrow} \ket{0}$
+
+        **Prueba:**
+
+        ```math
+        \begin{align}
+        H\ket{+}=&
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1&1\\
+        1&-1
+        \end{bmatrix}\left(
+        \frac{1}{\sqrt{2}}\ket{0}+
+        \frac{1}{\sqrt{2}}\ket{1}
+        \right)\\
+        =&
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1&1\\
+        1&-1
+        \end{bmatrix}\frac{1}{\sqrt{2}}\left(
+        \begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}+
+
+        \begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}
+        \right)\\
+        =&
+        \frac{1}{2}
+        \begin{bmatrix}
+        1&1\\
+        1&-1
+        \end{bmatrix}
+        \begin{bmatrix}
+        1\\
+        1
+        \end{bmatrix}\\
+        =&
+        \frac{1}{2}
+        \begin{bmatrix}
+        2\\
+        0
+        \end{bmatrix}\\
+        =&
+        \begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}\\
+        =&\ket{0}
+        \end{align}
+        ```
+
+        #### $\ket{-} \overset{H}{\rightarrow} \ket{1}$
+
+        **Prueba:**
+
+        ```math
+        \begin{align}
+        H\ket{-}=&
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1&1\\
+        1&-1
+        \end{bmatrix}\left(
+        \frac{1}{\sqrt{2}}\ket{0}-
+        \frac{1}{\sqrt{2}}\ket{1}
+        \right)\\
+        =&
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1&1\\
+        1&-1
+        \end{bmatrix}\frac{1}{\sqrt{2}}\left(
+        \begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}-
+
+        \begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}
+        \right)\\
+        =&
+        \frac{1}{2}
+        \begin{bmatrix}
+        1&1\\
+        1&-1
+        \end{bmatrix}
+        \begin{bmatrix}
+        1\\
+        -1
+        \end{bmatrix}\\
+        =&
+        \frac{1}{2}
+        \begin{bmatrix}
+        0\\
+        2
+        \end{bmatrix}\\
+        =&
+        \begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}\\
+        =&\ket{1}
+        \end{align}
         ```
     </Box>
   </TabItem>
@@ -353,6 +342,8 @@ F_2=\frac{1}{\sqrt{2}}\begin{bmatrix}
 La variante condicional de Hadamard es llamada **CH**. 
 
 Los puntos negros representan que la puerta **H** se activa con $1$, mientras que los puntos blancos o sin relleno implican que la puerta **H** se activa con $0$. 
+
+### Ejemplos
 
 <Tabs>
   <TabItem label='Quirk'>

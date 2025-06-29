@@ -54,76 +54,7 @@ De esta manera queda demostrado que es imposible clonar perfectamente un estado 
 
 Este resultado es conocido como el teorema de no clonación. 
 
-
-{/* 
-
-Thomas Wong (4.4.4, page 165):
-
-Classically, it is easy to copy or clone information by reading each bit and writing
-it somewhere. In quantum computing, cloning cubits is more complicated. Say we
-have a cubit in some superposition state. If we measure it in the Z-basis, we get |0⟩
-or |1⟩ with some probability. So, we do not learn the original superposition state.
-Furthermore, the measurement collapses the state to |0⟩ or |1⟩, meaning we lost
-whatever superposition state we originally had.
-To investigate this in greater detail, say we have a cubit in a known quantum
-state, such as |+⟩. Since we know its state, we can produce additional copies of it
-
-```math
-\ket{+}\ket{0} \overset{I \otimes H}{\rightarrow} \ket{+}\ket{+}
-```
-
-We went from having one copy to two. So, copying a known quantum state is no
-problem.
-The issue is copying an unknown quantum state. Say we have a cubit in an un-
-known quantum state |ψ⟩ = α|0⟩ + β |1⟩, and we would like to make a copy of it
-
-```math
-\ket{\psi}\ket{0} \rightarrow \ket{\psi}\ket{\psi}
-```
-
-Say there is a unitary U that is able to clone cubits in two known states |ψ⟩ and
-|φ ⟩. That is,
-
-```math
-U\ket{\psi}\ket{0} = \ket{\psi}\ket{\psi}
-U\ket{\phi}\ket{0} = \ket{\phi}\ket{\phi}
-```
-
-Taking the inner product of the previous two equations,
-
-```math
-\bra{\psi}\bra{0}U^\dagger U\ket{\phi}\ket{0} = \bra{\psi}\bra{\psi}\ket{\phi}\ket{\phi}\\
-\bra{\psi}\bra{0}\ket{\phi}\ket{0} = \bra{\psi}\bra{\psi}\ket{\phi}\ket{\phi}\\
-\bra{\psi}\ket{\phi}\bra{0}\ket{0} = \bra{\psi}\ket{\phi}\bra{\psi}\ket{\phi}\\
-\bra{\psi}\ket{\phi} = (\bra{\psi}\ket{\phi})^2\\
-```
-
-For ⟨ψ|φ ⟩ to be equal to its square, it must equal 0 or 1. Thus, |ψ⟩ = |φ ⟩, or |ψ⟩ and |φ ⟩ are
-orthogonal. Thus, an operator can only clone states that are orthogonal.
-
-Recall that states orthogonal are those for which the inner product between them gives 0.
-
-This result is called the no-cloning theorem. While classical information can be
-cloned, quantum information can not generally be cloned.
-Using this theorem, some scientists have proposed quantum software that cannot
-be copied or pirated, and quantum money that cannot be copied or counterfeited,
-but that is beyond the scope of this textbook
-
-
-Nielsen (Box 12.1, page 532):
-
-But x = x^2 has only two solutions, x = 0 and x = 1, so either |ψ> = |ϕ> or |ψ> and
-|ϕ> are orthogonal. Thus a cloning device can only clone states which are orthogonal
-to one another, and therefore a general quantum cloning device is impossible. A
-potential quantum cloner cannot, for example, clone the cubit states |ψ> = |0> and
-|ϕ> = (|0> + |1>)/√2, since these states are not orthogonal.
-What we have shown is that it is impossible to perfectly clone an unknown quantum
-state using unitary evolution.
-
-*/}
-
-
-## Mas información
+## Más información
 
 <Recommendations />
 <BibItem id='wong' prefix='Capítulo 4.4.4, ' rate='r' />

@@ -75,141 +75,7 @@ La versión general de la aplicación de la puerta es la siguiente:
 
 Por lo que intercambia las amplitudes entre los estados base $\ket{0}$ y $\ket{1}$.
 
-<Collapsible title="Conversiones de estados base" level="h6">
-
-A continuación se detallarán las pruebas matemáticas de las conversiones de un estado base a otro utilizando la puerta NOT cuántica.
-
-#### $\ket{0} \overset{X}{\rightarrow} \ket{1}$
-
-```math
-\begin{align}
-X\ket{0}&=\begin{bmatrix}
-0&1\\
-1&0
-\end{bmatrix}\begin{bmatrix}
-1\\
-0
-\end{bmatrix}\\
-&=\begin{bmatrix}
-0\\
-1
-\end{bmatrix}=\ket{1}
-\end{align}
-```
-
-#### $\ket{1} \overset{X}{\rightarrow} \ket{0}$
-
-```math
-\begin{align}
-X\ket{1}&=\begin{bmatrix}
-0&1\\
-1&0
-\end{bmatrix}\begin{bmatrix}
-0\\
-1
-\end{bmatrix}\\
-&=\begin{bmatrix}
-1\\
-0
-\end{bmatrix}=\ket{0}
-\end{align}
-```
-
-#### $\ket{+} \overset{X}{\rightarrow} \ket{+}$
-
-```math
-\begin{align}
-X\ket{+}&=\begin{bmatrix}
-0&1\\
-1&0
-\end{bmatrix}
-\frac{1}{\sqrt{2}}\left(\begin{bmatrix}
-1\\
-0
-\end{bmatrix}+\begin{bmatrix}
-0\\
-1
-\end{bmatrix}\right)\\
-&=
-\frac{1}{\sqrt{2}}\left(\begin{bmatrix}
-0&1\\
-1&0
-\end{bmatrix}\begin{bmatrix}
-1\\
-0
-\end{bmatrix}+\begin{bmatrix}
-0&1\\
-1&0
-\end{bmatrix}\begin{bmatrix}
-0\\
-1
-\end{bmatrix}\right)\\
-&=
-\frac{1}{\sqrt{2}}\left(\begin{bmatrix}
-0\\
-1
-\end{bmatrix}+
-\begin{bmatrix}
-1\\
-0
-\end{bmatrix}\right)\\
-&=
-\frac{1}{\sqrt{2}}(\ket{1}+\ket{0})\\
-&=
-\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})=\ket{+}
-\end{align}
-```
-
-#### $\ket{-} \overset{X}{\rightarrow} \ket{-}$
-
-```math
-\begin{align}
-X\ket{-}&=\begin{bmatrix}
-0&1\\
-1&0
-\end{bmatrix}
-\frac{1}{\sqrt{2}}\left(\begin{bmatrix}
-1\\
-0
-\end{bmatrix}-\begin{bmatrix}
-0\\
-1
-\end{bmatrix}\right)\\
-&=
-\frac{1}{\sqrt{2}}\left(\begin{bmatrix}
-0&1\\
-1&0
-\end{bmatrix}\begin{bmatrix}
-1\\
-0
-\end{bmatrix}-\begin{bmatrix}
-0&1\\
-1&0
-\end{bmatrix}\begin{bmatrix}
-0\\
-1
-\end{bmatrix}\right)\\
-&=
-\frac{1}{\sqrt{2}}\left(\begin{bmatrix}
-0\\
-1
-\end{bmatrix}-
-\begin{bmatrix}
-1\\
-0
-\end{bmatrix}\right)\\
-&=
-\frac{1}{\sqrt{2}}(\ket{1}-\ket{0})\\
-&=
-\frac{1}{\sqrt{2}}(-\ket{0}+\ket{1})\\
-&=
-\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})=\ket{-}
-\end{align}
-```
-
-Los últimos dos pasos se cumplen por quitar como factor el negativo y obviando la fase global.
-
-</Collapsible>
+### Ejemplos
 
 <Tabs>
   <TabItem label='Quirk'>
@@ -220,14 +86,137 @@ Los últimos dos pasos se cumplen por quitar como factor el negativo y obviando 
   </TabItem>
   <TabItem label="Dirac">
     <Box>
-        Como resultado de las conversiones de estados base.
+        A continuación se detallarán las pruebas matemáticas de las conversiones de un estado base a otro utilizando la puerta NOT cuántica.
+
+        #### $\ket{0} \overset{X}{\rightarrow} \ket{1}$
 
         ```math
-        X\ket{0}=\ket{1}\\
-        X\ket{1}=\ket{0}\\
-        X\ket{+}=\ket{+}\\
-        X\ket{-}=\ket{-}
+        \begin{align}
+        X\ket{0}&=\begin{bmatrix}
+        0&1\\
+        1&0
+        \end{bmatrix}\begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}\\
+        &=\begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}=\ket{1}
+        \end{align}
         ```
+
+        #### $\ket{1} \overset{X}{\rightarrow} \ket{0}$
+
+        ```math
+        \begin{align}
+        X\ket{1}&=\begin{bmatrix}
+        0&1\\
+        1&0
+        \end{bmatrix}\begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}\\
+        &=\begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}=\ket{0}
+        \end{align}
+        ```
+
+        #### $\ket{+} \overset{X}{\rightarrow} \ket{+}$
+
+        ```math
+        \begin{align}
+        X\ket{+}&=\begin{bmatrix}
+        0&1\\
+        1&0
+        \end{bmatrix}
+        \frac{1}{\sqrt{2}}\left(\begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}+\begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}\right)\\
+        &=
+        \frac{1}{\sqrt{2}}\left(\begin{bmatrix}
+        0&1\\
+        1&0
+        \end{bmatrix}\begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}+\begin{bmatrix}
+        0&1\\
+        1&0
+        \end{bmatrix}\begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}\right)\\
+        &=
+        \frac{1}{\sqrt{2}}\left(\begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}+
+        \begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}\right)\\
+        &=
+        \frac{1}{\sqrt{2}}(\ket{1}+\ket{0})\\
+        &=
+        \frac{1}{\sqrt{2}}(\ket{0}+\ket{1})=\ket{+}
+        \end{align}
+        ```
+
+        #### $\ket{-} \overset{X}{\rightarrow} \ket{-}$
+
+        ```math
+        \begin{align}
+        X\ket{-}&=\begin{bmatrix}
+        0&1\\
+        1&0
+        \end{bmatrix}
+        \frac{1}{\sqrt{2}}\left(\begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}-\begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}\right)\\
+        &=
+        \frac{1}{\sqrt{2}}\left(\begin{bmatrix}
+        0&1\\
+        1&0
+        \end{bmatrix}\begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}-\begin{bmatrix}
+        0&1\\
+        1&0
+        \end{bmatrix}\begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}\right)\\
+        &=
+        \frac{1}{\sqrt{2}}\left(\begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}-
+        \begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}\right)\\
+        &=
+        \frac{1}{\sqrt{2}}(\ket{1}-\ket{0})\\
+        &=
+        \frac{1}{\sqrt{2}}(-\ket{0}+\ket{1})\\
+        &=
+        \frac{1}{\sqrt{2}}(\ket{0}-\ket{1})=\ket{-}
+        \end{align}
+        ```
+
+        Los últimos dos pasos se cumplen por quitar como factor el negativo y obviando la fase global.
     </Box>
 </TabItem>
   <TabItem label='Círculos'>
@@ -282,6 +271,8 @@ cos\left(\frac{\theta}{2}\right)&-i sin\left(\frac{\theta}{2}\right)\\
 -i sin\left(\frac{\theta}{2}\right)&cos\left(\frac{\theta}{2}\right)
 \end{bmatrix}
 ```
+
+### Ejemplos
 
 <Tabs>
   <TabItem label='Quirk'>

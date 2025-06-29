@@ -69,7 +69,7 @@ export default defineConfig({
                     ]
                 },
                 {
-                    label: 'Conceptos clave',
+                    label: 'Fundamentos',
                     items: [
                         {
                             label: 'Introducción',
@@ -121,7 +121,7 @@ export default defineConfig({
                         },
                         { label: 'Hadamard', slug: 'gates/hadamard' },
                         {
-                            label: 'CNOT',
+                            label: 'CNOT y Toffoli',
                             slug: 'gates/cnot',
                         },
                         {

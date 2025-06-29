@@ -55,119 +55,7 @@ La versión general de la aplicación de la puerta es la siguiente:
 
 Se dice que Pauli-Z aplica una fase relativa de $\pi$ radianes.
 
-<Collapsible title="Conversiones de estados base" level="h6">
-
-A continuación se detallarán las pruebas matemáticas de las conversiones de un estado base a otro utilizando la puerta Pauli-Z.
-
-#### $\ket{0} \overset{Z}{\rightarrow} \ket{0}$
-
-```math
-\begin{align}
-Z\ket{0}&=
-\begin{bmatrix}
-1&0\\
-0&-1
-\end{bmatrix}
-\begin{bmatrix}
-1\\
-0
-\end{bmatrix}\\
-&=
-\begin{bmatrix}
-1\\
-0
-\end{bmatrix}
-=\ket{0}
-\end{align}
-```
-
-#### $\ket{1} \overset{Z}{\rightarrow} \ket{1}$
-
-```math
-\begin{align}
-Z\ket{1}&=
-\begin{bmatrix}
-1&0\\
-0&-1
-\end{bmatrix}
-\begin{bmatrix}
-0\\
-1
-\end{bmatrix}\\
-&=
-\begin{bmatrix}
-0\\
-1
-\end{bmatrix}
-=\ket{1}
-\end{align}
-```
-
-#### $\ket{+} \overset{Z}{\rightarrow} \ket{-}$
-
-```math
-\begin{align}
-Z\ket{+}&=
-\begin{bmatrix}
-1&0\\
-0&-1
-\end{bmatrix}
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1\\
-1
-\end{bmatrix}\\
-&=
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1&0\\
-0&-1
-\end{bmatrix}
-\begin{bmatrix}
-1\\
-1
-\end{bmatrix}\\
-&=\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1\\
--1
-\end{bmatrix}=\ket{-}
-\end{align}
-```
-
-#### $\ket{-} \overset{Z}{\rightarrow} \ket{+}$
-
-```math
-\begin{align}
-Z\ket{-}&=
-\begin{bmatrix}
-1&0\\
-0&-1
-\end{bmatrix}
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1\\
--1
-\end{bmatrix}\\
-&=
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1&0\\
-0&-1
-\end{bmatrix}
-\begin{bmatrix}
-1\\
--1
-\end{bmatrix}\\
-&=\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1\\
-1
-\end{bmatrix}=\ket{+}
-\end{align}
-```
-
-</Collapsible>
+### Ejemplos
 
 <Tabs>
   <TabItem label='Quirk'>
@@ -177,13 +65,114 @@ Z\ket{-}&=
   </TabItem>
   <TabItem label="Dirac">
     <Box>
-        Como resultado de las conversiones de estados base.
+        A continuación se detallarán las pruebas matemáticas de las conversiones de un estado base a otro utilizando la puerta Pauli-Z.
+
+        #### $\ket{0} \overset{Z}{\rightarrow} \ket{0}$
 
         ```math
-        Z\ket{0}=\ket{0}\\
-        Z\ket{1}=\ket{1}\\
-        Z\ket{+}=\ket{-}\\
-        Z\ket{-}=\ket{+}
+        \begin{align}
+        Z\ket{0}&=
+        \begin{bmatrix}
+        1&0\\
+        0&-1
+        \end{bmatrix}
+        \begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}\\
+        &=
+        \begin{bmatrix}
+        1\\
+        0
+        \end{bmatrix}
+        =\ket{0}
+        \end{align}
+        ```
+
+        #### $\ket{1} \overset{Z}{\rightarrow} \ket{1}$
+
+        ```math
+        \begin{align}
+        Z\ket{1}&=
+        \begin{bmatrix}
+        1&0\\
+        0&-1
+        \end{bmatrix}
+        \begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}\\
+        &=
+        \begin{bmatrix}
+        0\\
+        1
+        \end{bmatrix}
+        =\ket{1}
+        \end{align}
+        ```
+
+        #### $\ket{+} \overset{Z}{\rightarrow} \ket{-}$
+
+        ```math
+        \begin{align}
+        Z\ket{+}&=
+        \begin{bmatrix}
+        1&0\\
+        0&-1
+        \end{bmatrix}
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1\\
+        1
+        \end{bmatrix}\\
+        &=
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1&0\\
+        0&-1
+        \end{bmatrix}
+        \begin{bmatrix}
+        1\\
+        1
+        \end{bmatrix}\\
+        &=\frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1\\
+        -1
+        \end{bmatrix}=\ket{-}
+        \end{align}
+        ```
+
+        #### $\ket{-} \overset{Z}{\rightarrow} \ket{+}$
+
+        ```math
+        \begin{align}
+        Z\ket{-}&=
+        \begin{bmatrix}
+        1&0\\
+        0&-1
+        \end{bmatrix}
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1\\
+        -1
+        \end{bmatrix}\\
+        &=
+        \frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1&0\\
+        0&-1
+        \end{bmatrix}
+        \begin{bmatrix}
+        1\\
+        -1
+        \end{bmatrix}\\
+        &=\frac{1}{\sqrt{2}}
+        \begin{bmatrix}
+        1\\
+        1
+        \end{bmatrix}=\ket{+}
+        \end{align}
         ```
     </Box>
   </TabItem>
@@ -269,6 +258,8 @@ T&=RotZ(\pi/4)=\begin{bmatrix}
 \end{align}
 ```
 Por otra parte, la inversa de estas puertas es equivalente a aplicar el ángulo opuesto (e.g $RotZ(-\pi)$ en el caso de Z).
+
+### Ejemplos
 
 <Tabs>
   <TabItem label='Quirk'>

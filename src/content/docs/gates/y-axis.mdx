@@ -63,126 +63,7 @@ i\alpha
 
 Por lo que intercambia las amplitudes entre los estados base $\ket{0}$ y $\ket{1}$ y le aplica un cambio a la fase relativa de $\pi$ radianes. Es decir, es equivalente a aplicar en conjunto <a href={`${import.meta.env.BASE_URL}/gates/x-axis#pauli-x`}>Pauli-X</a> seguido por <a href={`${import.meta.env.BASE_URL}/gates/z-axis#pauli-z`}>Pauli-Z</a>, o al revés.
 
-<Collapsible title="Conversiones de estados base" level="h6">
-
-A continuacion se detallarán las pruebas matemáticas de las conversiones de un estado base a otro utilizando la puerta Pauli-Y.
-
-#### $\ket{0} \overset{Y}{\rightarrow} \ket{1}$
-
-```math
-\begin{align}
-Y\ket{0}&=\begin{bmatrix}
-0&-i\\
-i&0
-\end{bmatrix}\begin{bmatrix}
-1\\
-0
-\end{bmatrix}\\
-&=\begin{bmatrix}
-0\\
-i
-\end{bmatrix}\\
-&=i\ket{1}=\ket{1}
-\end{align}
-```
-
-#### $\ket{1} \overset{Y}{\rightarrow} \ket{0}$
-
-```math
-\begin{align}
-Y\ket{1}&=\begin{bmatrix}
-0&-i\\
-i&0
-\end{bmatrix}\begin{bmatrix}
-0\\
-1
-\end{bmatrix}\\
-&=\begin{bmatrix}
--i\\
-0
-\end{bmatrix}\\
-&=-i\ket{0}=\ket{0}
-\end{align}
-```
-
-#### $\ket{+} \overset{Y}{\rightarrow} \ket{-}$
-
-```math
-\begin{align}
-Y\ket{+}&=\begin{bmatrix}
-0&-i\\
-i&0
-\end{bmatrix}
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1\\
-1
-\end{bmatrix}\\
-&=
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-0&-i\\
-i&0
-\end{bmatrix}
-\begin{bmatrix}
-1\\
-1
-\end{bmatrix}\\
-&=
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
--i\\
-i
-\end{bmatrix}\\
-&=
-(-i)\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1\\
--1
-\end{bmatrix}\\
-&=-i\ket{-}=\ket{-}
-\end{align}
-```
-#### $\ket{-} \overset{Y}{\rightarrow} \ket{+}$
-
-```math
-\begin{align}
-Y\ket{-}&=\begin{bmatrix}
-0&-i\\
-i&0
-\end{bmatrix}
-\frac{1}{\sqrt{2}}\begin{bmatrix}
-1\\
--1
-\end{bmatrix}\\
-&=
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-0&-i\\
-i&0
-\end{bmatrix}
-\begin{bmatrix}
-1\\
--1
-\end{bmatrix}\\
-&=
-\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-i\\
-i
-\end{bmatrix}\\
-&=
-(i)\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-1\\1
-\end{bmatrix}\\
-&=i\ket{+}=\ket{+}
-\end{align}
-```
-Notar que en todas estas ocasiones se elimina $i$ e $-i$ respectivamente, ya que aplican una fase global que no es medible al leer el estado.
-
-</Collapsible>
-
+### Ejemplos
 
 <Tabs>
   <TabItem label='Quirk'>
@@ -193,14 +74,121 @@ Notar que en todas estas ocasiones se elimina $i$ e $-i$ respectivamente, ya que
   </TabItem>
   <TabItem label="Dirac">
     <Box>
-        Como resultado de las conversiones de estados base.
+      A continuación se detallarán las pruebas matemáticas de las conversiones de un estado base a otro utilizando la puerta Pauli-Y.
 
-        ```math
-        Y\ket{0}=i\ket{1}\\
-        Y\ket{1}=-i\ket{0}\\
-        Y\ket{+}=-i\ket{-}\\
-        Y\ket{-}=i\ket{+}
-        ```
+      #### $\ket{0} \overset{Y}{\rightarrow} \ket{1}$
+
+      ```math
+      \begin{align}
+      Y\ket{0}&=\begin{bmatrix}
+      0&-i\\
+      i&0
+      \end{bmatrix}\begin{bmatrix}
+      1\\
+      0
+      \end{bmatrix}\\
+      &=\begin{bmatrix}
+      0\\
+      i
+      \end{bmatrix}\\
+      &=i\ket{1}=\ket{1}
+      \end{align}
+      ```
+
+      #### $\ket{1} \overset{Y}{\rightarrow} \ket{0}$
+
+      ```math
+      \begin{align}
+      Y\ket{1}&=\begin{bmatrix}
+      0&-i\\
+      i&0
+      \end{bmatrix}\begin{bmatrix}
+      0\\
+      1
+      \end{bmatrix}\\
+      &=\begin{bmatrix}
+      -i\\
+      0
+      \end{bmatrix}\\
+      &=-i\ket{0}=\ket{0}
+      \end{align}
+      ```
+
+      #### $\ket{+} \overset{Y}{\rightarrow} \ket{-}$
+
+      ```math
+      \begin{align}
+      Y\ket{+}&=\begin{bmatrix}
+      0&-i\\
+      i&0
+      \end{bmatrix}
+      \frac{1}{\sqrt{2}}
+      \begin{bmatrix}
+      1\\
+      1
+      \end{bmatrix}\\
+      &=
+      \frac{1}{\sqrt{2}}
+      \begin{bmatrix}
+      0&-i\\
+      i&0
+      \end{bmatrix}
+      \begin{bmatrix}
+      1\\
+      1
+      \end{bmatrix}\\
+      &=
+      \frac{1}{\sqrt{2}}
+      \begin{bmatrix}
+      -i\\
+      i
+      \end{bmatrix}\\
+      &=
+      (-i)\frac{1}{\sqrt{2}}
+      \begin{bmatrix}
+      1\\
+      -1
+      \end{bmatrix}\\
+      &=-i\ket{-}=\ket{-}
+      \end{align}
+      ```
+      #### $\ket{-} \overset{Y}{\rightarrow} \ket{+}$
+
+      ```math
+      \begin{align}
+      Y\ket{-}&=\begin{bmatrix}
+      0&-i\\
+      i&0
+      \end{bmatrix}
+      \frac{1}{\sqrt{2}}\begin{bmatrix}
+      1\\
+      -1
+      \end{bmatrix}\\
+      &=
+      \frac{1}{\sqrt{2}}
+      \begin{bmatrix}
+      0&-i\\
+      i&0
+      \end{bmatrix}
+      \begin{bmatrix}
+      1\\
+      -1
+      \end{bmatrix}\\
+      &=
+      \frac{1}{\sqrt{2}}
+      \begin{bmatrix}
+      i\\
+      i
+      \end{bmatrix}\\
+      &=
+      (i)\frac{1}{\sqrt{2}}
+      \begin{bmatrix}
+      1\\1
+      \end{bmatrix}\\
+      &=i\ket{+}=\ket{+}
+      \end{align}
+      ```
+      Notar que en todas estas ocasiones se elimina $i$ e $-i$ respectivamente, ya que aplican una fase global que no es medible al leer el estado.
     </Box>
   </TabItem>
   <TabItem label='Círculos'>
@@ -264,6 +252,8 @@ cos\left(\frac{\theta}{2}\right)&- sin\left(\frac{\theta}{2}\right)\\
 sin\left(\frac{\theta}{2}\right)&cos\left(\frac{\theta}{2}\right)
 \end{bmatrix}
 ```
+
+### Ejemplos
 
 <Tabs>
   <TabItem label='Quirk'>
