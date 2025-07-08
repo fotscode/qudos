@@ -94,9 +94,9 @@ Los componentes funcionales de este algoritmo se pueden a reducir a los siguient
 
 2. <Badge text="Clásico" />: Si $N$ es una potencia de números primos, existe un [algoritmo clásico eficiente](https://mathoverflow.net/questions/106313/algorithm-for-detecting-prime-powers) para obtener $r$ y por lo tanto los factores $p$ y $q$. Terminar.
 
-3. <Badge text="Clásico" />: Si $N$ no es par ni una potencia de números primos, obtener un número entre $1 < x < N$, tal que $s=gcd(x,N)$. Si $s\neq 1$, entonces $p=s$ y $q=N/s$. Terminar.
+3. <Badge text="Clásico" />: Si $N$ no es par ni una potencia de números primos, obtener un número entre $1 < x < N$, tal que $v=gcd(x,N)$. Si $v\neq 1$, entonces $p=v$ y $q=N/v$. Terminar.
 
-4. <Badge text="Cuántico" variant="tip" />: Si $s=1$ *(son coprimos)*, obtener $\widetilde{s/r}$ usando la subrutina cuántica de <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fases</a>.
+4. <Badge text="Cuántico" variant="tip" />: Si $v=1$ *(son coprimos)*, obtener $\widetilde{s/r}$ usando la subrutina cuántica de <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fases</a>.
 
 5. <Badge text="Clásico" />: Obtener $r$ de $\widetilde{s/r}$ utilizando el algoritmo de **fracciones continuas**.
 
@@ -122,9 +122,9 @@ Verificar que el número sea primo antes de empezar es ideal para evitar la bús
 
 Por otra parte, si $N$ es una potencia de números primos, es decir $N=c^k$ siendo $c$ un número primo, se puede obtener su exponente $k$ con un algoritmo clásico eficiente. Así, $p=c$ y $q=c^{k-1}$.
 
-Generar un valor aleatorio de $x$ tal que $1 < x < N$. Verificar $s=gcd(x,N)$, si $s$ es diferente a $1$, significa que no son coprimos, por lo que $s$ es un factor, obteniendo $p=s$ y $q=N/s$.
+Generar un valor aleatorio de $x$ tal que $1 < x < N$. Verificar $v=gcd(x,N)$, si $v$ es diferente a $1$, significa que no son coprimos, por lo que $v$ es un factor, obteniendo $p=v$ y $q=N/v$.
 
-Si $s=1$, se procede a la estimación de fases aplicada a $x$.
+Si $v=1$, se procede a la estimación de fases aplicada a $x$.
 
 ### Estimación de fases aplicado al candidato 
 
