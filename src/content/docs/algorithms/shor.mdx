@@ -38,9 +38,9 @@ La aplicación más destacada está en la criptografía, ya que amenaza la segur
 
 El objetivo del algoritmo de Shor es encontrar los factores de un número entero compuesto $N$. 
 
-La clave del algoritmo radica en la identificación del período de la función $f(r) = x^r\ mod\ N$, donde $N$ es el número que queremos factorizar, $x$ es un numero elegido al azar que es coprimo de $N$ (es decir, $x$ y $N$ no comparten factores primos), y $1<x<N$.
+La clave del algoritmo radica en identificar el período de la función $f(r) = x^r\ mod\ N$, donde $N$ es el número que se quiere factorizar, $x$ es un número elegido al azar tal que $1<x<N$ y $x$ es coprimo de $N$ (es decir, $x$ y $N$ no comparten factores primos),  y $r$ es el período buscado.
 
-Para lograrlo, utiliza un enfoque híbrido que combina cálculos clásicos con un subrutina cuántica basada en la <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fases</a>.
+Para lograrlo, utiliza un enfoque híbrido que combina cálculos clásicos con una subrutina cuántica basada en la <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fases</a>.
 
 ## Intuición
 
