@@ -4,4 +4,4 @@ Qudos surge como parte de una tesina de licenciatura en informática de los auto
 
 Se ofrece un espacio donde diversas representaciones de conceptos cuánticos se integren y se presenten de manera clara, ofreciendo distintas formas de aprender la misma idea. Para esto se utilizan simuladores cuánticos interactivos (utilizando [Quirk](https://algassert.com/quirk)), fragmentos de código junto a sus resultados y distintas notaciones utilizadas por diversas bibliografías.
 
-![logo de qudos](./public/favicon.svg)
+![logo de qudos](./public/logo.svg)

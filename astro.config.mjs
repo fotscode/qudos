@@ -9,6 +9,7 @@ const googleAnalyticsId = 'G-2TSNFLLBJE'
 export default defineConfig({
     integrations: [
         starlight({
+            favicon: '/favicon.png',
             head: [
               // Adding google analytics
               {
