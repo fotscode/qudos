@@ -27,7 +27,7 @@ hero:
 ---
 import { CardGrid, Card } from '@astrojs/starlight/components';
 
-<CardGrid stagger>
+<CardGrid>
 	<Card title="Guía de estudio" icon="open-book">
         Qudos acerca la computación cuántica a estudiantes, investigadores y entusiastas, proporcionando una forma autodidacta de aprender, con una hoja de ruta que actúa como guía.
 	</Card>
@@ -42,18 +42,50 @@ import { CardGrid, Card } from '@astrojs/starlight/components';
 	</Card>
 </CardGrid>
 
-<div style="display:flex;justify-content:center; margin-top:50px" data-page-ignore>
-    <h2>Origen e inspiración</h2>
-</div>
+<h2 class="qd-section-title" data-page-ignore>Origen e inspiración</h2>
+
+<div class="qd-callout">
 
 Qudos surge como parte de una tesina de licenciatura en informática de los autores de este sitio. Inspirada en el proyecto [Quantum Katas de Microsoft](https://quantum.microsoft.com/en-us/experience/quantum-katas), su propósito es proporcionar un recurso abierto y colaborativo dirigido a la comunidad hispanohablante, que pueda crecer y evolucionar con el tiempo. Esta enciclopedia tiene como objetivo simplificar el acceso a la computación cuántica y facilitar su aprendizaje. 
 
 Se ofrece un espacio donde diversas representaciones de conceptos cuánticos se integran y se presentan de manera clara, ofreciendo distintas formas de aprender. Para esto se utilizan simuladores cuánticos interactivos (utilizando [Quirk](https://algassert.com/quirk)), fragmentos de código junto a sus resultados y distintas notaciones utilizados por diversas bibliografías.
 
-<div style="display:flex;justify-content:center; margin-top:50px" data-page-ignore>
-    <h2>Contenido</h2>
 </div>
+
+<h2 class="qd-section-title" data-page-ignore>Contenido</h2>
 
 Qudos reúne contenido que comprende una base introductoria en la computación cuántica, desde una perspectiva puramente teórica. No se focaliza en aspectos de hardware cuántico, técnicas de corrección de errores, lenguajes y frameworks para el desarrollo de programas, ni consideraciones de verificación formal y complejidad computacional. Por su parte, se enfatiza el entendimiento de los conceptos básicos que rigen al cubit, protocolos, algoritmos y propiedades cuánticas, principalmente. 
 
 Se introducen nociones del cubit como su definición, propiedades y notaciones. Luego se extrapolan a sistemas de múltiples cubits, agregando nuevas propiedades como el entrelazamiento cuántico y la notación de circuitos cuánticos para representar algoritmos. Además, se introducen las puertas cuánticas más conocidas, junto con pruebas matemáticas que reflejan su funcionamiento, acudiendo a su notación matricial. En base al conocimiento introducido sobre las puertas y los estados cuánticos, se presentan los algoritmos más famosos. El <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa#deutsch`}>algoritmo de Deutsch</a> resuelve el problema de paridad, y es un gran ejemplo que muestra una mejora respecto de la mejor solución clásica. El <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa#deutsch-jozsa`}>algoritmo de Deutsch-Jozsa</a> generaliza la solución para determinar en orden constante si una función es constante o balanceada, y el <a href={`${import.meta.env.BASE_URL}/algorithms/bernstein-vazirani`}>algoritmo de Bernstein-Vazirani</a> usa el mismo circuito pero con distinto oráculo para resolver un problema diferente, lo cual muestra la posibilidad de reusar circuitos cuánticos. También se desarrolla el <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>algoritmo de Grover</a> debido a que ofrece una mejora cuadrática en la búsqueda de elementos sobre un espacio no estructurado. Por último, se explica el <a href={`${import.meta.env.BASE_URL}/algorithms/shor`}>algoritmo de Shor</a> por su gran relevancia en el mundo de la computación cuántica. A su vez, se ofrece un conjunto de primitivas que se pretende sean reusables para los desarrolladores cuánticos. Entre ellas, la <a href={`${import.meta.env.BASE_URL}/primitives/superdense-coding`}>codificación superdensa</a>, <a href={`${import.meta.env.BASE_URL}/primitives/teleportation`}>teleportación cuántica</a>, <a href={`${import.meta.env.BASE_URL}/primitives/uncomputation`}>descomputación</a>, <a href={`${import.meta.env.BASE_URL}/primitives/amplitude-amplification`}>amplificación de amplitudes</a>, <a href={`${import.meta.env.BASE_URL}/primitives/fourier-transform`}>transformada de Fourier</a> y <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>estimación de fase</a>.
+
+<div class="qd-explore" data-page-ignore>
+    <div class="qd-explore-group">
+        <span>Fundamentos</span>
+        <div class="qd-chips">
+            <a href={`${import.meta.env.BASE_URL}/concepts/qubit`}>El Cubit</a>
+            <a href={`${import.meta.env.BASE_URL}/concepts/entanglement`}>Entrelazamiento</a>
+            <a href={`${import.meta.env.BASE_URL}/gates/introduction`}>Puertas cuánticas</a>
+        </div>
+    </div>
+    <div class="qd-explore-group">
+        <span>Algoritmos</span>
+        <div class="qd-chips">
+            <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa#deutsch`}>Deutsch</a>
+            <a href={`${import.meta.env.BASE_URL}/algorithms/deutsch-jozsa#deutsch-jozsa`}>Deutsch-Jozsa</a>
+            <a href={`${import.meta.env.BASE_URL}/algorithms/bernstein-vazirani`}>Bernstein-Vazirani</a>
+            <a href={`${import.meta.env.BASE_URL}/algorithms/grover`}>Grover</a>
+            <a href={`${import.meta.env.BASE_URL}/algorithms/shor`}>Shor</a>
+        </div>
+    </div>
+    <div class="qd-explore-group">
+        <span>Primitivas</span>
+        <div class="qd-chips">
+            <a href={`${import.meta.env.BASE_URL}/primitives/superdense-coding`}>Codificación superdensa</a>
+            <a href={`${import.meta.env.BASE_URL}/primitives/teleportation`}>Teleportación</a>
+            <a href={`${import.meta.env.BASE_URL}/primitives/uncomputation`}>Descomputación</a>
+            <a href={`${import.meta.env.BASE_URL}/primitives/amplitude-amplification`}>Amplificación de amplitudes</a>
+            <a href={`${import.meta.env.BASE_URL}/primitives/fourier-transform`}>Transformada de Fourier</a>
+            <a href={`${import.meta.env.BASE_URL}/primitives/phase-estimation`}>Estimación de fase</a>
+        </div>
+    </div>
+</div>

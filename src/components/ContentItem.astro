@@ -1,4 +1,5 @@
 ---
+import { Icon } from '@astrojs/starlight/components'
 const BASE_URL = import.meta.env.BASE_URL
 
 const contentMap = {
@@ -32,20 +33,28 @@ type AstroProps = {
 }
 const { id } = Astro.props as AstroProps
 const { title, url, target } = contentMap[id]
+// Display-only: drop the repeated " (Qudos) [Español]" suffix; contentMap keeps the full title.
+const label = title.replace(/\s*\(Qudos\)\s*\[Español\]\s*$/, '')
 ---
 <style>
-a {
+.content-item {
+    margin: 0.15rem 0 0 !important;
+}
+.content-item a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: var(--sl-text-sm);
+    font-weight: 500;
+    color: var(--sl-color-text-accent);
     text-decoration: none;
 }
-.flex-center{
-      display:flex;
-      justify-content:start;
-      align-items:center;
-      gap: 0.5rem;
+.content-item a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
 }
 </style>
 
-
-<div class="flex-center">
-    <div><a href={url} target={target}>{title}</a></div>
+<div class="content-item not-content">
+    <a href={url} target={target} title={title}><Icon name="right-arrow" size="0.9em" />{label}</a>
 </div>

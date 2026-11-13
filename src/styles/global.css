@@ -1,3 +1,201 @@
+/* ==========================================================================
+   Qudos theme — violet "quantum" palette shared by Starlight and components
+   ========================================================================== */
+
+:root {
+  /* Dark mode (Starlight default) */
+  --sl-color-accent-low: hsl(262, 45%, 18%);
+  --sl-color-accent: hsl(262, 90%, 66%);
+  --sl-color-accent-high: hsl(262, 100%, 86%);
+
+  --sl-color-white: hsl(0, 0%, 100%);
+  --sl-color-gray-1: hsl(250, 20%, 94%);
+  --sl-color-gray-2: hsl(250, 10%, 78%);
+  --sl-color-gray-3: hsl(250, 8%, 58%);
+  --sl-color-gray-4: hsl(250, 9%, 38%);
+  --sl-color-gray-5: hsl(250, 12%, 24%);
+  --sl-color-gray-6: hsl(250, 18%, 15%);
+  --sl-color-black: hsl(250, 20%, 9%);
+
+  --sl-font: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --qd-font-display: 'Space Grotesk Variable', var(--sl-font);
+
+  /* Shared component tokens */
+  --qd-radius: 0.75rem;
+  --qd-radius-sm: 0.5rem;
+  --qd-surface: var(--sl-color-gray-6);
+  --qd-border: var(--sl-color-gray-5);
+  --qd-glow: hsla(262, 90%, 66%, 0.35);
+
+  /* Bibliography rating colors */
+  --qd-rate-recommended: hsl(262, 90%, 66%);
+  --qd-rate-alternative: hsl(160, 60%, 42%);
+  --qd-rate-optional: hsl(250, 6%, 55%);
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: hsl(262, 90%, 94%);
+  --sl-color-accent: hsl(262, 75%, 56%);
+  --sl-color-accent-high: hsl(262, 70%, 36%);
+
+  --sl-color-white: hsl(250, 25%, 10%);
+  --sl-color-gray-1: hsl(250, 18%, 16%);
+  --sl-color-gray-2: hsl(250, 12%, 25%);
+  --sl-color-gray-3: hsl(250, 8%, 38%);
+  --sl-color-gray-4: hsl(250, 6%, 56%);
+  --sl-color-gray-5: hsl(250, 12%, 86%);
+  --sl-color-gray-6: hsl(250, 30%, 96%);
+  --sl-color-gray-7: hsl(250, 30%, 98%);
+  --sl-color-black: hsl(0, 0%, 100%);
+
+  --qd-glow: hsla(262, 80%, 60%, 0.25);
+  --qd-rate-alternative: hsl(160, 65%, 34%);
+}
+
+/* Typography ------------------------------------------------------------- */
+h1, h2, h3, h4, h5,
+.sl-markdown-content :is(h1, h2, h3, h4, h5),
+.site-title, .card .title {
+  font-family: var(--qd-font-display);
+  letter-spacing: -0.015em;
+}
+
+/* Sidebar: soft pill instead of solid block -------------------------------- */
+.sidebar-content a[aria-current='page'],
+.sidebar-content a[aria-current='page']:hover,
+.sidebar-content a[aria-current='page']:focus {
+  color: var(--sl-color-accent-high);
+  background-color: var(--sl-color-accent-low);
+  box-shadow: inset 3px 0 0 var(--sl-color-accent);
+  border-radius: 0.375rem;
+}
+
+/* Links -------------------------------------------------------------------- */
+.sl-markdown-content a:not(:where(.not-content *)) {
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.15s;
+}
+.sl-markdown-content a:not(:where(.not-content *)):hover {
+  text-decoration-color: currentColor;
+}
+
+/* ==========================================================================
+   Home page (splash with hero)
+   ========================================================================== */
+[data-has-hero] .hero {
+  padding-bottom: 2rem;
+}
+@media (min-width: 50rem) {
+  [data-has-hero] .hero {
+    padding-block: clamp(2rem, calc(1rem + 6vmin), 6rem);
+  }
+}
+[data-has-hero] .hero h1 {
+  background: linear-gradient(120deg, var(--sl-color-white) 30%, var(--sl-color-accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+[data-has-hero] .hero > img {
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--qd-glow) 0%, transparent 70%);
+  filter: drop-shadow(0 0 2.5rem var(--qd-glow));
+  animation: qd-float 6s ease-in-out infinite;
+}
+@keyframes qd-float {
+  50% { transform: translateY(-8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-has-hero] .hero > img { animation: none; }
+}
+[data-has-hero] .card-grid .card {
+  border-radius: var(--qd-radius);
+  border-color: var(--qd-border);
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--sl-card-bg) 55%, transparent), transparent 60%),
+    var(--sl-color-black);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+[data-has-hero] .card-grid .card:hover {
+  transform: translateY(-3px);
+  border-color: var(--sl-card-border);
+  box-shadow: var(--sl-shadow-md);
+}
+[data-has-hero] .card-grid .card .icon {
+  border-radius: 0.5rem;
+  padding: 0.3em;
+}
+
+.qd-section-title {
+  text-align: center;
+  margin-top: 4rem !important;
+}
+.qd-section-title::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 3px;
+  margin: 0.6rem auto 0;
+  border-radius: 3px;
+  background: var(--sl-color-accent);
+}
+
+.qd-callout {
+  border: 1px solid var(--qd-border);
+  border-inline-start: 4px solid var(--sl-color-accent);
+  border-radius: var(--qd-radius);
+  background: var(--qd-surface);
+  padding: 1.25rem 1.5rem;
+}
+.qd-callout > :first-child { margin-top: 0; }
+
+.qd-explore {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  align-items: start;
+  margin-top: 1.5rem !important;
+}
+.qd-explore-group {
+  border: 1px solid var(--qd-border);
+  border-radius: var(--qd-radius);
+  padding: 1rem 1.25rem;
+  margin: 0 !important;
+}
+.qd-explore-group > span {
+  display: block;
+  font-family: var(--qd-font-display);
+  font-weight: 600;
+  font-size: var(--sl-text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sl-color-gray-3);
+  margin-bottom: 0.6rem;
+}
+.qd-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 !important;
+}
+.sl-markdown-content .qd-chips a {
+  margin: 0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--qd-border);
+  background: var(--qd-surface);
+  color: var(--sl-color-gray-1);
+  font-size: var(--sl-text-sm);
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.sl-markdown-content .qd-chips a:hover {
+  border-color: var(--sl-color-accent);
+  color: var(--sl-color-accent-high);
+  background: var(--sl-color-accent-low);
+}
+
 .katex-display {
   padding-top: 2px;
   padding-bottom: 2px;
@@ -25,4 +223,147 @@
     align-items:center;
     flex-direction:row;
     margin-top: 0 !important;
+}
+
+/* ==========================================================================
+   Índice (glossary)
+   ========================================================================== */
+.qd-az {
+  position: sticky;
+  top: calc(var(--sl-nav-height) + 0.5rem);
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  padding: 0.5rem;
+  border: 1px solid var(--qd-border);
+  border-radius: var(--qd-radius);
+  background: color-mix(in srgb, var(--sl-color-black) 88%, transparent);
+  backdrop-filter: blur(8px);
+}
+.sl-markdown-content .qd-az a {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--qd-radius-sm);
+  font-family: var(--qd-font-display);
+  font-weight: 600;
+  color: var(--sl-color-gray-2);
+  text-decoration: none;
+}
+.sl-markdown-content .qd-az a:hover {
+  background: var(--sl-color-accent-low);
+  color: var(--sl-color-accent-high);
+}
+.qd-letter {
+  scroll-margin-top: calc(var(--sl-nav-height) + 4.5rem);
+  margin-top: 2.25rem !important;
+}
+.sl-markdown-content .qd-letter > h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 0.75rem;
+  font-size: var(--sl-text-2xl);
+  color: var(--sl-color-accent);
+}
+.qd-letter > h2::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--qd-border);
+}
+.qd-terms {
+  margin-top: 0 !important;
+}
+.sl-markdown-content .qd-terms > ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.6rem;
+}
+.sl-markdown-content .qd-terms > ol > li {
+  margin: 0;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--qd-border);
+  border-radius: var(--qd-radius-sm);
+  font-weight: 600;
+  color: var(--sl-color-white);
+  line-height: 1.35;
+  transition: border-color 0.15s, background 0.15s;
+}
+.sl-markdown-content .qd-terms > ol > li:hover {
+  border-color: var(--sl-color-accent);
+  background: var(--qd-surface);
+}
+.sl-markdown-content .qd-terms > ol > li > p {
+  margin: 0;
+}
+
+/* ==========================================================================
+   Article components
+   ========================================================================== */
+.qd-box {
+  border: 1px solid var(--qd-border);
+  border-radius: var(--qd-radius);
+  background: color-mix(in srgb, var(--qd-surface) 50%, var(--sl-color-black));
+  padding: 1rem 1.25rem;
+}
+.qd-box:has(> .qc-frame:only-child) {
+  border: 0;
+  background: none;
+  padding: 0;
+}
+
+/* Figures: <div style="…flex-direction:column"><img/><span>Figura (n): …</span></div> */
+.sl-markdown-content div:has(> img):has(> span) {
+  margin-block: 2rem;
+}
+.sl-markdown-content div:has(> img):has(> span) > img {
+  border-radius: var(--qd-radius);
+  border: 1px solid var(--qd-border);
+  background: #fff;
+  padding: 0.75rem;
+  max-width: min(100%, 36rem);
+  height: auto;
+}
+.sl-markdown-content div:has(> img):has(> span) > span {
+  display: block;
+  max-width: 40rem !important;
+  padding: 0.75rem 0 0 !important;
+  font-size: var(--sl-text-sm);
+  line-height: 1.5;
+  color: var(--sl-color-gray-3);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.sl-markdown-content div:has(> img):has(> span) > span strong {
+  color: var(--sl-color-gray-2);
+}
+
+/* Display math */
+.sl-markdown-content .katex-display {
+  margin-block: 1.25rem;
+  padding: 0.6rem 0.5rem;
+  border-radius: var(--qd-radius-sm);
+}
+.sl-markdown-content > .katex-display,
+.sl-markdown-content > p > .katex-display {
+  background: color-mix(in srgb, var(--qd-surface) 55%, transparent);
+}
+
+/* Collapsible: align with the other surfaces */
+.collapsible-container {
+  border-radius: var(--qd-radius) !important;
+  overflow: hidden;
+}
+
+/* Tabs: accent underline on the active tab */
+starlight-tabs [role='tab'][aria-selected='true'] {
+  border-color: var(--sl-color-accent);
+  color: var(--sl-color-white);
 }

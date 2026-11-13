@@ -181,7 +181,7 @@ export default defineConfig({
                     },
                 },
             ],
-            customCss: [ './src/styles/global.css' ]
+            customCss: [ '@fontsource-variable/inter', '@fontsource-variable/space-grotesk', './src/styles/global.css' ]
         }),
     ],
     markdown: {

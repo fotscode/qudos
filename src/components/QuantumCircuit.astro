@@ -1,12 +1,79 @@
 ---
+import { Icon } from '@astrojs/starlight/components'
 const { src, height, loading } = Astro.props;
 const finalHeight = height || 560;
 const finalLoading = loading || "lazy";
 ---
-<iframe 
-    style=`position: relative; height: ${finalHeight}px`
-    width="100%"
-    title="Algassert"
-    loading={finalLoading}
-    src={src}>
-</iframe>
+<div class="qc-frame not-content">
+    <div class="qc-bar">
+        <span class="qc-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="qc-label">Simulador interactivo · Quirk</span>
+        <a class="qc-open" href={src} target="_blank" rel="noopener">
+            Abrir en pestaña nueva <Icon name="external" size="0.9em" />
+        </a>
+    </div>
+    <iframe
+        style=`height: ${finalHeight}px`
+        width="100%"
+        title="Algassert"
+        loading={finalLoading}
+        src={src}>
+    </iframe>
+</div>
+
+<style>
+.qc-frame {
+    border: 1px solid var(--qd-border);
+    border-radius: var(--qd-radius);
+    overflow: hidden;
+    background: #fff;
+    box-shadow: var(--sl-shadow-sm);
+}
+.qc-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.45rem 0.75rem;
+    background: var(--qd-surface);
+    border-bottom: 1px solid var(--qd-border);
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+}
+.qc-dots {
+    display: inline-flex;
+    gap: 0.3rem;
+}
+.qc-dots i {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--sl-color-gray-5);
+}
+.qc-dots i:first-child {
+    background: var(--sl-color-accent);
+}
+.qc-label {
+    flex: 1;
+    font-weight: 600;
+}
+.qc-open {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--sl-color-text-accent);
+    text-decoration: none;
+    white-space: nowrap;
+}
+.qc-open:hover {
+    text-decoration: underline;
+}
+iframe {
+    display: block;
+    width: 100%;
+    border: 0;
+}
+@media (max-width: 500px) {
+    .qc-label { display: none; }
+    .qc-dots { flex: 1; }
+}
+</style>

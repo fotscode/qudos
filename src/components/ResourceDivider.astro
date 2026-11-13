@@ -10,7 +10,7 @@ if (colorText === undefined) {
     colorText = 'var(--sl-color-text-accent)';
 }
 if (colorBorder === undefined) {
-    colorBorder = 'var(--sl-color-text-accent)';
+    colorBorder = 'var(--qd-border)';
 }
 if (size === undefined) {
     size = '1px';
@@ -38,15 +38,17 @@ if (alignRight !== undefined) {
     background: var(--colorBg);
     color: var(--colorText);
     display:flex;
-    border-radius: 8px;
+    border-radius: 999px;
     border: 1px solid var(--colorBorder);
+    font-size: var(--sl-text-sm);
+    font-weight: 600;
     justify-content: center;
     align-items: center;
     top: -15px;
     left: var(--left);
     right : var(--right);
     gap: 10px;
-    padding: 0 10px;
+    padding: 0.15rem 0.85rem;
 }
 </style>
 

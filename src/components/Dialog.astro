@@ -25,10 +25,32 @@ dialog {
     height: auto;
     width: 70%;
     max-width: 1000px;
-    border-radius: 8px;
-    border: 1px solid var(--sl-color-gray-3);
+    border-radius: var(--qd-radius, 12px);
+    border: 1px solid var(--sl-color-gray-5);
     background: var(--sl-color-black);
-    padding-top: 0;
+    box-shadow: var(--sl-shadow-lg);
+    padding: 0;
+    overflow-x: hidden;
+}
+
+dialog[open] {
+    animation: qd-dialog-in 0.2s ease-out;
+}
+
+dialog[open]::backdrop {
+    animation: qd-backdrop-in 0.2s ease-out;
+}
+
+@keyframes qd-dialog-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+}
+
+@keyframes qd-backdrop-in {
+    from { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    dialog[open], dialog[open]::backdrop { animation: none; }
 }
 
 @media (max-width: 800px) {
@@ -59,10 +81,10 @@ dialog {
     position: sticky;
     top: 0;
     right: 0;
-    padding: 10px 0 20px 0;
-    background: var(--sl-color-black);
-    blackdrop-filter: blur(5px);
-    border-bottom: 1px solid var(--sl-color-gray-3);
+    padding: 0.75rem 0 1rem 0;
+    background: color-mix(in srgb, var(--sl-color-black) 85%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--sl-color-gray-5);
     z-index: 9;
 }
 
@@ -91,21 +113,38 @@ dialog {
 }
 
 .dialog-header {
-    margin-top: 10px !important;
+    margin-top: 0.5rem !important;
+}
+
+.dialog-title {
+    margin: 0;
+    font-size: var(--sl-text-2xl);
+}
+
+.dialog-title::before {
+    content: '';
+    display: inline-block;
+    width: 0.6rem;
+    height: 0.6rem;
+    margin-inline-end: 0.6rem;
+    vertical-align: middle;
+    border-radius: 50%;
+    background: var(--sl-color-accent);
+    box-shadow: 0 0 0 4px var(--sl-color-accent-low);
 }
 
 .dialog-header, .dialog-content {
-    padding: 0 20px;
+    padding: 0 1.75rem;
 }
 
 .dialog-content {
-    padding-bottom: 20px;
+    padding-bottom: 1.75rem;
 }
 
 
 dialog::backdrop {
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
+    background: var(--sl-color-backdrop-overlay);
+    backdrop-filter: blur(6px);
 }
 
 .dialog-open { 

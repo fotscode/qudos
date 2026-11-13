@@ -83,6 +83,66 @@ a {
 .optional {
     background: #929292;
 }
+/* --- Roadmap theme: recolor the Excalidraw export through its fill/stroke attributes --- */
+.qd-roadmap {
+    --rm-easy-bg: var(--sl-color-green-low);
+    --rm-easy: var(--sl-color-green);
+    --rm-mid-bg: var(--sl-color-orange-low);
+    --rm-mid: var(--sl-color-orange);
+    --rm-hard-bg: var(--sl-color-red-low);
+    --rm-hard: var(--sl-color-red);
+    --rm-btn-bg: var(--sl-color-accent-high);
+    --rm-btn-bg-hover: var(--sl-color-white);
+    --rm-btn-text: var(--sl-color-accent-low);
+    --rm-stage: var(--sl-color-accent);
+    display: block;
+    width: 100%;
+    max-width: 740px;
+    height: auto;
+    margin-inline: auto;
+}
+:global([data-theme='light']) .qd-roadmap {
+    --rm-easy: var(--sl-color-green-high);
+    --rm-mid: var(--sl-color-orange-high);
+    --rm-hard: var(--sl-color-red-high);
+    --rm-btn-bg: var(--sl-color-accent);
+    --rm-btn-bg-hover: var(--sl-color-accent-high);
+    --rm-btn-text: var(--sl-color-black);
+}
+.qd-roadmap :global(rect[fill="#ffffff"]) { fill: transparent; }
+/* dashed path connecting the steps */
+.qd-roadmap :global(path[stroke-dasharray]) {
+    stroke: var(--sl-color-gray-4);
+    stroke-width: 3;
+    stroke-dasharray: 2 9;
+}
+/* step label pills */
+.qd-roadmap :global([fill="#202020"]) { fill: var(--qd-surface); }
+.qd-roadmap :global(path[stroke="#1e1e1e"]:not([stroke-dasharray])) { stroke: var(--qd-border); }
+.qd-roadmap :global(text[fill="#ffffff"]:not([text-anchor="middle"])) { fill: var(--sl-color-white); }
+/* stage milestones */
+.qd-roadmap :global([fill="#6741d9"]) { fill: var(--rm-stage); }
+/* difficulty circles and stars */
+.qd-roadmap :global([fill="#b2f2bb"]) { fill: var(--rm-easy-bg); }
+.qd-roadmap :global([fill="#ffec99"]) { fill: var(--rm-mid-bg); }
+.qd-roadmap :global([fill="#ffc9c9"]) { fill: var(--rm-hard-bg); }
+.qd-roadmap :global([fill="#2f9e44"]) { fill: var(--rm-easy); }
+.qd-roadmap :global([fill="#f08c00"]) { fill: var(--rm-mid); }
+.qd-roadmap :global([fill="#e03131"]) { fill: var(--rm-hard); }
+.qd-roadmap :global([stroke="#2f9e44"]) { stroke: var(--rm-easy); stroke-width: 2; }
+.qd-roadmap :global([stroke="#f08c00"]) { stroke: var(--rm-mid); stroke-width: 2; }
+.qd-roadmap :global([stroke="#e03131"]) { stroke: var(--rm-hard); stroke-width: 2; }
+/* "Ver más" buttons: the container takes the hover/click, the label ignores the pointer */
+.qd-roadmap :global([id$="-container"]) { cursor: pointer; }
+.qd-roadmap :global([id$="-container"] path) {
+    fill: var(--rm-btn-bg);
+    stroke: var(--rm-btn-bg);
+    transition: fill 0.15s, stroke 0.15s;
+}
+.qd-roadmap :global([id$="-container"] path[fill="none"]) { fill: none; }
+.qd-roadmap :global([id$="-container"]:hover path:not([fill="none"])) { fill: var(--rm-btn-bg-hover); }
+.qd-roadmap :global([id$="-text"]) { pointer-events: none; }
+.qd-roadmap :global([id$="-text"] text) { fill: var(--rm-btn-text); font-weight: 700; }
 </style>
 
 <p>Este camino está compuesto por nodos que representan los pasos. Cada paso tiene un título que describe el tema y un boton <strong>"Ver más"</strong> que, al presionarlo, presenta una introducción junto con referencias para adentrarse en profundidad.</p>
@@ -360,7 +420,7 @@ a {
   </main>
 </Dialog>
 
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 1761.1856098215649"
+<svg class="qd-roadmap" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 1761.1856098215649"
     width="1480" height="3522.3712196431297"><!-- svg-source:excalidraw -->
     <metadata></metadata>
     <defs>

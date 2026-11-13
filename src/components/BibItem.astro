@@ -1,5 +1,5 @@
 ---
-import { Badge, Icon } from '@astrojs/starlight/components'
+import { Icon } from '@astrojs/starlight/components'
 const rateMap = {
     r:'recommended',
     a:'alternative',
@@ -137,61 +137,131 @@ type AstroProps = {
 const { id, rate, prefix = '' } = Astro.props as AstroProps
 const colorClass = rateMap[rate];
 const { title, badge, url, target } = bibMap[id]
+
+// Display-only split of "Title (Source) [Language]"; the data above stays untouched.
+const langMatch = title.match(/^(.*?)\s*\[([^\]]+)\]\s*$/)
+const withoutLang = langMatch ? langMatch[1] : title
+const lang = langMatch ? langMatch[2] : ''
+const sourceMatch = withoutLang.match(/^(.*\S)\s+\(([^()]+)\)$/)
+const mainTitle = sourceMatch ? sourceMatch[1] : withoutLang
+const source = sourceMatch ? sourceMatch[2] : ''
+
+const rateLabel = { r: 'Recomendada', a: 'Alternativa', o: 'Opcional' }[rate]
+const typeIcon = {
+    Libro: 'open-book',
+    Video: 'youtube',
+    Wiki: 'information',
+    Paper: 'document',
+    Otros: 'external',
+}[badge] as 'open-book' | 'youtube' | 'information' | 'document' | 'external'
+const isExternal = target === '_blank'
 ---
 <style>
-.Video, .Libro, .Wiki, .Paper, .Otros {
-    min-width: 55px;
-    text-align: center;
+.bib {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--qd-border);
+    border-radius: var(--qd-radius-sm);
+    background: var(--sl-color-black);
+    transition: border-color 0.15s, background 0.15s;
 }
-.Libro {
-    background: var(--sl-color-accent-low);
-    color: var(--sl-color-white);
+.bib:hover {
+    border-color: var(--sl-color-accent);
+    background: var(--qd-surface);
 }
-.Video {
-    background: var(--sl-color-accent);
+:global(.bib + .bib) {
+    margin-top: 0.4rem !important;
+}
+.rate {
+    display: inline-flex;
+    flex-shrink: 0;
+    border-radius: 50%;
     color: white;
+    padding: 1px;
 }
-.Wiki {
-    background: var(--sl-color-accent-high);
-    color: var(--sl-color-accent-low);
+.rate-recommended { background: var(--qd-rate-recommended); }
+.rate-alternative { background: var(--qd-rate-alternative); }
+.rate-optional { background: var(--qd-rate-optional); }
+.type {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    flex-shrink: 0;
+    min-width: 4.75rem;
+    margin: 0 !important;
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    font-size: var(--sl-text-xs);
+    font-weight: 600;
+    border: 1px solid transparent;
 }
-.Paper {
-    background: var(--sl-color-gray-2);
-    border: 1px solid var(--sl-color-gray-5);
-    color: var(--sl-color-black);
+.type-Libro { background: hsla(35, 90%, 55%, 0.15); color: hsl(35, 80%, 45%); border-color: hsla(35, 90%, 55%, 0.35); }
+.type-Video { background: hsla(0, 85%, 60%, 0.13); color: hsl(0, 70%, 52%); border-color: hsla(0, 85%, 60%, 0.3); }
+.type-Wiki { background: hsla(200, 85%, 55%, 0.14); color: hsl(200, 75%, 42%); border-color: hsla(200, 85%, 55%, 0.32); }
+.type-Paper { background: var(--sl-color-accent-low); color: var(--sl-color-accent-high); border-color: color-mix(in srgb, var(--sl-color-accent) 40%, transparent); }
+.type-Otros { background: var(--qd-surface); color: var(--sl-color-gray-2); border-color: var(--qd-border); }
+:global(:root:not([data-theme='light'])) .type-Libro { color: hsl(35, 90%, 65%); }
+:global(:root:not([data-theme='light'])) .type-Video { color: hsl(0, 85%, 72%); }
+:global(:root:not([data-theme='light'])) .type-Wiki { color: hsl(200, 85%, 70%); }
+.body {
+    flex: 1;
+    min-width: 0;
+    margin: 0 !important;
+    line-height: 1.4;
 }
-.Otros {
-    background: var(--sl-color-gray-5);
-    border: 1px solid var(--sl-color-gray-2);
-    color: var(--sl-color-white);
-}
-a {
+.body a {
     text-decoration: none;
+    color: var(--sl-color-white);
+    font-weight: 500;
 }
-.flex-center{
-      display:flex;
-      justify-content:start;
-      align-items:center;
-      gap: 0.5rem;
+.body a:hover {
+    color: var(--sl-color-accent-high);
 }
-.recommended, .alternative, .optional {
-    border-radius:50%;
-    min-width:fit-content;
+.prefix, .source {
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-sm);
 }
-.recommended {
-    background: #874EFE;
+.source::before {
+    content: '· ';
 }
-.alternative {
-    background: #4F7A28;
+.ext {
+    vertical-align: -0.1em;
+    margin-inline-start: 0.2rem;
+    opacity: 0.5;
+    display: inline !important;
 }
-.optional {
-    background: #929292;
+.lang {
+    flex-shrink: 0;
+    margin: 0 !important;
+    font-size: var(--sl-text-2xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sl-color-gray-3);
+    border: 1px solid var(--qd-border);
+    border-radius: 0.3rem;
+    padding: 0 0.35rem;
+}
+@media (max-width: 500px) {
+    .bib { flex-wrap: wrap; row-gap: 0.4rem; }
+    .body { flex-basis: 100%; order: 3; }
+    .lang { margin-inline-start: auto !important; }
 }
 </style>
 
-
-<div class="flex-center">
-    <Icon name="approve-check" class={colorClass} color="white" />
-    <Badge text={badge} class={badge} />
-    <div>{prefix}<a href={url} target={target}>{title}</a></div>
+<div class="bib not-content">
+    <span class={`rate rate-${colorClass}`} title={rateLabel} aria-label={rateLabel}>
+        <Icon name="approve-check" size="1rem" />
+    </span>
+    <span class={`type type-${badge}`}>
+        <Icon name={typeIcon} size="0.85rem" />{badge}
+    </span>
+    <div class="body">
+        {prefix && <span class="prefix">{prefix}</span>}
+        <a href={url} target={target}>{mainTitle}{isExternal && <Icon name="external" size="0.8em" class="ext" />}</a>
+        {source && <span class="source">{source}</span>}
+    </div>
+    {lang && <span class="lang">{lang}</span>}
 </div>

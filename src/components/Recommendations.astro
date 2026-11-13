@@ -2,45 +2,42 @@
 import { Icon } from '@astrojs/starlight/components'
 ---
 <style>
-.flex, .flex-responsive {
-    display:flex;
-    align-items:center;
-    height:20px;
-    gap:10px;
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    padding: 0.6rem 0.9rem;
+    border: 1px dashed var(--qd-border);
+    border-radius: var(--qd-radius-sm);
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-2);
 }
-.flex-responsive > * {
-    margin:0 !important;
+.legend > * {
+    margin: 0 !important;
 }
-@media (max-width: 500px) {
-    .flex-responsive {
-        flex-direction:column;
-        height:auto;
-        align-items:start;
-    }
+.legend-title {
+    font-weight: 600;
+    color: var(--sl-color-white);
 }
-.recommended, .alternative, .optional {
-    border-radius:50%;
-    min-width:fit-content;
+.item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
 }
-.recommended {
-    background: #874EFE;
+.rate {
+    display: inline-flex;
+    border-radius: 50%;
+    color: white;
+    padding: 1px;
 }
-.alternative {
-    background: #4F7A28;
-}
-.optional {
-    background: #929292;
-}
+.recommended { background: var(--qd-rate-recommended); }
+.alternative { background: var(--qd-rate-alternative); }
+.optional { background: var(--qd-rate-optional); }
 </style>
-<div class="flex-responsive">
-    <span>Bibliografía:</span>
-    <div class="flex">
-    <Icon name="approve-check" class="recommended" color="white" /> <span>Recomendada</span>
-    </div>
-    <div class="flex">
-    <Icon name="approve-check" class="alternative" color="white" /> <span>Alternativa</span>
-    </div>
-    <div class="flex">
-    <Icon name="approve-check" class="optional" color="white" /> <span>Opcional</span>
-    </div>
+<div class="legend not-content">
+    <span class="legend-title">Bibliografía:</span>
+    <span class="item"><span class="rate recommended"><Icon name="approve-check" size="1rem" /></span>Recomendada</span>
+    <span class="item"><span class="rate alternative"><Icon name="approve-check" size="1rem" /></span>Alternativa</span>
+    <span class="item"><span class="rate optional"><Icon name="approve-check" size="1rem" /></span>Opcional</span>
 </div>
